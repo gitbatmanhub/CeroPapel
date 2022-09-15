@@ -27,6 +27,12 @@ router.get('/', async (req, res)=>{
     res.render('ordenes/listOrden', {ordenes});
 });
 
+router.get('/delete/:id', async(req, res)=>{
+    const {id}= req.params;
+    await pool.query('DELETE FROM ordenesTrabajo where id=?', [id]);
+    res.redirect('/orden');
+})
+
 
 
 module.exports = router ;
