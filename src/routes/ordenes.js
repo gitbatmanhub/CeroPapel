@@ -33,6 +33,23 @@ router.get('/delete/:id', async(req, res)=>{
     res.redirect('/orden');
 })
 
+router.get('/edit/:id', async(req, res)=>{
+    const {id} = req.params;
+   const ordenes =  await pool.query('SELECT * FROM ordenesTrabajo WHERE id=?', [id]);
+    res.render('ordenes/edit', {orden: ordenes[0]});
+})
+
+
+router.post('/edit/:id', async(req, res)=>{
+    const {id} = req.params;
+    const {area, descripcion}= req.body;
+    const newOrden = {
+        area,
+        descripcion
+    }
+    await pool.query('UPDATE ordenesTrabajo set ? WHERE id = ?', [newOrden, id]);
+    res.redirect('/orden');
+})
 
 
 module.exports = router ;
