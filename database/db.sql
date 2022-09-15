@@ -19,16 +19,19 @@ alter table users
 
 describe users;
 
---links table
+--ORDENES table
 Create table ordenesTrabajo(
     id int(11) not null,
 
-    create_at timestamp not null default current_timestamp,
     area varchar(40) not null,
     descripcion text not null,
 
     user_id int(11),
     constraint fk_user foreign key (user_id) references users(id)
+
+
+    create_at timestamp not null default current_timestamp,
+
 );
 
 
