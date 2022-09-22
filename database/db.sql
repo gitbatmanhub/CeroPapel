@@ -36,10 +36,8 @@ Create table ordenesTrabajo(
 
 
 alter table ordenesTrabajo
-add primary key (id)
+add primary key (id);
 
 alter table ordenesTrabajo
     modify id int(11) not null auto_increment, auto_increment=1;
 
-
-describe
