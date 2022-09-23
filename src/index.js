@@ -28,7 +28,7 @@ app.set('view engine', '.hbs');
 
 //Middlewares
 app.use(session({
-    secret: 'Holaquehace2',
+    secret: 'Holaquehace2.0',
     resave: false,
     saveUninitialized: false,
     store: new MySQLStore(database)

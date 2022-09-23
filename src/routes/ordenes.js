@@ -10,11 +10,12 @@ router.get('/agregarOrden',(req, res)=>{
     });
 
 router.post('/agregarOrden', async (req, res)=>{
-    const {  area, descripcion } = req.body;
+    const {  area, descripcion, prioridad, estado } = req.body;
     const newOrden={
-
         area,
-        descripcion
+        descripcion,
+        prioridad,
+        estado
     };
     await pool.query('INSERT INTO ordenesTrabajo set ?', [newOrden]);
     req.flash('success', 'Orden agregada correctamente');
@@ -41,6 +42,11 @@ router.get('/edit/:id', async(req, res)=>{
     res.render('ordenes/edit', {orden: ordenes[0]});
 });
 
+router.get('/view/:id', async(req, res)=>{
+    const {id} = req.params;
+    const ordenes =  await pool.query('SELECT * FROM ordenesTrabajo WHERE id=?', [id]);
+    res.render('ordenes/view', {orden: ordenes[0]});
+});
 
 
 

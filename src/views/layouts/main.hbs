@@ -10,44 +10,18 @@
     {{!Stilos}}
     <link rel="stylesheet" href="/css/styles.css">
     <link rel="stylesheet" href="/css/agregarOrden.css">
+    <link rel="stylesheet" href="/css/listOrden.css">
 
 </head>
 <body>
 {{> navigation}}
 
-    {{#if success}}
-
-        <div class="container p-4">
-            <div class="row">
-                <div class="col-md-4 mx-auto">
-                    <div class="alert alert-success alert-dismissible fade show" role="alert">
-                        {{success}}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {{else if error}}
-        <div class="container p-4">
-            <div class="row">
-                <div class="col-md-4 mx-auto">
-                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                        {{error}}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {{else}}
-
-        {{/if}}
-
+{{> mensajes}}
 
 {{{body}}}
    {{!-- Scripts--}}
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous"></script>
-
 </body>
 
 </html>

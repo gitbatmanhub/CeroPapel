@@ -2,14 +2,45 @@
 <div class="formulario">
 <form action="/orden/agregarorden" method="post">
 
-            <label>Solicitado por</label>
-            <input type="text" class="form-control" name="nameSolicita" placeholder="Aquí va el nombre" autofocus>
-            <br>
-            <label>Area</label>
-            <input type="text" class="form-control"name="area" placeholder="Aquí va la maquina">
-            <br>
-            <label>Descripción del problema</label>
-    <textarea type="text" class="form-control" name="descripcion" placeholder="Aquí va la descripción"></textarea>
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" name="area" placeholder="Maquina" required>
+            <label for="floatingInput"> Máquina</label>
+        </div>
+
+        <div class="form-floating mb-3">
+            <textarea type="text" class="form-control" name="descripcion" placeholder="Descripción"  required></textarea>
+        <label for="floatingInput">Descripción</label>
+        </div>
+
+
+
+    <div class="row g-2">
+        <div class="col-md">
+            <div class="form-floating">
+                <select name="prioridad" class="form-select" id="floatingSelectGrid">
+                    <option value="Baja" selected>Baja</option>
+                    <option value="Media">Media</option>
+                    <option value="Alta">Alta</option>
+                </select>
+                <label for="floatingSelectGrid">Prioridad</label>
+            </div>
+        </div>
+        <div class="col-md">
+            <div class="form-floating">
+                <select name="estado" class="form-select" id="floatingSelectGrid">
+                    <option value="Abierto" selected>Abierto</option>
+                    <option value="En proceso">En proceso</option>
+                    <option value="Cerrado">Cerrado</option>
+                </select>
+                <label for="floatingSelectGrid">Estado</label>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
 <div class="form-group boton-send">
     <button class="btn btn-success btn-block"> Enviar</button>
 </div>

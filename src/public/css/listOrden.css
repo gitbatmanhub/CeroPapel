@@ -1,0 +1,33 @@
+
+th{
+    width: auto;
+    text-align: center;
+}
+td{
+    text-align: center;
+
+}
+.table{
+    width: 80%;
+    margin: 4% auto auto auto;
+}
+.btn{
+    width: auto;
+}
+
+.this{
+
+    text-align: center;
+}
+.nothing{
+    padding: 90px 20px 0px 20px;
+}
+
+img{
+    width: 30%;
+    padding: 20px;
+}
+
+
+/* Animation */
+

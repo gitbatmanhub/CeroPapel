@@ -2,16 +2,19 @@
 <div class="formulario">
     <form action="/orden" method="">
 
-        <label>Solicitado por</label>
-        <input type="text" class="form-control" name="nameSolicita" placeholder="Aquí va el nombre" readonly>
-        <br>
+
         <label>Area</label>
-        <input type="text" value="{{orden.area}}" class="form-control"name="area" placeholder="Aquí va la maquina">
+        <input type="text" value="{{orden.area}}" class="form-control"name="area" placeholder="Aquí va la maquina" readonly>
         <br>
         <label>Descripción del problema</label>
-        <textarea type="text"  class="form-control" name="descripcion" placeholder="Aquí va la descripción">{{orden.descripcion}}</textarea>
+        <textarea type="text"  class="form-control" name="descripcion" placeholder="Aquí va la descripción" readonly>{{orden.descripcion}}</textarea>
+        
+        <div class="row">
+            <input type="datetime-local">
+        </div>
         <div class="form-group boton-send">
             <button class="btn btn-success btn-block"> Volver</button>
+            <button type="button" class="btn btn-outline-success">Jejeje</button>
         </div>
     </form>
 </div>
