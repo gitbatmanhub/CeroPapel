@@ -10,12 +10,13 @@ router.get('/agregarOrden',(req, res)=>{
     });
 
 router.post('/agregarOrden', async (req, res)=>{
-    const {  area, descripcion, prioridad, estado } = req.body;
+    const {  area, descripcion, prioridad, estado, maquina } = req.body;
     const newOrden={
         area,
         descripcion,
         prioridad,
-        estado
+        estado,
+        maquina
     };
     await pool.query('INSERT INTO ordenesTrabajo set ?', [newOrden]);
     req.flash('success', 'Orden agregada correctamente');
@@ -25,7 +26,6 @@ router.post('/agregarOrden', async (req, res)=>{
 
 router.get('/', async (req, res)=>{
     const ordenes = await pool.query('Select * from ordenesTrabajo');
-    console.log(ordenes);
     res.render('ordenes/listOrden', {ordenes});
 });
 

@@ -2,15 +2,33 @@
 <div class="formulario">
 <form action="/orden/agregarorden" method="post">
 
-        <div class="form-floating mb-3">
-            <input type="text" class="form-control" name="area" placeholder="Maquina" required>
-            <label for="floatingInput"> Máquina</label>
+        <div class="row g-2 mb-3">
+            <div class="col-md">
+                <div class="form">
+                    <label for="">Area</label>
+
+                    <select name="area" class="form-select" id="areas">
+                        <option value="0" selected>Selecciona una por favor.</option>
+
+                    </select>
+                </div>
+            </div>
+            <div class="col-md ">
+                <div class="form">
+                    <label for="">Maquina</label>
+                    <select name="maquina" class="form-select" id="maquinas">
+                        <option value="0" selected>Selecciona una por favor.</option>
+
+                    </select>
+                </div>
+            </div>
         </div>
 
         <div class="form-floating mb-3">
             <textarea type="text" class="form-control" name="descripcion" placeholder="Descripción"  required></textarea>
         <label for="floatingInput">Descripción</label>
         </div>
+
 
 
 
