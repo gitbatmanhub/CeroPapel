@@ -1,10 +1,8 @@
 
 th{
     width: auto;
-    text-align: center;
 }
 td{
-    text-align: center;
 
 }
 .table{
@@ -30,4 +28,16 @@ img{
 
 
 /* Animation */
+
+.container h2{
+}
+.searchbar{
+    margin: 0 auto;
+    width: 30%;
+}
+
+
+.text-small {
+    font-size: 85%;
+}
 

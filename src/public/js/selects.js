@@ -18,7 +18,7 @@ let maquinasMontacargas=['Montacargas 1 - 2.5T', 'Montacargas 2 - 2.5T', 'Montac
 
 
 function mostrarAreas(arreglo, lugar){
-    let elementos = '<option selected disabled>--Seleccine--</option>'
+    let elementos = '<option selected disabled>--Seleccione una porfavor--</option>'
     for (let i = 0; i<arreglo.length; i++){
         elementos += '<option value="'+arreglo[i]+'" ">' +arreglo[i]+'</option>'
     }
@@ -70,67 +70,3 @@ $area.addEventListener('change', function (){
 
 })
 
-
-
-
-
-/* const $area = document.getElementById('area');
-const $maquina = document.getElementById('maquina');
-
-let areas= ['Edificio', 'Compactadora', 'Equipos Auxiliares', 'Maquinas', 'PTAR', 'Garita', 'Molinos', 'Subestación', 'Montacargas'];
-let maquinaEdificio= ['Administrativo', 'Financiero', 'Producción', 'Logistica/BodegaPT'];
-let maquinaCompactadora= ['Compactadora'];
-let maquinaEquiposAuxiliares= ['Compresor JAGUAR I', 'Compresor JAGUAR II', 'Falta1', 'Falta2'];
-let maquinaMaquinas= ['Pelletizadora 1', 'Pelletizadora 2' ,'Pelletizadora 3', 'Lavado Film', 'PET', 'Lavado Hogar', 'Lavado Zuncho', 'Clasificadora de colores'];
-let maquinasPTAR=['PTAR'];
-let maquinasGarita=['Garita', 'Puerta'];
-let maquinasMolino=['Zuncho', 'Hogar', 'Film', 'PET', 'Trituradora'];
-let maquinasSubestacion=['Transformador Inatra 250 KVA', 'Transformador Inatra 750 KVA'];
-let maquinasMontacargas=['Montacargas 1 - 2.5T', 'Montacargas 2 - 2.5T', 'Montacargas 3 - 3T', 'Montacargas 4 - 3T'];
-
-function mostarAreas(arreglo, lugar){
-    let elementos = '<option selected disabled>--Seleccione--</option>'
-
-    for(let i = 0; i< arreglo.length; i++){
-        elementos += '<option value="" '+arreglo[i]+'">' +arreglo[i]+'</option>'
-    }
-    lugar.innerHTML= elementos;
-}
-mostarAreas(areas, $area);
-
-
-
-
-
-
-$area.addEventListener('change', function (){
-    let valor = $area.value
-
-    switch (valor){
-        case 'Edificio':
-            let recorte= maquinaEdificio.slice(0, 3);
-            mostarAreas(recorte, $maquina);
-            break
-        case  'Compactadora':
-            let recorte2= maquinaCompactadora.slice(0, 3);
-            mostarAreas(recorte, $maquina);
-            break
-        case  'Equipos Auxiliares':
-            break
-        case  'Maquinas':
-            break
-        case  'PTAR':
-            break
-        case  'Garita':
-            break
-        case  'Molinos':
-            break
-        case  'Subestación':
-            break
-        case  'Montacargas':
-            break
-
-    }
-})
-
- */

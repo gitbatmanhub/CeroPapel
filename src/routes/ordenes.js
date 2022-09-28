@@ -53,10 +53,13 @@ router.get('/view/:id', async(req, res)=>{
 
 router.post('/edit/:id', async(req, res)=>{
     const {id} = req.params;
-    const {area, descripcion}= req.body;
+    const {area, descripcion, prioridad, estado, maquina}= req.body;
     const newOrden = {
         area,
-        descripcion
+        descripcion,
+        prioridad,
+        estado,
+        maquina
     }
     await pool.query('UPDATE ordenesTrabajo set ? WHERE id = ?', [newOrden, id]);
     req.flash('success', 'Orden actualizada correctamente');

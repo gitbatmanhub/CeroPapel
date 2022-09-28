@@ -1,20 +1,122 @@
 
 <div class="formulario">
+    <div class="container">
+        <h2>Ver Ordenes</h2>
+    </div>
+
     <form action="/orden" method="">
+        <label>Nr de orden</label>
+        <input type="text" value="{{orden.id}}" class="form-control" name="id" placeholder="Id" readonly required>
 
 
-        <label>Area</label>
-        <input type="text" value="{{orden.area}}" class="form-control"name="area" placeholder="Aquí va la maquina" readonly>
-        <br>
-        <label>Descripción del problema</label>
-        <textarea type="text"  class="form-control" name="descripcion" placeholder="Aquí va la descripción" readonly>{{orden.descripcion}}</textarea>
-        
-        <div class="row">
-            <input type="datetime-local">
+        <div class="row g-2 mb-3">
+            <div class="col-md">
+                <div class="form">
+
+                    <label for="">Area Destinada</label>
+                    <input type="text" value="{{orden.area}}" class="form-control" name="id" placeholder="Id" readonly required>
+
+                    </select>
+                </div>
+            </div>
+            <div class="col-md ">
+                <div class="form">
+                    <label for="">Maquina Destinada</label>
+                    <input type="text" value="{{orden.maquina}}" class="form-control" name="id" placeholder="Id" readonly required>
+
+                    </select>
+                </div>
+            </div>
         </div>
+
+        <div class="form-floating mb-3">
+            <textarea type="text" class="form-control" name="descripcion" placeholder="Descripción" readonly  required>{{orden.descripcion}}</textarea>
+            <label for="floatingInput">Descripción del problema</label>
+        </div>
+
+
+
+
+        <div class="row g-2">
+            <div class="col-md">
+                <div class="form-floating">
+                    <input type="text" value="{{orden.prioridad}}" class="form-control" name="id" placeholder="Id" readonly required>
+                    <label for="floatingInput">Prioridad de la orden</label>
+
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="form-floating">
+                    <input type="text" value="{{orden.estado}}" class="form-control" name="id" placeholder="Id" readonly required>
+                    <label for="floatingInput">Estado de la orden</label>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row g-2">
+            <div class="container">
+                <h2 class="title">Asignar Orden de trabajo</h2>
+
+                <div class="row g-2 mb-3">
+                    <div class="col-md">
+                        <div class="form">
+                            <label for="">Tecnico Asignado</label>
+
+                            <select name="area" class="form-select" id="areas">
+                                <option value="0" selected>Seleccione uno por favor.</option>
+
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md ">
+                        <div class="form">
+                            <label for="">Ayudante Asignado</label>
+                            <select name="maquina" class="form-select" id="maquinas">
+                                <option value="0" selected>Seleccione uno por favor.</option>
+
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <div class="col-md">
+                        <div class="form-floating">
+                            <select name="prioridad" class="form-select" id="floatingSelectGrid">
+                                <option value="Preventivo" selected>Preventivo</option>
+                                <option value="Correctivo">Correctivo</option>
+                                <option value="Mantenimiento">Mantenimiento</option>
+                                <option value="Mejora">Mejora</option>
+                            </select>
+                            <label for="floatingSelectGrid">Tipo de Mantenimiento</label>
+                        </div>
+                    </div>
+                    <div class="col-md">
+                        <div class="form-floating">
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row g-2">
+                <div class="form-floating mb-3">
+                    <textarea type="text" class="form-control" name="descripcion" placeholder="Descripción"  ></textarea>
+                    <label for="floatingInput">Descripción</label>
+                </div>
+                </div>
+
+        </div>
+
+
+
+
+
+
+
+
         <div class="form-group boton-send">
-            <button class="btn btn-success btn-block"> Volver</button>
-            <button type="button" class="btn btn-outline-success">Jejeje</button>
+            <button class="btn btn-success btn-block"> Atras</button>
         </div>
     </form>
 </div>

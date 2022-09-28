@@ -41,3 +41,5 @@ add primary key (id);
 alter table ordenesTrabajo
     modify id int(11) not null auto_increment, auto_increment=1;
 
+
+
