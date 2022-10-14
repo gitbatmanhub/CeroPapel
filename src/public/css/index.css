@@ -1,4 +1,11 @@
-.container{
+.homeIndex {
 
+    height: 100vh;
+}
 
+.contentIndex {
+    margin: 0 auto;
+}
+.imgIndex{
+    width: 700px;
 }

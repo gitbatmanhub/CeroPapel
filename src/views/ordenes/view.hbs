@@ -1,12 +1,12 @@
-
 <div class="formulario">
     <div class="container">
         <h2>Ver Ordenes</h2>
     </div>
 
-    <form action="/orden" method="">
+    <div>
+
         <label>Nr de orden</label>
-        <input type="text" value="{{orden.id}}" class="form-control" name="id" placeholder="Id" readonly required>
+        <input type="text" value="{{orden.id}}" class="form-control" name="" placeholder="Id" readonly required>
 
 
         <div class="row g-2 mb-3">
@@ -14,7 +14,8 @@
                 <div class="form">
 
                     <label for="">Area Destinada</label>
-                    <input type="text" value="{{orden.area}}" class="form-control" name="id" placeholder="Id" readonly required>
+                    <input type="text" value="{{orden.area}}" class="form-control" name="id" placeholder="Id" readonly
+                           required>
 
                     </select>
                 </div>
@@ -22,7 +23,8 @@
             <div class="col-md ">
                 <div class="form">
                     <label for="">Maquina Destinada</label>
-                    <input type="text" value="{{orden.maquina}}" class="form-control" name="id" placeholder="Id" readonly required>
+                    <input type="text" value="{{orden.maquina}}" class="form-control" name="id" placeholder="Id"
+                           readonly required>
 
                     </select>
                 </div>
@@ -30,34 +32,45 @@
         </div>
 
         <div class="form-floating mb-3">
-            <textarea type="text" class="form-control" name="descripcion" placeholder="Descripción" readonly  required>{{orden.descripcion}}</textarea>
+            <textarea type="text" class="form-control" name="descripcion" placeholder="Descripción" readonly
+                      required>{{orden.descripcion}}</textarea>
             <label for="floatingInput">Descripción del problema</label>
         </div>
-
-
 
 
         <div class="row g-2">
             <div class="col-md">
                 <div class="form-floating">
-                    <input type="text" value="{{orden.prioridad}}" class="form-control" name="id" placeholder="Id" readonly required>
+                    <input type="text" value="{{orden.prioridad}}" class="form-control" name="id" placeholder="Id"
+                           readonly required>
                     <label for="floatingInput">Prioridad de la orden</label>
 
                 </div>
             </div>
             <div class="col-md">
                 <div class="form-floating">
-                    <input type="text" value="{{orden.estado}}" class="form-control" name="id" placeholder="Id" readonly required>
+                    <input type="text" value="{{orden.estado}}" class="form-control" name="id" placeholder="Id" readonly
+                           required>
                     <label for="floatingInput">Estado de la orden</label>
                 </div>
             </div>
         </div>
+    </div>
 
 
-        <div class="row g-2">
-            <div class="container">
-                <h2 class="title">Asignar Orden de trabajo</h2>
 
+
+
+<!-- Aquí va la asignación de la orden (formulario de "respuesta") -->
+
+
+
+
+
+    <div class="row g-2">
+        <div class="container">
+            <h2 class="title">Asignar Orden de trabajo</h2>
+            <form>
                 <div class="row g-2 mb-3">
                     <div class="col-md">
                         <div class="form">
@@ -100,23 +113,37 @@
                 </div>
 
                 <div class="row g-2">
-                <div class="form-floating mb-3">
-                    <textarea type="text" class="form-control" name="descripcion" placeholder="Descripción"  ></textarea>
-                    <label for="floatingInput">Descripción</label>
+                    <div class="form-floating mb-3">
+                        <textarea type="text" class="form-control" name="descripcion"
+                                  placeholder="Descripción"></textarea>
+                        <label for="floatingInput">Descripción</label>
+                    </div>
                 </div>
+                <div class="row g-2 mb-3">
+                    <div class="col-md">
+                        <div class="form">
+                            <label for="">Hora Inicio</label>
+
+                            <input type="time" class="form-control">
+
+                        </div>
+                    </div>
+                    <div class="col-md ">
+                        <div class="form">
+                            <label for="">Hora Final</label>
+                            <input type="time" class="form-control">
+
+                            </select>
+                        </div>
+                    </div>
                 </div>
+
 
         </div>
-
-
-
-
-
-
 
 
         <div class="form-group boton-send">
             <button class="btn btn-success btn-block"> Atras</button>
         </div>
+    </div>
     </form>
-</div>

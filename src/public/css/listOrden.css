@@ -3,11 +3,11 @@ th{
     width: auto;
 }
 td{
-
 }
 .table{
     width: 80%;
     margin: 4% auto auto auto;
+    margin-bottom: 40px;
 }
 .btn{
     width: auto;
@@ -25,7 +25,10 @@ img{
     width: 30%;
     padding: 20px;
 }
+.list{
+    border: solid 1px;
 
+}
 
 /* Animation */
 

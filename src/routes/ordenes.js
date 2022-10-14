@@ -1,17 +1,17 @@
 const express = require('express');
 const router = express.Router();
 
-const pool= require('../database');
+const pool = require('../database');
 
 
-router.get('/agregarOrden',(req, res)=>{
+router.get('/agregarOrden', (req, res) => {
     res.render('ordenes/agregarOrden');
 
-    });
+});
 
-router.post('/agregarOrden', async (req, res)=>{
-    const {  area, descripcion, prioridad, estado, maquina } = req.body;
-    const newOrden={
+router.post('/agregarOrden', async (req, res) => {
+    const {area, descripcion, prioridad, estado, maquina} = req.body;
+    const newOrden = {
         area,
         descripcion,
         prioridad,
@@ -24,36 +24,34 @@ router.post('/agregarOrden', async (req, res)=>{
 });
 
 
-router.get('/', async (req, res)=>{
+router.get('/', async (req, res) => {
     const ordenes = await pool.query('Select * from ordenesTrabajo');
     res.render('ordenes/listOrden', {ordenes});
 });
 
-router.get('/delete/:id', async(req, res)=>{
-    const {id}= req.params;
+router.get('/delete/:id', async (req, res) => {
+    const {id} = req.params;
     await pool.query('DELETE FROM ordenesTrabajo where id=?', [id]);
     req.flash('error', 'Orden eliminada correctamente');
     res.redirect('/orden');
 });
 
-router.get('/edit/:id', async(req, res)=>{
+router.get('/edit/:id', async (req, res) => {
     const {id} = req.params;
-   const ordenes =  await pool.query('SELECT * FROM ordenesTrabajo WHERE id=?', [id]);
+    const ordenes = await pool.query('SELECT * FROM ordenesTrabajo WHERE id=?', [id]);
     res.render('ordenes/edit', {orden: ordenes[0]});
 });
 
-router.get('/view/:id', async(req, res)=>{
+router.get('/view/:id', async (req, res) => {
     const {id} = req.params;
-    const ordenes =  await pool.query('SELECT * FROM ordenesTrabajo WHERE id=?', [id]);
+    const ordenes = await pool.query('SELECT * FROM ordenesTrabajo WHERE id=?', [id]);
     res.render('ordenes/view', {orden: ordenes[0]});
 });
 
 
-
-
-router.post('/edit/:id', async(req, res)=>{
+router.post('/edit/:id', async (req, res) => {
     const {id} = req.params;
-    const {area, descripcion, prioridad, estado, maquina}= req.body;
+    const {area, descripcion, prioridad, estado, maquina} = req.body;
     const newOrden = {
         area,
         descripcion,
@@ -67,10 +65,4 @@ router.post('/edit/:id', async(req, res)=>{
 })
 
 
-
-
-
-
-
-
-module.exports = router ;
+module.exports = router;

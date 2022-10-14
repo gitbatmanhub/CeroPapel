@@ -34,7 +34,7 @@ router.post('/ingresar', async (req, res, next) => {
 
 
 router.get('/profile', async (req, res) => {
-    res.send('Este es el profile');
+    res.render('profile');
 });
 
 

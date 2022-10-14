@@ -1,5 +1,17 @@
-.navbar{
+.navbar-brand{
+    color: white;
 }
+
+
 img{
     z-index: 1;
+}
+.navbar-nav .nav-link.active, .navbar-nav .show>.nav-link{
+    color: white;
+}
+.nav-link:focus, .nav-link{
+    color: white;
+}
+.navbar-toggler-icon{
+    color: white;
 }
