@@ -2,3 +2,10 @@
     width: 300px;
     height: auto;
 }
+button{
+    z-index: 1000;
+}
+
+.signup{
+    z-index: 100;
+}

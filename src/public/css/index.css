@@ -5,7 +5,14 @@
 
 .contentIndex {
     margin: 0 auto;
+    z-index: 1000;
 }
 .imgIndex{
     width: 700px;
+}
+.columnsHome{
+}
+.col-lg-6{
+    z-index: 100;
+
 }
