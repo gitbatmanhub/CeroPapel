@@ -2,21 +2,23 @@ const express = require('express');
 const router = express.Router();
 
 const pool = require('../database');
+const{isLoggedIn, isNotLoggedIn}=require('../lib/auth');
 
-
-router.get('/agregarOrden', (req, res) => {
+router.get('/agregarOrden', isLoggedIn, (req, res) => {
     res.render('ordenes/agregarOrden');
 
 });
 
-router.post('/agregarOrden', async (req, res) => {
+router.post('/agregarOrden', isLoggedIn, async (req, res) => {
     const {area, descripcion, prioridad, estado, maquina} = req.body;
     const newOrden = {
         area,
         descripcion,
         prioridad,
         estado,
-        maquina
+        maquina,
+        user_id : req.user.id
+
     };
     await pool.query('INSERT INTO ordenesTrabajo set ?', [newOrden]);
     req.flash('success', 'Orden agregada correctamente');
@@ -24,8 +26,8 @@ router.post('/agregarOrden', async (req, res) => {
 });
 
 
-router.get('/', async (req, res) => {
-    const ordenes = await pool.query('Select * from ordenesTrabajo');
+router.get('/', isLoggedIn, async (req, res) => {
+    const ordenes = await pool.query('Select * from ordenesTrabajo where user_id = ?', [req.user.id]);
     res.render('ordenes/listOrden', {ordenes});
 });
 
@@ -36,20 +38,20 @@ router.get('/delete/:id', async (req, res) => {
     res.redirect('/orden');
 });
 
-router.get('/edit/:id', async (req, res) => {
+router.get('/edit/:id', isLoggedIn, async (req, res) => {
     const {id} = req.params;
     const ordenes = await pool.query('SELECT * FROM ordenesTrabajo WHERE id=?', [id]);
     res.render('ordenes/edit', {orden: ordenes[0]});
 });
 
-router.get('/view/:id', async (req, res) => {
+router.get('/view/:id', isLoggedIn, async (req, res) => {
     const {id} = req.params;
     const ordenes = await pool.query('SELECT * FROM ordenesTrabajo WHERE id=?', [id]);
     res.render('ordenes/view', {orden: ordenes[0]});
 });
 
 
-router.post('/edit/:id', async (req, res) => {
+router.post('/edit/:id',  async (req, res) => {
     const {id} = req.params;
     const {area, descripcion, prioridad, estado, maquina} = req.body;
     const newOrden = {

@@ -68,3 +68,7 @@ alter table ordenesTrabajo
 
 alter table ordenesTrabajo
     modify id int (11) not null auto_increment, auto_increment=1;
+
+
+alter table ordenesTrabajo
+modify create_at smalldatetime
