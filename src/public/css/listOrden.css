@@ -31,16 +31,31 @@ img{
 }
 
 /* Animation */
-
-.container h2{
+.tituloorden {
+    text-align: start;
 }
 .searchbar{
-    margin: 0 auto;
-    width: 30%;
-}
 
+}
 
 .text-small {
     font-size: 85%;
 }
+
+
+.botonlista{
+    color: #262d3f;
+    background-color: #00000000 ;
+    border-color: #00000000;
+    padding: 5px;
+}
+
+.botonlista:hover{
+    color: #000000;
+
+}
+.nombreCompleto{
+
+}
+
 

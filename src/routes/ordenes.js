@@ -27,10 +27,17 @@ router.post('/agregarOrden', isLoggedIn, async (req, res) => {
 
 
 router.get('/', isLoggedIn, async (req, res) => {
-    const ordenes = await pool.query('Select * from ordenesTrabajo where user_id = ?', [req.user.id]);
+    const ordenes = await pool.query('SELECT ordenestrabajo.*, users.fullname FROM novared.ordenestrabajo, novared.users where ordenestrabajo.user_id = users.id', [req.user.id]);
     res.render('ordenes/listOrden', {ordenes});
 });
+/*
+router.get('/', isLoggedIn, async (req, res) => {
+    const alldate= await pool.query('SELECT ordenestrabajo.*, users.fullname FROM novared.ordenestrabajo, novared.users where ordenestrabajo.user_id = users.id', [req.user.id]);
+    res.render('ordenes/listOrden', {alldate});
+});
 
+
+ */
 router.get('/delete/:id', async (req, res) => {
     const {id} = req.params;
     await pool.query('DELETE FROM ordenesTrabajo where id=?', [id]);

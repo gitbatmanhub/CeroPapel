@@ -135,11 +135,11 @@
 
 <!-- new header -->
 
-
+{{#if user}}
 <aside class="sidebar-nav-wrapper">
     <div class="navbar-logo">
-        <a href="index.html">
-            <img src="assets/images/logo/logo.svg" alt="logo" />
+        <a href="/">
+            <img src="/img/logotipo.png" alt="logo" class="logoNav" />
         </a>
     </div>
     <nav class="sidebar-nav">
@@ -160,11 +160,11 @@
                   />
                 </svg>
               </span>
-                    <span class="text">Dashboard</span>
+                    <span class="text">Tablero</span>
                 </a>
                 <ul id="ddmenu_1" class="collapse show dropdown-nav">
                     <li>
-                        <a href="index.html" class="active"> eCommerce </a>
+                        <a href="/orden" class="active"> Ordenes </a>
                     </li>
                 </ul>
             </li>
@@ -191,14 +191,14 @@
                   />
                 </svg>
               </span>
-                    <span class="text">Pages</span>
+                    <span class="text">Perfil</span>
                 </a>
-                <ul id="ddmenu_2" class="collapse dropdown-nav">
+                <ul id="ddmenu_2" class="collapse show dropdown-nav ">
                     <li>
-                        <a href="settings.html"> Settings </a>
+                        <a class="active" href="/profile"> Mi perfil </a>
                     </li>
                     <li>
-                        <a href="blank-page.html"> Blank Page </a>
+                        <a href="blank-page.html">algo </a>
                     </li>
                 </ul>
             </li>
@@ -402,7 +402,7 @@
     </nav>
 
 </aside>
-
+<div class="overlay"></div>
 <main class="main-wrapper">
     <!-- ========== header start ========== -->
     <header class="header">
@@ -415,13 +415,13 @@
                                     id="menu-toggle"
                                     class="main-btn primary-btn btn-hover"
                             >
-                                <i class="lni lni-chevron-left me-2"></i> Menu
+                                <i class="bi bi-list"></i> Menu
                             </button>
                         </div>
                         <div class="header-search d-none d-md-flex">
                             <form action="#">
                                 <input type="text" placeholder="Search..." />
-                                <button><i class="lni lni-search-alt"></i></button>
+                                <button><i class="bi bi-search"></i></button>
                             </form>
                         </div>
                     </div>
@@ -437,7 +437,7 @@
                                     data-bs-toggle="dropdown"
                                     aria-expanded="false"
                             >
-                                <i class="lni lni-alarm"></i>
+                                <i class="bi bi-app-indicator"></i>
                                 <span>2</span>
                             </button>
                             <ul
@@ -451,7 +451,7 @@
                                         </div>
                                         <div class="content">
                                             <h6>
-                                                John Doe
+                                                Name de algun cristiano
                                                 <span class="text-regular">
                               comment on a product.
                             </span>
@@ -496,7 +496,7 @@
                                     data-bs-toggle="dropdown"
                                     aria-expanded="false"
                             >
-                                <i class="lni lni-envelope"></i>
+                                <i class="bi bi-chat-dots"></i>
                                 <span>3</span>
                             </button>
                             <ul
@@ -560,7 +560,7 @@
                             >
                                 <div class="profile-info">
                                     <div class="info">
-                                        <h6>John Doe</h6>
+                                        <h6>{{user.fullname}}</h6>
                                         <div class="image">
                                             <img
                                                     src="assets/images/profile/profile-image.png"
@@ -578,22 +578,22 @@
                             >
                                 <li>
                                     <a href="#0">
-                                        <i class="lni lni-user"></i> View Profile
+                                        <i class="bi bi-person-circle"></i></i> Ver Perfil
                                     </a>
                                 </li>
                                 <li>
                                     <a href="#0">
-                                        <i class="lni lni-alarm"></i> Notifications
+                                        <i class="bi bi-app-indicator"></i> Notificaciones
                                     </a>
                                 </li>
                                 <li>
-                                    <a href="#0"> <i class="lni lni-inbox"></i> Messages </a>
+                                    <a href="#0"> <i class="bi bi-chat-dots"></i> Mensajes </a>
                                 </li>
                                 <li>
-                                    <a href="#0"> <i class="lni lni-cog"></i> Settings </a>
+                                    <a href="#0"> <i class="bi bi-gear"></i> Ajustes </a>
                                 </li>
                                 <li>
-                                    <a href="#0"> <i class="lni lni-exit"></i> Sign Out </a>
+                                    <a href="#0"> <i class="bi bi-box-arrow-in-left"></i> Salir </a>
                                 </li>
                             </ul>
                         </div>
@@ -604,7 +604,10 @@
         </div>
     </header>
 
+    {{else}}
 
+
+{{/if}}
 
 
 
