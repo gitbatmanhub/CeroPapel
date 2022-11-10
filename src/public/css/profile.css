@@ -1,0 +1,121 @@
+#main {
+    margin-top: 20px;
+    padding: 20px 30px;
+    transition: all 0.3s;
+}
+
+/*--------------------------------------------------------------
+# Page Title
+--------------------------------------------------------------*/
+.pagetitle {
+    margin-bottom: 10px;
+}
+
+.pagetitle h1 {
+    font-size: 24px;
+    margin-bottom: 0;
+    font-weight: 600;
+    color: #000000;
+}
+
+
+/* Breadcrumbs */
+.breadcrumb {
+    font-size: 14px;
+    color: #000000;
+    font-weight: 600;
+}
+
+.breadcrumb a {
+    color: #000000;
+    transition: 0.3s;
+}
+
+.breadcrumb a:hover {
+    color: #000000;
+}
+
+.breadcrumb .breadcrumb-item::before {
+    color: #000000;
+}
+
+.breadcrumb .active {
+    color: #000000;
+    font-weight: 600;
+}
+
+
+.profile .profile-card img {
+    max-width: 120px;
+}
+
+.profile .profile-card h2 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #000000;
+    margin: 10px 0 0 0;
+}
+
+.profile .profile-card h3 {
+    font-size: 18px;
+}
+
+.profile .profile-overview .row {
+    margin-bottom: 20px;
+    font-size: 15px;
+}
+
+.profile .profile-overview .card-title {
+    color: #000000;
+}
+
+.profile .profile-overview .label {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.profile .profile-edit label {
+    font-weight: 600;
+    color: rgba(0, 0, 0, 0.6);
+}
+
+.profile .profile-edit img {
+    max-width: 120px;
+}
+.nav-item:hover{
+    color: black;
+}
+
+.nav-tabs .nav-link{
+    color: black;
+}
+
+/* Bordered Tabs */
+.nav-tabs-bordered {
+    border-bottom: 2px solid #ebeef4;
+}
+
+.nav-tabs-bordered .nav-link {
+    margin-bottom: -2px;
+    border: none;
+    color: #000000;
+}
+
+.nav-tabs-bordered .nav-link:hover,
+.nav-tabs-bordered .nav-link:focus {
+    color: #000000;
+}
+
+.nav-tabs-bordered .nav-link.active {
+    background-color: #fff;
+    color: #000000;
+    border-bottom: 2px solid #000000;
+}
+
+.first{
+    margin-top: 20px;
+}
+
+.fst-italic {
+    font-size: 15px;
+}

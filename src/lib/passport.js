@@ -9,7 +9,7 @@ passport.use('local.ingresar', new LocalStrategy({
     passReqToCallback: true
 
 }, async ( req, username, password, done)=>{
-    console.log(req.body);
+    //console.log(req.body);
     const rows= await pool.query('SELECT * FROM users WHERE username= ?', [username]);
     console.log(rows);
     if(rows.length >0){
@@ -53,4 +53,7 @@ passport.serializeUser((user, done)=>{
 passport.deserializeUser(async(id, done)=>{
     const rows= await pool.query('select * from users where id = ?', [id]);
     done(null, rows[0]);
+
+
 })
+
