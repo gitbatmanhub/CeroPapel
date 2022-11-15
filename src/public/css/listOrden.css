@@ -44,14 +44,12 @@ img{
 
 
 .botonlista{
-    color: #262d3f;
-    background-color: #00000000 ;
-    border-color: #00000000;
     padding: 5px;
+
 }
 
 .botonlista:hover{
-    color: #000000;
+    color: rgba(38, 72, 194, 0.66);
 
 }
 .nombreCompleto{

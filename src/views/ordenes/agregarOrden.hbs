@@ -1,5 +1,9 @@
 {{#if user}}
 
+
+
+    <div class="prueba">
+    </div>
 <div class="formulario">
     <div class="container">
         <h2>Agregar Orden de Mantenimiento</h2>
@@ -11,18 +15,24 @@
                 <div class="form">
                     <label for="">Area</label>
 
-                    <select name="area" class="form-select" id="areas" >
-                        <option value="0" selected>Selecciona una por favor.</option>
+                    <select name="area" class="form-select" id="area" >
+                        <option value="0" selected>Selecciona una por favor</option>
+                        {{#each areas}}
+                            <option value="{{idAreas}}" >{{nombreAreas}}</option>
+                        {{/each}}
 
                     </select>
-                </div>
-            </div>
+
+
+
             <div class="col-md ">
                 <div class="form">
                     <label for="">Maquina</label>
-                    <select name="maquina" class="form-select" id="maquinas" >
-                        <option value="0" selected>Selecciona una por favor.</option>
-
+                    <select name="maquina" class="form-select" id="maquina" >
+                        <option value="0" selected>Selecciona una por favor</option>
+                        {{#each maquinas}}
+                            <option value="{{idMaquina}}" >{{nombreMaquina}}</option>
+                        {{/each}}
                     </select>
                 </div>
             </div>
@@ -58,12 +68,9 @@
             </div>
         </div>
     </div>
-<!--
-    <div>
-        <input type="hidden" value="{{user.id}}" name="user_id">
-    </div>
 
-    -->
+
+
 
 
 
@@ -73,6 +80,7 @@
 
 </div>
 </form>
+
 </div>
 
 

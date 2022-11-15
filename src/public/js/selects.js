@@ -5,7 +5,7 @@
 let $area= document.getElementById('areas');
 let $maquina= document.getElementById('maquinas');
 
-let areas= ['Edificio', 'Compactadora', 'Equipos Auxiliares', 'Maquinas', 'PTAR', 'Garita', 'Molinos', 'Subestacion', 'Montacargas'];
+    let areas= ['Edificio', 'Compactadora', 'Equipos Auxiliares', 'Maquinas', 'PTAR', 'Garita', 'Molinos', 'Subestacion', 'Montacargas'];
 let maquinaEdificio= ['Administrativo', 'Financiero', 'Producción', 'Logistica/BodegaPT'];
 let maquinaCompactadora= ['Compactadora'];
 let maquinaEquiposAuxiliares= ['Compresor JAGUAR I', 'Compresor JAGUAR II', 'Falta1', 'Falta2'];

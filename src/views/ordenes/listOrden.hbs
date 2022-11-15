@@ -250,8 +250,7 @@ Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Te
                     <div class="card-style mb-30">
                         <h6 class="mb-10">Data Table</h6>
                         <p class="text-sm mb-20">
-                            For basic styling—light padding and only horizontal
-                            dividers—use the class table.
+                            A continuación se presentan las ordenes prestas a aprobación.
                         </p>
 
                             <table class="table">
@@ -309,10 +308,23 @@ Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Te
                                         </td>
                                         <td>
                                             <div>
-                                                <a href="/orden/view/{{id}}" class=" botonlista">
-                                                    <i class="bi bi-eye"></i>
+                                                <a href="/orden/view/{{id}}" class=" btn btn-light botonlista">
+                                                    <i class="bi bi-clipboard2-check"></i>                                                    <span>Revisar</span>
                                                 </a>
 
+
+
+
+<!--
+
+
+<a href="/orden/view/{{id}}" class=" botonlista">
+                                                    <i class="bi bi-check-circle-fill"></i>
+                                                </a>
+
+                                                <a href="/orden/view/{{id}}" class=" botonlista">
+                                                    <i class="bi bi-x-circle-fill"></i>
+                                                </a>
                                                 <a href="/orden/edit/{{id}}" class=" botonlista">
                                                     <i class="bi bi-pencil-square"></i>
                                                 </a>
@@ -321,7 +333,7 @@ Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Te
                                                     <i class="bi bi-trash-fill"></i>
                                                 </a>
 
-
+-->
                                             </div>
 
                                         </td>
@@ -339,6 +351,13 @@ Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Te
             </div>
             <!-- end row -->
         </div>
+    <div>
+        <div class="aqui">
+        {{#each areas}}
+                <p>{{areas.nombreAreas}}</p>
+            {{/each}}
+        </div>
+    </div>
 
 
     </section>

@@ -4,8 +4,10 @@ const router = express.Router();
 const pool = require('../database');
 const{isLoggedIn, isNotLoggedIn}=require('../lib/auth');
 
-router.get('/agregarOrden', isLoggedIn, (req, res) => {
-    res.render('ordenes/agregarOrden');
+router.get('/agregarOrden',  isLoggedIn, async (req, res) => {
+    const areas = await pool.query('select * from areas');
+    const maquinas = await pool.query('select * from maquinas');
+    res.render('ordenes/agregarorden', {areas, maquinas});
 
 });
 
@@ -28,16 +30,28 @@ router.post('/agregarOrden', isLoggedIn, async (req, res) => {
 
 router.get('/', isLoggedIn, async (req, res) => {
     const ordenes = await pool.query('SELECT ordenestrabajo.*, users.fullname FROM novared.ordenestrabajo, novared.users where ordenestrabajo.user_id = users.id', [req.user.id]);
-    res.render('ordenes/listOrden', {ordenes});
-});
-/*
-router.get('/', isLoggedIn, async (req, res) => {
-    const alldate= await pool.query('SELECT ordenestrabajo.*, users.fullname FROM novared.ordenestrabajo, novared.users where ordenestrabajo.user_id = users.id', [req.user.id]);
-    res.render('ordenes/listOrden', {alldate});
+    const areas = await pool.query('select * from areas');
+
+    console.log(areas);
+
+    res.render('ordenes/listOrden', {ordenes, areas});
 });
 
+/*
+router.get('/agregarorden', isLoggedIn, async (req, res)=>{
+    const areas = await pool.query('select * from areas');
+    console.log(areas);
+    res.render('ordenes/agregarorden', {areas});
+})
 
  */
+
+
+
+
+
+
+
 router.get('/delete/:id', async (req, res) => {
     const {id} = req.params;
     await pool.query('DELETE FROM ordenesTrabajo where id=?', [id]);

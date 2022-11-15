@@ -1,21 +1,40 @@
 
 
 
-<div class="container col-xxl-8 px-4 py-5 homeIndex">
-    <div class="row flex-lg-row-reverse align-items-center g-5 py-5 contentIndex">
-        <div class="col-10 col-sm-8 col-lg-6 columnsHome">
-            <img src="/img/logoColorHorizontal.png" class="d-block mx-lg-auto img-fluid imgIndex" width="400"
-                 height="200" loading="lazy">
-        </div>
 
-        <div class="col-lg-6">
-            <h1 class="display-5 fw-bold lh-1 mb-3">Novared</h1>
-            <p class="lead">Sistema de control enfocado a la administración de reportes de producción y control de
-                productos.</p>
+
+            {{#if user}}
+                <div class="container col-xxl-8 px-4 py-5 homeIndex">
+                <div class="row flex-lg-row-reverse align-items-center g-5 py-5 contentIndex">
+                    <div class="col-10 col-sm-8 col-lg-6 columnsHome">
+                        <img src="/img/logoColorHorizontal.png" class="d-block mx-lg-auto img-fluid imgIndex" width="400"
+                             height="200" loading="lazy">
+                    </div>
+
+                <div class="col-lg-6">
+                    <h1 class="display-5 fw-bold lh-1 mb-3">Novared</h1>
+                    <p class="lead">Sistema de control enfocado a la administración de reportes de producción y control de
+                        productos.</p>
+
+            {{else}}
+                <div class="container col-xxl-8 px-4 py-5 homeIndex">
+                <div class="row flex-lg-row-reverse align-items-center g-5 py-5 contentIndex">
+                    <div class="col-10 col-sm-8 col-lg-6 columnsHome">
+                        <img src="/img/logoColorHorizontal.png" class="d-block mx-lg-auto img-fluid imgIndex" width="400"
+                             height="200" loading="lazy">
+                    </div>
+
+                <div class="col-lg-6">
+                    <h1 class="display-5 fw-bold lh-1 mb-3">Novared</h1>
+                    <p class="lead">Sistema de control enfocado a la administración de reportes de producción y control de
+                        productos.</p>
+
+
             <div class="d-grid gap-2 d-md-flex justify-content-md-start">
                 <a href="/ingresar" class="btn btn-primary btn-lg px-4 me-md-2">Ingresar</a>
                 <a href="/registrarse" class="btn btn-outline-secondary btn-lg px-4">Resgitrarse</a>
             </div>
+            {{/if}}
         </div>
 
 
