@@ -6,9 +6,9 @@
     </div>
 
     <div>
-
+        <form action="/orden/view/{{orden.id}}" method="post">
         <label>Nr de orden</label>
-        <input type="text" value="{{orden.id}}" class="form-control" name="" placeholder="Id" readonly required>
+        <input type="text" value="{{orden.id}}" class="form-control" name="idOrden"  readonly required>
 
 
         <div class="row g-2 mb-3">
@@ -16,7 +16,7 @@
                 <div class="form">
 
                     <label for="">Area Destinada</label>
-                    <input type="text" value="{{orden.area}}" class="form-control" name="id" placeholder="Id" readonly
+                    <input type="text" value="{{orden.area}}" class="form-control" name="area" placeholder="Id" readonly
                            required>
 
                     </select>
@@ -25,7 +25,7 @@
             <div class="col-md ">
                 <div class="form">
                     <label for="">Maquina Destinada</label>
-                    <input type="text" value="{{orden.maquina}}" class="form-control" name="id" placeholder="Id"
+                    <input type="text" value="{{orden.maquina}}" class="form-control" name="Maquina" placeholder="Id"
                            readonly required>
 
                     </select>
@@ -43,7 +43,7 @@
         <div class="row g-2">
             <div class="col-md">
                 <div class="form-floating">
-                    <input type="text" value="{{orden.prioridad}}" class="form-control" name="id" placeholder="Id"
+                    <input type="text" value="{{orden.prioridad}}" class="form-control" name="prioridad" placeholder="Id"
                            readonly required>
                     <label for="floatingInput">Prioridad de la orden</label>
 
@@ -51,22 +51,29 @@
             </div>
             <div class="col-md">
                 <div class="form-floating">
-                    <input type="text" value="{{orden.estado}}" class="form-control" name="id" placeholder="Id" readonly
+                    <input type="text" value="{{orden.estado}}" class="form-control" name="estado" placeholder="Id" readonly
                            required>
+                    <input type="hidden" value="{{orden.user_id}}" class="form-control" name="idUserCreo">
+                    <!--<input type="hidden" value="{{user.id}}" class="form-control" name="idUserCreo">-->
+
                     <label for="floatingInput">Estado de la orden</label>
                 </div>
             </div>
+
+            <div class="form-floating mb-3">
+                <textarea id="descripcion" type="text" class="form-control" name="comentariosSupervisor" placeholder="Comentarios"  required></textarea>
+                <label for="floatingInput">Comentarios</label>
+            </div>
         </div>
+            <div class="col-auto p-5 text-center btnAorD" role="" aria-label="">
+                <button class="btn btn-success btn-block">Aceptar</button>
+            </div>
+        </form>
     </div>
 
 
-    <!-- Aquí los botones de accpe o decline -->
 
 
-    <div class="col-auto p-5 text-center btnAorD" role="" aria-label="">
-        <button type="submit" class="btn btn-outline-secondary">Rechazar</button>
-        <button type="submit" class="btn btn-outline-success">Aceptar</button>
-    </div>
 
 
 

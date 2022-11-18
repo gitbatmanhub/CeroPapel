@@ -74,7 +74,7 @@ use novared;
 create table rolUsuarios
 	(
     idRol int(2),
-    nameRol varchar(15)
+    nameRol varchar(30)
     
     )
 select * from rolUsuarios;
@@ -240,3 +240,150 @@ values ("Edificio"),
 
   select * from areas;
   select * from maquinas;
+  
+  select * from ordenestrabajo;
+  
+  select * from rolusuarios;
+  
+  describe rolusuarios;
+  
+  insert into rolusuarios(idRol, nameRol)
+values (3, "Lider mantenimeinto"),
+		(4, "Tecnico"),
+		(10000, "No usuario");
+	
+        
+
+		  
+  select * from rolusuarios;
+  
+  alter table users
+	 ADD idRol int(2);
+     
+     alter table rolusuarios
+     add primary key (idRol);
+     
+     alter table users
+add foreign key (idRol) references rolusuarios(idRol);
+     
+  select * from rolusuarios;
+  select * from users;
+  
+/*
+Modify table
+ alter table users
+ modify username varchar(50);
+
+*/
+
+
+
+   alter table users
+ modify idRol int(2) default 10000;
+ 
+ 
+ select * from users;
+  
+  
+UPDATE users SET idRol= 1 WHERE id = 1;
+UPDATE users SET idRol= 2 WHERE id = 3;
+UPDATE users SET idRol= 3 WHERE id = 4;
+
+  select * from users;
+  
+    insert into rolusuarios(idRol, nameRol)
+values (5, "Lider Produccion");
+  
+  UPDATE users SET idRol= 2 WHERE id = 8;
+  UPDATE users SET idRol= 3 WHERE id = 7;
+  UPDATE users SET idRol= 5 WHERE id = 6;
+
+  
+  
+  create table ordenesAprobadas
+  (
+	idOA int not null,
+    fecha DATE DEFAULT (CURDATE()),
+    hora time DEFAULT (DATE_FORMAT(NOW(), "%H:%i:%S")),
+    createAt timestamp not null default current_timestamp,
+    idUsuario int not null,
+    idOrden int not null
+  
+  );
+  
+  alter table ordenesaprobadas
+  add primary key(idOA);
+  
+  
+alter table ordenesaprobadas
+add foreign key (idOrden) references ordenestrabajo(id);
+
+
+ALTER TABLE ordenesaprobadas CHANGE idUsuario idUserCreo int;
+
+
+alter table ordenesaprobadas
+add foreign key (idUserCreo) references ordenestrabajo(user_id);
+
+describe ordenesaprobadas;
+
+alter table ordenesaprobadas
+add column idAprobo int;
+
+alter table ordenesaprobadas
+add foreign key (idAprobo) references users(id);
+
+
+alter table ordenesaprobadas
+add column comentariosSupervisor text;
+
+alter table ordenesaprobadas
+    modify idOA int not null auto_increment, auto_increment = 1;
+    
+    
+create table statusOrden(
+	idStatus int  not null,
+    nombreStatus char(30)
+);
+
+insert into statusOrden(idStatus, nombreStatus)
+values (0, "Pendiente Aprobacion"),
+		(1, "Aprobado"),
+		(2, "En Proceso"),
+		(3, "Terminada")
+;
+
+alter table statusorden
+add primary key(idStatus);
+
+
+alter table ordenestrabajo
+add column idStatus int;
+
+alter table ordenestrabajo
+add foreign key (idStatus) references statusorden(idStatus);
+
+   alter table ordenestrabajo
+ modify idStatus int default 0;
+use novared;
+
+UPDATE ordenestrabajo SET idStatus= 0 where estado="Abierto";
+
+UPDATE ordenestrabajo SET idStatus= 1 where id=3;
+
+describe ordenesaprobadas;
+
+use novared;
+UPDATE ordenestrabajo SET idStatus= 0;
+
+/*
+Hasta aquí me quedé
+
+SELECT ordenestrabajo.*, users.fullname 
+FROM novared.ordenestrabajo
+inner join users on users.id=ordenestrabajo.id
+inner join statusorden on ordenestrabajo.id=statusorden.idStatus;
+
+
+*/
+
