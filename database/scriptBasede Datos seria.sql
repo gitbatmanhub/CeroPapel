@@ -202,7 +202,6 @@ values ("Edificio"),
   ("Compactadora", 9),
   ("Compresor JAGUAR I", 2),
   ("Compresor JAGUAR II", 2),
-  ("Compresor JAGUAR II", 3),
   ("Pelletizadora 1", 3),
   ("Pelletizadora 2", 3),
   ("Pelletizadora 3", 3),
@@ -232,10 +231,12 @@ values ("Edificio"),
   
   
   select * from maquinas, areas
-  where id_area= idAreas order by idMaquina
+  where id_area= idAreas order by idMaquina;
   
-  
-delete from maquinas
-where idMaquina=38;
 
+
+
+
+
+  select * from areas;
   select * from maquinas;

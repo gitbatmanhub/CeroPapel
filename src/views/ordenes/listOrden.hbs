@@ -210,6 +210,8 @@ Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Te
 
 -->
 
+
+
 <!-- ========== table components start ========== -->
 <section class="table-components">
     <div class="container-fluid">
@@ -266,9 +268,7 @@ Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Te
                                 </tr>
                                 <div class="input-group mb-3 searchbar">
                                     <span class="input-group-text" id="basic-addon1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"  fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
-                                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
-                                        </svg>
+                                        <i class="bi bi-search"></i>
                                     </span>
                                     <input autofocus id="search" type="text" class="form-control search-input" data-table="customers-list"  placeholder="Buscar" aria-label="Username" aria-describedby="basic-addon1">
                                 </div>
@@ -352,17 +352,14 @@ Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Texto Te
             <!-- end row -->
         </div>
     <div>
-        <div class="aqui">
-        {{#each areas}}
-                <p>{{areas.nombreAreas}}</p>
-            {{/each}}
-        </div>
-    </div>
+
+</div>
+
 
 
     </section>
     <script>
-        today = new Date({{fecha}});
+        today = new Date().toDateString();
         console.log(today)
 
 

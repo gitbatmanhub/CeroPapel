@@ -8,3 +8,9 @@
      height: 100vh;
      width: 100vh;
 }
+
+
+
+.form-control:disabled, .form-control[readonly]{
+     background-color: white !important;
+}

@@ -64,21 +64,21 @@
 
 
     <div class="col-auto p-5 text-center btnAorD" role="" aria-label="">
-        <button type="button" class="btn btn-outline-secondary">Rechazar</button>
-        <button type="button" class="btn btn-outline-success">Aceptar</button>
+        <button type="submit" class="btn btn-outline-secondary">Rechazar</button>
+        <button type="submit" class="btn btn-outline-success">Aceptar</button>
     </div>
 
 
 
 
     <script>
-        let area = document.querySelectorAll(".cajas-texto")
+        let area = document.querySelectorAll(".cajas-texto");
 
         window.addEventListener("DOMContentLoaded", () => {
         area.forEach((elemento) => {
         elemento.style.height = `${elemento.scrollHeight}px`
         })
-        })
+        });
     </script>
 
 <!-- Aquí va la asignación de la orden (formulario de "respuesta") -->

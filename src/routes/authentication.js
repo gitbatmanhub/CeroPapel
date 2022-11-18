@@ -17,6 +17,7 @@ router.post('/registrarse', passport.authenticate('local.registrarse', {
     successRedirect: '/profile',
     failureRedirect: '/registrarse',
     failureFlash: true
+
 }))
 
 

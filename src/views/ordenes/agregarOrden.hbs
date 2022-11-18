@@ -15,10 +15,10 @@
                 <div class="form">
                     <label for="">Area</label>
 
-                    <select name="area" class="form-select" id="area" >
-                        <option value="0" selected>Selecciona una por favor</option>
+                    <select name="area" class="form-select" id="area" onchange="ShowSelected();" >
+                        <option value="null" selected>Selecciona una por favor</option>
                         {{#each areas}}
-                            <option value="{{idAreas}}" >{{nombreAreas}}</option>
+                            <option value="{{nombreAreas}}" name="{{idAreas}}">{{nombreAreas}}</option>
                         {{/each}}
 
                     </select>
@@ -29,9 +29,9 @@
                 <div class="form">
                     <label for="">Maquina</label>
                     <select name="maquina" class="form-select" id="maquina" >
-                        <option value="0" selected>Selecciona una por favor</option>
+                        <option value="null" selected>Selecciona una por favor</option>
                         {{#each maquinas}}
-                            <option value="{{idMaquina}}" >{{nombreMaquina}}</option>
+                            <option value="{{nombreMaquina}}" name="{{idMaquina}}">{{nombreMaquina}}</option>
                         {{/each}}
                     </select>
                 </div>

@@ -1,5 +1,4 @@
 
-'use strict'
 
 $(document).ready(function() {
     $("#search").on("keyup", function () {

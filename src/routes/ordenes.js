@@ -8,6 +8,8 @@ router.get('/agregarOrden',  isLoggedIn, async (req, res) => {
     const areas = await pool.query('select * from areas');
     const maquinas = await pool.query('select * from maquinas');
     res.render('ordenes/agregarorden', {areas, maquinas});
+    console.log(areas);
+    console.log(maquinas);
 
 });
 
@@ -28,23 +30,28 @@ router.post('/agregarOrden', isLoggedIn, async (req, res) => {
 });
 
 
-router.get('/', isLoggedIn, async (req, res) => {
-    const ordenes = await pool.query('SELECT ordenestrabajo.*, users.fullname FROM novared.ordenestrabajo, novared.users where ordenestrabajo.user_id = users.id', [req.user.id]);
-    const areas = await pool.query('select * from areas');
+        router.get('/', isLoggedIn, async (req, res) => {
+            const ordenes = await pool.query('SELECT ordenestrabajo.*, users.fullname FROM novared.ordenestrabajo, novared.users where ordenestrabajo.user_id = users.id', [req.user.id]);
+            const idUser= ([req.user.id][0]);
+            console.log(idUser);
 
-    console.log(areas);
+                switch (idUser) {
+                    case 1:
+                        res.render('ordenes/listOrden', {ordenes});
+                        break;
+                    case 2:
+                        res.send("Hola esto esta bien");
+                        break;
+                    default:
+                        res.send("No tienes asignado un rol");
+                        break;
+                }
 
-    res.render('ordenes/listOrden', {ordenes, areas});
-});
 
-/*
-router.get('/agregarorden', isLoggedIn, async (req, res)=>{
-    const areas = await pool.query('select * from areas');
-    console.log(areas);
-    res.render('ordenes/agregarorden', {areas});
-})
+        });
 
- */
+
+
 
 
 
