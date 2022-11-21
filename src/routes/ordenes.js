@@ -5,13 +5,14 @@ const pool = require('../database');
 const{isLoggedIn, isNotLoggedIn}=require('../lib/auth');
 
 router.get('/agregarOrden',  isLoggedIn, async (req, res) => {
-    const areas = await pool.query('select * from areas');
-    const maquinas = await pool.query('select * from maquinas');
+    var areas = await pool.query('select * from areas');
+    var maquinas = await pool.query('select * from maquinas');
     res.render('ordenes/agregarorden', {areas, maquinas});
     //console.log(areas);
     //console.log(maquinas);
-
 });
+
+
 
 router.post('/agregarOrden', isLoggedIn, async (req, res) => {
     const {area, descripcion, prioridad, estado, maquina} = req.body;
@@ -73,7 +74,7 @@ router.get('/', isLoggedIn, async (req, res) => {
 router.get('/', isLoggedIn, async (req, res) => {
     const users = await pool.query('SELECT * from users', [req.user.idRol]);
     const idRol= ([req.user.idRol][0]);
-    console.log(idRol);
+    //console.log(idRol);
 
     switch (idRol) {
         //Claudio
@@ -83,7 +84,7 @@ router.get('/', isLoggedIn, async (req, res) => {
             break;
             //Andres
         case 3:
-            const ordenesAceptadas = await pool.query('SELECT ordenestrabajo.*, users.fullname FROM novared.ordenestrabajo inner join users on users.id=ordenestrabajo.id inner join statusorden on ordenestrabajo.id=statusorden.idStatus', [req.user.id]);
+            const ordenesAceptadas = await pool.query('SELECT ordenestrabajo.*, users.fullname  FROM novared.ordenestrabajo, novared.users  where ordenestrabajo.user_id = users.id AND ordenestrabajo.idStatus=1;');
             res.render('ordenes/liderMantenimiento/listaOrdenLM', {ordenesAceptadas});
             break;
         case 4:
@@ -176,8 +177,10 @@ router.post('/view/:id', isLoggedIn, async (req, res) => {
         idAprobo: req.user.id,
         comentariosSupervisor
     };
+    console.log(newOrdenAprobada);
+    //const idOrden
     await pool.query('INSERT INTO ordenesaprobadas set ?', [newOrdenAprobada]);
-    //await pool.query('UPDATE orde SET sobreMi="Funciona" WHERE id = 1');
+    await pool.query('UPDATE ordenestrabajo SET idStatus=1 WHERE id = ?', [idOrden]);
     req.flash('success', 'Orden Aprobada correctamente');
     res.redirect('/orden');
 

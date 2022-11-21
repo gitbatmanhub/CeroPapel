@@ -1,4 +1,4 @@
-{{#if user}}
+
 
 
 
@@ -15,10 +15,10 @@
                 <div class="form">
                     <label for="">Area</label>
 
-                    <select name="area" class="form-select" id="area" onchange="ShowSelected();" >
+                    <select name="area" class="form-select" id="area" >
                         <option value="null" selected>Selecciona una por favor</option>
                         {{#each areas}}
-                            <option value="{{nombreAreas}}" name="{{idAreas}}">{{nombreAreas}}</option>
+                            <option value="{{nombreAreas}}" name="{{nombreAreas}}">{{nombreAreas}}</option>
                         {{/each}}
 
                     </select>
@@ -31,10 +31,11 @@
                     <select name="maquina" class="form-select" id="maquina" >
                         <option value="null" selected>Selecciona una por favor</option>
                         {{#each maquinas}}
-                            <option value="{{nombreMaquina}}" name="{{idMaquina}}">{{nombreMaquina}}</option>
+                            <option value="{{nombreMaquina}}" name="{{nombreMaquina}}">{{nombreMaquina}}</option>
                         {{/each}}
                     </select>
                 </div>
+
             </div>
         </div>
 
@@ -79,14 +80,12 @@
     <button class="btn btn-success btn-block" id="liveToastBtn" onclick="test();"> Enviar</button>
 
 </div>
+
 </form>
 
 </div>
 
 
-{{else}}
-    <h1>Ingresa perro</h1>
-    {{/if}}
 
 
 

@@ -10,14 +10,6 @@ select.addEventListener('change',
  */
 
 
-    function ShowSelected()
-    {
-
-        var codArea = document.getElementById("area").value;
-        console.log(codArea);
-        return codArea;
-
-    }
 
 
 
