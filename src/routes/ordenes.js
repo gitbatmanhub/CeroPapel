@@ -31,50 +31,10 @@ router.post('/agregarOrden', isLoggedIn, async (req, res) => {
 });
 
 
-
-//////////////////////////////////
-/*
-router.get('/', isLoggedIn, async (req, res) => {
-    const users = await pool.query('select * from users;', [req.user.idRol]);
-    const idRol= ([req.user.idRol][0]);
-
-    console.log(idRol);
-    switch (idRol) {
-        case 1:
-            break;
-        case 2:
-            res.send('Supervisor');
-            break;
-        case 3:
-            res.send("Lider Mantenimiento");
-            break;
-        case 4:
-            res.send("Tecnico");
-            break;
-            case 5:
-                res.redirect('/orden');
-                break;
-
-        default:
-            res.send("No tienes asignado un rol");
-            break;
-    }
-
-
-
-
-
-});
-
-
- */
-
-
-//////////////////////////////////
 router.get('/', isLoggedIn, async (req, res) => {
     const users = await pool.query('SELECT * from users', [req.user.idRol]);
     const idRol= ([req.user.idRol][0]);
-    //console.log(idRol);
+    //console.log(users);
 
     switch (idRol) {
         //Claudio
@@ -101,47 +61,6 @@ router.get('/', isLoggedIn, async (req, res) => {
 
 });
 
-/*
-
-        router.get('/', isLoggedIn, async (req, res) => {
-            const ordenes = await pool.query('SELECT ordenestrabajo.*, users.fullname FROM novared.ordenestrabajo, novared.users where ordenestrabajo.user_id = users.id', [req.user.id]);
-            const idUser= ([req.user.id][0]);
-            console.log(idUser);
-
-                switch (idUser) {
-                    case 1:
-                        res.send('Eres Edwin');
-                        break;
-                    case 100:
-                        res.render('ordenes/listOrden', {ordenes});
-                        break;
-                    case 3:
-                        res.send("Eres Nathy");
-                        break;
-                    case 4:
-                        res.send("Eres Esteban");
-                        break;
-                    default:
-                        res.send("No tienes asignado un rol");
-                        break;
-                }
-
-
-        });
-
-
-
-router.get('/', isLoggedIn, async (req, res) => {
-    const ordenes = await pool.query('SELECT ordenestrabajo.*, users.fullname FROM novared.ordenestrabajo, novared.users where ordenestrabajo.user_id = users.id', [req.user.id]);
-    res.render('ordenes/listOrden', {ordenes});
-});
-
-
-*/
-
-
-
-
 router.get('/delete/:id', async (req, res) => {
     const {id} = req.params;
     await pool.query('DELETE FROM ordenesTrabajo where id=?', [id]);
@@ -162,13 +81,38 @@ router.get('/view/:id', isLoggedIn, async (req, res) => {
 });
 
 
+
+
+
+
+
+
+
+//Revisar la bbdd
+
+router.get('/assign/:id', isLoggedIn, async (req, res) => {
+    const {id} = req.params;
+   //console.log(id);
+    const ordenes = await pool.query('SELECT ordenestrabajo.*, users.fullname, ordenesaprobadas.comentariosSupervisor FROM novared.ordenestrabajo inner join users on users.id=ordenestrabajo.user_id and ordenestrabajo.idStatus=1 inner join ordenesaprobadas on ordenesaprobadas.idOrden= ordenestrabajo.id where ordenestrabajo.id =?', [id]);
+    const fechas= await pool.query('select date_format(ordenestrabajo.fecha, "%Y-%m-%d") as fecha from ordenestrabajo');
+    const datosTecnicos = await pool.query('select fullname, id from users where idRol=4');
+    //console.log(datosrandom);
+    //console.log(datosTecnicos);
+    res.render('ordenes/liderMantenimiento/assign', {orden: ordenes[0], fecha: fechas[0], datos: datosTecnicos});
+
+});
+
+
+router.post('/assign/:id', isLoggedIn, async (req, res) => {
+    const esteban= req.body;
+    console.log(esteban);
+    res.send('Hola');
+
+});
+
+
+
 router.post('/view/:id', isLoggedIn, async (req, res) => {
-    /*
-    console.log(req.body);
-    res.send('received');
-
-     */
-
 
     const {idOrden, idUserCreo, comentariosSupervisor} = req.body;
     const newOrdenAprobada = {
@@ -205,6 +149,11 @@ router.post('/edit/:id',  async (req, res) => {
     req.flash('success', 'Orden actualizada correctamente');
     res.redirect('/orden');
 })
+
+
+
+
+
 
 
 

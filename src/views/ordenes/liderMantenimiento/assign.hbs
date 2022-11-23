@@ -1,0 +1,198 @@
+<div class="formulario">
+
+    <div class="container">
+        <h2>Datos de la Orden</h2>
+    </div>
+
+    <div class="row col4">
+        <div class="col-md">
+            <label>Nr de orden</label>
+            <input type="text" value="{{orden.id}}" class="form-control" name="idOrden" readonly required>
+        </div>
+
+        <div class="col-md">
+            <label for="floatingInput">Hora de Creación</label>
+            <input type="time" value="{{orden.hora}}" class="form-control" name="hora" placeholder="hora" readonly>
+        </div>
+        <div class="col-md">
+            <label for="floatingInput">Fecha de la Creación</label>
+            <input type="date" value="{{fecha.fecha}}" min="1997-01-01" max="2030-12-31" class="form-control"
+                   name="prioridad" placeholder="Id" readonly>
+        </div>
+
+    </div>
+
+
+    <div class="row g-2 mb-3">
+
+        <div class="col-md">
+            <label for="floatingInput">Nombre Creó</label>
+            <p class="form-control" name="fullname" placeholder="Nombre Creó" readonly
+               required>{{orden.fullname}}</p>
+        </div>
+        <div class="col-md ">
+            <label for="floatingInput">Prioridad de la orden</label>
+            <input type="text" value="{{orden.prioridad}}" class="form-control" name="prioridad" placeholder="Id"
+                   readonly required>
+
+        </div>
+
+        <div class="row g-2 mb-3">
+            <div class="col-md">
+
+                <label for="">Area Destinada</label>
+                <input type="text" value="{{orden.area}}" class="form-control" name="area" placeholder="Id" readonly
+                       required>
+
+            </div>
+            <div class="col-md">
+                <label for="">Maquina Destinada</label>
+                <input type="text" value="{{orden.maquina}}" class="form-control" name="Maquina" placeholder="Id"
+                       readonly required>
+            </div>
+
+
+        </div>
+
+        <div>
+            <div class="col-md">
+                <label for="floatingInput">Descripción del problema</label>
+                <textarea class="form-control cajas-texto" name="descripcion" placeholder="Descripción" readonly
+                          required>{{orden.descripcion}}</textarea>
+            </div>
+        </div>
+        <div>
+            <div class="col-md">
+                <label for="floatingInput">Comentarios/Observaciones Supervisor</label>
+                <textarea id="descripcion" type="text" class="form-control cajas-texto" name="comentariosSupervisor"
+                          placeholder="Comentarios" readonly required>{{orden.comentariosSupervisor}}</textarea>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<!-- Aquí va la asignación de la orden (formulario de "respuesta") -->
+
+
+<div class="formulario">
+    <div class="container">
+        <h2 class="title">Asignar Orden de trabajo</h2>
+        <form action="/orden/assign/{{orden.id}}" method="post">
+            <div class="row ">
+                <div class="col">
+                    <label for="">Tecnico Asignado #1</label>
+
+                    <select name="tecnicos1" class="form-select" id="tecnicos" required>
+                        <option value="null" selected>Selecciona uno por favor</option>
+
+                        {{#each datos}}
+
+                            <option value="{{id}}" name="{{fullname}}">{{fullname}}</option>
+                        {{/each}}
+
+
+                    </select>
+                </div>
+                <div class="col">
+                    <label for="">Tecnico Asignado #2</label>
+
+                    <select name="tecnicos2" class="form-select" id="tecnicos" >
+                        <option value="null" selected>Selecciona uno por favor</option>
+
+                        {{#each datos}}
+
+                            <option value="{{id}}" name="{{fullname}}">{{fullname}}</option>
+                        {{/each}}
+
+
+                    </select>
+                </div>
+
+
+            </div>
+
+            <div class="row">
+
+                <div class="col-md ">
+                    <div class="form">
+                        <label for="">Ayudante Asignado</label>
+                        <select name="ayudante1" class="form-select" id="ayudante1" >
+                            <option value="null" selected>Seleccione uno por favor.</option>
+                            {{#each datos}}
+
+                                <option value="{{id}}" name="{{fullname}}">{{fullname}}</option>
+                            {{/each}}
+
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="col">
+                        <label for="floatingSelectGrid">Tipo de Mantenimiento</label>
+
+                        <select name="tipoMantenimiento" class="form-select" id="floatingSelectGrid" required>
+                            <option value="Preventivo" selected>Preventivo</option>
+                            <option value="Correctivo">Correctivo</option>
+                            <option value="Mantenimiento">Mantenimiento</option>
+                            <option value="Mejora">Mejora</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-floating mb-3">
+
+                </div>
+                <div class="col-md">
+                    <div class="form-floating">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row g-2">
+                <div class="form-floating mb-3">
+                            <textarea type="text" class="form-control" name="descripcion"
+                                      placeholder="Descripción" required></textarea>
+                    <label for="floatingInput">Descripción</label>
+                </div>
+            </div>
+            <div class="row g-2 mb-3">
+                <div class="col-md">
+                    <div class="col">
+                        <label for="">Fecha Inicio</label>
+
+                        <input name="fechaHoraInicio" type="datetime-local" class="form-control" required>
+
+                    </div>
+                </div>
+                <div class="col-md ">
+                    <div class="col">
+                        <label for="">Fecha/Hora Final</label>
+                        <input name="fechaHoraFinal" type="datetime-local" class="form-control" required>
+
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="">
+                <button class="btn btn-success btn-block"> Enviar</button>
+            </div>
+        </form>
+    </div>
+
+
+</div>
+
+
+<script>
+    let area = document.querySelectorAll(".cajas-texto");
+
+    window.addEventListener("DOMContentLoaded", () => {
+        area.forEach((elemento) => {
+            elemento.style.height = `${elemento.scrollHeight}px`
+        })
+    });
+</script>

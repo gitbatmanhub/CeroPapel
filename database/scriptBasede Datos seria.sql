@@ -252,6 +252,11 @@ values (3, "Lider mantenimeinto"),
 		(4, "Tecnico"),
 		(10000, "No usuario");
 	
+      insert into rolusuarios(idRol, nameRol)
+values (6, "Planificador")
+
+	
+
         
 
 		  
@@ -386,4 +391,47 @@ inner join statusorden on ordenestrabajo.id=statusorden.idStatus;
 
 
 */
+
+
+
+
+
+#Para eliminar en cascada
+ALTER TABLE ordenestrabajo drop foreign key fk_user;
+alter table ordenestrabajo add constraint fk_user foreign key (user_id) references users (id) on delete cascade;
+
+alter table ordenesaprobadas drop foreign key ordenesaprobadas_ibfk_2;
+alter table ordenesaprobadas add constraint ordenesaprobadas_ibfk_2 foreign key (idUserCreo) references ordenestrabajo (user_id) on delete cascade;
+
+alter table ordenesaprobadas drop foreign key ordenesaprobadas_ibfk_1;
+alter table ordenesaprobadas add constraint ordenesaprobadas_ibfk_1 foreign key (idOrden) references ordenestrabajo (id) on delete cascade;
+
+
+create table especialidadTecnico
+( 
+	idEspecialidad int(2) not null,
+    nameEspecialidad char(20),
+    fkIdRol int(3)
+);
+ 
+ alter table especialidadtecnico
+ add primary key (idEspecialidad); 
+ alter table especialidadTecnico add constraint fkEspecialidad foreign key (fkIdRol) references rolusuarios (idRol) on delete cascade;
+
+
+alter table especialidadtecnico
+    modify idEspecialidad int (2)  auto_increment, auto_increment=1;
+
+insert into especialidadTecnico(idEspecialidad, nameEspecialidad, fkIdRol)
+values(1, "Electrico", 4),
+		(2, "Mecánico", 4),
+		(3, "Soldador", 4);
+
+
+select * from users; 
+describe especialidadtecnico;
+select * from especialidadTecnico;
+
+  UPDATE users SET idRol= 4 WHERE id = 4;
+
 
