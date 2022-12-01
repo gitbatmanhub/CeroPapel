@@ -1,180 +1,79 @@
-
 <div class="formulario">
     <div class="container">
         <h2>Ver Ordenes</h2>
     </div>
 
-    <div>
         <form action="/orden/view/{{orden.id}}" method="post">
-        <label>Nr de orden</label>
-        <input type="text" value="{{orden.id}}" class="form-control" name="idOrden"  readonly required>
+            <label>Nr de orden</label>
+            <input type="text" value="{{orden.id}}" class="form-control" name="idOrden" readonly required>
 
 
-        <div class="row g-2 mb-3">
-            <div class="col-md">
-                <div class="form">
+            <div class="row g-2 mb-3">
+                <div class="col-md">
+                    <div class="form">
 
-                    <label for="">Area Destinada</label>
-                    <input type="text" value="{{orden.area}}" class="form-control" name="area" placeholder="Id" readonly
-                           required>
+                        <label for="">Area Destinada</label>
+                        <input type="text" value="{{orden.area}}" class="form-control" name="area" placeholder="Id"
+                               readonly
+                               required>
 
-                    </select>
+                        </select>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md ">
-                <div class="form">
-                    <label for="">Maquina Destinada</label>
-                    <input type="text" value="{{orden.maquina}}" class="form-control" name="Maquina" placeholder="Id"
-                           readonly required>
+                <div class="col-md ">
+                    <div class="form">
+                        <label for="">Maquina Destinada</label>
+                        <input type="text" value="{{orden.maquina}}" class="form-control" name="Maquina"
+                               placeholder="Id"
+                               readonly required>
 
-                    </select>
-                </div>
-            </div>
-        </div>
-
-        <div class="form-floating mb-3">
-            <textarea  class="form-control cajas-texto" name="descripcion" placeholder="Descripción" readonly
-                      required>{{orden.descripcion}}</textarea>
-            <label for="floatingInput">Descripción del problema</label>
-        </div>
-
-
-        <div class="row g-2">
-            <div class="col-md">
-                <div class="form-floating">
-                    <input type="text" value="{{orden.prioridad}}" class="form-control" name="prioridad" placeholder="Id"
-                           readonly required>
-                    <label for="floatingInput">Prioridad de la orden</label>
-
-                </div>
-            </div>
-            <div class="col-md">
-                <div class="form-floating">
-                    <input type="text" value="{{orden.estado}}" class="form-control" name="estado" placeholder="Id" readonly
-                           required>
-                    <input type="hidden" value="{{orden.user_id}}" class="form-control" name="idUserCreo">
-                    <!--<input type="hidden" value="{{user.id}}" class="form-control" name="idUserCreo">-->
-
-                    <label for="floatingInput">Estado de la orden</label>
+                        </select>
+                    </div>
                 </div>
             </div>
 
             <div class="form-floating mb-3">
-                <textarea id="descripcion" type="text" class="form-control" name="comentariosSupervisor" placeholder="Comentarios"  required></textarea>
-                <label for="floatingInput">Comentarios</label>
+            <textarea id="descripcionView" class="form-control cajas-texto" name="descripcion" placeholder="Descripción"
+                      readonly
+                      required>{{orden.descripcion}}</textarea>
+                <label for="floatingInput">Descripción del problema</label>
             </div>
-        </div>
-            <div class="col-auto p-5 text-center btnAorD" role="" aria-label="">
-                <button class="btn btn-success btn-block">Aprobar</button>
+
+
+            <div class="row g-2">
+                <div class="col-md">
+                    <div class="form-floating">
+                        <input type="text" value="{{orden.prioridad}}" class="form-control" name="prioridad"
+                               placeholder="Id"
+                               readonly required>
+                        <label for="floatingInput">Prioridad de la orden</label>
+
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="form-floating">
+                        <input type="text" value="{{orden.estado}}" class="form-control" name="estado" placeholder="Id"
+                               readonly
+                               required>
+                        <input type="hidden" value="{{orden.user_id}}" class="form-control" name="idUserCreo">
+                        <!--<input type="hidden" value="{{user.id}}" class="form-control" name="idUserCreo">-->
+
+                        <label for="floatingInput">Estado de la orden</label>
+                    </div>
+                </div>
+
+                <div class="form-floating mb-3">
+                    <textarea id="descripcionVO" type="text" class="form-control" name="comentariosSupervisor"
+                              placeholder="Comentarios" required></textarea>
+                    <label for="floatingInput">Comentarios</label>
+                </div>
+            </div>
+            <div class="form-group boton-send">
+                <input type="submit" class="btn btn-success btn-block" id="" onclick="validationVO();">
             </div>
         </form>
     </div>
 
 
-
-
-
-
-    <script>
-        let area = document.querySelectorAll(".cajas-texto");
-
-        window.addEventListener("DOMContentLoaded", () => {
-        area.forEach((elemento) => {
-        elemento.style.height = `${elemento.scrollHeight}px`
-        })
-        });
-    </script>
-
-<!-- Aquí va la asignación de la orden (formulario de "respuesta") -->
-
-
-
-<!--
-
-    <div class="row g-2">
-        <div class="container">
-            <h2 class="title">Asignar Orden de trabajo</h2>
-            <form>
-                <div class="row g-2 mb-3">
-                    <div class="col-md">
-                        <div class="form">
-                            <label for="">Tecnico Asignado</label>
-
-                            <select name="area" class="form-select" id="areas">
-                                <option value="0" selected>Seleccione uno por favor.</option>
-
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md ">
-                        <div class="form">
-                            <label for="">Ayudante Asignado</label>
-                            <select name="maquina" class="form-select" id="maquinas">
-                                <option value="0" selected>Seleccione uno por favor.</option>
-
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-floating mb-3">
-                    <div class="col-md">
-                        <div class="form-floating">
-                            <select name="prioridad" class="form-select" id="floatingSelectGrid">
-                                <option value="Preventivo" selected>Preventivo</option>
-                                <option value="Correctivo">Correctivo</option>
-                                <option value="Mantenimiento">Mantenimiento</option>
-                                <option value="Mejora">Mejora</option>
-                            </select>
-                            <label for="floatingSelectGrid">Tipo de Mantenimiento</label>
-                        </div>
-                    </div>
-                    <div class="col-md">
-                        <div class="form-floating">
-
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row g-2">
-                    <div class="form-floating mb-3">
-                        <textarea type="text" class="form-control" name="descripcion"
-                                  placeholder="Descripción"></textarea>
-                        <label for="floatingInput">Descripción</label>
-                    </div>
-                </div>
-                <div class="row g-2 mb-3">
-                    <div class="col-md">
-                        <div class="form">
-                            <label for="">Hora Inicio</label>
-
-                            <input type="time" class="form-control">
-
-                        </div>
-                    </div>
-                    <div class="col-md ">
-                        <div class="form">
-                            <label for="">Hora Final</label>
-                            <input type="time" class="form-control">
-
-                            </select>
-                        </div>
-                    </div>
-                </div>
-
-
-        </div>
-
-
-
-        <div class="form-group boton-send">
-            <button class="btn btn-success btn-block"> Atras</button>
-        </div>
-    </div>
-    </form>
-
-</div>
-
--->
 
 

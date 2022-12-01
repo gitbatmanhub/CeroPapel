@@ -428,10 +428,104 @@ values(1, "Electrico", 4),
 		(3, "Soldador", 4);
 
 
-select * from users; 
-describe especialidadtecnico;
-select * from especialidadTecnico;
 
   UPDATE users SET idRol= 4 WHERE id = 4;
 
+create table tipoMantenimiento
+(
+    idTipoMantenimiento int(2),
+    nameTipoMantenimiento char(50)
+);
 
+show tables;
+
+alter table tipoMantenimiento
+add primary key (idTipoMantenimiento);
+describe tipoMantenimiento;
+alter table tipoMantenimiento
+    modify idTipoMantenimiento int not null auto_increment, auto_increment = 1;
+
+
+
+insert into tipoMantenimiento(idTipoMantenimiento, nameTipoMantenimiento)
+value (1, "Preventivo"),
+    (2, "Correctivo"),
+    (3, "Mantenimiento"),
+    (4, "Mejora");
+
+select * from tipoMantenimiento;
+
+create table ordenesasignadas
+(
+    id_OrAs int(100),
+    create_at timestamp not null default current_timestamp,
+    fecha_create DATE DEFAULT (CURDATE()),
+    hora_create time DEFAULT (DATE_FORMAT(NOW(), "%H:%i:%S")),
+    idTecnico1 int(4),
+    idTecnico2 int(4),
+    idAyudante1 int(4),
+    idAyudante2 int(4),
+    tipoMantenimiento int(4),
+    descripcionMantenimiento text(1000),
+    fechaHoraInicio datetime,
+    fechaHoraFinal datetime
+);
+alter table ordenesasignadas
+    add primary key (id_OrAs) ;
+alter table ordenesasignadas
+    modify id_OrAs int not null auto_increment, auto_increment = 1;
+
+alter table ordenesasignadas
+add column idUserAsigno int(3);
+
+alter table ordenesasignadas
+add column idOrden int;
+
+#ALTER TABLE ordenesasignadas DROP COLUMN idUserAsignó;
+
+select * from ordenesasignadas;
+describe ordenesasignadas;
+
+
+alter table ordenesasignadas
+add foreign key (tipoMantenimiento) references tipoMantenimiento(idTipoMantenimiento);
+
+alter table ordenesasignadas
+    add foreign key (idUserAsigno) references users(id);
+
+alter table ordenesasignadas
+    add foreign key (idOrden) references ordenestrabajo(id);
+
+
+alter table ordenesasignadas drop foreign key ordenesasignadas_ibfk_1;
+alter table ordenesasignadas add constraint ordenesasignadas_ibfk_1 foreign key (tipoMantenimiento) references tipoMantenimiento(idTipoMantenimiento) on delete cascade;
+
+
+alter table ordenesasignadas drop foreign key ordenesasignadas_ibfk_2;
+alter table ordenesasignadas add constraint ordenesasignadas_ibfk_2 foreign key (idUserAsigno) references users(id) on delete cascade;
+
+
+alter table ordenesasignadas drop foreign key ordenesasignadas_ibfk_3;
+alter table ordenesasignadas add constraint ordenesasignadas_ibfk_3 foreign key (idOrden) references ordenestrabajo(id) on delete cascade;
+
+select * from statusOrden;
+
+
+delete from statusOrden where idStatus=2;
+delete from statusOrden where idStatus=3;
+
+insert into statusOrden(idStatus, nombreStatus) VALUE (2, "Asignada");
+select * from ordenesasignadas;
+
+select * from ordenestrabajo;
+describe ordenestrabajo;
+select * from statusOrden;
+
+delete from ordenesasignadas;
+
+select * from users where idRol= 4;
+  UPDATE users SET idRol= 4 WHERE id = 9;
+
+
+
+select * from rolusuarios;
