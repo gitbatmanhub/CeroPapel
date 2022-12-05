@@ -366,6 +366,11 @@ alter table ordenestrabajo
 add column idStatus int;
 
 alter table ordenestrabajo
+add column estadoMaquina int(1) not null ;
+
+
+
+alter table ordenestrabajo
 add foreign key (idStatus) references statusorden(idStatus);
 
    alter table ordenestrabajo
@@ -481,6 +486,8 @@ add column idUserAsigno int(3);
 alter table ordenesasignadas
 add column idOrden int;
 
+
+
 #ALTER TABLE ordenesasignadas DROP COLUMN idUserAsignó;
 
 select * from ordenesasignadas;
@@ -529,3 +536,13 @@ select * from users where idRol= 4;
 
 
 select * from rolusuarios;
+
+create table estadoMaquina(
+    idEstadoMaquina int not null,
+    nameEstado char(50) not null
+);
+
+alter table estadoMaquina
+add primary key (idEstadoMaquina);
+
+describe estadoMaquina;

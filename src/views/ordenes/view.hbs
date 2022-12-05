@@ -3,76 +3,82 @@
         <h2>Ver Ordenes</h2>
     </div>
 
-        <form action="/orden/view/{{orden.id}}" method="post">
-            <label>Nr de orden</label>
-            <input type="text" value="{{orden.id}}" class="form-control" name="idOrden" readonly required>
+    <form action="/orden/view/{{orden.id}}" method="post">
+        <label>Nr de orden</label>
+        <input type="text" value="{{orden.id}}" class="form-control" name="idOrden" readonly required>
 
 
-            <div class="row g-2 mb-3">
-                <div class="col-md">
-                    <div class="form">
+        <div class="row g-2 mb-3">
+            <div class="col-md">
+                <div class="form">
 
-                        <label for="">Area Destinada</label>
-                        <input type="text" value="{{orden.area}}" class="form-control" name="area" placeholder="Id"
-                               readonly
-                               required>
+                    <label for="">Area Destinada</label>
+                    <input type="text" value="{{orden.area}}" class="form-control" name="area" placeholder="Id"
+                           readonly
+                           required>
 
-                        </select>
-                    </div>
-                </div>
-                <div class="col-md ">
-                    <div class="form">
-                        <label for="">Maquina Destinada</label>
-                        <input type="text" value="{{orden.maquina}}" class="form-control" name="Maquina"
-                               placeholder="Id"
-                               readonly required>
-
-                        </select>
-                    </div>
+                    </select>
                 </div>
             </div>
+            <div class="col-md ">
+                <div class="form">
+                    <label for="">Maquina Destinada</label>
+                    <input type="text" value="{{orden.maquina}}" class="form-control" name="Maquina"
+                           placeholder="Id"
+                           readonly required>
 
-            <div class="form-floating mb-3">
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-floating mb-3">
             <textarea id="descripcionView" class="form-control cajas-texto" name="descripcion" placeholder="Descripción"
                       readonly
                       required>{{orden.descripcion}}</textarea>
-                <label for="floatingInput">Descripción del problema</label>
+            <label for="floatingInput">Descripción del problema</label>
+        </div>
+
+
+        <div class="row g-2">
+            <div class="col-md">
+                <div class="form-floating">
+                    <input type="text" value="{{orden.prioridad}}" class="form-control" name="prioridad"
+                           placeholder="Id"
+                           readonly required>
+                    <label for="floatingInput">Prioridad de la orden</label>
+
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="form-floating">
+                    <input type="text" value="{{orden.estado}}" class="form-control" name="estado" placeholder="Id" readonly required>
+
+                    <input type="hidden" value="{{orden.user_id}}" class="form-control" name="idUserCreo">
+                    <!--<input type="hidden" value="{{user.id}}" class="form-control" name="idUserCreo">-->
+
+                    <label for="floatingInput">Estado de la orden</label>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="form-floating">
+                <input type="text" value="{{orden.estadoMaquina}}" class="form-control" name="estado" placeholder="Id" readonly required>
+                <label for="floatingInput">Estado de la Maquina</label>
+                </div>
+
             </div>
 
-
-            <div class="row g-2">
-                <div class="col-md">
-                    <div class="form-floating">
-                        <input type="text" value="{{orden.prioridad}}" class="form-control" name="prioridad"
-                               placeholder="Id"
-                               readonly required>
-                        <label for="floatingInput">Prioridad de la orden</label>
-
-                    </div>
-                </div>
-                <div class="col-md">
-                    <div class="form-floating">
-                        <input type="text" value="{{orden.estado}}" class="form-control" name="estado" placeholder="Id"
-                               readonly
-                               required>
-                        <input type="hidden" value="{{orden.user_id}}" class="form-control" name="idUserCreo">
-                        <!--<input type="hidden" value="{{user.id}}" class="form-control" name="idUserCreo">-->
-
-                        <label for="floatingInput">Estado de la orden</label>
-                    </div>
-                </div>
-
-                <div class="form-floating mb-3">
+            <div class="form-floating mb-3">
                     <textarea id="descripcionVO" type="text" class="form-control" name="comentariosSupervisor"
                               placeholder="Comentarios" required></textarea>
-                    <label for="floatingInput">Comentarios</label>
-                </div>
+                <label for="floatingInput">Comentarios</label>
             </div>
-            <div class="form-group boton-send">
-                <input type="submit" class="btn btn-success btn-block" id="" onclick="validationVO();">
-            </div>
-        </form>
-    </div>
+        </div>
+        <div class="form-group boton-send">
+            <input type="submit" class="btn btn-success btn-block" id="" onclick="validationVO();">
+        </div>
+    </form>
+</div>
 
 
 
