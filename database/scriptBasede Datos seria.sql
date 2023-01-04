@@ -515,6 +515,12 @@ alter table ordenesasignadas add constraint ordenesasignadas_ibfk_2 foreign key 
 alter table ordenesasignadas drop foreign key ordenesasignadas_ibfk_3;
 alter table ordenesasignadas add constraint ordenesasignadas_ibfk_3 foreign key (idOrden) references ordenestrabajo(id) on delete cascade;
 
+alter table ordenesasignadas add constraint ordenesasignadas_ibfk_4 foreign key (idTecnico1) references users(id) on delete cascade;
+alter table ordenesasignadas add constraint ordenesasignadas_ibfk_6 foreign key (idAyudante1) references users(id) on delete cascade;
+alter table ordenesasignadas add constraint ordenesasignadas_ibfk_7 foreign key (idAyudante2) references users(id) on delete cascade;
+alter table ordenesasignadas add constraint ordenesasignadas_ibfk_5 foreign key (idTecnico2) references users(id) on delete cascade;
+
+
 select * from statusOrden;
 
 
@@ -546,3 +552,5 @@ alter table estadoMaquina
 add primary key (idEstadoMaquina);
 
 describe estadoMaquina;
+
+

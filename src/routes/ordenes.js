@@ -118,9 +118,32 @@ router.get('/assign/:id', isLoggedIn, async (req, res) => {
 
 router.get('/review/:id', isLoggedIn, async (req, res) => {
     console.log(req.params);
-    //const {id} = req.params;
+    const {id} = req.params;
     //console.log(id);
-    res.render('ordenes/tecnico/viewT', {});
+    const ordenes = await pool.query('SELECT ordenestrabajo.*, users.fullname, ordenesaprobadas.comentariosSupervisor FROM novared.ordenestrabajo inner join users on users.id=ordenestrabajo.user_id and ordenestrabajo.idStatus=2 inner join ordenesaprobadas on ordenesaprobadas.idOrden= ordenestrabajo.id where ordenestrabajo.id =?', [id]);
+
+    const fechas = await pool.query('select date_format(ordenestrabajo.fecha, "%Y-%m-%d") as fecha from ordenestrabajo where ordenestrabajo.id =?', [id]);
+    const ayudante1 = await pool.query('SELECT fullname as ayudante1 FROM novared.ordenesasignadas inner join users u on ordenesasignadas.idAyudante1 = u.id where idOrden=?', [id]);
+    const ayudante2 = await pool.query('SELECT fullname as ayudante2 FROM novared.ordenesasignadas inner join users u on ordenesasignadas.idAyudante2 = u.id where idOrden=?', [id]);
+    const tecnico1 = await pool.query('SELECT fullname as tecnico1 FROM novared.ordenesasignadas inner join users u on ordenesasignadas.idTecnico1 = u.id where idOrden=?', [id]);
+    const tecnico2 = await pool.query('SELECT fullname as tecnico2 FROM novared.ordenesasignadas inner join users u on ordenesasignadas.idTecnico2 = u.id where idOrden=?', [id]);
+const datosAdicionales = await pool.query('select nameTipoMantenimiento ,descripcionMantenimiento, date_format(ordenesasignadas.fechaHoraInicio, "%Y-%m-%d") as fechaInicio, date_format(ordenesasignadas.fechaHoraInicio, "%H:%m") as horaInicio,date_format(ordenesasignadas.fechaHoraFinal, "%H:%m") as horaFinal , date_format(ordenesasignadas.fechaHoraFinal, "%Y-%m-%d") as fechaFinal from novared.ordenesasignadas inner join tipomantenimiento t on ordenesasignadas.tipoMantenimiento = t.idTipoMantenimiento where idOrden=?;', [id]);
+    console.log(datosAdicionales);
+
+
+
+    res.render('ordenes/tecnico/viewT', {
+        orden: ordenes[0],
+        fecha: fechas[0],
+        ayudante1: ayudante1[0],
+        ayudante2: ayudante2[0],
+        tecnico1: tecnico1[0],
+        tecnico2: tecnico2[0],
+        datosAdicionales: datosAdicionales[0]
+
+
+
+    });
 
 });
 

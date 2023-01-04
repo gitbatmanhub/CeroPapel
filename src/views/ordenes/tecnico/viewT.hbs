@@ -7,7 +7,7 @@
     <div class="row col4">
         <div class="col-md">
             <label>Nr de orden</label>
-            <input type="text" value="{{ordenes.id}}" class="form-control" name="idOrden" readonly required>
+            <input type="text" value="{{orden.id}}" class="form-control" name="idOrden" readonly required>
         </div>
 
         <div class="col-md">
@@ -69,6 +69,105 @@
             </div>
         </div>
 
+        <div class="row g-2 mb-3 ">
+            <div class="col-md">
+                <label for="">Tecnico Asignado #1</label>
+                    <input type="text" value="{{tecnico1.tecnico1}}" class="form-control" name="Maquina" placeholder="Id"
+                           readonly required>
+            </div>
+            <div class="col-md">
+                <label for="">Tecnico Asignado #2</label>
+                    <input type="text" value="{{tecnico2.tecnico2}}" class="form-control" name="Maquina" placeholder="Id"
+                           readonly required>
+
+            </div>
+
+
+        </div>
+
+        <div class="row mb-3">
+
+            <div class="col-md ">
+                <div class="form">
+                    <label for="">Ayudante Asignado #1</label>
+                    <input type="text" value="{{ayudante1.ayudante1}}" class="form-control" name="Maquina" placeholder="Id"
+                           readonly required>
+                </div>
+            </div>
+            <div class="col-md ">
+                <div class="form">
+                    <label for="">Ayudante Asignado #2</label>
+                    <input type="text" value="{{ayudante2.ayudante2}}" class="form-control" name="Maquina" placeholder="ayudante1"
+                           readonly required>
+
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="col">
+                    <label for="floatingSelectGrid">Tipo de Mantenimiento</label>
+                    <input type="text" value="{{datosAdicionales.nameTipoMantenimiento}}" class="form-control" name="Maquina" placeholder="nameTipoMantenimiento"
+                           readonly required>
+
+                </div>
+            </div>
+
+            <div class="form-floating mb-3">
+
+            </div>
+            <div class="col-md">
+                <div class="form-floating">
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row ">
+            <div class="col-md">
+                <label for="floatingInput">Descripción del Trabajo a Realizarse</label>
+                <textarea id="descripcion" type="text" class="form-control cajas-texto" name="comentariosSupervisor"
+                          placeholder="descripcionMantenimiento" readonly required>{{datosAdicionales.descripcionMantenimiento}}</textarea>
+            </div>
+        </div>
+        <div class="row g-2 mb-3">
+            <div class="col-md">
+                <div class="">
+                    <label for="">Fecha Inicio</label>
+                    <input type="date" value="{{datosAdicionales.fechaInicio}}" min="1997-01-01" max="2030-12-31" class="form-control"
+                           name="prioridad" placeholder="fechaHoraInicio" readonly>
+
+                </div>
+                <div class="">
+                    <label for="">Hora Inicio</label>
+                    <input type="time" value="{{datosAdicionales.horaInicio}}" class="form-control" name="hora" placeholder="hora" readonly>
+
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="">
+                    <label for="">Fecha Final</label>
+                    <input type="date" value="{{datosAdicionales.fechaFinal}}" min="1997-01-01" max="2030-12-31" class="form-control"
+                           name="prioridad" placeholder="fechaHoraFinal" readonly>
+                </div>
+                <div class="">
+                    <label for="">Fecha/Hora Final</label>
+                    <input type="time" value="{{datosAdicionales.horaFinal}}" class="form-control" name="hora" placeholder="hora" readonly>
+
+                </div>
+            </div>
+        </div>
+
     </div>
 
 </div>
+
+
+
+<script>
+    let area = document.querySelectorAll(".cajas-texto");
+
+    window.addEventListener("DOMContentLoaded", () => {
+        area.forEach((elemento) => {
+            elemento.style.height = `${elemento.scrollHeight}px`
+        })
+    });
+</script>
