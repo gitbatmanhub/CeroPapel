@@ -50,11 +50,14 @@ router.get('/', isLoggedIn, async (req, res) => {
         //Tecnicos
         case 4:
             const idUser = req.user.id;
+            console.log(idUser);
+            console.log("Aqui arriba debería estar el id")
+            const e=9;
             //console.log(esteban);
             //const requests= req.body;
             //console.log(requests);
-            const ordenesAsignadas = await pool.query('SELECT * from ordenesasignadas');
-            console.log(ordenesAsignadas);
+            const ordenesAsignadas = await pool.query('select  ordenesasignadas.*, o.* , u.fullname from  novared.ordenesasignadas inner join ordenestrabajo o on ordenesasignadas.idOrden = o.id inner join users u on o.user_id = u.id\n where idAyudante1= ? or idTecnico2= ? or idTecnico1= ? or idAyudante2=? and o.idStatus=2', [idUser, idUser, idUser, idUser] );
+            //console.log(ordenesAsignadas);
             res.render('ordenes/tecnico/listaOrdenT', {ordenesAsignadas});
             break;
         case 1:
@@ -109,6 +112,40 @@ router.get('/assign/:id', isLoggedIn, async (req, res) => {
     });
 
 });
+
+
+// =======================  Espacio ================== //
+
+router.get('/review/:id', isLoggedIn, async (req, res) => {
+    console.log(req.params);
+    //const {id} = req.params;
+    //console.log(id);
+    res.render('ordenes/tecnico/viewT', {});
+
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// =======================  Espacio ================== //
+
+
 
 
 router.post('/assign/:id', isLoggedIn, async (req, res) => {

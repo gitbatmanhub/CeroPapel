@@ -1,0 +1,74 @@
+<div class="formulario">
+
+    <div class="container">
+        <h2>Datos de la Orden</h2>
+    </div>
+
+    <div class="row col4">
+        <div class="col-md">
+            <label>Nr de orden</label>
+            <input type="text" value="{{ordenes.id}}" class="form-control" name="idOrden" readonly required>
+        </div>
+
+        <div class="col-md">
+            <label for="floatingInput">Hora de Creación</label>
+            <input type="time" value="{{orden.hora}}" class="form-control" name="hora" placeholder="hora" readonly>
+        </div>
+        <div class="col-md">
+            <label for="floatingInput">Fecha de la Creación</label>
+            <input type="date" value="{{fecha.fecha}}" min="1997-01-01" max="2030-12-31" class="form-control"
+                   name="prioridad" placeholder="Id" readonly>
+        </div>
+
+    </div>
+
+
+    <div class="row g-2 mb-3">
+
+        <div class="col-md">
+            <label for="floatingInput">Nombre Creó</label>
+            <p class="form-control" name="fullname" placeholder="Nombre Creó" readonly
+               required>{{orden.fullname}}</p>
+        </div>
+        <div class="col-md ">
+            <label for="floatingInput">Prioridad de la orden</label>
+            <input type="text" value="{{orden.prioridad}}" class="form-control" name="prioridad" placeholder="Id"
+                   readonly required>
+
+        </div>
+
+        <div class="row g-2 mb-3">
+            <div class="col-md">
+
+                <label for="">Area Destinada</label>
+                <input type="text" value="{{orden.area}}" class="form-control" name="area" placeholder="Id" readonly
+                       required>
+
+            </div>
+            <div class="col-md">
+                <label for="">Maquina Destinada</label>
+                <input type="text" value="{{orden.maquina}}" class="form-control" name="Maquina" placeholder="Id"
+                       readonly required>
+            </div>
+
+
+        </div>
+
+        <div>
+            <div class="col-md">
+                <label for="floatingInput">Descripción del problema</label>
+                <textarea class="form-control cajas-texto" name="descripcion" placeholder="Descripción" readonly
+                          required>{{orden.descripcion}}</textarea>
+            </div>
+        </div>
+        <div>
+            <div class="col-md">
+                <label for="floatingInput">Comentarios/Observaciones Supervisor</label>
+                <textarea id="descripcion" type="text" class="form-control cajas-texto" name="comentariosSupervisor"
+                          placeholder="Comentarios" readonly required>{{orden.comentariosSupervisor}}</textarea>
+            </div>
+        </div>
+
+    </div>
+
+</div>
