@@ -355,8 +355,11 @@ add column comentariosSupervisor text;
 
 alter table ordenesaprobadas
     modify idOA int not null auto_increment, auto_increment = 1;
-    
-    
+/*
+drop table statusorden;
+alter table ordenestrabajo drop foreign key ordenestrabajo_ibfk_2;
+*/
+
 create table statusOrden(
 	idStatus int  not null,
     nombreStatus char(30)
@@ -365,12 +368,16 @@ create table statusOrden(
 insert into statusOrden(idStatus, nombreStatus)
 values (0, "Pendiente Aprobacion"),
 		(1, "Aprobado"),
-		(2, "En Proceso"),
-		(3, "Terminada")
+		(2, "Asignada"),
+		(3, "Atendida"),
+		(4, "Terminada"),
+		(5, "Cerrada")
 ;
 
 alter table statusorden
 add primary key(idStatus);
+
+
 
 
 alter table ordenestrabajo
@@ -554,6 +561,8 @@ select * from users where idRol= 4;
 
 select * from rolusuarios;
 
+drop table estadoMaquina;
+
 create table estadoMaquina(
     idEstadoMaquina int not null,
     nameEstado char(50) not null
@@ -562,15 +571,19 @@ create table estadoMaquina(
 alter table estadoMaquina
 add primary key (idEstadoMaquina);
 
+select * from estadoMaquina;
+insert into estadoMaquina(idEstadoMaquina, nameEstado) VALUE (1, "Operativa"), (2,"Parada");
+
 describe estadoMaquina;
+
+select * from ordenestrabajo;
+
+
 
 
 select * from statusorden;
 
-insert into statusorden(idStatus, nombreStatus)
-values (3, "Atendida"),
-      (4, "Terminada"),
-      (5, "Cerrada");
+
 
 
 
@@ -612,3 +625,16 @@ alter table ordenesatendidas
 add foreign key (id_orden) references ordenestrabajo(id);
 
 describe users;
+
+
+select * from ordenestrabajo;
+select * from statusorden;
+select * from estadoMaquina;
+
+ALTER TABLE ordenestrabajo add foreign key (estadoMaquina) references estadoMaquina(idEstadoMaquina);
+ALTER TABLE ordenestrabajo drop foreign key ordenestrabajo_ibfk_3;
+
+alter table ordenestrabajo add constraint estadoMaquina foreign key (estadoMaquina) references estadoMaquina(idEstadoMaquina)  on update cascade;
+alter table ordenestrabajo add constraint idStatus foreign key (idStatus) references statusorden(idStatus)  on update cascade;
+
+

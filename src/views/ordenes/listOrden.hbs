@@ -1,7 +1,7 @@
 <!-- Nav tabs -->
 <ul class="nav nav-tabs nav-fill mb-3">
     <li class="nav-item">
-        <a class="nav-link active" data-bs-toggle="tab" href="#opa">Ordenes Prestas a Aprobación</a>
+        <a class="nav-link active" data-bs-toggle="tab" href="#opa">Ordenes Creadas</a>
     </li>
     <li class="nav-item">
         <a class="nav-link" data-bs-toggle="tab" href="#oa">Ordenes Aprobadas</a>
@@ -41,7 +41,7 @@
                                 <th><h6>Area</h6></th>
                                 <th><h6>Maquina</h6></th>
                                 <th><h6>Prioridad</h6></th>
-                                <th><h6>Acciones</h6></th>
+                                <th><h6 style="text-align: center">Acciones</h6></th>
                             </tr>
                             <div class="input-group mb-3 searchbar">
                                     <span class="input-group-text" id="basic-addon1">
@@ -86,12 +86,17 @@
                                     <td class="">
                                         <p>{{prioridad}}</p>
                                     </td>
-                                    <td>
-                                        <div>
+                                    <td >
+                                        <div style="display: flex; justify-content: center;">
                                             <a href="/orden/view/{{id}}" class=" btn btn-light botonlista">
                                                 <i class="bi bi-clipboard2-check"></i> <span>Revisar</span>
                                             </a>
-
+                                            <a href="/orden/edit/{{id}}" class=" btn btn-light botonlista">
+                                                <i class="bi bi-pencil-square"></i> <span>Editar</span>
+                                            </a>
+                                            <a href="/orden/delete/{{id}}" class=" btn btn-light botonlista">
+                                                <i class="bi bi-pencil-square"></i> <span>Eliminar</span>
+                                            </a>
 
                                         </div>
 
