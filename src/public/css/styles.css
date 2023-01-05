@@ -14,3 +14,7 @@
 .form-control:disabled, .form-control[readonly]{
      background-color: white !important;
 }
+
+.nav-tabs{
+     margin-top: 10px;
+}

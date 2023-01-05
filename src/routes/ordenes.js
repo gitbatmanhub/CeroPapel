@@ -40,7 +40,16 @@ router.get('/', isLoggedIn, async (req, res) => {
         //Claudio
         case 5:
             const ordenes = await pool.query('SELECT ordenestrabajo.*, users.fullname  FROM novared.ordenestrabajo, novared.users where ordenestrabajo.user_id = users.id AND ordenestrabajo.idStatus=0', [req.user.id]);
-            res.render('ordenes/listOrden', {ordenes});
+            const ordenesA = await pool.query('SELECT ordenestrabajo.*, users.fullname  FROM novared.ordenestrabajo, novared.users where ordenestrabajo.user_id = users.id AND ordenestrabajo.idStatus=1', [req.user.id]);
+            const ordenesAs = await pool.query('SELECT ordenestrabajo.*, users.fullname  FROM novared.ordenestrabajo, novared.users where ordenestrabajo.user_id = users.id AND ordenestrabajo.idStatus=2', [req.user.id]);
+            const ordenesAt = await pool.query('SELECT ordenestrabajo.*, users.fullname  FROM novared.ordenestrabajo, novared.users where ordenestrabajo.user_id = users.id AND ordenestrabajo.idStatus=3', [req.user.id]);
+            const ordenesOt = await pool.query('SELECT ordenestrabajo.*, users.fullname  FROM novared.ordenestrabajo, novared.users where ordenestrabajo.user_id = users.id AND ordenestrabajo.idStatus=4', [req.user.id]);
+            const ordenesOc = await pool.query('SELECT ordenestrabajo.*, users.fullname  FROM novared.ordenestrabajo, novared.users where ordenestrabajo.user_id = users.id AND ordenestrabajo.idStatus=5', [req.user.id]);
+
+            res.render('ordenes/listOrden', {ordenes,ordenesA, ordenesAs, ordenesAt, ordenesOt, ordenesOc});
+
+            //console.log(ordenesA);
+
             break;
         //Andres
         case 3:
@@ -50,13 +59,13 @@ router.get('/', isLoggedIn, async (req, res) => {
         //Tecnicos
         case 4:
             const idUser = req.user.id;
-            console.log(idUser);
-            console.log("Aqui arriba debería estar el id")
-            const e=9;
+            //console.log(idUser);
+            //console.log("Aqui arriba debería estar el id")
+            const e = 9;
             //console.log(esteban);
             //const requests= req.body;
             //console.log(requests);
-            const ordenesAsignadas = await pool.query('select  ordenesasignadas.*, o.* , u.fullname from  novared.ordenesasignadas inner join ordenestrabajo o on ordenesasignadas.idOrden = o.id inner join users u on o.user_id = u.id\n where idAyudante1= ? or idTecnico2= ? or idTecnico1= ? or idAyudante2=? and o.idStatus=2', [idUser, idUser, idUser, idUser] );
+            const ordenesAsignadas = await pool.query('select  ordenesasignadas.*, o.* , u.fullname from  novared.ordenesasignadas inner join ordenestrabajo o on ordenesasignadas.idOrden = o.id inner join users u on o.user_id = u.id\n where idAyudante1= ? or idTecnico2= ? or idTecnico1= ? or idAyudante2=? and o.idStatus=2', [idUser, idUser, idUser, idUser]);
             //console.log(ordenesAsignadas);
             res.render('ordenes/tecnico/listaOrdenT', {ordenesAsignadas});
             break;
@@ -89,7 +98,9 @@ router.get('/edit/:id', isLoggedIn, permissions, async (req, res) => {
 router.get('/view/:id', isLoggedIn, permissions, async (req, res) => {
     const {id} = req.params;
     const ordenes = await pool.query('SELECT * FROM ordenesTrabajo WHERE id=?', [id]);
-    res.render('ordenes/view', {orden: ordenes[0]});
+    const ordenesA = await pool.query('SELECT ordenestrabajo.*, users.fullname  FROM novared.ordenestrabajo, novared.users where ordenestrabajo.user_id = users.id AND ordenestrabajo.idStatus=1', [req.user.id]);
+
+    res.render('ordenes/view', {orden: ordenes[0], ordenesA});
 });
 
 
@@ -127,9 +138,8 @@ router.get('/review/:id', isLoggedIn, async (req, res) => {
     const ayudante2 = await pool.query('SELECT fullname as ayudante2 FROM novared.ordenesasignadas inner join users u on ordenesasignadas.idAyudante2 = u.id where idOrden=?', [id]);
     const tecnico1 = await pool.query('SELECT fullname as tecnico1 FROM novared.ordenesasignadas inner join users u on ordenesasignadas.idTecnico1 = u.id where idOrden=?', [id]);
     const tecnico2 = await pool.query('SELECT fullname as tecnico2 FROM novared.ordenesasignadas inner join users u on ordenesasignadas.idTecnico2 = u.id where idOrden=?', [id]);
-const datosAdicionales = await pool.query('select nameTipoMantenimiento ,descripcionMantenimiento, date_format(ordenesasignadas.fechaHoraInicio, "%Y-%m-%d") as fechaInicio, date_format(ordenesasignadas.fechaHoraInicio, "%H:%m") as horaInicio,date_format(ordenesasignadas.fechaHoraFinal, "%H:%m") as horaFinal , date_format(ordenesasignadas.fechaHoraFinal, "%Y-%m-%d") as fechaFinal from novared.ordenesasignadas inner join tipomantenimiento t on ordenesasignadas.tipoMantenimiento = t.idTipoMantenimiento where idOrden=?;', [id]);
+    const datosAdicionales = await pool.query('select nameTipoMantenimiento ,descripcionMantenimiento, date_format(ordenesasignadas.fechaHoraInicio, "%Y-%m-%d") as fechaInicio, date_format(ordenesasignadas.fechaHoraInicio, "%H:%m") as horaInicio,date_format(ordenesasignadas.fechaHoraFinal, "%H:%m") as horaFinal , date_format(ordenesasignadas.fechaHoraFinal, "%Y-%m-%d") as fechaFinal from novared.ordenesasignadas inner join tipomantenimiento t on ordenesasignadas.tipoMantenimiento = t.idTipoMantenimiento where idOrden=?;', [id]);
     console.log(datosAdicionales);
-
 
 
     res.render('ordenes/tecnico/viewT', {
@@ -142,33 +152,12 @@ const datosAdicionales = await pool.query('select nameTipoMantenimiento ,descrip
         datosAdicionales: datosAdicionales[0]
 
 
-
     });
 
 });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // =======================  Espacio ================== //
-
-
 
 
 router.post('/assign/:id', isLoggedIn, async (req, res) => {
@@ -215,7 +204,7 @@ router.post('/view/:id', isLoggedIn, async (req, res) => {
         idAprobo: req.user.id,
         comentariosSupervisor
     };
-    console.log(newOrdenAprobada);
+    //console.log(newOrdenAprobada);
     //const idOrden
     await pool.query('INSERT INTO ordenesaprobadas set ?', [newOrdenAprobada]);
     await pool.query('UPDATE ordenestrabajo SET idStatus=1 WHERE id = ?', [idOrden]);
@@ -224,6 +213,48 @@ router.post('/view/:id', isLoggedIn, async (req, res) => {
 
 
 });
+
+
+
+
+//=======================================================
+
+
+
+router.post('/viewT/:id', isLoggedIn, async (req, res) => {
+
+    const {comentariosTecnico, id_orden } = req.body;
+    const newOrdenAtendida = {
+        user_id: req.user.id,
+        comentariosTecnico,
+        id_orden
+    };
+    console.log(newOrdenAtendida);
+    //const idOrden
+
+    await pool.query('INSERT INTO ordenesatendidas set ?', [newOrdenAtendida]);
+    await pool.query('UPDATE ordenestrabajo SET idStatus=3 WHERE id = ?', [id_orden]);
+    req.flash('success', 'Orden atendida correctamente');
+
+
+
+    res.redirect('/orden');
+
+
+});
+
+
+
+
+
+
+
+//=======================================================
+
+
+
+
+
 
 
 router.post('/edit/:id', async (req, res) => {

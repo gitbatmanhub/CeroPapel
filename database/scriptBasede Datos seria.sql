@@ -56,6 +56,17 @@ Create table ordenesTomadas
 );
 
 
+alter table ordenesTomadas
+    add primary key (id);
+
+alter table ordenesTomadas
+    modify id int (11) not null auto_increment, auto_increment=1;
+
+
+
+
+
+
 alter table ordenesTrabajo
     add primary key (id);
 
@@ -554,3 +565,50 @@ add primary key (idEstadoMaquina);
 describe estadoMaquina;
 
 
+select * from statusorden;
+
+insert into statusorden(idStatus, nombreStatus)
+values (3, "Atendida"),
+      (4, "Terminada"),
+      (5, "Cerrada");
+
+
+
+select * from ordenesTomadas;
+describe ordenesTomadas;
+
+drop table ordenesTomadas;
+
+create table ordenesatendidas
+(
+    id int(11) not null,
+    user_id int(11) not null,
+    date_atendida timestamp not null default current_timestamp,
+    comentarios text(500)
+
+
+
+);
+
+
+alter table ordenesatendidas
+    add primary key (id);
+
+alter table ordenesatendidas
+    modify id int (11) not null auto_increment, auto_inc+rement=1;
+
+
+alter table ordenesatendidas
+add foreign key (user_id) references users(id);
+
+alter table ordenesatendidas
+change comentarios comentariosTecnico text(500);
+
+alter table ordenesatendidas
+add column id_orden int(11);
+
+
+alter table ordenesatendidas
+add foreign key (id_orden) references ordenestrabajo(id);
+
+describe users;

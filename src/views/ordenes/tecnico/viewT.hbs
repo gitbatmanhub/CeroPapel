@@ -131,25 +131,25 @@
         <div class="row g-2 mb-3">
             <div class="col-md">
                 <div class="">
-                    <label for="">Fecha Inicio</label>
+                    <label for="">Fecha Inicio Asignada</label>
                     <input type="date" value="{{datosAdicionales.fechaInicio}}" min="1997-01-01" max="2030-12-31" class="form-control"
                            name="prioridad" placeholder="fechaHoraInicio" readonly>
 
                 </div>
                 <div class="">
-                    <label for="">Hora Inicio</label>
+                    <label for="">Hora Inicio Asignada</label>
                     <input type="time" value="{{datosAdicionales.horaInicio}}" class="form-control" name="hora" placeholder="hora" readonly>
 
                 </div>
             </div>
             <div class="col-md">
                 <div class="">
-                    <label for="">Fecha Final</label>
+                    <label for="">Fecha Final Prevista</label>
                     <input type="date" value="{{datosAdicionales.fechaFinal}}" min="1997-01-01" max="2030-12-31" class="form-control"
                            name="prioridad" placeholder="fechaHoraFinal" readonly>
                 </div>
                 <div class="">
-                    <label for="">Fecha/Hora Final</label>
+                    <label for="">Fecha/Hora Final Prevista</label>
                     <input type="time" value="{{datosAdicionales.horaFinal}}" class="form-control" name="hora" placeholder="hora" readonly>
 
                 </div>
@@ -158,16 +158,21 @@
 
     </div>
 
+    <form action="/orden/viewT/{{orden.id}}" method="post">
+
+        <div class="form-floating mb-3">
+                    <textarea id="descripcionVO" type="text" class="form-control" name="comentariosTecnico"
+                              placeholder="Comentarios" required></textarea>
+            <label for="floatingInput">Comentarios</label>
+        </div>
+        <input type="hidden" value="{{orden.id}}" class="form-control" name="id_orden">
+
+        <div class="">
+            <button class="btn btn-success btn-block"> Atender </button>
+        </div>
+    </form>
+
 </div>
 
 
 
-<script>
-    let area = document.querySelectorAll(".cajas-texto");
-
-    window.addEventListener("DOMContentLoaded", () => {
-        area.forEach((elemento) => {
-            elemento.style.height = `${elemento.scrollHeight}px`
-        })
-    });
-</script>
