@@ -61,6 +61,7 @@
                           required>{{orden.descripcion}}</textarea>
             </div>
         </div>
+        <!--
         <div>
             <div class="col-md">
                 <label for="floatingInput">Comentarios/Observaciones Supervisor</label>
@@ -68,6 +69,7 @@
                           placeholder="Comentarios" readonly required>{{orden.comentariosSupervisor}}</textarea>
             </div>
         </div>
+        -->
 
     </div>
 
@@ -97,7 +99,7 @@
                 <div class="col">
                     <label for="">Tecnico Asignado #2</label>
 
-                    <select name="idTecnico2" class="form-select" id="tecnicos" >
+                    <select name="idTecnico2" class="form-select" id="tecnicos">
                         <option value="null" selected>Selecciona uno por favor</option>
 
                         {{#each datos}}
@@ -117,7 +119,7 @@
                 <div class="col-md ">
                     <div class="form">
                         <label for="">Ayudante Asignado #1</label>
-                        <select name="idAyudante1" class="form-select" id="ayudante1" >
+                        <select name="idAyudante1" class="form-select" id="ayudante1">
                             <option value="null" selected>Seleccione uno por favor.</option>
                             {{#each datos}}
 
@@ -130,7 +132,7 @@
                 <div class="col-md ">
                     <div class="form">
                         <label for="">Ayudante Asignado #2</label>
-                        <select name="idAyudante2" class="form-select" id="ayudante1" >
+                        <select name="idAyudante2" class="form-select" id="ayudante1">
                             <option value="null" selected>Seleccione uno por favor.</option>
                             {{#each datos}}
 
@@ -148,7 +150,8 @@
                             <option value="null" selected>Seleccione uno por favor.</option>
                             {{#each tipos}}
 
-                                <option value="{{idTipoMantenimiento}}" name="{{nameTipoMantenimiento}}">{{nameTipoMantenimiento}}</option>
+                                <option value="{{idTipoMantenimiento}}"
+                                        name="{{nameTipoMantenimiento}}">{{nameTipoMantenimiento}}</option>
                             {{/each}}
                         </select>
                     </div>
@@ -184,7 +187,7 @@
                     <div class="col">
                         <label for="">Fecha/Hora Final</label>
                         <input name="fechaHoraFinal" type="datetime-local" class="form-control" required>
-                        <input type="hidden" value="{{orden.id}}" class="form-control" name="idOrden" >
+                        <input type="hidden" value="{{orden.id}}" class="form-control" name="idOrden">
 
                         </select>
                     </div>
@@ -200,13 +203,6 @@
 
 
 </div>
-
-
-
-
-
-
-
 
 
 <script>

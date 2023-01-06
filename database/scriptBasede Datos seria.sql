@@ -638,3 +638,19 @@ alter table ordenestrabajo add constraint estadoMaquina foreign key (estadoMaqui
 alter table ordenestrabajo add constraint idStatus foreign key (idStatus) references statusorden(idStatus)  on update cascade;
 
 
+select * from ordenesasignadas;
+describe ordenesasignadas;
+
+ALTER TABLE ordenesasignadas drop foreign key ordenesasignadas_ibfk_11;
+alter table ordenesasignadas add constraint idOrden foreign key (idOrden) references ordenestrabajo(id)  on delete cascade;
+
+
+alter table ordenestrabajo drop foreign key idStatus;
+alter table ordenestrabajo add constraint idStatus foreign key (idStatus) references statusorden(idStatus)  on update cascade;
+
+
+
+select * from statusorden;
+
+alter table statusorden
+add column 
