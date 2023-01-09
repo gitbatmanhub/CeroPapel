@@ -608,7 +608,7 @@ alter table ordenesatendidas
     add primary key (id);
 
 alter table ordenesatendidas
-    modify id int (11) not null auto_increment, auto_inc+rement=1;
+    modify id int (11) not null auto_increment, auto_increment=1;
 
 
 alter table ordenesatendidas
@@ -646,11 +646,20 @@ alter table ordenesasignadas add constraint idOrden foreign key (idOrden) refere
 
 
 alter table ordenestrabajo drop foreign key idStatus;
-alter table ordenestrabajo add constraint idStatus foreign key (idStatus) references statusorden(idStatus)  on update cascade;
+alter table ordenestrabajo drop foreign key ordenestrabajo_ibfk_1;
+
 
 
 
 select * from statusorden;
 
-alter table statusorden
-add column 
+
+
+
+
+SELECT *  from ordenesatendidas where user_id=10;
+
+
+alter table ordenesatendidas drop foreign key ordenesatendidas_ibfk_2;
+
+alter table ordenesatendidas add constraint ordenesatendidas_ibfk_2 foreign key (id_orden) references ordenestrabajo(id)  on delete cascade;
