@@ -3,6 +3,7 @@ const router = express.Router();
 
 const pool = require('../database');
 const {isLoggedIn, isNotLoggedIn, permissions} = require('../lib/auth');
+const assert = require("assert");
 
 
 
@@ -17,7 +18,6 @@ router.get('/', isLoggedIn, async (req, res) => {
         //Claudio
         case 5:
             const ordenes = await pool.query('SELECT ordenestrabajo.*, users.fullname  FROM novared.ordenestrabajo, novared.users where ordenestrabajo.user_id = users.id AND ordenestrabajo.idStatus=0', [req.user.id]);
-
             res.render('ordenes/listOrden', {ordenes});
 
 
@@ -30,7 +30,6 @@ router.get('/', isLoggedIn, async (req, res) => {
             const contadorAs = await pool.query('SELECT Count(idStatus) as contador from ordenestrabajo where idStatus=2');
             const ordenesAt = await pool.query('SELECT ordenestrabajo.*, users.fullname  FROM novared.ordenestrabajo, novared.users where ordenestrabajo.user_id = users.id AND ordenestrabajo.idStatus=3', [req.user.id]);
             const contadorAt = await pool.query('SELECT Count(idStatus) as contador from ordenestrabajo where idStatus=3');
-
             res.render('ordenes/liderMantenimiento/listaOrdenLM', {
                 ordenesA,
                 contadorA: contadorA[0],
@@ -293,5 +292,19 @@ router.post('/edit/:id', async (req, res) => {
 })
 //=======================================================
 
+router.get('/probe', (req, res) => {
+    const {id} = req.params;
+    res.render('ordenes/probe');
+});
+
+
+router.post('/probe/',isLoggedIn, (req, res )=>{
+    const obj = Object.assign({},req.body)
+    console.log(obj);
+    req.flash('success', 'Nombre y apellidos');
+    res.redirect('/');
+
+
+});
 
 module.exports = router;
