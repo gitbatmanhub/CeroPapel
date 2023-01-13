@@ -298,11 +298,32 @@ router.get('/probe', (req, res) => {
 });
 
 
-router.post('/probe/',isLoggedIn, (req, res )=>{
+router.post('/probe/',isLoggedIn, async (req, res )=>{
     const obj = Object.assign({},req.body)
-    console.log(obj);
+    const data={nombres, apellidos}=obj;
+
+
+
+
+        for (let i = 0; i < data.nombres.length; i++) {
+            const newProbeName = data.nombres[i]
+            const newProbeApellido = data.apellidos[i]
+
+            console.log(newProbeName, newProbeApellido);
+
+
+            await pool.query('INSERT probe (nameTecnico, apellidoTecnico) values (?, ?)', [newProbeName, newProbeApellido]);
+
+            // pocas cantidades de usuarios
+        }
     req.flash('success', 'Nombre y apellidos');
-    res.redirect('/');
+
+
+
+
+
+
+    res.redirect('/orden/probe');
 
 
 });
