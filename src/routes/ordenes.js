@@ -17,8 +17,10 @@ router.get('/', isLoggedIn, async (req, res) => {
     switch (idRol) {
         //Claudio
         case 5:
-            const ordenes = await pool.query('SELECT ordenestrabajo.*, users.fullname  FROM novared.ordenestrabajo, novared.users where ordenestrabajo.user_id = users.id AND ordenestrabajo.idStatus=0', [req.user.id]);
+           const ordenes = await pool.query('SELECT ordenestrabajo.*, users.fullname  FROM novared.ordenestrabajo, novared.users where ordenestrabajo.user_id = users.id AND ordenestrabajo.idStatus=0', [req.user.id]);
+            //const ordenes = await pool.query('select ordenestrabajo.*, users.fullname, e.nameEstado from ordenestrabajo join users on users.id = ? join estadomaquina e on e.idEstadoMaquina = ordenestrabajo.estadoMaquina where ordenestrabajo.idStatus=0 ;', [req.user.id]);
             res.render('ordenes/listOrden', {ordenes});
+
 
 
             break;

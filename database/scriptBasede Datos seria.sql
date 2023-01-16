@@ -666,29 +666,4 @@ alter table ordenesatendidas add constraint ordenesatendidas_ibfk_2 foreign key 
 
 use novared;
 
-create table probe
-(
-    idProbe int(100) primary key auto_increment,
-    nameTecnico varchar(100),
-    apellidoTecnico varchar(100)
 
-);
-
-insert into probe ( nameTecnico, apellidoTecnico)
-value ( "Holaa", "Hola3");
-
-select * from probe;
-
-
-
-INSERT into probe (nameTecnico, apellidoTecnico)
-    value ('Edwin', 'romero');
-select * from probe;
-
-INSERT probe (nameTecnico, apellidoTecnico) values (`nameTecnico` = 'Edwin', 'Jonathan');
-
-
-INSERT probe (nameTecnico, apellidoTecnico) values (`nameTecnico` = 'Edwin', 'Jonathan'), (`apellidoTecnico` = 'Romero', 'Sananiego');
-
- INSERT probe (nameTecnico, apellidoTecnico) values ('Edwin', 'Romero');
-select * from probe;

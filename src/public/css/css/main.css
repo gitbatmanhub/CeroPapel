@@ -135,8 +135,9 @@ p {
     .card-style .dropdown-menu li:hover a {
       color: #4a6cf7 !important; }
     .card-style .dropdown-menu li a {
+      width: auto;
       display: block;
-      font-size: 14px; }
+       }
 
 /* ======= Border Radius ========= */
 .radius-4 {
@@ -3868,3 +3869,4 @@ h6,
 .bi-trash::before {
   content:none  ; !important;
 }
+

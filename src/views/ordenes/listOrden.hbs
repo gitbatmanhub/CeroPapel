@@ -86,18 +86,23 @@
                                     <td class="">
                                         <p>{{prioridad}}</p>
                                     </td>
-                                    <td >
-                                        <div style="display: flex; justify-content: center;">
-                                            <a href="/orden/view/{{id}}" class=" btn btn-light botonlista">
-                                                <i class="bi bi-clipboard2-check"></i> <span>Revisar</span>
-                                            </a>
-                                            <a href="/orden/edit/{{id}}" class=" btn btn-light botonlista">
-                                                <i class="bi bi-pencil-square"></i> <span>Editar</span>
-                                            </a>
-                                            <a href="/orden/delete/{{id}}" class=" btn btn-light botonlista">
-                                                <i class="bi bi-pencil-square"></i> <span>Eliminar</span>
-                                            </a>
-
+                                    <td>
+                                        <div style="display: flex; justify-content: center;"  >
+                                            <button type="button" data-bs-toggle="modal" data-bs-target="#revisar" class="btn btn-primary " data-bs-toggle="dropdown" aria-expanded="false">
+                                                Claick
+                                            </button>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="/orden/view/{{id}}"  class=" btn btn-light botonlista">
+                                                    <i class="bi bi-clipboard2-check"></i> <span>Revisar</span>
+                                                </a></li>
+                                                <li>   <a href="/orden/edit/{{id}}" data-bs-toggle="modal" data-bs-target="#editar" class=" btn btn-light botonlista">
+                                                    <i class="bi bi-pencil-square"></i> <span>Editar</span>
+                                                </a></li>
+                                                <li><a href="/orden/delete/{{id}}" data-bs-toggle="modal" data-bs-target="#eliminar" class=" btn btn-light botonlista">
+                                                    <i class="bi bi-pencil-square"></i> <span>Eliminar</span>
+                                                </a>
+                                                </li>
+                                            </ul>
                                         </div>
 
                                     </td>
@@ -500,5 +505,306 @@
         </div>
     </div>
 </div>
+
+
+
+<div class="modal" id="revisar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+               <h1 class="modal-title fs-5" id="exampleModalLabel">Ver orden</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="formulario">
+                    <form action="/orden/view/{{orden.id}}" method="post">
+                        <label>Nr de orden</label>
+                        <input type="text" value="{{orden.id}}" class="form-control" name="idOrden" readonly required>
+                        <div class="row g-2 mb-3">
+                            <div class="col-md">
+                                <div class="form">
+
+                                    <label for="">Area Destinada</label>
+                                    <input type="text" value="{{orden.area}}" class="form-control" name="area" placeholder="Id"
+                                           readonly
+                                           required>
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md ">
+                                <div class="form">
+                                    <label for="">Maquina Destinada</label>
+                                    <input type="text" value="{{orden.maquina}}" class="form-control" name="Maquina"
+                                           placeholder="Id"
+                                           readonly required>
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-floating mb-3">
+            <textarea id="descripcionView" class="form-control cajas-texto" name="descripcion" placeholder="Descripción"
+                      readonly
+                      required>{{orden.descripcion}}</textarea>
+                            <label for="floatingInput">Descripción del problema</label>
+                        </div>
+
+
+                        <div class="row g-2">
+                            <div class="col-md">
+                                <div class="form-floating">
+                                    <input type="text" value="{{orden.prioridad}}" class="form-control" name="prioridad"
+                                           placeholder="Id"
+                                           readonly required>
+                                    <label for="floatingInput">Prioridad de la orden</label>
+
+                                </div>
+                            </div>
+                            <div class="col-md">
+                                <div class="form-floating">
+                                    <input type="text" value="{{orden.estado}}" class="form-control" name="estado" placeholder="Id"
+                                           readonly required>
+
+                                    <input type="hidden" value="{{orden.user_id}}" class="form-control" name="idUserCreo">
+                                    <!--<input type="hidden" value="{{user.id}}" class="form-control" name="idUserCreo">-->
+
+                                    <label for="floatingInput">Estado de la orden</label>
+                                </div>
+                            </div>
+                            <div class="col-md">
+                                <div class="form-floating">
+                                    <input type="text" value="{{orden.nameEstado}}" class="form-control" name="estado" placeholder="Id"
+                                           readonly required>
+                                    <label for="floatingInput">Estado de la Maquina</label>
+                                </div>
+
+                            </div>
+                            <!--
+                                <div class="form-floating mb-3">
+                                                <textarea id="descripcionVO" type="text" class="form-control" name="comentariosSupervisor"
+                                                          placeholder="Comentarios" required></textarea>
+                                    <label for="floatingInput">Comentarios</label>
+                                </div>
+                            -->
+                        </div>
+
+
+                    </form>
+                </div>
+
+
+
+
+
+            </div>
+            <div class="modal-footer">
+                <a type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</a>
+                <a type="button" class="btn btn-danger" data-bs-dismiss="modal">Eliminar</a>
+                <a class="btn btn-primary" data-bs-target="#editar" data-bs-toggle="modal">Editar</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal" id="editar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+               <h1 class="modal-title fs-5" id="exampleModalLabel">Editar orden</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <div class="formulario">
+                    <form action="/orden/edit/{{orden.id}}" method="post">
+                        <label>Nr de orden</label>
+                        <input type="text" value="{{orden.id}}" class="form-control" name="id" placeholder="Id" readonly required>
+                        <div class="row g-2 mb-3">
+                            <div class="col-md">
+                                <div class="form">
+                                    <label for="">Area</label>
+
+                                    <select name="area" class="form-select" id="areas" required>
+                                        <option value="{{orden.area}}" selected>{{orden.area}}</option>
+                                        {{#each areas}}
+                                            <option value="{{nombreAreas}}" name="{{nombreAreas}}">{{nombreAreas}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md ">
+                                <div class="form">
+                                    <label for="">Maquina</label>
+                                    <select name="maquina" class="form-select" id="maquinas">
+                                        <option value="{{orden.maquina}}" selected>{{orden.maquina}}</option>
+                                        {{#each maquinas}}
+                                            <option value="{{nombreMaquina}}" name="{{nombreMaquina}}">{{nombreMaquina}}</option>
+                                        {{/each}}
+
+                                    </select>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="form-floating mb-3">
+                            <textarea type="text" class="form-control" name="descripcion" placeholder="Descripción"  required>{{orden.descripcion}}</textarea>
+                            <label for="floatingInput">Descripción</label>
+                        </div>
+
+
+
+
+                        <div class="row g-2">
+                            <div class="col-md">
+                                <div class="form-floating">
+                                    <select name="prioridad" class="form-select" id="floatingSelectGrid">
+                                        <option value="Baja" selected>Baja</option>
+                                        <option value="Media">Media</option>
+                                        <option value="Alta">Alta</option>
+                                    </select>
+                                    <label for="floatingSelectGrid">Prioridad</label>
+                                </div>
+                            </div>
+                            <div class="col-md">
+                                <div class="form-floating">
+                                    <select name="estado" class="form-select" id="floatingSelectGrid">
+                                        <option value="Abierto" selected>Abierto</option>
+                                        <option value="En proceso">En proceso</option>
+                                        <option value="Cerrado">Cerrado</option>
+                                    </select>
+                                    <label for="floatingSelectGrid">Estado</label>
+                                </div>
+                            </div>
+                            <div class="col-md">
+                                <div class="form-floating">
+                                    <select name="estadoMaquina" class="form-select" id="floatingSelectGrid">
+                                        <option value="1" selected>Operativa</option>
+                                        <option value="2">Parada</option>
+                                    </select>
+                                    <label for="floatingSelectGrid">Estado Maquina</label>
+                                </div>
+                            </div>
+                        </div>
+                        <!--
+                        <div class="form-group boton-send">
+                            <button class="btn btn-success btn-block"> Enviar</button>
+                        </div>-->
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary">Guardar Cambios</button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+<div class="modal" id="eliminar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+               <h1 class="modal-title fs-5" id="exampleModalLabel">Ver orden</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="formulario">
+                    <form action="/orden/view/{{orden.id}}" method="post">
+                        <label>Nr de orden</label>
+                        <input type="text" value="{{orden.id}}" class="form-control" name="idOrden" readonly required>
+
+
+                        <div class="row g-2 mb-3">
+                            <div class="col-md">
+                                <div class="form">
+
+                                    <label for="">Area Destinada</label>
+                                    <input type="text" value="{{orden.area}}" class="form-control" name="area" placeholder="Id"
+                                           readonly
+                                           required>
+
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md ">
+                                <div class="form">
+                                    <label for="">Maquina Destinada</label>
+                                    <input type="text" value="{{orden.maquina}}" class="form-control" name="Maquina"
+                                           placeholder="Id"
+                                           readonly required>
+
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-floating mb-3">
+            <textarea id="descripcionView" class="form-control cajas-texto" name="descripcion" placeholder="Descripción"
+                      readonly
+                      required>{{orden.descripcion}}</textarea>
+                            <label for="floatingInput">Descripción del problema</label>
+                        </div>
+
+
+                        <div class="row g-2">
+                            <div class="col-md">
+                                <div class="form-floating">
+                                    <input type="text" value="{{orden.prioridad}}" class="form-control" name="prioridad"
+                                           placeholder="Id"
+                                           readonly required>
+                                    <label for="floatingInput">Prioridad de la orden</label>
+
+                                </div>
+                            </div>
+                            <div class="col-md">
+                                <div class="form-floating">
+                                    <input type="text" value="{{orden.estado}}" class="form-control" name="estado" placeholder="Id"
+                                           readonly required>
+
+                                    <input type="hidden" value="{{orden.user_id}}" class="form-control" name="idUserCreo">
+                                    <!--<input type="hidden" value="{{user.id}}" class="form-control" name="idUserCreo">-->
+
+                                    <label for="floatingInput">Estado de la orden</label>
+                                </div>
+                            </div>
+                            <div class="col-md">
+                                <div class="form-floating">
+                                    <input type="text" value="{{orden.nameEstado}}" class="form-control" name="estado" placeholder="Id"
+                                           readonly required>
+                                    <label for="floatingInput">Estado de la Maquina</label>
+                                </div>
+
+                            </div>
+                            <!--
+                                <div class="form-floating mb-3">
+                                                <textarea id="descripcionVO" type="text" class="form-control" name="comentariosSupervisor"
+                                                          placeholder="Comentarios" required></textarea>
+                                    <label for="floatingInput">Comentarios</label>
+                                </div>
+                            -->
+                        </div>
+
+
+                    </form>
+                </div>
+
+
+
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 
 
