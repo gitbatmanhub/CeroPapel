@@ -86,7 +86,11 @@
                                     <td class="">
                                         <p>{{prioridad}}</p>
                                     </td>
-                                    <td >
+                                    <td style="text-align: center">
+
+                                        <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Ver Acciones</button>
+
+<!--
                                         <div style="display: flex; justify-content: center;">
                                             <a href="/orden/view/{{id}}" class=" btn btn-light botonlista">
                                                 <i class="bi bi-clipboard2-check"></i> <span>Revisar</span>
@@ -99,7 +103,7 @@
                                             </a>
 
                                         </div>
-
+-->
                                     </td>
                                 </tr>
 
@@ -114,8 +118,6 @@
             <!-- end col -->
         </div>
     </div>
-
-
     <div class="tab-pane container fade" id="oas">
         <div class="tables-wrapper">
             <div class="row">
@@ -427,28 +429,60 @@
 
 </div>
 
-<script>
 
 
-</script>
 
 
-<!--
+{{#each ordenesA }}
+<div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Acciones</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card" style="width: 18rem;">
 
+                    <lord-icon
+                            src="https://cdn.lordicon.com/ofwpzftr.json"
+                            trigger="hover"
+                            style="width:150px;height:150px">
+                    </lord-icon>
+                    <div class="card-body">
+                        <h5 class="card-title">Ver</h5>
+                        <p class="card-text">Aegurate que los datos ingresados son correctos hechandole un ojo.</p>
+                        <a href="/orden/view/{{id}}" class="btn btn-primary">Ver</a>
+                    </div>
+                </div>
+                <div class="card" style="width: 18rem;">
+                    <lord-icon
+                            src="https://cdn.lordicon.com/iiixgoqp.json"
+                            trigger="hover"
+                            style="width:150px;height:150px">
+                    </lord-icon>
+                    <div class="card-body">
+                        <h5 class="card-title">Editar</h5>
+                        <p class="card-text">¿Te equivocaste escribiendo un dato?. Editalo aquí!</p>
+                        <a href="/orden/assign/{{id}}" class="btn btn-secondary">Editar</a>
+                    </div>
+                </div>
+                <div class="card" style="width: 18rem;">
+                    <lord-icon
+                            src="https://cdn.lordicon.com/kfzfxczd.json"
+                            trigger="hover"
+                            style="width:150px;height:150px">
+                    </lord-icon>
+                    <div class="card-body">
+                        <h5 class="card-title">Eliminar</h5>
+                        <p class="card-text">Elimina la orden de manera instantanea y aquí no ha pasado nada!</p>
+                        <a href="/orden/delete/{{id}}" class="btn btn-danger">Eliminar</a>
+                    </div>
+                </div>
+            </div>
 
-<a href="/orden/view/{{id}}" class=" botonlista">
-                                                    <i class="bi bi-check-circle-fill"></i>
-                                                </a>
+        </div>
+    </div>
 
-                                                <a href="/orden/view/{{id}}" class=" botonlista">
-                                                    <i class="bi bi-x-circle-fill"></i>
-                                                </a>
-                                                <a href="/orden/edit/{{id}}" class=" botonlista">
-                                                    <i class="bi bi-pencil-square"></i>
-                                                </a>
-
-                                                <a href="/orden/delete/{{id}}" class=" botonlista">
-                                                    <i class="bi bi-trash-fill"></i>
-                                                </a>
-
--->
+</div>
+{{/each}}

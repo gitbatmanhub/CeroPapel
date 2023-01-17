@@ -18,3 +18,27 @@
 .nav-tabs{
      margin-top: 10px;
 }
+
+.modal-body{
+     display: flex;
+     align-content: baseline;
+
+}
+.modal-body .card{
+     margin: 10px;
+     border-color: white;
+     display: flex;
+     align-items: center;
+     text-align: center;
+
+}
+
+.modalTecnico .card{
+margin: 0 auto;
+}
+
+
+.card-body a{
+     margin-top: 10px;
+
+}

@@ -22,6 +22,7 @@
 
 <!-- Tab panes -->
 <div class="tab-content">
+
     <div class="tab-pane container active" id="opa">
         <div class="tables-wrapper">
             <div class="row">
@@ -87,24 +88,26 @@
                                         <p>{{prioridad}}</p>
                                     </td>
                                     <td>
-                                        <div style="display: flex; justify-content: center;"  >
-                                            <button type="button" data-bs-toggle="modal" data-bs-target="#revisar" class="btn btn-primary " data-bs-toggle="dropdown" aria-expanded="false">
-                                                Claick
-                                            </button>
+
+                                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                            Launch demo modal
+                                        </button>
+
+
+
+
+
+                                        <!--
+                                        <div class="btn-group btn-primary" style="display: flex; text-align: center">
+                                            <button type="button" class="btn btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">Action</button>
                                             <ul class="dropdown-menu">
-                                                <li><a href="/orden/view/{{id}}"  class=" btn btn-light botonlista">
-                                                    <i class="bi bi-clipboard2-check"></i> <span>Revisar</span>
-                                                </a></li>
-                                                <li>   <a href="/orden/edit/{{id}}" data-bs-toggle="modal" data-bs-target="#editar" class=" btn btn-light botonlista">
-                                                    <i class="bi bi-pencil-square"></i> <span>Editar</span>
-                                                </a></li>
-                                                <li><a href="/orden/delete/{{id}}" data-bs-toggle="modal" data-bs-target="#eliminar" class=" btn btn-light botonlista">
-                                                    <i class="bi bi-pencil-square"></i> <span>Eliminar</span>
-                                                </a>
-                                                </li>
+                                                <li><a href="/orden/view/{{id}}"  class="dropdown-item botonlista"><i class="bi bi-clipboard2-check"></i> <span>Revisar</span></a></li>
+                                                <li><a href="/orden/edit/{{id}}" class="dropdown-item botonlista"><i class="bi bi-pencil-square"></i> <span>Editar</span></a></li>
+                                                <li><a href="/orden/delete/{{id}}"  class="dropdown-item botonlista"><i class="bi bi-pencil-square"></i> <span>Eliminar</span></a></li>
+
                                             </ul>
                                         </div>
-
+                                        -->
                                     </td>
                                 </tr>
 
@@ -119,6 +122,8 @@
             <!-- end col -->
         </div>
     </div>
+
+
     <div class="tab-pane container fade" id="oa">
         <div class="tables-wrapper">
             <div class="row">
@@ -464,14 +469,6 @@
                                 <tr>
                                     <td class="">
                                         <div class="lead">
-                                            <!--
-                                            <div class="lead-image">
-                                                <img
-                                                        src="assets/images/lead/lead-1.png"
-                                                        alt=""
-                                                />
-                                            </div>
-                                            -->
                                             <div class="lead-text">
                                                 <p>{{id}}</p>
                                             </div>
@@ -490,9 +487,7 @@
                                     <td class="">
                                         <p>{{prioridad}}</p>
                                     </td>
-
                                 </tr>
-
                             {{/each}}
                             </tbody>
                         </table>
@@ -505,6 +500,8 @@
         </div>
     </div>
 </div>
+
+
 
 
 
