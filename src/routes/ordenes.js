@@ -107,7 +107,7 @@ router.post('/agregarOrden', isLoggedIn, async (req, res) => {
 
 
 //=============================================Borrar Ordenes
-router.get('/delete/:id', permissions, async (req, res) => {
+router.get('/delete/:id', async (req, res) => {
     const {id} = req.params;
 
     await pool.query('DELETE FROM ordenesTrabajo where id=?', [id]);
@@ -118,7 +118,7 @@ router.get('/delete/:id', permissions, async (req, res) => {
 
 
 //=============================================Editar Ordenes
-router.get('/edit/:id', isLoggedIn, permissions, async (req, res) => {
+router.get('/edit/:id', isLoggedIn, async (req, res) => {
     const {id} = req.params;
     const ordenes = await pool.query('select ordenestrabajo.*, users.fullname, e.nameEstado from ordenestrabajo join users on users.id = ? join estadomaquina e on e.idEstadoMaquina = ordenestrabajo.estadoMaquina;', [req.user.id]);
     const maquinas = await pool.query('select * from maquinas');
@@ -134,7 +134,7 @@ router.get('/edit/:id', isLoggedIn, permissions, async (req, res) => {
 
 
 //=============================================Ver Ordenes
-router.get('/view/:id', isLoggedIn, permissions, async (req, res) => {
+router.get('/view/:id', isLoggedIn, async (req, res) => {
     const {id} = req.params;
     const ordenes = await pool.query('select ordenestrabajo.*, users.fullname, e.nameEstado from ordenestrabajo join users on users.id = ? join estadomaquina e on e.idEstadoMaquina = ordenestrabajo.estadoMaquina;', [req.user.id]);
     //const ordenesA = await pool.query('SELECT ordenestrabajo.*, users.fullname  FROM novared.ordenestrabajo, novared.users where ordenestrabajo.user_id = users.id AND ordenestrabajo.idStatus=1', [req.user.id]);

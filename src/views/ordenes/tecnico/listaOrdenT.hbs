@@ -31,7 +31,7 @@
                     <div class="card-style mb-30">
                         <!--<h6 class="mb-10">Data Table</h6>-->
                         <h1 class="text-sm mb-20">
-                            A continuación se presentan las ordenes asignadas.
+                            A continuación se presentan las ordenes creadas.
                         </h1>
 
                         <table class="table">
@@ -476,7 +476,7 @@
                     <div class="card-body">
                         <h5 class="card-title">Editar</h5>
                         <p class="card-text">¿Te equivocaste escribiendo un dato?. Editalo aquí!</p>
-                        <a href="/orden/assign/{{id}}" class="btn btn-secondary">Editar</a>
+                        <a href="/orden/edit/{{id}}" class="btn btn-secondary">Editar</a>
                     </div>
                 </div>
                 <div class="card" style="width: 18rem;">
@@ -553,7 +553,7 @@
 </div>
 {{/each}}
 
-{{#each ordenesA }}
+{{#each ordenes}}
     <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
