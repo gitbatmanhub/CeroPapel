@@ -11,8 +11,8 @@
 
                     <select name="area" class="form-select" id="area">
                         <option value="null" selected>Selecciona una por favor</option>
-                        {{#each areas}}
-                            <option value="{{nombreAreas}}" name="{{nombreAreas}}">{{nombreAreas}}</option>
+                        {{#each area}}
+                            <option value="{{idArea}}" name="{{nameArea}}">{{nameArea}}</option>
                         {{/each}}
 
                     </select>
@@ -24,12 +24,11 @@
                             <label for="">Maquina</label>
                             <select name="maquina" class="form-select" id="maquina">
                                 <option value="null" selected>Selecciona una por favor</option>
-                                {{#each maquinas}}
-                                    <option value="{{nombreMaquina}}"
-                                            name="{{nombreMaquina}}">{{nombreMaquina}}</option>
+                                {{#each maquina}}
+                                    <option value="{{idMaquina}}" name="{{nameMaquina}}">{{nameMaquina}}</option>
                                 {{/each}}
                             </select>
-                            <div id="errorM" style="color: red"></div>
+
 
                         </div>
 
@@ -38,7 +37,7 @@
 
                 <div class="form-floating mb-3">
                     <textarea id="descripcionAO" type="text" class="form-control" name="descripcion"
-                              placeholder="Descripción"></textarea>
+                             required placeholder="Descripción"></textarea>
                     <label for="floatingInput">Descripción</label>
                 </div>
                 <div id="errorD" style="color: red"></div>
@@ -47,29 +46,33 @@
                 <div class="row g-2">
                     <div class="col-md">
                         <div class="form-floating">
-                            <select id="prioridad" name="prioridad" class="form-select" id="floatingSelectGrid">
-                                <option value="Baja" selected>Baja</option>
-                                <option value="Media">Media</option>
-                                <option value="Alta">Alta</option>
+                            <select name="prioridad" class="form-select" id="prioridad">
+                                <option value="null" selected>Selecciona una por favor</option>
+                                {{#each prioridad}}
+                                    <option value="{{idPrioridad}}" name="{{namePrioridad}}">{{namePrioridad}}</option>
+                                {{/each}}
                             </select>
                             <label for="floatingSelectGrid">Prioridad</label>
                         </div>
                     </div>
                     <div class="col-md">
                         <div class="form-floating">
-                            <select name="estado" class="form-select" id="floatingSelectGrid">
-                                <option value="Abierto" selected>Abierto</option>
-                                <option value="En proceso">En proceso</option>
-                                <option value="Cerrado">Cerrado</option>
+                            <select name="status" class="form-select" id="status">
+                                <option value="null" selected>Selecciona una por favor</option>
+                                {{#each status}}
+                                    <option value="{{idStatus}}" name="{{nameStatus}}">{{nameStatus}}</option>
+                                {{/each}}
                             </select>
                             <label for="floatingSelectGrid">Estado</label>
                         </div>
                     </div>
                     <div class="col-md">
                         <div class="form-floating">
-                            <select name="estadoMaquina" class="form-select" id="floatingSelectGrid">
-                                <option value="1" selected>Operativa</option>
-                                <option value="2">Parada</option>
+                            <select name="estadoMaquina" class="form-select" id="estadoMaquina">
+                                <option value="null" selected>Selecciona una por favor</option>
+                                {{#each estadoMaquina}}
+                                    <option value="{{idEstadoMaquina}}" name="{{nameEstado}}">{{nameEstado}}</option>
+                                {{/each}}
                             </select>
                             <label for="floatingSelectGrid">Estado Maquina</label>
                         </div>

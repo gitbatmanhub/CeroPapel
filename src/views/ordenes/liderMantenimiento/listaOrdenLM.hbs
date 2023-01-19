@@ -59,7 +59,7 @@
                             </thead>
 
                             <tbody class="list" id="tab">
-                            {{#each ordenesA }}
+                            {{#each ordenesPropias }}
 
                                 <tr>
                                     <td class="">
@@ -73,7 +73,7 @@
                                             </div>
                                             -->
                                             <div class="">
-                                                <p>{{id}}</p>
+                                                <p>{{idOrdenTrabajo}}</p>
                                             </div>
                                         </div>
                                     </td>
@@ -84,7 +84,7 @@
                                         <p>{{area}}</p>
                                     </td>
                                     <td class="maquina">
-                                        <p>{{maquina}}</p>
+                                        <p>{{ idMaquina}}</p>
                                     </td>
                                     <td class="prioridad">
                                         <p>{{prioridad}}</p>
@@ -442,7 +442,7 @@
 
 
 
-{{#each ordenesA }}
+
     <div class="modal fade" id="modalAcciones1" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
          tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -498,7 +498,6 @@
         </div>
 
     </div>
-{{/each}}
 
 <div class="modal fade" id="modalAcciones2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
@@ -612,7 +611,7 @@
                     </lord-icon>
                     <div class="card-body">
                         <h5 class="card-title">Asignar Tecnicos</h5>
-                        <p class="card-text">Asigna Tecnicos</p>
+                        <p class="card-text">Asignar     Tecnicos</p>
                         <a href="#" data-bs-toggle="collapse" href="#collapseExample" class="btn btn-primary">Asignar Tecnicos</a>
                     </div>
                 </div>

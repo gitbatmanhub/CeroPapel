@@ -3,7 +3,7 @@ module.exports={
         host: 'localhost',
         user: 'root',
         password: 'admin1223',
-        database: 'novared'
+        database: 'bddnova'
     }
 
 

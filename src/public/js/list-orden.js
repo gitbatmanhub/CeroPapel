@@ -11,3 +11,18 @@ $(document).ready(function () {
 
 });
 
+
+
+const area = document.getElementById('area');
+area.addEventListener('change',
+    function(){
+        const selectedOption = this.options[area.selectedIndex];
+        console.log(selectedOption.value + ': ' + selectedOption.text);
+    });
+
+const maquina = document.getElementById('maquina');
+maquina.addEventListener('change',
+    function (){
+    const opcionseleccionada = this.options[maquina.selectedIndex];
+console.log(opcionseleccionada.value + " "+ opcionseleccionada.text);
+    });

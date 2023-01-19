@@ -10,7 +10,7 @@ passport.use('local.ingresar', new LocalStrategy({
 
 }, async ( req, username, password, done)=>{
     //console.log(req.body);
-    const rows= await pool.query('SELECT * FROM users WHERE username= ?', [username]);
+    const rows= await pool.query('SELECT * FROM usuario WHERE username= ?', [username]);
     //console.log(rows);
     if(rows.length >0){
         const user= rows[0];
@@ -40,18 +40,18 @@ passport.use('local.registrarse', new LocalStrategy({
             fullname
         };
         newUser.password= await helpers.encryptPassword(password);
-        const result= await pool.query('insert into users SET ?', [newUser]);
-        newUser.id = result.insertId;
+        const result= await pool.query('insert into usuario SET ?', [newUser]);
+        newUser.iduser = result.insertId;
         return done(null, newUser);
 }));
 
 passport.serializeUser((user, done)=>{
-    done(null, user.id);
+    done(null, user.iduser);
 
 });
 
 passport.deserializeUser(async(id, done)=>{
-    const rows= await pool.query('select * from users where id = ?', [id]);
+    const rows= await pool.query('select * from usuario where iduser = ?', [id]);
     done(null, rows[0]);
 
 
