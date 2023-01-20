@@ -37,25 +37,17 @@
                         <table id="table" class="display">
 
                             <thead>
+
                             <tr>
                                 <th><h6>Id Orden</h6></th>
-                                <th><h6>Creador</h6></th>
+                                <!-- <th><h6>Creador</h6></th>-->
                                 <th><h6>Area</h6></th>
                                 <th><h6>Maquina</h6></th>
+                                <th><h6>Estado Maquina</h6></th>
                                 <th><h6>Prioridad</h6></th>
                                 <th><h6 style="text-align: center">Acciones</h6></th>
                             </tr>
-                            <!--
-                            <div class="input-group mb-3 searchbar">
-                                    <span class="input-group-text" id="basic-addon1">
-                                        <i class="bi bi-search"></i>
-                                    </span>
-                                <input autofocus id="search" type="text" class="form-control search-input"
-                                       data-table="customers-list" placeholder="Buscar" aria-label="Username"
-                                       aria-describedby="basic-addon1">
-                            </div>
-                            -->
-                            <!-- end table row-->
+
                             </thead>
 
                             <tbody class="list" id="tab">
@@ -64,30 +56,22 @@
                                 <tr>
                                     <td class="">
                                         <div class="">
-                                            <!--
-                                            <div class="lead-image">
-                                                <img
-                                                        src="assets/images/lead/lead-1.png"
-                                                        alt=""
-                                                />
-                                            </div>
-                                            -->
                                             <div class="">
                                                 <p>{{idOrdenTrabajo}}</p>
                                             </div>
                                         </div>
                                     </td>
                                     <td class="fullname">
-                                        <p>{{fullname}}</p>
+                                        <p>{{nameArea}}</p>
                                     </td>
                                     <td class="area">
-                                        <p>{{area}}</p>
+                                        <p>{{nameMaquina}}</p>
                                     </td>
-                                    <td class="maquina">
-                                        <p>{{ idMaquina}}</p>
+                                    <td class="estado">
+                                        <p>{{nameEstado}}</p>
                                     </td>
                                     <td class="prioridad">
-                                        <p>{{prioridad}}</p>
+                                        <p>{{namePrioridad}}</p>
                                     </td>
                                     <td style="text-align: center">
 
@@ -95,20 +79,6 @@
                                                 data-bs-toggle="modal">Ver Acciones
                                         </button>
 
-                                        <!--
-                                        <div style="display: flex; justify-content: center;">
-                                            <a href="/orden/view/{{id}}" class=" btn btn-light botonlista">
-                                                <i class="bi bi-clipboard2-check"></i> <span>Revisar</span>
-                                            </a>
-                                            <a href="/orden/assign/{{id}}" class=" btn btn-light botonlista">
-                                                <i class="bi bi-pencil-square"></i> <span>Asignar</span>
-                                            </a>
-                                            <a href="/orden/delete/{{id}}" class=" btn btn-light botonlista">
-                                                <i class="bi bi-pencil-square"></i> <span>Eliminar</span>
-                                            </a>
-
-                                        </div>
--->
                                     </td>
                                 </tr>
 
@@ -438,11 +408,7 @@
 
 </div>
 
-
-
-
-
-
+{{#each ordenesPropias }}
     <div class="modal fade" id="modalAcciones1" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
          tabindex="-1">
         <div class="modal-dialog modal-dialog-centered modal-lg">
@@ -463,7 +429,7 @@
                         <div class="card-body">
                             <h5 class="card-title">Ver</h5>
                             <p class="card-text">Asegurate que los datos ingresados son correctos hechandole un ojo.</p>
-                            <a href="/orden/view/{{id}}" class="btn btn-primary">Ver</a>
+                            <a href="/orden/view/1" class="btn btn-primary " id="viewBtn">Ver</a>
                         </div>
                     </div>
                     <div class="card" style="width: 18rem;">
@@ -476,7 +442,7 @@
                         <div class="card-body">
                             <h5 class="card-title">Editar</h5>
                             <p class="card-text">¿Te equivocaste escribiendo un dato?. Editalo aquí!</p>
-                            <a href="/orden/edit/{{id}}" class="btn btn-secondary">Editar</a>
+                            <a href="/orden/edit/1" class="btn btn-secondary" id="editBtn">Editar</a>
                         </div>
                     </div>
                     <div class="card" style="width: 18rem;">
@@ -489,7 +455,165 @@
                         <div class="card-body">
                             <h5 class="card-title">Eliminar</h5>
                             <p class="card-text">Elimina la orden de manera instantanea y aquí no ha pasado nada!</p>
-                            <a href="/orden/delete/{{id}}" class="btn btn-danger">Eliminar</a>
+                            <a href="/orden/delete/{{idOrdenTrabajo}}" class="btn btn-danger" id="deleteBtn">Eliminar</a>
+
+
+                        </div>
+                        <button className="btn btn-primary" data-bs-target="#exampleModalToggle2"
+                                data-bs-toggle="modal">Open
+                            second modal
+                        </button>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+
+
+
+
+
+
+{{/each}}
+
+
+
+
+    <div class="modal fade" id="modalAcciones2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+         tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Acciones</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="card" style="width: 18rem;">
+                        <lord-icon
+                                src="https://cdn.lordicon.com/nhfyhmlt.json"
+                                trigger="loop"
+                                delay="300"
+                                style="width:150px;height:150px">
+                        </lord-icon>
+                        <div class="card-body">
+                            <h5 class="card-title">Rechazar</h5>
+                            <p class="card-text">Rechazar la orden!</p>
+                            <a href="#" class="btn btn-danger">Rechazar</a>
+                        </div>
+                    </div>
+                    <div class="card" style="width: 18rem;">
+                        <lord-icon
+                                src="https://cdn.lordicon.com/egiwmiit.json"
+                                trigger="loop"
+                                delay="300"
+                                style="width:150px;height:150px">
+                        </lord-icon>
+                        <div class="card-body">
+                            <h5 class="card-title">Aceptar</h5>
+                            <p class="card-text">Aceptar la orden!</p>
+                            <a href="#" class="btn btn-primary">Aceptar</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <div class="modal fade" id="modalAcciones3" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+         tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Acciones</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="card" style="width: 18rem;">
+                        <lord-icon
+                                src="https://cdn.lordicon.com/nhfyhmlt.json"
+                                trigger="loop"
+                                delay="300"
+                                style="width:150px;height:150px">
+                        </lord-icon>
+                        <div class="card-body">
+                            <h5 class="card-title">Rechazar</h5>
+                            <p class="card-text">Rechazar la orden!</p>
+                            <a href="/orden/edit/{{id}}" class="btn btn-danger">Rechazar</a>
+                        </div>
+                    </div>
+                    <div class="card" style="width: 18rem;">
+                        <lord-icon
+                                src="https://cdn.lordicon.com/egiwmiit.json"
+                                trigger="loop"
+                                delay="300"
+                                style="width:150px;height:150px">
+                        </lord-icon>
+                        <div class="card-body">
+                            <h5 class="card-title">Aceptar</h5>
+                            <p class="card-text">Aceptar la orden!</p>
+                            <a href="/orden/delete/{{id}}" class="btn btn-primary">Aceptar</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <div class="modal fade" id="modalAcciones4" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+         tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Acciones</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="card" style="width: 18rem;">
+                        <lord-icon
+                                src="https://cdn.lordicon.com/ifqmqwui.json"
+                                trigger="loop"
+                                delay="300"
+                                style="width:150px;height:150px">
+                        </lord-icon>
+                        <div class="card-body">
+                            <h5 class="card-title">Asignar Suministros</h5>
+                            <p class="card-text">Asignar Suministros</p>
+                            <a href="/orden/delete/{{id}}" class="btn btn-primary">Asignar Suministros</a>
+                        </div>
+                    </div>
+                    <div class="card" style="width: 18rem;">
+                        <lord-icon
+                                src="https://cdn.lordicon.com/fbdgkenc.json"
+                                trigger="loop"
+                                delay="300"
+                                style="width:150px;height:150px">
+                        </lord-icon>
+                        <div class="card-body">
+                            <h5 class="card-title">Asignar Tecnicos</h5>
+                            <p class="card-text">Asignar Tecnicos</p>
+                            <a href="#" data-bs-toggle="collapse" href="#collapseExample" class="btn btn-primary">Asignar
+                                Tecnicos</a>
+                        </div>
+                    </div>
+
+                    <div class="card" style="width: 18rem;">
+                        <lord-icon
+                                src="https://cdn.lordicon.com/winbdcbm.json"
+                                trigger="loop"
+                                delay="300"
+                                style="width:150px;height:150px">
+                        </lord-icon>
+                        <div class="card-body">
+                            <h5 class="card-title">Trabajo Externo</h5>
+                            <p class="card-text">Trabajo Externo</p>
+                            <a href="/orden/delete/{{id}}" class="btn btn-primary">Trabajo Externo</a>
                         </div>
                     </div>
                 </div>
@@ -499,145 +623,3 @@
 
     </div>
 
-<div class="modal fade" id="modalAcciones2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Acciones</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-
-                <div class="card" style="width: 18rem;">
-                    <lord-icon
-                            src="https://cdn.lordicon.com/nhfyhmlt.json"
-                            trigger="loop"
-                            delay="300"
-                            style="width:150px;height:150px">
-                    </lord-icon>
-                    <div class="card-body">
-                        <h5 class="card-title">Rechazar</h5>
-                        <p class="card-text">Rechazar la orden!</p>
-                        <a href="#" class="btn btn-danger">Rechazar</a>
-                    </div>
-                </div>
-                <div class="card" style="width: 18rem;">
-                    <lord-icon
-                            src="https://cdn.lordicon.com/egiwmiit.json"
-                            trigger="loop"
-                            delay="300"
-                            style="width:150px;height:150px">
-                    </lord-icon>
-                    <div class="card-body">
-                        <h5 class="card-title">Aceptar</h5>
-                        <p class="card-text">Aceptar la orden!</p>
-                        <a href="#" class="btn btn-primary">Aceptar</a>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-</div>
-<div class="modal fade" id="modalAcciones3" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Acciones</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-
-                <div class="card" style="width: 18rem;">
-                    <lord-icon
-                            src="https://cdn.lordicon.com/nhfyhmlt.json"
-                            trigger="loop"
-                            delay="300"
-                            style="width:150px;height:150px">
-                    </lord-icon>
-                    <div class="card-body">
-                        <h5 class="card-title">Rechazar</h5>
-                        <p class="card-text">Rechazar la orden!</p>
-                        <a href="/orden/edit/{{id}}" class="btn btn-danger">Rechazar</a>
-                    </div>
-                </div>
-                <div class="card" style="width: 18rem;">
-                    <lord-icon
-                            src="https://cdn.lordicon.com/egiwmiit.json"
-                            trigger="loop"
-                            delay="300"
-                            style="width:150px;height:150px">
-                    </lord-icon>
-                    <div class="card-body">
-                        <h5 class="card-title">Aceptar</h5>
-                        <p class="card-text">Aceptar la orden!</p>
-                        <a href="/orden/delete/{{id}}" class="btn btn-primary">Aceptar</a>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-</div>
-<div class="modal fade" id="modalAcciones4" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Acciones</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="card" style="width: 18rem;">
-                    <lord-icon
-                            src="https://cdn.lordicon.com/ifqmqwui.json"
-                            trigger="loop"
-                            delay="300"
-                            style="width:150px;height:150px">
-                    </lord-icon>
-                    <div class="card-body">
-                        <h5 class="card-title">Asignar Suministros</h5>
-                        <p class="card-text">Asignar Suministros</p>
-                        <a href="/orden/delete/{{id}}" class="btn btn-primary">Asignar Suministros</a>
-                    </div>
-                </div>
-                <div class="card" style="width: 18rem;">
-                    <lord-icon
-                            src="https://cdn.lordicon.com/fbdgkenc.json"
-                            trigger="loop"
-                            delay="300"
-                            style="width:150px;height:150px">
-                    </lord-icon>
-                    <div class="card-body">
-                        <h5 class="card-title">Asignar Tecnicos</h5>
-                        <p class="card-text">Asignar     Tecnicos</p>
-                        <a href="#" data-bs-toggle="collapse" href="#collapseExample" class="btn btn-primary">Asignar Tecnicos</a>
-                    </div>
-                </div>
-
-                <div class="card" style="width: 18rem;">
-                    <lord-icon
-                            src="https://cdn.lordicon.com/winbdcbm.json"
-                            trigger="loop"
-                            delay="300"
-                            style="width:150px;height:150px">
-                    </lord-icon>
-                    <div class="card-body">
-                        <h5 class="card-title">Trabajo Externo</h5>
-                        <p class="card-text">Trabajo Externo</p>
-                        <a href="/orden/delete/{{id}}" class="btn btn-primary">Trabajo Externo</a>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-</div>
-
-<div class="collapse" id="collapseExample">
-    <div class="card card-body">
-        Some placeholder content for the collapse component. This panel is hidden by default but revealed when the user activates the relevant trigger.
-    </div>
-</div>

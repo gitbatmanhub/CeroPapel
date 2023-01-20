@@ -12,7 +12,7 @@ $(document).ready(function () {
 });
 
 
-
+/*
 const area = document.getElementById('area');
 area.addEventListener('change',
     function(){
@@ -26,3 +26,39 @@ maquina.addEventListener('change',
     const opcionseleccionada = this.options[maquina.selectedIndex];
 console.log(opcionseleccionada.value + " "+ opcionseleccionada.text);
     });
+
+
+ */
+const table = document.getElementById('table');
+
+
+
+table.addEventListener('click', (e)=>{
+    e.stopPropagation();
+    const id=e.target.parentElement.parentElement.children[0].textContent.trim();
+    document.getElementById("viewBtn").href="/orden/view/" + id;
+    document.getElementById("editBtn").href="/orden/view/" + id;
+    document.getElementById("deleteBtn").href="/orden/view/" + id;
+
+})
+
+/*
+const ver= document.getElementById('viewBtn');
+const actualizar= document.getElementById('editBtn');
+const eliminar= document.getElementById('deleteBtn');
+
+
+
+function myFunction() {
+    var result = document.getElementById("SearchText").value;
+    document.getElementById("result").innerHTML = result;
+    document.getElementById("abc").href="http://arindam31.pythonanywhere.com/hello/" + result;
+}
+
+/*
+const fillData =(data)=>{
+    console.log(data);
+}
+
+ */
+

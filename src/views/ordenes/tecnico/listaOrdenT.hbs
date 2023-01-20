@@ -1,26 +1,11 @@
-<!-- Nav tabs -->
 <ul class="nav nav-tabs nav-fill mb-3">
     <li class="nav-item">
-        <a class="nav-link active" data-bs-toggle="tab" href="#ocr">Ordenes Creadas<span></span></a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="tab" href="#oas">Ordenes Asignadas<span> ({{contadorAsignadas.contador}}
+        <a class="nav-link active" data-bs-toggle="tab" href="#ocr">Ordenes Creadas <span> ({{contadorA.contador}}
             )</span></a>
-    </li>
-
-    <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="tab" href="#oat">Ordenes Atendidas <span> ({{contadorAtendidas.contador}}
-            )</span></a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="tab" href="#ot">Ordenes Terminadas</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" data-bs-toggle="tab" href="#oc">Ordenes Cerradas</a>
     </li>
 </ul>
 
-<!-- Tab panes -->
+
 <div class="tab-content">
 
 
@@ -30,11 +15,12 @@
                 <div class="col-lg-12">
                     <div class="card-style mb-30">
                         <!--<h6 class="mb-10">Data Table</h6>-->
+
                         <h1 class="text-sm mb-20">
-                            A continuación se presentan las ordenes creadas.
+                            A continuación se presentan las ordenes creadas por ti!
                         </h1>
 
-                        <table class="table">
+                        <table id="table" class="display">
 
                             <thead>
                             <tr>
@@ -43,8 +29,9 @@
                                 <th><h6>Area</h6></th>
                                 <th><h6>Maquina</h6></th>
                                 <th><h6>Prioridad</h6></th>
-                                <th><h6>Acciones</h6></th>
+                                <th><h6 style="text-align: center">Acciones</h6></th>
                             </tr>
+                            <!--
                             <div class="input-group mb-3 searchbar">
                                     <span class="input-group-text" id="basic-addon1">
                                         <i class="bi bi-search"></i>
@@ -53,15 +40,16 @@
                                        data-table="customers-list" placeholder="Buscar" aria-label="Username"
                                        aria-describedby="basic-addon1">
                             </div>
+                            -->
                             <!-- end table row-->
                             </thead>
 
-                            <tbody id="tab">
-                            {{#each ordenesAsignadas }}
+                            <tbody class="list" id="tab">
+                            {{#each ordenesPropiasTecnico }}
 
                                 <tr>
                                     <td class="">
-                                        <div class="lead">
+                                        <div class="">
                                             <!--
                                             <div class="lead-image">
                                                 <img
@@ -70,38 +58,43 @@
                                                 />
                                             </div>
                                             -->
-                                            <div class="lead-text">
-                                                <p>{{id}}</p>
+                                            <div class="">
+                                                <p>{{idOrdenTrabajo}}</p>
                                             </div>
                                         </div>
                                     </td>
-                                    <td class=" nombreCompleto">
-                                        <p>
-                                        <p href="">{{fullname}}</p></p>
+                                    <td class="fullname">
+                                        <p>{{fullname}}</p>
                                     </td>
-                                    <td class="">
-                                        <p type="date">{{area}}</p>
+                                    <td class="area">
+                                        <p>{{area}}</p>
                                     </td>
-                                    <td class="">
-                                        <p>{{maquina}}</p>
+                                    <td class="maquina">
+                                        <p>{{ idMaquina}}</p>
                                     </td>
-                                    <td class="">
+                                    <td class="prioridad">
                                         <p>{{prioridad}}</p>
                                     </td>
-                                    <td>
+                                    <td style="text-align: center">
+
+                                        <button class="btn btn-primary" data-bs-target="#modalAcciones1"
+                                                data-bs-toggle="modal">Ver Acciones
+                                        </button>
 
                                         <!--
                                         <div style="display: flex; justify-content: center;">
-                                            <a href="/orden/review/{{id}}" class=" btn btn-light botonlista">
+                                            <a href="/orden/view/{{id}}" class=" btn btn-light botonlista">
                                                 <i class="bi bi-clipboard2-check"></i> <span>Revisar</span>
                                             </a>
+                                            <a href="/orden/assign/{{id}}" class=" btn btn-light botonlista">
+                                                <i class="bi bi-pencil-square"></i> <span>Asignar</span>
+                                            </a>
+                                            <a href="/orden/delete/{{id}}" class=" btn btn-light botonlista">
+                                                <i class="bi bi-pencil-square"></i> <span>Eliminar</span>
+                                            </a>
+
                                         </div>
-                                        -->
-                                        <button class="btn btn-primary" data-bs-target="#actions"
-                                                data-bs-toggle="modal">Ver Acciones
-                                        </button>
-
-
+-->
                                     </td>
                                 </tr>
 
@@ -114,339 +107,17 @@
                 <!-- end card -->
             </div>
             <!-- end col -->
+
+
         </div>
     </div>
-
-    <div class="tab-pane container fade" id="oas">
-        <div class="tables-wrapper">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card-style mb-30">
-                        <!--<h6 class="mb-10">Data Table</h6>-->
-                        <h1 class="text-sm mb-20">
-                            A continuación se presentan las ordenes asignadas.
-                        </h1>
-
-                        <table class="table">
-
-                            <thead>
-                            <tr>
-                                <th><h6>Id Orden</h6></th>
-                                <th><h6>Creador</h6></th>
-                                <th><h6>Area</h6></th>
-                                <th><h6>Maquina</h6></th>
-                                <th><h6>Prioridad</h6></th>
-                                <th><h6>Acciones</h6></th>
-                            </tr>
-                            <div class="input-group mb-3 searchbar">
-                                    <span class="input-group-text" id="basic-addon1">
-                                        <i class="bi bi-search"></i>
-                                    </span>
-                                <input autofocus id="search" type="text" class="form-control search-input"
-                                       data-table="customers-list" placeholder="Buscar" aria-label="Username"
-                                       aria-describedby="basic-addon1">
-                            </div>
-                            <!-- end table row-->
-                            </thead>
-
-                            <tbody id="tab">
-                            {{#each ordenesAsignadas }}
-
-                                <tr>
-                                    <td class="">
-                                        <div class="lead">
-                                            <!--
-                                            <div class="lead-image">
-                                                <img
-                                                        src="assets/images/lead/lead-1.png"
-                                                        alt=""
-                                                />
-                                            </div>
-                                            -->
-                                            <div class="lead-text">
-                                                <p>{{id}}</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class=" nombreCompleto">
-                                        <p>
-                                        <p href="">{{fullname}}</p></p>
-                                    </td>
-                                    <td class="">
-                                        <p type="date">{{area}}</p>
-                                    </td>
-                                    <td class="">
-                                        <p>{{maquina}}</p>
-                                    </td>
-                                    <td class="">
-                                        <p>{{prioridad}}</p>
-                                    </td>
-                                    <td>
-
-                                        <button class="btn btn-primary" data-bs-target="#actionsUnit"
-                                                data-bs-toggle="modal">Ver Acciones
-                                        </button>
-
-
-                                    </td>
-                                </tr>
-
-                            {{/each}}
-                            </tbody>
-                        </table>
-                        <!-- end table -->
-                    </div>
-                </div>
-                <!-- end card -->
-            </div>
-            <!-- end col -->
-        </div>
-    </div>
-    <div class="tab-pane container fade" id="oat">
-        <div class="tables-wrapper">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card-style mb-30">
-                        <!--<h6 class="mb-10">Data Table</h6>-->
-                        <h1 class="text-sm mb-20">
-                            A continuación se presentan las ordenes prestas a aprobación.
-                        </h1>
-
-                        <table class="table">
-
-                            <thead>
-                            <tr>
-                                <th><h6>Id Orden</h6></th>
-                                <th><h6>Area</h6></th>
-                                <th><h6>Maquina</h6></th>
-                                <th><h6>Prioridad</h6></th>
-                                <th><h6>Datox</h6></th>
-                                <th><h6>Acciones</h6></th>
-                            </tr>
-                            <div class="input-group mb-3 searchbar">
-                                    <span class="input-group-text" id="basic-addon1">
-                                        <i class="bi bi-search"></i>
-                                    </span>
-                                <input autofocus id="search" type="text" class="form-control search-input"
-                                       data-table="customers-list" placeholder="Buscar" aria-label="Username"
-                                       aria-describedby="basic-addon1">
-                            </div>
-                            <!-- end table row-->
-                            </thead>
-
-                            <tbody id="tab">
-                            {{#each ordenesAtendidas }}
-
-                                <tr>
-                                    <td class="">
-                                        <div class="lead">
-                                            <!--
-                                            <div class="lead-image">
-                                                <img
-                                                        src="assets/images/lead/lead-1.png"
-                                                        alt=""
-                                                />
-                                            </div>
-                                            -->
-                                            <div class="lead-text">
-                                                <p>{{id}}</p>
-                                            </div>
-                                        </div>
-                                    </td>
-
-                                    <td class="">
-                                        <p type="date">{{area}}</p>
-                                    </td>
-                                    <td class="">
-                                        <p>{{maquina}}</p>
-                                    </td>
-                                    <td class="">
-                                        <p>{{prioridad}}</p>
-                                    </td>
-                                    <td>
-                                        <a>Hola</a>
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-primary" data-bs-target="#actionsUnit"
-                                                data-bs-toggle="modal">Ver Acciones
-                                        </button>
-                                    </td>
-                                </tr>
-
-                            {{/each}}
-                            </tbody>
-                        </table>
-                        <!-- end table -->
-                    </div>
-                </div>
-                <!-- end card -->
-            </div>
-            <!-- end col -->
-        </div>
-    </div>
-    <div class="tab-pane container fade" id="ot">
-        <div class="tables-wrapper">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card-style mb-30">
-                        <!--<h6 class="mb-10">Data Table</h6>-->
-                        <h1 class="text-sm mb-20">
-                            A continuación se presentan las ordenes prestas a aprobación.
-                        </h1>
-
-                        <table class="table">
-
-                            <thead>
-                            <tr>
-                                <th><h6>Id Orden</h6></th>
-                                <th><h6>Creador</h6></th>
-                                <th><h6>Area</h6></th>
-                                <th><h6>Maquina</h6></th>
-                                <th><h6>Prioridad</h6></th>
-                            </tr>
-                            <div class="input-group mb-3 searchbar">
-                                    <span class="input-group-text" id="basic-addon1">
-                                        <i class="bi bi-search"></i>
-                                    </span>
-                                <input autofocus id="search" type="text" class="form-control search-input"
-                                       data-table="customers-list" placeholder="Buscar" aria-label="Username"
-                                       aria-describedby="basic-addon1">
-                            </div>
-                            <!-- end table row-->
-                            </thead>
-
-                            <tbody id="tab">
-                            {{#each ordenesOt }}
-
-                                <tr>
-                                    <td class="">
-                                        <div class="lead">
-                                            <!--
-                                            <div class="lead-image">
-                                                <img
-                                                        src="assets/images/lead/lead-1.png"
-                                                        alt=""
-                                                />
-                                            </div>
-                                            -->
-                                            <div class="lead-text">
-                                                <p>{{id}}</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class=" nombreCompleto">
-                                        <p>
-                                        <p href="">{{fullname}}</p></p>
-                                    </td>
-                                    <td class="">
-                                        <p type="date">{{area}}</p>
-                                    </td>
-                                    <td class="">
-                                        <p>{{maquina}}</p>
-                                    </td>
-                                    <td class="">
-                                        <p>{{prioridad}}</p>
-                                    </td>
-
-                                </tr>
-
-                            {{/each}}
-                            </tbody>
-                        </table>
-                        <!-- end table -->
-                    </div>
-                </div>
-                <!-- end card -->
-            </div>
-            <!-- end col -->
-        </div>
-    </div>
-    <div class="tab-pane container fade" id="oc">
-        <div class="tables-wrapper">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="card-style mb-30">
-                        <!--<h6 class="mb-10">Data Table</h6>-->
-                        <h1 class="text-sm mb-20">
-                            A continuación se presentan las ordenes prestas a aprobación.
-                        </h1>
-
-                        <table class="table">
-
-                            <thead>
-                            <tr>
-                                <th><h6>Id Orden</h6></th>
-                                <th><h6>Creador</h6></th>
-                                <th><h6>Area</h6></th>
-                                <th><h6>Maquina</h6></th>
-                                <th><h6>Prioridad</h6></th>
-                            </tr>
-                            <div class="input-group mb-3 searchbar">
-                                    <span class="input-group-text" id="basic-addon1">
-                                        <i class="bi bi-search"></i>
-                                    </span>
-                                <input autofocus id="search" type="text" class="form-control search-input"
-                                       data-table="customers-list" placeholder="Buscar" aria-label="Username"
-                                       aria-describedby="basic-addon1">
-                            </div>
-                            <!-- end table row-->
-                            </thead>
-
-                            <tbody id="tab">
-                            {{#each ordenesOc }}
-
-                                <tr>
-                                    <td class="">
-                                        <div class="lead">
-                                            <!--
-                                            <div class="lead-image">
-                                                <img
-                                                        src="assets/images/lead/lead-1.png"
-                                                        alt=""
-                                                />
-                                            </div>
-                                            -->
-                                            <div class="lead-text">
-                                                <p>{{id}}</p>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class=" nombreCompleto">
-                                        <p>
-                                        <p href="">{{fullname}}</p></p>
-                                    </td>
-                                    <td class="">
-                                        <p type="date">{{area}}</p>
-                                    </td>
-                                    <td class="">
-                                        <p>{{maquina}}</p>
-                                    </td>
-                                    <td class="">
-                                        <p>{{prioridad}}</p>
-                                    </td>
-
-                                </tr>
-
-                            {{/each}}
-                            </tbody>
-                        </table>
-                        <!-- end table -->
-                    </div>
-                </div>
-                <!-- end card -->
-            </div>
-            <!-- end col -->
-        </div>
-    </div>
-
 
 </div>
 
 
-<!-- Modal -->
-{{#each ordenesAsignadas }}
 
-<div class="modal fade" id="actions" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+<div class="modal fade" id="modalAcciones1" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+     tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -458,19 +129,21 @@
 
                     <lord-icon
                             src="https://cdn.lordicon.com/ofwpzftr.json"
-                            trigger="hover"
+                            trigger="loop"
+                            delay="300"
                             style="width:150px;height:150px">
                     </lord-icon>
                     <div class="card-body">
                         <h5 class="card-title">Ver</h5>
-                        <p class="card-text">Aegurate que los datos ingresados son correctos hechandole un ojo.</p>
+                        <p class="card-text">Asegurate que los datos ingresados son correctos hechandole un ojo.</p>
                         <a href="/orden/view/{{id}}" class="btn btn-primary">Ver</a>
                     </div>
                 </div>
                 <div class="card" style="width: 18rem;">
                     <lord-icon
                             src="https://cdn.lordicon.com/iiixgoqp.json"
-                            trigger="hover"
+                            trigger="loop"
+                            delay="300"
                             style="width:150px;height:150px">
                     </lord-icon>
                     <div class="card-body">
@@ -482,7 +155,8 @@
                 <div class="card" style="width: 18rem;">
                     <lord-icon
                             src="https://cdn.lordicon.com/kfzfxczd.json"
-                            trigger="hover"
+                            trigger="loop"
+                            delay="300"
                             style="width:150px;height:150px">
                     </lord-icon>
                     <div class="card-body">
@@ -497,113 +171,3 @@
     </div>
 
 </div>
-<div class="modal fade" id="actionsUnit" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Acciones</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body modalTecnico">
-                <div class="card" style="width: 18rem;">
-
-                    <lord-icon
-                            src="https://cdn.lordicon.com/ofwpzftr.json"
-                            trigger="hover"
-                            style="width:150px;height:150px">
-                    </lord-icon>
-                    <div class="card-body">
-                        <h5 class="card-title">Ver</h5>
-                        <p class="card-text">Revisa las ordenes que te han asignados y manos a la obra!</p>
-                        <a href="/orden/review/{{id}}" class="btn btn-primary">Ver</a>
-                    </div>
-                </div>
-
-                <!--
-                <div class="card" style="width: 18rem;">
-                    <lord-icon
-                            src="https://cdn.lordicon.com/iiixgoqp.json"
-                            trigger="hover"
-                            style="width:150px;height:150px">
-                    </lord-icon>
-                    <div class="card-body">
-                        <h5 class="card-title">Editar</h5>
-                        <p class="card-text">¿Te equivocaste escribiendo un dato?. Editalo aquí!</p>
-                        <a href="/orden/assign/{{id}}" class="btn btn-secondary">Editar</a>
-                    </div>
-                </div>
-                <div class="card" style="width: 18rem;">
-                    <lord-icon
-                            src="https://cdn.lordicon.com/kfzfxczd.json"
-                            trigger="hover"
-                            style="width:150px;height:150px">
-                    </lord-icon>
-                    <div class="card-body">
-                        <h5 class="card-title">Eliminar</h5>
-                        <p class="card-text">Elimina la orden de manera instantanea y aquí no ha pasado nada!</p>
-                        <a href="/orden/delete/{{id}}" class="btn btn-danger">Eliminar</a>
-                    </div>
-                    -->
-            </div>
-        </div>
-
-    </div>
-</div>
-
-</div>
-{{/each}}
-
-{{#each ordenes}}
-    <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Acciones</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="card" style="width: 18rem;">
-
-                        <lord-icon
-                                src="https://cdn.lordicon.com/ofwpzftr.json"
-                                trigger="hover"
-                                style="width:150px;height:150px">
-                        </lord-icon>
-                        <div class="card-body">
-                            <h5 class="card-title">Ver</h5>
-                            <p class="card-text">Aegurate que los datos ingresados son correctos hechandole un ojo.</p>
-                            <a href="/orden/view/{{id}}" class="btn btn-primary">Ver</a>
-                        </div>
-                    </div>
-                    <div class="card" style="width: 18rem;">
-                        <lord-icon
-                                src="https://cdn.lordicon.com/iiixgoqp.json"
-                                trigger="hover"
-                                style="width:150px;height:150px">
-                        </lord-icon>
-                        <div class="card-body">
-                            <h5 class="card-title">Editar</h5>
-                            <p class="card-text">¿Te equivocaste escribiendo un dato?. Editalo aquí!</p>
-                            <a href="/orden/assign/{{id}}" class="btn btn-secondary">Editar</a>
-                        </div>
-                    </div>
-                    <div class="card" style="width: 18rem;">
-                        <lord-icon
-                                src="https://cdn.lordicon.com/kfzfxczd.json"
-                                trigger="hover"
-                                style="width:150px;height:150px">
-                        </lord-icon>
-                        <div class="card-body">
-                            <h5 class="card-title">Eliminar</h5>
-                            <p class="card-text">Elimina la orden de manera instantanea y aquí no ha pasado nada!</p>
-                            <a href="/orden/delete/{{id}}" class="btn btn-danger">Eliminar</a>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-    </div>
-{{/each}}
-
