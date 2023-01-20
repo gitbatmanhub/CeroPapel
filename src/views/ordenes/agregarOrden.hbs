@@ -55,17 +55,8 @@
                             <label for="floatingSelectGrid">Prioridad</label>
                         </div>
                     </div>
-                    <div class="col-md">
-                        <div class="form-floating">
-                            <select name="status" class="form-select" id="status">
-                                <option value="null" selected>Selecciona una por favor</option>
-                                {{#each status}}
-                                    <option value="{{idStatus}}" name="{{nameStatus}}">{{nameStatus}}</option>
-                                {{/each}}
-                            </select>
-                            <label for="floatingSelectGrid">Estado</label>
-                        </div>
-                    </div>
+
+
                     <div class="col-md">
                         <div class="form-floating">
                             <select name="estadoMaquina" class="form-select" id="estadoMaquina">
@@ -78,17 +69,23 @@
                         </div>
                     </div>
                 </div>
-
-
-                <div class="form-group boton-send">
-                    <input type="submit" class="btn btn-success btn-block" id="">
+                <div class="inputsHidden">
+                    <input type="hidden" value="1" name="idStatus"/>
 
                 </div>
             </div>
         </div>
 
+                <div class="form-group boton-send">
+                    <input type="submit" class="btn btn-success btn-block" id="">
+                </div>
+
 
     </form>
+
+        </div>
+
+
 </div>
 
 

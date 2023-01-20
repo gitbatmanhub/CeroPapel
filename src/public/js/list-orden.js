@@ -37,8 +37,8 @@ table.addEventListener('click', (e)=>{
     e.stopPropagation();
     const id=e.target.parentElement.parentElement.children[0].textContent.trim();
     document.getElementById("viewBtn").href="/orden/view/" + id;
-    document.getElementById("editBtn").href="/orden/view/" + id;
-    document.getElementById("deleteBtn").href="/orden/view/" + id;
+    document.getElementById("editBtn").href="/orden/edit/" + id;
+    document.getElementById("deleteBtn").href="/orden/delete/" + id;
 
 })
 
@@ -61,4 +61,5 @@ const fillData =(data)=>{
 }
 
  */
+
 

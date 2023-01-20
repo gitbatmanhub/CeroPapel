@@ -1,15 +1,15 @@
 
 <div class="formulario">
-    <form action="/orden/edit/{{orden.id}}" method="post">
+    <form action="/orden/edit/{{orden.idOrdenTrabajo}}" method="post">
         <label>Nr de orden</label>
-        <input type="text" value="{{orden.id}}" class="form-control" name="id" placeholder="Id" readonly required>
+        <input type="text" value="{{orden.idOrdenTrabajo}}" class="form-control" name="id" placeholder="Id" readonly required>
         <div class="row g-2 mb-3">
             <div class="col-md">
                 <div class="form">
                     <label for="">Area</label>
 
                     <select name="area" class="form-select" id="areas" required>
-                        <option value="{{orden.area}}" selected>{{orden.area}}</option>
+                        <option value="{{orden.nameArea}}" selected>{{orden.nameArea}}</option>
                         {{#each areas}}
                             <option value="{{nombreAreas}}" name="{{nombreAreas}}">{{nombreAreas}}</option>
                         {{/each}}
@@ -20,7 +20,7 @@
                 <div class="form">
                     <label for="">Maquina</label>
                     <select name="maquina" class="form-select" id="maquinas">
-                        <option value="{{orden.maquina}}" selected>{{orden.maquina}}</option>
+                        <option value="{{orden.nameMaquina}}" selected>{{orden.nameMaquina}}</option>
                         {{#each maquinas}}
                             <option value="{{nombreMaquina}}" name="{{nombreMaquina}}">{{nombreMaquina}}</option>
                         {{/each}}
@@ -42,7 +42,8 @@
         <div class="row g-2">
             <div class="col-md">
                 <div class="form-floating">
-                    <select name="prioridad" class="form-select" id="floatingSelectGrid">
+                    <select name="prioridad" class="form-select" id="prioridad">
+                    <option value="{{orden.namePrioridad}}" selected>{{orden.namePrioridad}}</option>
                         <option value="Baja" selected>Baja</option>
                         <option value="Media">Media</option>
                         <option value="Alta">Alta</option>
@@ -50,19 +51,11 @@
                     <label for="floatingSelectGrid">Prioridad</label>
                 </div>
             </div>
+
             <div class="col-md">
                 <div class="form-floating">
-                    <select name="estado" class="form-select" id="floatingSelectGrid">
-                        <option value="Abierto" selected>Abierto</option>
-                        <option value="En proceso">En proceso</option>
-                        <option value="Cerrado">Cerrado</option>
-                    </select>
-                    <label for="floatingSelectGrid">Estado</label>
-                </div>
-            </div>
-            <div class="col-md">
-                <div class="form-floating">
-                    <select name="estadoMaquina" class="form-select" id="floatingSelectGrid">
+                    <select name="Estado Maquina" class="form-select" id="estadoMaquina">
+                        <option value="{{orden.nameStatus}}" selected>{{orden.nameStatus}}</option>
                         <option value="1" selected>Operativa</option>
                         <option value="2">Parada</option>
                     </select>
@@ -75,3 +68,13 @@
         </div>
     </form>
 </div>
+
+<script>
+    let area = document.querySelectorAll(".cajas-texto");
+
+    window.addEventListener("DOMContentLoaded", () => {
+        area.forEach((elemento) => {
+            elemento.style.height = `${elemento.scrollHeight}px`
+        })
+    });
+</script>
