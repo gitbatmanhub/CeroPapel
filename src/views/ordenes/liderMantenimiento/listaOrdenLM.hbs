@@ -37,7 +37,7 @@
                                 <th><h6>Id Orden</h6></th>
                                 <th><h6>Area</h6></th>
                                 <th><h6>Maquina</h6></th>
-                                <th><h6>Estado Maquina</h6></th>
+                                <th><h6>Progreso</h6></th>
                                 <th><h6>Prioridad</h6></th>
                                 <th><h6 style="text-align: center">Acciones</h6></th>
                             </tr>
@@ -65,7 +65,9 @@
                                         <p>{{nameMaquina}}</p>
                                     </td>
                                     <td class="estado">
-                                        <p>{{nameEstado}}</p>
+                                        <div class="progress" role="progressbar" aria-label="Animated striped example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+                                            <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: {{avanceStatus}}%">{{avanceStatus}}%</div>
+                                        </div>
                                     </td>
                                     <td class="prioridad">
                                         <p>{{namePrioridad}}</p>

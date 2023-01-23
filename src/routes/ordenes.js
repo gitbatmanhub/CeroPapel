@@ -15,24 +15,13 @@ router.get('/', isLoggedIn, async (req, res) => {
 
 
     switch (idRol) {
-        //Claudio
-        case 5:
-            const ordenes = await pool.query('SELECT ordenestrabajo.*, users.fullname  FROM novared.ordenestrabajo, novared.users where ordenestrabajo.user_id = users.id AND ordenestrabajo.idStatus=0', [req.user.id]);
-            //const ordenes = await pool.query('select ordenestrabajo.*, users.fullname, e.nameEstado from ordenestrabajo join users on users.id = ? join estadomaquina e on e.idEstadoMaquina = ordenestrabajo.estadoMaquina where ordenestrabajo.idStatus=0 ;', [req.user.id]);
-            res.render('ordenes/listOrden', {ordenes});
-
-
-            break;
         //Andres
         case 2:
             const idUserLider=([req.user.iduser][0])
             const ordenesPropias = await pool.query('select ordenTrabajo.idOrdenTrabajo, s.avanceStatus, ordenTrabajo.descripcion, ordenTrabajo.create_at , a.nameArea, m.nameMaquina,  e.nameEstado,  p.namePrioridad from ordenTrabajo inner join prioridad p on ordenTrabajo.idPrioridad = p.idPrioridad inner join maquina m on ordenTrabajo.idMaquina = m.idMaquina inner join area a on ordenTrabajo.idArea=a.idArea inner join estadoMaquina e on ordenTrabajo.estadoMaquina = e.idEstadoMaquina inner join status s on ordenTrabajo.idStatus = s.idStatus where ordenTrabajo.idUsuario=?;', [idUserLider]);
             const ordenesPorAsignar = await pool.query('select ordenTrabajo.*, s.nameStatus, ordenTrabajo.descripcion, ordenTrabajo.create_at , a.nameArea, m.nameMaquina , e.nameEstado,  p.namePrioridad from ordenTrabajo inner join prioridad p on ordenTrabajo.idPrioridad = p.idPrioridad inner join maquina m on ordenTrabajo.idMaquina = m.idMaquina inner join area a on ordenTrabajo.idArea=a.idArea inner join estadoMaquina e on ordenTrabajo.estadoMaquina = e.idEstadoMaquina inner join status s on ordenTrabajo.idStatus = s.idStatus where ordenTrabajo.idStatus=1;');
             const ordenesAceptadas = await pool.query('select ordenTrabajo.*, s.nameStatus, ordenTrabajo.descripcion, ordenTrabajo.create_at , a.nameArea, m.nameMaquina , e.nameEstado,  p.namePrioridad from ordenTrabajo inner join prioridad p on ordenTrabajo.idPrioridad = p.idPrioridad inner join maquina m on ordenTrabajo.idMaquina = m.idMaquina inner join area a on ordenTrabajo.idArea=a.idArea inner join estadoMaquina e on ordenTrabajo.estadoMaquina = e.idEstadoMaquina inner join status s on ordenTrabajo.idStatus = s.idStatus where ordenTrabajo.idStatus=2;');
-
             res.render('ordenes/liderMantenimiento/listaOrdenLM', {ordenesPropias, ordenesPorAsignar,ordenesAceptadas});
-
-            // console.log(contadorA);
             break;
         //Tecnicos
         case 4:
@@ -302,12 +291,13 @@ router.post('/accept/:id', isLoggedIn, async (req, res)=>{
     res.redirect('/orden');
 })
 
-
-router.get('/probe', (req, res) => {
+/*
+router.get('/probe', isLoggedIn(req, res) => {
     const {id} = req.params;
     res.render('ordenes/probe');
 });
 
+ */
 
 router.post('/probe/', isLoggedIn, async (req, res) => {
     const obj = Object.assign({}, req.body)
@@ -332,5 +322,18 @@ router.post('/probe/', isLoggedIn, async (req, res) => {
 
 
 });
+
+
+router.get('/suministro', (req, res)=>{
+    res.render('ordenes/liderMantenimiento/assign/suministros');
+});
+
+router.get('/tecnico', (req, res)=>{
+    res.render('ordenes/liderMantenimiento/assign/tecnicos');
+});
+
+
+
+
 
 module.exports = router;
