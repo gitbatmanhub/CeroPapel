@@ -8,10 +8,10 @@
                 <div class="form">
                     <label for="">Area</label>
 
-                    <select name="area" class="form-select" id="areas" required>
-                        <option value="{{orden.nameArea}}" selected>{{orden.nameArea}}</option>
-                        {{#each areas}}
-                            <option value="{{nombreAreas}}" name="{{nombreAreas}}">{{nombreAreas}}</option>
+                    <select name="area" class="form-select" id="area">
+                        <option value="{{orden.idArea}}" selected>{{orden.nameArea}}</option>
+                        {{#each idArea}}
+                            <option value="{{idArea}}">{{nameArea}}</option>
                         {{/each}}
                     </select>
                 </div>
@@ -19,12 +19,12 @@
             <div class="col-md ">
                 <div class="form">
                     <label for="">Maquina</label>
-                    <select name="maquina" class="form-select" id="maquinas">
-                        <option value="{{orden.nameMaquina}}" selected>{{orden.nameMaquina}}</option>
-                        {{#each maquinas}}
-                            <option value="{{nombreMaquina}}" name="{{nombreMaquina}}">{{nombreMaquina}}</option>
-                        {{/each}}
+                    <select name="maquina" class="form-select" id="maquina">
+                        <option value="{{orden.idMaquina}}" selected>{{orden.nameMaquina}}</option>
 
+                        {{#each idMaquina}}
+                            <option value="{{idMaquina}}" >{{nameMaquina}}</option>
+                        {{/each}}
                     </select>
                 </div>
 
@@ -43,10 +43,10 @@
             <div class="col-md">
                 <div class="form-floating">
                     <select name="prioridad" class="form-select" id="prioridad">
-                    <option value="{{orden.namePrioridad}}" selected>{{orden.namePrioridad}}</option>
-                        <option value="Baja" selected>Baja</option>
-                        <option value="Media">Media</option>
-                        <option value="Alta">Alta</option>
+                        <option value="{{orden.idPrioridad}}" selected>{{orden.namePrioridad}}</option>
+                        {{#each idPrioridad}}
+                            <option value="{{idPrioridad}}" name="{{namePrioridad}}">{{namePrioridad}}</option>
+                        {{/each}}
                     </select>
                     <label for="floatingSelectGrid">Prioridad</label>
                 </div>
@@ -54,10 +54,11 @@
 
             <div class="col-md">
                 <div class="form-floating">
-                    <select name="Estado Maquina" class="form-select" id="estadoMaquina">
-                        <option value="{{orden.nameStatus}}" selected>{{orden.nameStatus}}</option>
-                        <option value="1" selected>Operativa</option>
-                        <option value="2">Parada</option>
+                    <select name="estadoMaquina" class="form-select" id="estadoMaquina">
+                        <option value="{{orden.estadoMaquina}}" selected>{{orden.nameEstado}}</option>
+                        {{#each idEstadoMaquina}}
+                            <option value="{{idEstadoMaquina}}" name="{{nameEstado}}">{{nameEstado}}</option>
+                        {{/each}}
                     </select>
                     <label for="floatingSelectGrid">Estado Maquina</label>
                 </div>

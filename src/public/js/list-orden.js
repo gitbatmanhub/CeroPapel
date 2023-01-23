@@ -1,46 +1,52 @@
+
 $(document).ready(function () {
 
-    $('#table, #table2, #table3').DataTable({
+    $('#table1, #table2, #table3').DataTable({
         scrollY: '100vh',
         scrollCollapse: true,
+
         paging: true,
+        collapse:true,
         language: {
             url: 'https://cdn.datatables.net/plug-ins/1.13.1/i18n/es-MX.json'
         }
     });
 
+
+
+
+
 });
 
 
-/*
-const area = document.getElementById('area');
-area.addEventListener('change',
-    function(){
-        const selectedOption = this.options[area.selectedIndex];
-        console.log(selectedOption.value + ': ' + selectedOption.text);
-    });
 
-const maquina = document.getElementById('maquina');
-maquina.addEventListener('change',
-    function (){
-    const opcionseleccionada = this.options[maquina.selectedIndex];
-console.log(opcionseleccionada.value + " "+ opcionseleccionada.text);
-    });
-
-
- */
-const table = document.getElementById('table');
-
-
-
-table.addEventListener('click', (e)=>{
+const table1 = document.getElementById('table1');
+table1.addEventListener('click', (e)=>{
     e.stopPropagation();
     const id=e.target.parentElement.parentElement.children[0].textContent.trim();
+    console.log(id);
     document.getElementById("viewBtn").href="/orden/view/" + id;
     document.getElementById("editBtn").href="/orden/edit/" + id;
     document.getElementById("deleteBtn").href="/orden/delete/" + id;
 
-})
+});
+
+
+
+
+const table2 = document.getElementById('table2');
+table2.addEventListener('click', (e)=>{
+    e.stopPropagation();
+    const id=e.target.parentElement.parentElement.children[0].textContent.trim();
+    console.log(id);
+    document.getElementById("accept").action="/orden/accept/"+id;
+    document.getElementById("orden").value=id;
+
+});
+
+
+
+
 
 /*
 const ver= document.getElementById('viewBtn');
