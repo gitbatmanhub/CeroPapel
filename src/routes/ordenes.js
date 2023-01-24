@@ -291,13 +291,12 @@ router.post('/accept/:id', isLoggedIn, async (req, res)=>{
     res.redirect('/orden');
 })
 
-/*
-router.get('/probe', isLoggedIn(req, res) => {
+
+router.get('/probe', isLoggedIn, async (req, res) => {
     const {id} = req.params;
     res.render('ordenes/probe');
 });
 
- */
 
 router.post('/probe/', isLoggedIn, async (req, res) => {
     const obj = Object.assign({}, req.body)
@@ -324,14 +323,30 @@ router.post('/probe/', isLoggedIn, async (req, res) => {
 });
 
 
-router.get('/suministro', (req, res)=>{
+router.get('/suministro', async (req, res)=>{
     res.render('ordenes/liderMantenimiento/assign/suministros');
 });
 
-router.get('/tecnico', (req, res)=>{
-    res.render('ordenes/liderMantenimiento/assign/tecnicos');
+router.get('/tecnico', async (req, res)=>{
+    console.log(req.body);
+    const tecnicos= await pool.query('select u.fullname, e.nameEspecialidad, u.iduser from tecnico inner join usuario u on tecnico.idUser = u.iduser inner join especialidadtecnico e on tecnico.idEspecialidad = e.idEspecialidad where e.idEspecialidad !=4');
+
+    console.log(tecnicos);
+    res.render('ordenes/liderMantenimiento/assign/tecnicos',
+        {
+            tecnico: tecnicos
+        });
+
+
+
+
 });
 
+
+router.post('/tecnico', async (req, res )=>{
+    console.log(req.body);
+    res.redirect('/orden/tecnico')
+})
 
 
 

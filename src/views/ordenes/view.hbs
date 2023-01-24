@@ -6,17 +6,13 @@
     <form action="/orden/view/{{orden.id}}" method="post">
         <label>Nr de orden</label>
         <input type="text" value="{{orden.idOrdenTrabajo}}" class="form-control" name="idOrden" readonly required>
-
-
         <div class="row g-2 mb-3">
             <div class="col-md">
                 <div class="form">
-
                     <label for="">Area Destinada</label>
                     <input type="text" value="{{orden.nameArea}}" class="form-control" name="area" placeholder="Id"
                            readonly
                            required>
-
                     </select>
                 </div>
             </div>
@@ -26,20 +22,16 @@
                     <input type="text" value="{{orden.nameMaquina}}" class="form-control" name="Maquina"
                            placeholder="Id"
                            readonly required>
-
                     </select>
                 </div>
             </div>
         </div>
-
         <div class="form-floating mb-3">
             <textarea id="descripcionView" class="form-control cajas-texto" name="descripcion" placeholder="Descripción"
                       readonly
                       required>{{orden.descripcion}}</textarea>
             <label for="">Descripción del problema</label>
         </div>
-
-
         <div class="row g-2">
             <div class="col-md">
                 <div class="form-floating">
@@ -47,30 +39,16 @@
                            placeholder="Id"
                            readonly required>
                     <label for="floatingInput">Prioridad de la orden</label>
-
                 </div>
             </div>
             <div class="col-md">
                 <div class="form-floating">
                     <input type="text" value="{{orden.nameEstado}}" class="form-control" name="estado" placeholder="Id"
                            readonly required>
-
-
                     <label for="floatingInput">Estado de la maquina</label>
                 </div>
             </div>
-            <!--
-            <div class="col-md">
-                <div class="form-floating">
-                    <input type="text" value="{{orden.nameEstado}}" class="form-control" name="estado" placeholder="Id"
-                           readonly required>
-                    <label for="floatingInput">Estado de la Maquina</label>
-                </div>
-
-            </div>
--->
         </div>
-
         <div>
             <a class="btn btn-succes" href="javascript:history.back()"><i class="bi bi-pencil-square"></i>
                 <span>Volver</span>
