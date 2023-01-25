@@ -119,7 +119,7 @@ function ShowSelected()
 
 
 
-
+/*
 
 var fruits = ["Banana", "Orange", "Apple", "Mango"];
 
@@ -128,10 +128,10 @@ function AddItem() {
 
     var theBody = document.getElementById('tabla').getElementsByTagName('tbody')[0];
     var newRow = "<tr><td><select>";
-    var theOptions = theOptions += `<option value="{{iduser}}">'{{fullname}}'</option>`;
+    var theOptions = theOptions += `<option value={{iduser}}>{{fullname}}</option>`;
 
     newRow += theOptions;
-    newRow += "</select></td></tr>";
+    //newRow += "</select></td></tr>";
 
     theBody.insertAdjacentHTML('beforeend', newRow);
 
@@ -140,13 +140,94 @@ function AddItem() {
 
 
 
+ */
+
+/*
+const botonAdd = document.getElementById('rags');
+botonAdd.addEventListener("click", function (){
+    const campo= document.getElementById('tags').value;
+    console.log(campo);
+
+});
+
+ */
+/*
+$(function () {
+    "use strict";
+
+    $("button").click(function () {
+        var $tags = $(".tags");
+
+        // if input tags is empty you  clicked button show the warning massage;
+        // else that show the tag
+        if ($tags.val() == "") {
+            //alert("Campo Vacio")
+        } else {
+            // When Click on Button Show the box.
+            $(".box").show();
+
+            $(".warning-msg").show();
+            // Take The Value entered in the input.
+            const $inVal = $(".tags").val();
+            //console.log($inVal);
+
+            // Make the pargraph and include the entred value on box.
+            $("<div><input type='text' class='hola' value='$'>" + $inVal + "<span class='btn btn-danger helo'>X</span>" + "</input></div>").appendTo(".esteban");
+            //$(".hola").attr('value', $inVal)
+
+            // when click onn remove icon remove the icon and box.
+             $("span").onclick(function () {
+                const $this = $(this);
+                $this.parent().remove();
+                $this.remove();
+            });
+
+
+            $(document).on('click', '.helo', function (){
+                $(this).parent().remove();
+                $(this).remove();
+
+            });
+
+
+        }
+    });
+});
 
 
 
+ */
 
+var cantidad = 0;
+function agregarHijo()
+{
+    const nombre= document.getElementById('nombre').value;
+    if(nombre.length!=0){
+        cantidad++;
+        var divpadre = document.createElement('div');
+        divpadre.id='divPadre';
+        divpadre.classList.add("divPadre")
+        var nuevohijo = document.createElement('input');
+        nuevohijo.value= nombre;
+        nuevohijo.type = 'text';
+        nuevohijo.name = 'nombre';
+        nuevohijo.id = 'nombre';
+        nuevohijo.disabled= true;
+        var clase = document.createElement("button");
+        clase.innerText="X"
+        clase.type='button'
+        clase.classList.add("btn", "btn-danger", "delete")
 
+        document.getElementById('divTecnicos').appendChild(divpadre).appendChild(document.createElement("div").appendChild(nuevohijo)).after(clase);
 
+        $(document).on('click', '.delete', function (){
+            $(this).parent().remove();
+            $(this).remove();
 
+        });
+    }else {
+        alert("Ingresa el nombre del tecnico")
+    }
 
-
+}
 

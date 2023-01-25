@@ -151,6 +151,7 @@ router.get('/view/:id', isLoggedIn, async (req, res) => {
 
 
 //=============================================Asignar Ordenes
+/*
 router.get('/assign/:id', isLoggedIn, async (req, res) => {
     const {id} = req.params;
     const ordenes = await pool.query('SELECT ordenestrabajo.*, users.fullname  FROM novared.ordenestrabajo, novared.users where ordenestrabajo.user_id = users.id AND ordenestrabajo.idStatus=0', [req.user.id]);
@@ -168,6 +169,8 @@ router.get('/assign/:id', isLoggedIn, async (req, res) => {
 });
 //================================================
 
+
+ */
 
 //=============================================Ver Ordenes Tecnicos
 router.get('/review/:id', isLoggedIn, async (req, res) => {
@@ -327,11 +330,11 @@ router.get('/suministro', async (req, res)=>{
     res.render('ordenes/liderMantenimiento/assign/suministros');
 });
 
-router.get('/tecnico', async (req, res)=>{
+router.get('/tecnico/:id', async (req, res)=>{
     console.log(req.body);
     const tecnicos= await pool.query('select u.fullname, e.nameEspecialidad, u.iduser from tecnico inner join usuario u on tecnico.idUser = u.iduser inner join especialidadtecnico e on tecnico.idEspecialidad = e.idEspecialidad where e.idEspecialidad !=4');
 
-    console.log(tecnicos);
+    //console.log(tecnicos);
     res.render('ordenes/liderMantenimiento/assign/tecnicos',
         {
             tecnico: tecnicos
@@ -343,9 +346,9 @@ router.get('/tecnico', async (req, res)=>{
 });
 
 
-router.post('/tecnico', async (req, res )=>{
+router.post('/tecnico', (req, res )=>{
     console.log(req.body);
-    res.redirect('/orden/tecnico')
+    res.redirect('/orden/')
 })
 
 

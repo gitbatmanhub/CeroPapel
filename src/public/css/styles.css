@@ -52,3 +52,10 @@ margin: 0 auto;
 .botonesAgregar{
      margin-top: 5px;
 }
+
+
+
+.divPadre{
+     display: flex;
+     margin: 10px 20px;
+}

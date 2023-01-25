@@ -86,17 +86,28 @@
 
 
 
-<form>
-    <table id="tabla">
-        <thead>
-        <tr>
-            <th>Select</th>
-        </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-    <button type="button" onClick="AddItem();">Agregar item.</button>
+<!--
+<h3 class="warning-msg">Please Enter the tags</h3>
+    <div class="box">
+        <input type="text" class="tags" id="tags">
+        <button id="rags">save</button>
+    </div>
+    <div class="esteban">
+
+
+    </div>
+</div>
+-->
+
+<form action="/orden/tecnico" method="post">
+    <label for="exampleDataList" class="form-label">Ingrese el name del tecnico</label>
+    <input type="text" class="form-control" placeholder="Prueba ingresando el nombre del tecnico o solo dale click" autocomplete="off" list="listaTecnicos" id="nombre"><br>
+    <input type="button" onclick="agregarHijo()" value="Presione para agregar otro tecnico.">
+<div id="divTecnicos" class="divTecnicos">
+
+</div>
+
+    <button type="submit" value="Registrar">Enviar</button>
 </form>
 
 
@@ -108,9 +119,9 @@
 
 
 
-
-
-
-
-
+<datalist id="listaTecnicos">
+    {{#each tecnico}}
+        <option name="{{iduser}}" value="{{fullname}}">{{fullname}}</option>
+    {{/each}}
+</datalist>
 
