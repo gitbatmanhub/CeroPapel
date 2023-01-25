@@ -1,114 +1,15 @@
-<!--<div class="container">
-    <h2>Tecnicos a la orden</h2>
-</div>
-<form class="formularioTecnicos" method="post">
-<div class="row g-2 mb-3 esteban">
-    <div class="col-md esteban2 este">
-        <label class="form-floating" for="">Tecnico</label>
-        <select name="tecnico" class="form-select" multiple id="tecnico" >
-            {{#each tecnico}}
-                <option value="{{iduser}}">{{fullname}}</option>
-            {{/each}}
-        </select>
+{{#each ordenes}}
+<form action="/orden/tecnico/{{idOrdenTrabajo}}" method="post">
 
-    </div>
-    <div>
-        <input type="text" id="prebis" value="" name="asdfsdaf" placeholder="">
-    </div>
-
-    <div class="botonesAgregar">
-            <button type="button" class="btn btn-primary" id="agregarTecnico" onclick="ShowSelected();">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                     class="bi bi-person-fill-add" viewBox="0 0 16 16">
-                    <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0Zm-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"></path>
-                    <path d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z"></path>
-                </svg>
-                Agregar
-            </button>
-        </div>
-
-
-    <div class="col-md esteban2">
-        <label class="form-floating" for="">Ayudante</label>
-        <select name="Ayudante" class="form-select" id="Ayudante">
-            <option value="null" selected>Selecciona un Ayudante</option>
-            {{#each tecnico}}
-                <option value="{{iduser}}">{{fullname}}</option>
-            {{/each}}
-        </select>
-        <div class="botonesAgregar">
-            <button type="button" class="btn btn-primary">
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                     class="bi bi-person-fill-add" viewBox="0 0 16 16">
-                    <path d="M12.5 16a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm.5-5v1h1a.5.5 0 0 1 0 1h-1v1a.5.5 0 0 1-1 0v-1h-1a.5.5 0 0 1 0-1h1v-1a.5.5 0 0 1 1 0Zm-2-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"></path>
-                    <path d="M2 13c0 1 1 1 1 1h5.256A4.493 4.493 0 0 1 8 12.5a4.49 4.49 0 0 1 1.544-3.393C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4Z"></path>
-                </svg>
-                Agregar
-            </button>
-        </div>
-    </div>
-<button class="btn btn-primary" type="submit">Send</button>
-</div>
-</form>-->
-
-<!--
-<form action="/orden/probe" method="post">
-    <div id="divPrincipal">
-        <div>
-            <div>
-                <label class="form-floating" for="">Input primero</label>
-                <select name="nombres" id="">
-                    {{#each tecnico}}
-                    <option value="{{iduser}}">{{fullname}}</option>
-                    {{/each}}
-                </select>
-            </div>
-            <div>
-                <label class="form-floating" for="">Input segundo</label>
-                <select name="nombres" id="">
-                    {{#each tecnico}}
-                        <option value="{{iduser}}">{{fullname}}</option>
-                    {{/each}}
-                </select>
-            </div>
-        </div>
-    </div>
-
-    <input type="button" value="+" id="agregar" /><input type="submit" value="Cargar usuario" />
-</form>
-<script>
-</script>
-
--->
-
-
-
-
-
-
-<!--
-<h3 class="warning-msg">Please Enter the tags</h3>
-    <div class="box">
-        <input type="text" class="tags" id="tags">
-        <button id="rags">save</button>
-    </div>
-    <div class="esteban">
-
-
-    </div>
-</div>
--->
-
-<form action="/orden/tecnico" method="post">
     <label for="exampleDataList" class="form-label">Ingrese el name del tecnico</label>
     <input type="text" class="form-control" placeholder="Prueba ingresando el nombre del tecnico o solo dale click" autocomplete="off" list="listaTecnicos" id="nombre"><br>
     <input type="button" onclick="agregarHijo()" value="Presione para agregar otro tecnico.">
 <div id="divTecnicos" class="divTecnicos">
-
 </div>
 
     <button type="submit" value="Registrar">Enviar</button>
 </form>
+{{/each}}
 
 
 
@@ -121,7 +22,7 @@
 
 <datalist id="listaTecnicos">
     {{#each tecnico}}
-        <option name="{{iduser}}" value="{{fullname}}">{{fullname}}</option>
+        <option name="{{iduser}}" value="{{iduser}}">{{fullname}}</option>
     {{/each}}
 </datalist>
 

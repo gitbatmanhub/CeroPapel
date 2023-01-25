@@ -211,7 +211,7 @@
                                     </td>
                                     <td style="text-align: center">
 
-                                        <button class="btn btn-primary" data-bs-target="#modalAcciones4"
+                                        <button class="btn btn-primary" data-bs-target="#modalAcciones3"
                                                 data-bs-toggle="modal">Ver Acciones
                                         </button>
 
@@ -512,101 +512,65 @@
 
     </div>
 {{/each}}
-<div class="modal fade" id="modalAcciones3" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
-     tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Acciones</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
 
-                <div class="card" style="width: 18rem;">
-                    <lord-icon
-                            src="https://cdn.lordicon.com/nhfyhmlt.json"
-                            trigger="loop"
-                            delay="300"
-                            style="width:150px;height:150px">
-                    </lord-icon>
-                    <div class="card-body">
-                        <h5 class="card-title">Rechazar</h5>
-                        <p class="card-text">Rechazar la orden!</p>
-                        <a href="/orden/edit/{{id}}" class="btn btn-danger">Rechazar</a>
+
+{{#each ordenesAceptadas}}
+    <div class="modal fade" id="modalAcciones3" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+         tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Acciones</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="card" style="width: 18rem;">
+                        <lord-icon
+                                src="https://cdn.lordicon.com/ifqmqwui.json"
+                                trigger="loop"
+                                delay="300"
+                                style="width:150px;height:150px">
+                        </lord-icon>
+                        <div class="card-body">
+                            <h5 class="card-title">Asignar Suministros</h5>
+                            <p class="card-text">Asignar Suministros</p>
+                            <a href="/orden/suministros/" class="btn btn-primary " id="suministros">Suministros</a>
+                        </div>
+                    </div>
+                    <div class="card" style="width: 18rem;">
+                        <lord-icon
+                                src="https://cdn.lordicon.com/fbdgkenc.json"
+                                trigger="loop"
+                                delay="300"
+                                style="width:150px;height:150px">
+                        </lord-icon>
+                        <div class="card-body">
+                            <h5 class="card-title">Asignar Tecnicos</h5>
+                            <p class="card-text">Asignar Tecnicos</p>
+                            <a href="/orden/tecnico/" class="btn btn-primary " id="tecnico">Asignar Tecnicos</a>
+                        </div>
+                    </div>
+
+                    <div class="card" style="width: 18rem;">
+                        <lord-icon
+                                src="https://cdn.lordicon.com/winbdcbm.json"
+                                trigger="loop"
+                                delay="300"
+                                style="width:150px;height:150px">
+                        </lord-icon>
+                        <div class="card-body">
+                            <h5 class="card-title">Trabajo Externo</h5>
+                            <p class="card-text">Trabajo Externo</p>
+                            <a href="/orden/trabajoExterno/{{id}}" id="trabajoExterno" class="btn btn-primary">Trabajo Externo</a>
+                        </div>
                     </div>
                 </div>
-                <div class="card" style="width: 18rem;">
-                    <lord-icon
-                            src="https://cdn.lordicon.com/egiwmiit.json"
-                            trigger="loop"
-                            delay="300"
-                            style="width:150px;height:150px">
-                    </lord-icon>
-                    <div class="card-body">
-                        <h5 class="card-title">Aceptar</h5>
-                        <p class="card-text">Aceptar la orden!</p>
-                        <a href="/orden/delete/{{id}}" class="btn btn-primary">Aceptar</a>
-                    </div>
-                </div>
-            </div>
 
+            </div>
         </div>
+
     </div>
 
-</div>
-<div class="modal fade" id="modalAcciones4" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
-     tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Acciones</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="card" style="width: 18rem;">
-                    <lord-icon
-                            src="https://cdn.lordicon.com/ifqmqwui.json"
-                            trigger="loop"
-                            delay="300"
-                            style="width:150px;height:150px">
-                    </lord-icon>
-                    <div class="card-body">
-                        <h5 class="card-title">Asignar Suministros</h5>
-                        <p class="card-text">Asignar Suministros</p>
-                        <a href="/orden/delete/{{id}}" class="btn btn-primary">Asignar Suministros</a>
-                    </div>
-                </div>
-                <div class="card" style="width: 18rem;">
-                    <lord-icon
-                            src="https://cdn.lordicon.com/fbdgkenc.json"
-                            trigger="loop"
-                            delay="300"
-                            style="width:150px;height:150px">
-                    </lord-icon>
-                    <div class="card-body">
-                        <h5 class="card-title">Asignar Tecnicos</h5>
-                        <p class="card-text">Asignar Tecnicos</p>
-                        <a href="/orden/tecnico" class="btn btn-primary">Asignar Tecnicos</a>
-                    </div>
-                </div>
+{{/each}}
 
-                <div class="card" style="width: 18rem;">
-                    <lord-icon
-                            src="https://cdn.lordicon.com/winbdcbm.json"
-                            trigger="loop"
-                            delay="300"
-                            style="width:150px;height:150px">
-                    </lord-icon>
-                    <div class="card-body">
-                        <h5 class="card-title">Trabajo Externo</h5>
-                        <p class="card-text">Trabajo Externo</p>
-                        <a href="/orden/delete/{{id}}" class="btn btn-primary">Trabajo Externo</a>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-</div>
 
