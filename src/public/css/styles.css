@@ -59,3 +59,10 @@ margin: 0 auto;
      display: flex;
      margin: 10px 20px;
 }
+
+.nombre{
+     color: transparent;
+}
+.nombre::placeholder{
+     color: black;
+}

@@ -1,28 +1,32 @@
 {{#each ordenes}}
-<form action="/orden/tecnico/{{idOrdenTrabajo}}" method="post">
+    <form action="/orden/tecnico/{{idOrdenTrabajo}}" method="post">
 
-    <label for="exampleDataList" class="form-label">Ingrese el name del tecnico</label>
-    <input type="text" class="form-control" placeholder="Prueba ingresando el nombre del tecnico o solo dale click" autocomplete="off" list="listaTecnicos" id="nombre"><br>
-    <input type="button" onclick="agregarHijo()" value="Presione para agregar otro tecnico.">
-<div id="divTecnicos" class="divTecnicos">
-</div>
+        <label for="exampleDataList" class="form-label">Ingrese el name del tecnico</label>
+        <input type="text" class="form-control" placeholder="Prueba ingresando el nombre del tecnico o solo dale click"
+               autocomplete="off" list="listaTecnicos" id="nombre"><br>
+        <input type="button" onclick="agregarHijo()" value="Presione para agregar otro tecnico.">
+        <div id="divTecnicos" class="divTecnicos"></div>
 
-    <button type="submit" value="Registrar">Enviar</button>
-</form>
+       <!--<button type="submit" value="Registrar">Enviar</button>/-->
+    </form>
 {{/each}}
 
 
 
-
-
-
-
-
-
+<!--
+<select name="tecnicos" id="tecnicos" onchange="ShowSelected();">
+    <option value="null">Elige uno por favor</option>
+    {{#each tecnico}}
+        <option value="{{iduser}}">{{fullname}}</option>
+    {{/each}}
+</select>
+-->
 
 <datalist id="listaTecnicos">
     {{#each tecnico}}
-        <option name="{{iduser}}" value="{{iduser}}">{{fullname}}</option>
+        <option value="{{fullname}}"></option>
     {{/each}}
 </datalist>
+
+
 
