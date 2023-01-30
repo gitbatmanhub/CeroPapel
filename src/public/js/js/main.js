@@ -124,3 +124,86 @@ function ShowSelected() {
 }
 
  */
+
+
+
+
+
+
+
+
+
+
+/*
+
+function init() {
+
+    let select = document.createElement("select");
+    select.name="selectname";
+    select.value="name";
+
+    let option1 = document.createElement("option");
+    option1.setAttribute("value", {{idUser}});
+    let option1Texto = document.createTextNode("opcion 1");
+    option1.appendChild(option1Texto);
+
+
+    select.appendChild(option1);
+
+const div =  document.getElementById('divTecnicos');
+    div.appendChild(select);
+
+}
+
+*/
+
+
+function duplicar1() {
+    const itm = document.getElementById("divPadre");
+    const cln = itm.cloneNode(true);
+
+    const close = document.createElement("button");
+    close.innerText = "X"
+    close.type = 'button'
+    close.classList.add("btn", "btn-danger", "delete")
+    close.id="cerrar"
+
+    document.getElementById("selectsTecnico").appendChild(cln).appendChild(close);
+
+
+
+    $(document).on('click', '.delete', function () {
+        $(this).parent().remove();
+        $(this).remove();
+
+    });
+}
+
+
+/*
+function validate(){
+    const select = document.getElementById('nombreTecnico');
+    if (select.value=="null")
+    {
+        alert("Ey");
+
+    }else{
+        alert('No ey')
+    }
+}
+
+ */
+
+$('#form').submit(function(event) {
+    const select = document.getElementById('nombreTecnico');
+    if (select.value=='null'){
+    }else {
+        alert("Good")
+    }
+    event.preventDefault();
+
+    window.history.back();
+});
+
+
+

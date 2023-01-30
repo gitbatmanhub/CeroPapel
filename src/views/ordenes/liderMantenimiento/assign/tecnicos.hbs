@@ -1,32 +1,64 @@
+<div class="container">
+
 {{#each ordenes}}
-    <form action="/orden/tecnico/{{idOrdenTrabajo}}" method="post">
+    <form action="/orden/tecnico/{{idOrdenTrabajo}}" id="form" class="formTecnicos" id="" method="post">
 
-        <label for="exampleDataList" class="form-label">Ingrese el name del tecnico</label>
-        <input type="text" class="form-control" placeholder="Prueba ingresando el nombre del tecnico o solo dale click"
-               autocomplete="off" list="listaTecnicos" id="nombre"><br>
-        <input type="button" onclick="agregarHijo()" value="Presione para agregar otro tecnico.">
-        <div id="divTecnicos" class="divTecnicos"></div>
 
-       <!--<button type="submit" value="Registrar">Enviar</button>/-->
-    </form>
+    <div class="este">
+        <h1>Aseignar Tecnicos y Fechas a orden Nr#  {{idOrdenTrabajo}}</h1>
+
+    </div>
 {{/each}}
 
 
+    <div class="row g-2 mb-3 tecnicosAl">
+        <div class="col-md">
+            <label for="nombreTecnico" class="form-label">Escoge el (los) tecnico(s)</label>
 
-<!--
-<select name="tecnicos" id="tecnicos" onchange="ShowSelected();">
-    <option value="null">Elige uno por favor</option>
-    {{#each tecnico}}
-        <option value="{{iduser}}">{{fullname}}</option>
-    {{/each}}
-</select>
--->
+            <div id="divPadre">
+                <select class="form-select" name="idTecnico" id="nombreTecnico">
+                    <option value="null" selected> Selecciona un tecnico de la Lista</option>
+                    {{#each tecnico}}
+                        <option value="{{iduser}}">{{fullname}}</option>
+                    {{/each}}
+                </select>
 
-<datalist id="listaTecnicos">
-    {{#each tecnico}}
-        <option value="{{fullname}}"></option>
-    {{/each}}
-</datalist>
+            </div>
+            <div id="selectsTecnico"></div>
+
+        </div>
+        <div class="col-1 botonAgregarT">
+            <a class="btn btn-dark" href="#" onclick="duplicar1();"> +</a>
+        </div>
+
+    </div>
+    <div class="row g-2 mb-3">
+        <div class="col-md">
+            <div class="form">
+                <label for="">Fecha Inicio (Prevista)</label>
+                <input name="fechaInicioPre" type="datetime-local" class="form-control" required>
+
+            </div>
+        </div>
+        <div class="col-md ">
+            <div class="form">
+                <label for="">Fecha Final (Prevista)</label>
+                <input name="fechaFinalPre" type="datetime-local" class="form-control" required>
+            </div>
+        </div>
+    </div>
+
+
+    <button class="btn btn-primary" type="submit" onclick="validate();">Enviar</button>
+</form>
+
+</div>
+
+
+
+
+
+
 
 
 

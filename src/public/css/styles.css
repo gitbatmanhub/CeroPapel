@@ -55,14 +55,31 @@ margin: 0 auto;
 
 
 
-.divPadre{
-     display: flex;
-     margin: 10px 20px;
-}
 
-.nombre{
-     color: transparent;
+.botonAgregarT{
+     align-self: center;
+
 }
-.nombre::placeholder{
-     color: black;
+#divPadre{
+     display: flex;
+     margin: 10px auto 0 auto;
+}
+#cerrar{
+     margin: auto 10px;
+
+
+}
+.formTecnicos{
+     width: 50%;
+     margin: 0 auto;
+}
+.tecnicosAl{
+     display: flex;
+}
+.este{
+     text-align: center;
+     margin: 20px auto;
+}
+.delete{
+     margin: 0 auto;
 }
