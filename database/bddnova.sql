@@ -503,3 +503,8 @@ describe orden_Trabajador;
 select * from usuario;
 
 select u.fullname, e.nameEspecialidad, u.iduser from tecnico inner join usuario u on tecnico.idUser = u.iduser inner join especialidadtecnico e on tecnico.idEspecialidad = e.idEspecialidad where e.idEspecialidad !=4;
+use bddnova;
+
+
+select * from tipomantenimiento;
+

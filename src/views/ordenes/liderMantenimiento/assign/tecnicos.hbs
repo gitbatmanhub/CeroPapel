@@ -13,7 +13,6 @@
 
     <div class="row g-2 mb-3 tecnicosAl">
         <div class="col-md">
-            <label for="nombreTecnico" class="form-label">Escoge el (los) tecnico(s)</label>
 
             <div id="divPadre">
                 <select class="form-select" name="idTecnico" id="nombreTecnico">
@@ -46,6 +45,18 @@
                 <input name="fechaFinalPre" type="datetime-local" class="form-control" required>
             </div>
         </div>
+    </div>
+    <div class=" mb-3">
+        <select class="form-select" name="tipoMantenimiento" id="tipoMantenimiento">
+            <option value="null" selected>Tipo Mantenimiento</option>
+            {{#each tipoMantenimiento}}
+                <option value="{{idTipoMantenimiento}}">{{nameTipoMantenimiento}}</option>
+            {{/each}}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label  for="a">Ingrese la descripción del trabajo a realizarse</label>
+        <textarea class="form-control" name="descripciónTrabajo" id="a" cols="15" rows="10" placeholder="Se lo más especifico que puedas, ayudanos a entenderte."></textarea>
     </div>
 
 
