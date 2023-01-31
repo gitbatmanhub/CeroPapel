@@ -358,15 +358,45 @@ add column idUsuario int(6) not null;
 alter table orden_Status
 add constraint fk_idUsuarioStatus foreign key (idUsuario) references usuario(iduser);
 
-
+/*
 alter table orden_status
     add column fechaInicio timestamp not null;
+
+alter table orden_status
+    drop column fechaInicio;
 
 alter table orden_status
     add column fechaFinal timestamp not null;
 
 alter table orden_status
     add column comentariosLider varchar(500) not null;
+
+
+ */
+create table proveedor
+(
+    idProveedor int(5) not null primary key auto_increment,
+    nameProveedor varchar(50)
+);
+
+insert into proveedor(nameProveedor)
+values ('Novared');
+
+
+
+
+
+insert into tipoMantenimiento( nametipomantenimiento)
+values ('Externo');
+select * from tipoMantenimiento;
+
+alter table orden_status
+add column idProveedor int(5) default 1;
+
+alter table orden_status
+add constraint fk_idProveedor foreign key (idProveedor) references proveedor(idProveedor);
+
+
 /* ================================== */
 create table probe1
 (
@@ -522,13 +552,13 @@ select * from usuario;
 
 select * from orden_status;
 describe orden_status;
-delete from orden_status;
+
 
 select * from status;
 select * from orden_Trabajador;
 alter table orden_Trabajador auto_increment=1;
 
-delete from orden_Trabajador;
+
 
 select * from usuario;
 select * from tecnico;
@@ -541,13 +571,40 @@ inner join usuario u on t.idUser = u.iduser;
 select * from usuario;
 select * from orden_Trabajador;
 select * from orden_status;
-delete from orden_Trabajador;
-delete from orden_status;
+
 select * from usuario;
+
+select * from tipoMantenimiento;
+select * from status;
+
 
 
 
 select *
 from tipoMantenimiento;
 
+
+
+select * from status;
+select * from orden_status;
+describe orden_status;
+select * from usuario;
+
+select * from ordentrabajo;
+
+update ordentrabajo
+set idStatus=2
+where idOrdenTrabajo=7;
+
+select * from ordentrabajo;
+
+select ordenTrabajo.*, s.nameStatus, ordenTrabajo.descripcion, ordenTrabajo.create_at , a.nameArea, m.nameMaquina , e.nameEstado,  p.namePrioridad from ordenTrabajo inner join prioridad p on ordenTrabajo.idPrioridad = p.idPrioridad inner join maquina m on ordenTrabajo.idMaquina = m.idMaquina inner join area a on ordenTrabajo.idArea=a.idArea inner join estadoMaquina e on ordenTrabajo.estadoMaquina = e.idEstadoMaquina inner join status s on ordenTrabajo.idStatus = s.idStatus where ordenTrabajo.idStatus=4
+select * from status;
+select * from tipoMantenimiento;
+
+select *
+from orden_status;
+
+
+select * from orden_status;
 

@@ -363,19 +363,41 @@ router.post('/tecnico/:id', async (req, res) => {
     for (let i = 0; i < exmaple.idTecnico.length; i++) {
         const idTecnico = exmaple.idTecnico[i];
         await pool.query('INSERT orden_Trabajador (idOrden, idTecnico) values (?, ?)', [idOrden, idTecnico]);
-        await pool.query('insert orden_status (idStatus, idOrden, idTipoMantenimiento, idUsuario, fechaInicio, fechaFinal, comentariosLider) values (?,?,?,?,?,?,?)',[idStatus,idOrden, tipoMantenimiento,  userId, fechaInicioPre, fechaFinalPre, descripciónTrabajo ]);
+        await pool.query('insert orden_status (idStatus, idOrden, idTipoMantenimiento, idUsuario, fechaInicio, fechaFinal, comentariosLider) values (?,?,?,?,?,?,?)', [idStatus, idOrden, tipoMantenimiento, userId, fechaInicioPre, fechaFinalPre, descripciónTrabajo]);
     }
 
 })
 
 
-
-router.get('/trabajoexterno/:id', async (req, res)=>{
-    res.render('ordenes/liderMantenimiento/assign/trabajoexterno');
+router.get('/trabajoexterno/:id', async (req, res) => {
+    const maquina = await pool.query('select * from maquina');
+    const id = req.params.id;
+    const ordenes = await pool.query('select ordenTrabajo.*, s.nameStatus, ordenTrabajo.descripcion, ordenTrabajo.create_at , a.nameArea, m.nameMaquina , e.nameEstado,  p.namePrioridad from ordenTrabajo inner join prioridad p on ordenTrabajo.idPrioridad = p.idPrioridad inner join maquina m on ordenTrabajo.idMaquina = m.idMaquina inner join area a on ordenTrabajo.idArea=a.idArea inner join estadoMaquina e on ordenTrabajo.estadoMaquina = e.idEstadoMaquina inner join status s on ordenTrabajo.idStatus = s.idStatus where ordenTrabajo.idOrdenTrabajo=?;', [id]);
+    const proveedor = await pool.query('select * from proveedor');
+    //console.log(maquina)
+    res.render('ordenes/liderMantenimiento/assign/trabajoexterno', {maquina, proveedor, ordenes});
     console.log(req.body);
 })
-router.post('/trabajoexterno/:id', async (req, res)=>{
+
+router.post('/trabajoexterno/:id', async (req, res) => {
+    //console.log(req.body);
+    const idOrden = req.params.id;
+
+    const {proveedor, fechaInicioTE, fechaFinalTE, descripcion, idStatus, tipoMantenimiento} = req.body;
+    const trabajoExterno =
+        {
+            proveedor,
+            fechaInicioTE,
+            fechaFinalTE,
+            descripcion,
+            idStatus,
+            tipoMantenimiento
+        }
+
     console.log(req.body);
+
+
+    res.redirect('/orden/');
 })
 
 module.exports = router;
