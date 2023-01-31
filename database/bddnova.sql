@@ -359,6 +359,14 @@ alter table orden_Status
 add constraint fk_idUsuarioStatus foreign key (idUsuario) references usuario(iduser);
 
 
+alter table orden_status
+    add column fechaInicio timestamp not null;
+
+alter table orden_status
+    add column fechaFinal timestamp not null;
+
+alter table orden_status
+    add column comentariosLider varchar(500) not null;
 /* ================================== */
 create table probe1
 (
@@ -373,7 +381,7 @@ create table probe2
 );
 
 select * from prioridad ;
-select * from ordenTrabajo;
+select * from ordenTrabajo
 where idUsuario=2;
 
 select * from rolusuario;
@@ -414,7 +422,6 @@ select ordenTrabajo.idOrdenTrabajo, ordenTrabajo.descripcion, ordenTrabajo.creat
 select * from ordenTrabajo;
 select * from status;
 
-select * from es;
 
 
 select ordenTrabajo.idOrdenTrabajo,s.nameStatus, ordenTrabajo.descripcion, ordenTrabajo.create_at , a.nameArea, m.nameMaquina , e.nameEstado,  p.namePrioridad
@@ -484,6 +491,7 @@ values (1, 1),
        (3, 2),
        (4, 4);
 
+select * from tecnico;
 
 select u.fullname, e.nameEspecialidad, u.iduser
 from tecnico
@@ -507,4 +515,39 @@ use bddnova;
 
 
 select * from tipomantenimiento;
+use bddnova;
+
+
+select * from usuario;
+
+select * from orden_status;
+describe orden_status;
+delete from orden_status;
+
+select * from status;
+select * from orden_Trabajador;
+alter table orden_Trabajador auto_increment=1;
+
+delete from orden_Trabajador;
+
+select * from usuario;
+select * from tecnico;
+
+select orden_Trabajador.idTecnico, t.idUser, u.fullname
+from orden_Trabajador
+inner join tecnico t on orden_Trabajador.idTecnico = t.idTecnico
+inner join usuario u on t.idUser = u.iduser;
+
+select * from usuario;
+select * from orden_Trabajador;
+select * from orden_status;
+delete from orden_Trabajador;
+delete from orden_status;
+select * from usuario;
+
+
+
+select *
+from tipoMantenimiento;
+
 

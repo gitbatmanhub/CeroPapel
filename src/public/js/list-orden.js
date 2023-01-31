@@ -48,9 +48,10 @@ const table3 = document.getElementById('table3');
 table3.addEventListener('click', (e)=>{
     e.stopPropagation();
     const id=e.target.parentElement.parentElement.children[0].textContent.trim();
-    console.log(id);
+    //console.log(id);
     document.getElementById("tecnico").href="/orden/tecnico/" + id;
-    document.getElementById("orden").value=id;
+    document.getElementById("suministros").href="/orden/suministro/" + id;
+    document.getElementById("trabajoExterno").href="/orden/trabajoExterno/" + id;
 
 });
 
