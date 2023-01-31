@@ -358,21 +358,30 @@ add column idUsuario int(6) not null;
 alter table orden_Status
 add constraint fk_idUsuarioStatus foreign key (idUsuario) references usuario(iduser);
 
-/*
+/*++++++++++++++++++++++++*/
 alter table orden_status
-    add column fechaInicio timestamp not null;
+    add column fechaInicio timestamp default current_timestamp;
 
-alter table orden_status
-    drop column fechaInicio;
 
 alter table orden_status
-    add column fechaFinal timestamp not null;
+    drop column comentariosLider;
 
 alter table orden_status
-    add column comentariosLider varchar(500) not null;
+    add column fechaFinal timestamp default current_timestamp;
+
+alter table orden_status
+    add column comentariosLider varchar(500) not null default "No comentarios";
+
+select *
+from orden_status;
 
 
- */
+
+/*+++++++++++++++++++++++++++++++++++*/
+
+select * from orden_status;
+
+
 create table proveedor
 (
     idProveedor int(5) not null primary key auto_increment,
@@ -607,4 +616,16 @@ from orden_status;
 
 
 select * from orden_status;
+
+
+select * from orden_status;
+
+
+update orden_status set fechaFinal=?, fechaInicio=? where idOrden=4;
+
+select * from orden_Trabajador;
+select * from orden_status;
+
+select * from ordentrabajo;
+
 

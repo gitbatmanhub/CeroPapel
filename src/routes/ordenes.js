@@ -363,7 +363,8 @@ router.post('/tecnico/:id', async (req, res) => {
     for (let i = 0; i < exmaple.idTecnico.length; i++) {
         const idTecnico = exmaple.idTecnico[i];
         await pool.query('INSERT orden_Trabajador (idOrden, idTecnico) values (?, ?)', [idOrden, idTecnico]);
-        await pool.query('insert orden_status (idStatus, idOrden, idTipoMantenimiento, idUsuario, fechaInicio, fechaFinal, comentariosLider) values (?,?,?,?,?,?,?)', [idStatus, idOrden, tipoMantenimiento, userId, fechaInicioPre, fechaFinalPre, descripciónTrabajo]);
+        await pool.query('insert orden_status (idStatus, idOrden, idTipoMantenimiento, idUsuario,  comentariosLider) values (?,?,?,?)', [idStatus, idOrden, tipoMantenimiento, userId]);
+        await pool.query('update orden_status set fechaFinal=?, fechaInicio=?,  comentariosLider=? where idOrden=?;', [fechaFinalPre, fechaInicioPre, descripciónTrabajo, idOrden]);
     }
 
 })
