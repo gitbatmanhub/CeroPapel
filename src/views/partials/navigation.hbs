@@ -54,6 +54,10 @@
 </style>
 
 
+{{#if user}}
+
+
+
 <nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-dark" aria-label="Main navigation">
     <div class="container-fluid">
         <a class="navbar-brand" href="/ ">0 Papel</a>
@@ -77,6 +81,9 @@
                         <li><a class="dropdown-item" href="/misordenes">Mis Ordenes</a></li>
                     </ul>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="/salir">Salir</a>
+                </li>
             </ul>
 
         </div>
@@ -92,12 +99,14 @@
         </a>
         <a class="nav-link" href="/ordenesporaceptar">Ordenes Por Aceptar</a>
         <a class="nav-link" href="/ordenesaprobadas">Ordenes Aprobadas</a>
-        <a class="nav-link" href="#">Ordenes Terminadas</a>
+        <a class="nav-link" href="/ordenesasignadas">Ordenes Asignadas</a>
         <a class="nav-link" href="#">Ordenes Cerradas</a>
 
     </nav>
 </div>
+{{else}}
 
+{{/if}}
 <script>
     (() => {
         'use strict'

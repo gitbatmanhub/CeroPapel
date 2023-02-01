@@ -1,14 +1,14 @@
 <div class="container">
 
-{{#each ordenes}}
-    <form action="/orden/tecnico/{{idOrdenTrabajo}}" id="form" class="formTecnicos" id="" method="post">
+    {{#each ordenes}}
+    <form action="/tecnico/{{idOrdenTrabajo}}" id="form" class="formTecnicos" id="" method="post">
 
 
-    <div class="este">
-        <h1>Aseignar Tecnicos y Fechas a orden Nr#  {{idOrdenTrabajo}}</h1>
+        <div class="este">
+            <h1 style="text-align: center">Asignar Tecnicos y Fechas a orden Nr#  {{idOrdenTrabajo}}</h1>
 
-    </div>
-{{/each}}
+        </div>
+    {{/each}}
 
 
     <div class="row g-2 mb-3 tecnicosAl">
@@ -55,19 +55,17 @@
         </select>
     </div>
     <div class="mb-3">
-        <label  for="a">Ingrese la descripción del trabajo a realizarse</label>
-        <textarea class="form-control" name="descripciónTrabajo" id="a" cols="15" rows="10" placeholder="Se lo más especifico que puedas, ayudanos a entenderte."></textarea>
+        <label for="a">Ingrese la descripción del trabajo a realizarse</label>
+        <textarea class="form-control" name="descripcionTrabajo" id="a" cols="15" rows="10"
+                  placeholder="Se lo más especifico que puedas, ayudanos a entenderte."></textarea>
     </div>
     <input type="hidden" name="idStatus" value="3">
-    <input type="hidden" value="1" name="tipoMantenimiento">
-
 
 
     <button class="btn btn-primary" type="submit" onclick="validate();">Enviar</button>
 </form>
 
 </div>
-
 
 
 

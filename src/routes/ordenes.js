@@ -81,7 +81,7 @@ router.get('/ordenesporaceptar', async (req, res)=>{
 
 router.get('/ordenesaprobadas', async (req, res)=>{
     //console.log(req.user)
-    const idUser = ([req.user.iduser][0]);
+    //const idUser = ([req.user.iduser][0]);
     //console.log()
     const ordenesAceptadas = await pool.query('select ordenTrabajo.*, s.nameStatus, ordenTrabajo.descripcion, ordenTrabajo.create_at , a.nameArea, m.nameMaquina , e.nameEstado,  p.namePrioridad from ordenTrabajo inner join prioridad p on ordenTrabajo.idPrioridad = p.idPrioridad inner join maquina m on ordenTrabajo.idMaquina = m.idMaquina inner join area a on ordenTrabajo.idArea=a.idArea inner join estadoMaquina e on ordenTrabajo.estadoMaquina = e.idEstadoMaquina inner join status s on ordenTrabajo.idStatus = s.idStatus where ordenTrabajo.idStatus=2;');
     //const contadorMisOrdenes = await pool.query('select count(*) from ordentrabajo where idUsuario=2')
@@ -89,6 +89,14 @@ router.get('/ordenesaprobadas', async (req, res)=>{
     console.log(ordenesAceptadas);
     res.render('ordenes/liderMantenimiento/ordenesAprobadas', {ordenesAceptadas})
 
+})
+
+
+router.get('/ordenesasignadas', async (req, res)=>{
+    const idUser = ([req.user.iduser][0]);
+    const ordenesPorAceptar = await pool.query('select ordenTrabajo.*, s.nameStatus, ordenTrabajo.descripcion, ordenTrabajo.create_at , a.nameArea, m.nameMaquina , e.nameEstado,  p.namePrioridad from ordenTrabajo inner join prioridad p on ordenTrabajo.idPrioridad = p.idPrioridad inner join maquina m on ordenTrabajo.idMaquina = m.idMaquina inner join area a on ordenTrabajo.idArea=a.idArea inner join estadoMaquina e on ordenTrabajo.estadoMaquina = e.idEstadoMaquina inner join status s on ordenTrabajo.idStatus = s.idStatus where ordenTrabajo.idStatus=3;');
+    console.log(ordenesPorAceptar);
+    res.render('ordenes/lidermantenimiento/asignadas', {ordenesPorAceptar});
 })
 
 
@@ -309,6 +317,7 @@ router.post('/view/:id', isLoggedIn, async (req, res) => {
 //=======================================================
 
 //=============================================== Vista Ordenes Tecnicos
+/*
 router.post('/viewT/:id', isLoggedIn, async (req, res) => {
 
     const {comentariosTecnico, id_orden} = req.body;
@@ -328,6 +337,8 @@ router.post('/viewT/:id', isLoggedIn, async (req, res) => {
 
 
 });
+
+ */
 //=======================================================
 
 
@@ -372,8 +383,6 @@ router.post('/probe/', isLoggedIn, async (req, res) => {
         // pocas cantidades de usuarios
     }
     req.flash('success', 'Nombre y apellidos');
-
-
     res.redirect('/orden/probe');
 
 

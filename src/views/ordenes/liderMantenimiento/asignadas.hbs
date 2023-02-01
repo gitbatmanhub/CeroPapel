@@ -1,0 +1,130 @@
+
+
+
+<div class="tables-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card-style mb-30">
+                <!--<h6 class="mb-10">Data Table</h6>-->
+                <h1 style="padding: 20px">Ordenes Asignadas</h1>
+
+
+                <table id="table3" class="display">
+
+                    <thead>
+                    <tr>
+
+                        <th><h6>Id Orden</h6></th>
+                        <th><h6>Creador</h6></th>
+                        <th><h6>Area</h6></th>
+                        <th><h6>Maquina</h6></th>
+                        <th><h6>Prioridad</h6></th>
+                        <th><h6>Acciones</h6></th>
+                    </tr>
+
+                    </thead>
+
+                    <tbody class="list" id="tab">
+                    {{#each ordenesPorAceptar }}
+
+                        <tr>
+                            <td class="">
+                                <div class="">
+                                    <div class="">
+                                        <p>{{idOrdenTrabajo}}</p>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="fullname">
+                                <p>{{nameArea}}</p>
+                            </td>
+                            <td class="area">
+                                <p>{{nameMaquina}}</p>
+                            </td>
+                            <td class="estado">
+                                <p>{{nameEstado}}</p>
+                            </td>
+                            <td class="prioridad">
+                                <p>{{namePrioridad}}</p>
+                            </td>
+                            <td style="text-align: center">
+
+                                <button class="btn btn-primary" data-bs-target="#modalAcciones3"
+                                        data-bs-toggle="modal">Ver Acciones
+                                </button>
+
+                            </td>
+                        </tr>
+
+                    {{/each}}
+                    </tbody>
+                </table>
+                <!-- end table -->
+            </div>
+        </div>
+        <!-- end card -->
+    </div>
+    <!-- end col -->
+</div>
+
+
+
+
+{{#each ordenesAceptadas}}
+    <div class="modal fade" id="modalAcciones3" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+         tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Acciones</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="card" style="width: 18rem;">
+                        <lord-icon
+                                src="https://cdn.lordicon.com/ifqmqwui.json"
+                                trigger="loop"
+                                delay="300"
+                                style="width:150px;height:150px; margin: 0 auto">
+                        </lord-icon>
+                        <div class="card-body">
+                            <h5 class="card-title">Asignar Suministros</h5>
+                            <p class="card-text">Asignar Suministros</p>
+                            <a href="/orden/suministro/" class="btn btn-primary " id="suministros">Suministros</a>
+                        </div>
+                    </div>
+                    <div class="card" style="width: 18rem;">
+                        <lord-icon
+                                src="https://cdn.lordicon.com/fbdgkenc.json"
+                                trigger="loop"
+                                delay="300"
+                                style="width:150px;height:150px; margin: 0 auto">
+                        </lord-icon>
+                        <div class="card-body">
+                            <h5 class="card-title">Asignar Tecnicos</h5>
+                            <p class="card-text">Asignar Tecnicos</p>
+                            <a href="/orden/tecnico/" class="btn btn-primary " id="tecnico">Asignar Tecnicos</a>
+                        </div>
+                    </div>
+
+                    <div class="card" style="width: 18rem;">
+                        <lord-icon
+                                src="https://cdn.lordicon.com/winbdcbm.json"
+                                trigger="loop"
+                                delay="300"
+                                style="width:150px;height:150px; margin: 0 auto">
+                        </lord-icon>
+                        <div class="card-body">
+                            <h5 class="card-title">Trabajo Externo</h5>
+                            <p class="card-text">Trabajo Externo</p>
+                            <a href="/orden/trabajoExterno/" id="trabajoExterno" class="btn btn-primary">Trabajo Externo</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+{{/each}}
