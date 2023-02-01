@@ -8,8 +8,8 @@ const Console = require("console");
 
 
 //=======================================================Home
-
-router.get('/', isLoggedIn, async (req, res) => {
+/*
+router.get('/orden', isLoggedIn, async (req, res) => {
     const users = await pool.query('SELECT * from usuario', [req.user.rolusuario]);
     const idRol = ([req.user.rolusuario][0]);
 
@@ -48,8 +48,49 @@ router.get('/', isLoggedIn, async (req, res) => {
     }
 
 
+
+
 });
+*/
+
 //====================================================
+router.get('/misordenes', async (req, res)=>{
+    //console.log(req.user)
+    const idUser = ([req.user.iduser][0]);
+    //console.log()
+    const misOrdenes = await pool.query('select ordenTrabajo.idOrdenTrabajo, s.avanceStatus, ordenTrabajo.descripcion, ordenTrabajo.create_at , a.nameArea, m.nameMaquina,  e.nameEstado,  p.namePrioridad from ordenTrabajo inner join prioridad p on ordenTrabajo.idPrioridad = p.idPrioridad inner join maquina m on ordenTrabajo.idMaquina = m.idMaquina inner join area a on ordenTrabajo.idArea=a.idArea inner join estadoMaquina e on ordenTrabajo.estadoMaquina = e.idEstadoMaquina inner join status s on ordenTrabajo.idStatus = s.idStatus where ordenTrabajo.idUsuario=?', [idUser]);
+    const contadorMisOrdenes = await pool.query('select count(*) from ordentrabajo where idUsuario=2')
+        //console.log(misOrdenes);
+    console.log(contadorMisOrdenes)
+    res.render('ordenes/misordenes', {misOrdenes, contadorMisOrdenes})
+
+})
+
+
+router.get('/ordenesporaceptar', async (req, res)=>{
+    //console.log(req.user)
+    const idUser = ([req.user.iduser][0]);
+    //console.log()
+    const ordenesPorAceptar = await pool.query('select ordenTrabajo.*, s.nameStatus, ordenTrabajo.descripcion, ordenTrabajo.create_at , a.nameArea, m.nameMaquina , e.nameEstado,  p.namePrioridad from ordenTrabajo inner join prioridad p on ordenTrabajo.idPrioridad = p.idPrioridad inner join maquina m on ordenTrabajo.idMaquina = m.idMaquina inner join area a on ordenTrabajo.idArea=a.idArea inner join estadoMaquina e on ordenTrabajo.estadoMaquina = e.idEstadoMaquina inner join status s on ordenTrabajo.idStatus = s.idStatus where ordenTrabajo.idStatus=1;');
+    //const contadorMisOrdenes = await pool.query('select count(*) from ordentrabajo where idUsuario=2')
+    //console.log(misOrdenes);
+    console.log(ordenesPorAceptar);
+    res.render('ordenes/liderMantenimiento/ordenesPA', {ordenesPorAceptar});
+
+})
+
+router.get('/ordenesaprobadas', async (req, res)=>{
+    //console.log(req.user)
+    const idUser = ([req.user.iduser][0]);
+    //console.log()
+    const ordenesAceptadas = await pool.query('select ordenTrabajo.*, s.nameStatus, ordenTrabajo.descripcion, ordenTrabajo.create_at , a.nameArea, m.nameMaquina , e.nameEstado,  p.namePrioridad from ordenTrabajo inner join prioridad p on ordenTrabajo.idPrioridad = p.idPrioridad inner join maquina m on ordenTrabajo.idMaquina = m.idMaquina inner join area a on ordenTrabajo.idArea=a.idArea inner join estadoMaquina e on ordenTrabajo.estadoMaquina = e.idEstadoMaquina inner join status s on ordenTrabajo.idStatus = s.idStatus where ordenTrabajo.idStatus=2;');
+    //const contadorMisOrdenes = await pool.query('select count(*) from ordentrabajo where idUsuario=2')
+    //console.log(misOrdenes);
+    console.log(ordenesAceptadas);
+    res.render('ordenes/liderMantenimiento/ordenesAprobadas', {ordenesAceptadas})
+
+})
+
 
 
 //======================================= Agregar Orden
@@ -85,7 +126,7 @@ router.post('/agregarOrden', isLoggedIn, async (req, res) => {
     await pool.query('INSERT INTO ordenTrabajo set ?', [newOrden]);
 
     req.flash('success', 'Orden agregada correctamente');
-    res.redirect('/orden');
+    res.redirect('/misordenes');
 });
 //=========================================================
 
@@ -96,7 +137,7 @@ router.get('/delete/:id', async (req, res) => {
 
     await pool.query('DELETE FROM ordenTrabajo where idOrdenTrabajo=?', [id]);
     req.flash('error', 'Orden eliminada correctamente');
-    res.redirect('/orden');
+    res.redirect('/misordenes');
 });
 //=========================================================
 
@@ -176,6 +217,7 @@ router.get('/assign/:id', isLoggedIn, async (req, res) => {
  */
 
 //=============================================Ver Ordenes Tecnicos
+/*
 router.get('/review/:id', isLoggedIn, async (req, res) => {
     const {id} = req.params;
     const ordenes = await pool.query('select ordenesasignadas.*, ot.*, u.fullname from novared.ordenesasignadas inner join ordenestrabajo ot on ordenesasignadas.idOrden = ot.id inner join users u on ot.user_id = u.id where idOrden=?;', [id]);
@@ -200,6 +242,8 @@ router.get('/review/:id', isLoggedIn, async (req, res) => {
     });
 
 });
+
+ */
 //================================================
 
 
@@ -243,6 +287,7 @@ router.post('/assign/:id', isLoggedIn, async (req, res) => {
  */
 
 //============================================== Aprobar Ordenes
+/*
 router.post('/view/:id', isLoggedIn, async (req, res) => {
     const {idOrden, idUserCreo, comentariosSupervisor} = req.body;
     const newOrdenAprobada = {
@@ -259,6 +304,8 @@ router.post('/view/:id', isLoggedIn, async (req, res) => {
 
 
 });
+
+ */
 //=======================================================
 
 //=============================================== Vista Ordenes Tecnicos
@@ -297,7 +344,7 @@ router.post('/accept/:id', isLoggedIn, async (req, res) => {
     await pool.query('INSERT INTO orden_Status set ?', [data]);
     await pool.query('UPDATE ordenTrabajo SET idStatus=2 WHERE idOrdenTrabajo = ?', [orden]);
 
-    res.redirect('/orden');
+    res.redirect('/ordenesporaceptar');
 })
 
 
@@ -357,16 +404,22 @@ router.get('/tecnico/:id', async (req, res) => {
 router.post('/tecnico/:id', async (req, res) => {
     const userId = [req.user.iduser][0];
     const idOrden = req.params.id;
-    res.send('ok');
+    console.log(userId)
     const objo = Object.assign({}, req.body);
-    const exmaple = {idTecnico, fechaInicioPre, fechaFinalPre, tipoMantenimiento, descripciónTrabajo, idStatus} = objo;
+    console.log(objo);
+    const exmaple = {idTecnico, fechaInicioPre, fechaFinalPre, tipoMantenimiento, descripcionTrabajo, idStatus} = objo;
+    const comentario={descripcionTrabajo};
+    console.log(comentario);
     for (let i = 0; i < exmaple.idTecnico.length; i++) {
         const idTecnico = exmaple.idTecnico[i];
-        await pool.query('INSERT orden_Trabajador (idOrden, idTecnico) values (?, ?)', [idOrden, idTecnico]);
-        await pool.query('insert orden_status (idStatus, idOrden, idTipoMantenimiento, idUsuario,  comentariosLider) values (?,?,?,?)', [idStatus, idOrden, tipoMantenimiento, userId]);
-        await pool.query('update orden_status set fechaFinal=?, fechaInicio=?,  comentariosLider=? where idOrden=?;', [fechaFinalPre, fechaInicioPre, descripciónTrabajo, idOrden]);
+        //Inserto en tabla orden_Trabajador los id de los tecnicos junto a los de la orden
+        await pool.query('INSERT orden_Trabajador (idOrden, idTecnico) values (?, ?);', [idOrden, idTecnico]);
+        //
+        await pool.query('insert orden_status (idStatus, idOrden, idTipoMantenimiento, idUsuario,  comentariosLider) values (?,?,?,?,?)', [idStatus, idOrden, tipoMantenimiento, userId ,descripcionTrabajo]);
+        await pool.query('update orden_status set fechaFinal=?, fechaInicio=?,  comentariosLider=? where idOrden=?;', [fechaFinalPre, fechaInicioPre, descripcionTrabajo, idOrden]);
+        await pool.query('UPDATE ordenTrabajo SET idStatus=3 WHERE idOrdenTrabajo = ?', [idOrden]);
     }
-
+    res.redirect('/ordenesaprobadas')
 })
 
 

@@ -211,7 +211,9 @@ alter table ordenTrabajo
     add constraint fk_idArea foreign key (idArea) references area(idArea);
 
 alter table orden_status
-add constraint fk_idOrden foreign key (idOrden) references ordentrabajo(idOrdenTrabajo);
+add constraint fk_idOrden foreign key (idOrden) references ordentrabajo(idOrdenTrabajo) on delete cascade ;
+
+
 
 alter table  orden_status
 add constraint fk_idTipoMantenimiento foreign key (idTipoMantenimiento) references tipomantenimiento(idTipoMantenimiento);
@@ -226,7 +228,9 @@ alter table orden_producto
 add constraint fk_id_Orden foreign key (idOrden) references ordenTrabajo(idOrdenTrabajo);
 
 alter table orden_Trabajador
-add constraint fk_idOrdenT foreign key (idOrden) references ordenTrabajo(idOrdenTrabajo);
+add constraint fk_idOrdenT foreign key (idOrden) references ordenTrabajo(idOrdenTrabajo) on delete cascade ;
+
+
 
 alter table orden_Trabajador
 add constraint fk_idTecnico foreign key (idTecnico) references tecnico(idTecnico);
@@ -626,6 +630,18 @@ update orden_status set fechaFinal=?, fechaInicio=? where idOrden=4;
 select * from orden_Trabajador;
 select * from orden_status;
 
+select count(*) from ordentrabajo where idUsuario=2;
+
+select * from usuario;
+
+select ordenTrabajo.*, s.nameStatus, ordenTrabajo.descripcion, ordenTrabajo.create_at , a.nameArea, m.nameMaquina , e.nameEstado,  p.namePrioridad from ordenTrabajo inner join prioridad p on ordenTrabajo.idPrioridad = p.idPrioridad inner join maquina m on ordenTrabajo.idMaquina = m.idMaquina inner join area a on ordenTrabajo.idArea=a.idArea inner join estadoMaquina e on ordenTrabajo.estadoMaquina = e.idEstadoMaquina inner join status s on ordenTrabajo.idStatus = s.idStatus where ordenTrabajo.idStatus=1
+select * from status;
+select * from orden_status;
+select * from status;
+
 select * from ordentrabajo;
 
+delete from orden_status where idOrdenStatus=18;
 
+select * from orden_trabajador;
+delete from orden_trabajador where idOrdenTrabajador=38;

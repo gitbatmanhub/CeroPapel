@@ -20,38 +20,21 @@ $(document).ready(function () {
 
 
 
-const table1 = document.getElementById('table1');
-table1.addEventListener('click', (e)=>{
-    e.stopPropagation();
-    const id=e.target.parentElement.parentElement.children[0].textContent.trim();
-    console.log(id);
-    document.getElementById("viewBtn").href="/orden/view/" + id;
-    document.getElementById("editBtn").href="/orden/edit/" + id;
-    document.getElementById("deleteBtn").href="/orden/delete/" + id;
-
-});
 
 
 
 
-const table2 = document.getElementById('table2');
-table2.addEventListener('click', (e)=>{
-    e.stopPropagation();
-    const id=e.target.parentElement.parentElement.children[0].textContent.trim();
-    console.log(id);
-    document.getElementById("accept").action="/orden/accept/"+id;
-    document.getElementById("orden").value=id;
 
-});
+
 
 const table3 = document.getElementById('table3');
 table3.addEventListener('click', (e)=>{
     e.stopPropagation();
     const id=e.target.parentElement.parentElement.children[0].textContent.trim();
     //console.log(id);
-    document.getElementById("tecnico").href="/orden/tecnico/" + id;
-    document.getElementById("suministros").href="/orden/suministro/" + id;
-    document.getElementById("trabajoExterno").href="/orden/trabajoExterno/" + id;
+    document.getElementById("tecnico").href="/tecnico/" + id;
+    document.getElementById("suministros").href="/suministro/" + id;
+    document.getElementById("trabajoExterno").href="/trabajoExterno/" + id;
 
 });
 

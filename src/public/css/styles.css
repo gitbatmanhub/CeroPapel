@@ -1,85 +1,48 @@
-*{
 
-     font-family: 'Montserrat', sans-serif;
-
+body {
+     padding-top: 56px;
 }
 
-.homeIndex{
-     height: 100vh;
-     width: 100vh;
+@media (max-width: 991.98px) {
+     .offcanvas-collapse {
+          position: fixed;
+          top: 56px; /* Height of navbar */
+          bottom: 0;
+          left: 100%;
+          width: 100%;
+          padding-right: 1rem;
+          padding-left: 1rem;
+          overflow-y: auto;
+          visibility: hidden;
+          background-color: #343a40;
+          transition: transform .3s ease-in-out, visibility .3s ease-in-out;
+     }
+     .offcanvas-collapse.open {
+          visibility: visible;
+          transform: translateX(-100%);
+     }
 }
 
-
-
-.form-control:disabled, .form-control[readonly]{
-     background-color: white !important;
+.nav-scroller .nav {
+     color: rgba(255, 255, 255, .75);
 }
 
-.nav-tabs{
-     margin-top: 10px;
+.nav-scroller .nav-link {
+     padding-top: .75rem;
+     padding-bottom: .75rem;
+     font-size: .875rem;
+     color: #6c757d;
 }
 
-.modal-body{
-     display: flex;
-     align-content: baseline;
-
-}
-.modal-body .card{
-     margin: 10px;
-     border-color: white;
-     display: flex;
-     align-items: center;
-     text-align: center;
-
+.nav-scroller .nav-link:hover {
+     color: #007bff;
 }
 
-.modalTecnico .card{
-margin: 0 auto;
+.nav-scroller .active {
+     font-weight: 500;
+     color: #343a40;
 }
 
-
-.card-body a{
-     margin-top: 10px;
-
-}
-
-
-.formularioTecnicos{
-     width: 70%;
-     margin: 0 auto;
-}
-
-.botonesAgregar{
-     margin-top: 5px;
-}
-
-
-
-
-.botonAgregarT{
-     align-self: center;
-
-}
-#divPadre{
-     display: flex;
-     margin: 10px auto 0 auto;
-}
-#cerrar{
-     margin: auto 10px;
-
-
-}
-.formTecnicos{
-     width: 50%;
-     margin: 0 auto;
-}
-.tecnicosAl{
-     display: flex;
-}
-.este{
-     text-align: center;
-     margin: 20px auto;
-}
-.delete{
-     margin: 0 auto;
+.bg-purple {
+     background-color: #6f42c1;
 }
