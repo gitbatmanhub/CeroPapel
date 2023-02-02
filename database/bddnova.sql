@@ -731,3 +731,7 @@ inner join tecnico t on orden_Trabajador.idTecnico = t.idTecnico
 inner join usuario u on t.idUser = u.iduser
 inner join especialidadtecnico et on t.idEspecialidad=et.idEspecialidad
 ;
+
+
+select * from area;
+select * from maquina;
