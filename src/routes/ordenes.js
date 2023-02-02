@@ -53,15 +53,17 @@ router.get('/orden', isLoggedIn, async (req, res) => {
 });
 */
 
+
+
 //====================================================
 router.get('/misordenes', async (req, res)=>{
     //console.log(req.user)
     const idUser = ([req.user.iduser][0]);
-    //console.log()
+    console.log(req.user.rolusuario)
     const misOrdenes = await pool.query('select ordenTrabajo.idOrdenTrabajo, s.avanceStatus, ordenTrabajo.descripcion, ordenTrabajo.create_at , a.nameArea, m.nameMaquina,  e.nameEstado,  p.namePrioridad from ordenTrabajo inner join prioridad p on ordenTrabajo.idPrioridad = p.idPrioridad inner join maquina m on ordenTrabajo.idMaquina = m.idMaquina inner join area a on ordenTrabajo.idArea=a.idArea inner join estadoMaquina e on ordenTrabajo.estadoMaquina = e.idEstadoMaquina inner join status s on ordenTrabajo.idStatus = s.idStatus where ordenTrabajo.idUsuario=?', [idUser]);
     const contadorMisOrdenes = await pool.query('select count(*) from ordentrabajo where idUsuario=2')
         //console.log(misOrdenes);
-    console.log(contadorMisOrdenes)
+    //console.log(contadorMisOrdenes)
     res.render('ordenes/misordenes', {misOrdenes, contadorMisOrdenes})
 
 })
@@ -74,7 +76,7 @@ router.get('/ordenesporaceptar', async (req, res)=>{
     const ordenesPorAceptar = await pool.query('select ordenTrabajo.*, s.nameStatus, ordenTrabajo.descripcion, ordenTrabajo.create_at , a.nameArea, m.nameMaquina , e.nameEstado,  p.namePrioridad from ordenTrabajo inner join prioridad p on ordenTrabajo.idPrioridad = p.idPrioridad inner join maquina m on ordenTrabajo.idMaquina = m.idMaquina inner join area a on ordenTrabajo.idArea=a.idArea inner join estadoMaquina e on ordenTrabajo.estadoMaquina = e.idEstadoMaquina inner join status s on ordenTrabajo.idStatus = s.idStatus where ordenTrabajo.idStatus=1;');
     //const contadorMisOrdenes = await pool.query('select count(*) from ordentrabajo where idUsuario=2')
     //console.log(misOrdenes);
-    console.log(ordenesPorAceptar);
+    //console.log(ordenesPorAceptar);
     res.render('ordenes/liderMantenimiento/ordenesPA', {ordenesPorAceptar});
 
 })
@@ -86,7 +88,7 @@ router.get('/ordenesaprobadas', async (req, res)=>{
     const ordenesAceptadas = await pool.query('select ordenTrabajo.*, s.nameStatus, ordenTrabajo.descripcion, ordenTrabajo.create_at , a.nameArea, m.nameMaquina , e.nameEstado,  p.namePrioridad from ordenTrabajo inner join prioridad p on ordenTrabajo.idPrioridad = p.idPrioridad inner join maquina m on ordenTrabajo.idMaquina = m.idMaquina inner join area a on ordenTrabajo.idArea=a.idArea inner join estadoMaquina e on ordenTrabajo.estadoMaquina = e.idEstadoMaquina inner join status s on ordenTrabajo.idStatus = s.idStatus where ordenTrabajo.idStatus=2;');
     //const contadorMisOrdenes = await pool.query('select count(*) from ordentrabajo where idUsuario=2')
     //console.log(misOrdenes);
-    console.log(ordenesAceptadas);
+    //console.log(ordenesAceptadas);
     res.render('ordenes/liderMantenimiento/ordenesAprobadas', {ordenesAceptadas})
 
 })
@@ -95,7 +97,7 @@ router.get('/ordenesaprobadas', async (req, res)=>{
 router.get('/ordenesasignadas', async (req, res)=>{
     const idUser = ([req.user.iduser][0]);
     const ordenesPorAceptar = await pool.query('select ordenTrabajo.*, s.nameStatus, ordenTrabajo.descripcion, ordenTrabajo.create_at , a.nameArea, m.nameMaquina , e.nameEstado,  p.namePrioridad from ordenTrabajo inner join prioridad p on ordenTrabajo.idPrioridad = p.idPrioridad inner join maquina m on ordenTrabajo.idMaquina = m.idMaquina inner join area a on ordenTrabajo.idArea=a.idArea inner join estadoMaquina e on ordenTrabajo.estadoMaquina = e.idEstadoMaquina inner join status s on ordenTrabajo.idStatus = s.idStatus where ordenTrabajo.idStatus=3;');
-    console.log(ordenesPorAceptar);
+    //console.log(ordenesPorAceptar);
     res.render('ordenes/lidermantenimiento/asignadas', {ordenesPorAceptar});
 })
 
@@ -172,8 +174,8 @@ router.get('/edit/:id', isLoggedIn, async (req, res) => {
 router.post('/edit/:id', async (req, res) => {
 
     const {id} = req.params;
-    console.log(id);
-    console.log(req.body);
+    //console.log(id);
+    //console.log(req.body);
     const {area, maquina, descripcion, prioridad, estadoMaquina} = req.body;
     const newOrden = {
         idArea: area,
@@ -196,7 +198,7 @@ router.post('/edit/:id', async (req, res) => {
 //=============================================Ver Ordenes
 router.get('/view/:id', isLoggedIn, async (req, res) => {
     const ordenesVista = await pool.query('select ordenTrabajo.idOrdenTrabajo, s.nameStatus, ordenTrabajo.descripcion, ordenTrabajo.create_at , a.nameArea, m.nameMaquina , e.nameEstado,  p.namePrioridad from ordenTrabajo inner join prioridad p on ordenTrabajo.idPrioridad = p.idPrioridad inner join maquina m on ordenTrabajo.idMaquina = m.idMaquina inner join area a on m.idArea = a.idArea inner join estadoMaquina e on ordenTrabajo.estadoMaquina = e.idEstadoMaquina inner join status s on ordenTrabajo.idStatus = s.idStatus where ordenTrabajo.idOrdenTrabajo=?', [req.params.id]);
-    console.log(ordenesVista);
+    //console.log(ordenesVista);
     res.render('ordenes/view', {orden: ordenesVista[0]});
 });
 //================================================
@@ -413,12 +415,12 @@ router.get('/tecnico/:id', async (req, res) => {
 router.post('/tecnico/:id', async (req, res) => {
     const userId = [req.user.iduser][0];
     const idOrden = req.params.id;
-    console.log(userId)
+    //console.log(userId)
     const objo = Object.assign({}, req.body);
-    console.log(objo);
+    //console.log(objo);
     const exmaple = {idTecnico, fechaInicioPre, fechaFinalPre, tipoMantenimiento, descripcionTrabajo, idStatus} = objo;
     const comentario={descripcionTrabajo};
-    console.log(comentario);
+    //console.log(comentario);
     for (let i = 0; i < exmaple.idTecnico.length; i++) {
         const idTecnico = exmaple.idTecnico[i];
         //Inserto en tabla orden_Trabajador los id de los tecnicos junto a los de la orden
@@ -439,28 +441,38 @@ router.get('/trabajoexterno/:id', async (req, res) => {
     const proveedor = await pool.query('select * from proveedor');
     //console.log(maquina)
     res.render('ordenes/liderMantenimiento/assign/trabajoexterno', {maquina, proveedor, ordenes});
-    console.log(req.body);
+    //console.log(req.body);
 })
 
 router.post('/trabajoexterno/:id', async (req, res) => {
     //console.log(req.body);
-    const idOrden = req.params.id;
+    //console.log(idOrden)
+    //idOrden: req.params.id
 
-    const {proveedor, fechaInicioTE, fechaFinalTE, descripcion, idStatus, tipoMantenimiento} = req.body;
+    const {proveedor, fechaInicioTE, fechaFinalTE, descripcion, tipoMantenimiento} = req.body;
     const trabajoExterno =
         {
-            proveedor,
-            fechaInicioTE,
-            fechaFinalTE,
-            descripcion,
-            idStatus,
-            tipoMantenimiento
+            idProveedor: proveedor,
+            fechaInicioTrabajo: fechaInicioTE,
+            fechaFinalTrabajo: fechaFinalTE,
+            descripcionTrabajo:descripcion,
+            //idStatus:4,
+            id_tipoMantenimiento: tipoMantenimiento,
+            idOrdenTrabajo: req.params.id
+
         }
+    console.log(trabajoExterno)
 
-    console.log(req.body);
+    await pool.query('UPDATE ordenTrabajo SET idStatus=3 WHERE idOrdenTrabajo = ?', [req.params.id]);
+    await pool.query('INSERT INTO proveedor_orden set ?', [trabajoExterno]);
 
 
-    res.redirect('/orden/');
+
+    //console.log(req.body);
+
+
+
+    res.redirect('/ordenesaprobadas/');
 })
 
 module.exports = router;

@@ -368,9 +368,6 @@ alter table orden_status
 
 
 alter table orden_status
-    drop column comentariosLider;
-
-alter table orden_status
     add column fechaFinal timestamp default current_timestamp;
 
 alter table orden_status
@@ -381,9 +378,19 @@ from orden_status;
 
 
 
-/*+++++++++++++++++++++++++++++++++++*/
 
-select * from orden_status;
+
+
+
+insert into tipoMantenimiento( nametipomantenimiento)
+values ('Externo');
+
+
+alter table orden_status
+add column idProveedor int(5) default 1;
+
+alter table orden_status
+add constraint fk_idProveedor foreign key (idProveedor) references proveedor(idProveedor);
 
 
 create table proveedor
@@ -396,19 +403,30 @@ insert into proveedor(nameProveedor)
 values ('Novared');
 
 
+create table proveedor_orden
+(
+    idProveedor_Orden int(100) not null primary key auto_increment,
+    idOrdenTrabajo int(7) not null ,
+    idProveedor int (5) not null ,
+    fechaInicioTrabajo timestamp,
+    fechaFinalTrabajo timestamp,
+    descripcionTrabajo text(100000) not null
+);
 
 
 
-insert into tipoMantenimiento( nametipomantenimiento)
-values ('Externo');
-select * from tipoMantenimiento;
+alter table proveedor_orden
+    add constraint fk_idProveedorOrden foreign key (idOrdenTrabajo) references ordenTrabajo(idOrdenTrabajo) on delete cascade ;
 
-alter table orden_status
-add column idProveedor int(5) default 1;
 
-alter table orden_status
-add constraint fk_idProveedor foreign key (idProveedor) references proveedor(idProveedor);
+alter table proveedor_orden
+    add constraint fk_OrdenProveedor foreign key (idProveedor) references proveedor(idProveedor);
 
+alter table proveedor_orden
+add column id_tipoMantenimiento int(5) not null ;
+
+alter table proveedor_orden
+    add constraint fk_proveedorOrdenTipoM foreign key (id_tipoMantenimiento) references tipoMantenimiento(idTipoMantenimiento);
 
 /* ================================== */
 create table probe1
@@ -646,5 +664,70 @@ delete from orden_status where idOrdenStatus=18;
 select * from orden_trabajador;
 select ordenTrabajo.*, s.nameStatus, ordenTrabajo.descripcion, ordenTrabajo.create_at , a.nameArea, m.nameMaquina , e.nameEstado,  p.namePrioridad from ordenTrabajo inner join prioridad p on ordenTrabajo.idPrioridad = p.idPrioridad inner join maquina m on ordenTrabajo.idMaquina = m.idMaquina inner join area a on ordenTrabajo.idArea=a.idArea inner join estadoMaquina e on ordenTrabajo.estadoMaquina = e.idEstadoMaquina inner join status s on ordenTrabajo.idStatus = s.idStatus where ordenTrabajo.idOrdenTrabajo=19;
 
+describe proveedor_orden;
+select * from proveedor_orden;
 
-select * from rolusuario
+select * from tipoMantenimiento;
+select * from ordenTrabajo where idStatus=4;
+
+select * from ordenTrabajo where idOrdenTrabajo=19;
+
+select ordenTrabajo.idOrdenTrabajo, ordenTrabajo.descripcion, ordenTrabajo.create_at,  s.nameStatus,
+       ordenTrabajo.descripcion, ordenTrabajo.create_at , a.nameArea, m.nameMaquina ,
+       e.nameEstado,  p.namePrioridad, os.comentariosLider
+from ordenTrabajo
+    inner join prioridad p on ordenTrabajo.idPrioridad = p.idPrioridad
+    inner join maquina m on ordenTrabajo.idMaquina = m.idMaquina
+    inner join area a on ordenTrabajo.idArea=a.idArea
+    inner join estadoMaquina e on ordenTrabajo.estadoMaquina = e.idEstadoMaquina
+    inner join status s on ordenTrabajo.idStatus = s.idStatus
+    inner join orden_status os on s.idStatus = os.idStatus
+where ordenTrabajo.idOrdenTrabajo=22;
+
+
+select orden_Status.idOrden, orden_Status.idStatus,  orden_Status.create_at, orden_Status.idProveedor, /*p.nameProveedor,*/ s.nameStatus,
+         u.fullname as Responsable, ot.create_at as FechaOrdenCreada, ot.descripcion, ot.idMaquina, m.nameMaquina,
+         ot.idArea, a.nameArea,  u.fullname as UserCreo, orden_Status.idTipoMantenimiento, t.nameTipoMantenimiento
+from orden_Status
+    inner join status s on orden_Status.idStatus = s.idStatus
+    inner join tipomantenimiento t on orden_Status.idTipoMantenimiento = t.idTipoMantenimiento
+    inner join ordentrabajo ot on orden_Status.idOrden = ot.idOrdenTrabajo
+    inner join maquina m on ot.idMaquina = m.idMaquina
+    inner join area a on ot.idArea = a.idArea
+    #inner join proveedor p on p.idProveedor=orden_Status.idProveedor
+    #inner join orden_Trabajador ot2 on ot.idOrdenTrabajo =ot2.idOrden
+    inner join usuario u on orden_Status.idUsuario = u.iduser
+where idOrden=22;
+
+
+select * from orden_Status;
+select * from ordentrabajo;
+
+select * from ordenTrabajo;
+select * from orden_Trabajador;
+select * from orden_status;
+select * from proveedor_orden;
+
+delete from proveedor_orden where idProveedor_Orden =2;
+
+
+select ordenTrabajo.idOrdenTrabajo, a.nameArea, m.nameMaquina, ordenTrabajo.descripcion, ordenTrabajo.create_at as HoradeCreacion
+, em.nameEstado, u.fullname as PersonCreoOrden, p.namePrioridad
+from ordentrabajo
+inner join area a on ordenTrabajo.idArea = a.idArea
+inner join maquina m on ordenTrabajo.idMaquina = m.idMaquina
+inner join estadoMaquina em on em.idEstadoMaquina=ordenTrabajo.estadoMaquina
+inner join usuario u on u.iduser = ordenTrabajo.idUsuario
+inner join prioridad p on ordenTrabajo.idPrioridad = p.idPrioridad
+inner join orden_trabajador ot on ordenTrabajo.idOrdenTrabajo=ot.idOrden
+#inner join orden_Status oS on oS.idOrden = ordenTrabajo.idOrdenTrabajo
+
+where idOrdenTrabajo=22;
+
+select orden_Trabajador.idOrden, orden_Trabajador.idTecnico, u.fullname as TecnicoAsignado,
+       et.nameEspecialidad as EspecialidadTecnico
+from orden_trabajador
+inner join tecnico t on orden_Trabajador.idTecnico = t.idTecnico
+inner join usuario u on t.idUser = u.iduser
+inner join especialidadtecnico et on t.idEspecialidad=et.idEspecialidad
+;
