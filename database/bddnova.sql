@@ -694,10 +694,11 @@ from orden_Status
     inner join ordentrabajo ot on orden_Status.idOrden = ot.idOrdenTrabajo
     inner join maquina m on ot.idMaquina = m.idMaquina
     inner join area a on ot.idArea = a.idArea
-    #inner join proveedor p on p.idProveedor=orden_Status.idProveedor
-    #inner join orden_Trabajador ot2 on ot.idOrdenTrabajo =ot2.idOrden
+    inner join proveedor p on p.idProveedor=orden_Status.idProveedor
     inner join usuario u on orden_Status.idUsuario = u.iduser
-where idOrden=22;
+    inner join (select * from orden_trabajador) otra on ot.idOrdenTrabajo = orden_Status.idOrden
+
+where idOrden=26;
 
 
 select * from orden_Status;
@@ -712,17 +713,17 @@ delete from proveedor_orden where idProveedor_Orden =2;
 
 
 select ordenTrabajo.idOrdenTrabajo, a.nameArea, m.nameMaquina, ordenTrabajo.descripcion, ordenTrabajo.create_at as HoradeCreacion
-, em.nameEstado, u.fullname as PersonCreoOrden, p.namePrioridad
+, em.nameEstado, u.fullname as PersonCreoOrden, p.namePrioridad, oS.idStatus
 from ordentrabajo
 inner join area a on ordenTrabajo.idArea = a.idArea
 inner join maquina m on ordenTrabajo.idMaquina = m.idMaquina
 inner join estadoMaquina em on em.idEstadoMaquina=ordenTrabajo.estadoMaquina
 inner join usuario u on u.iduser = ordenTrabajo.idUsuario
 inner join prioridad p on ordenTrabajo.idPrioridad = p.idPrioridad
-inner join orden_trabajador ot on ordenTrabajo.idOrdenTrabajo=ot.idOrden
-#inner join orden_Status oS on oS.idOrden = ordenTrabajo.idOrdenTrabajo
+#inner join orden_trabajador ot on ordenTrabajo.idOrdenTrabajo=ot.idOrden
+inner join orden_Status oS on oS.idOrden = ordenTrabajo.idOrdenTrabajo
 
-where idOrdenTrabajo=22;
+where idOrdenTrabajo=26;
 
 select orden_Trabajador.idOrden, orden_Trabajador.idTecnico, u.fullname as TecnicoAsignado,
        et.nameEspecialidad as EspecialidadTecnico
@@ -735,3 +736,9 @@ inner join especialidadtecnico et on t.idEspecialidad=et.idEspecialidad
 
 select * from area;
 select * from maquina;
+
+select *
+from usuario;
+select * from rolusuario;
+
+select * from ordenTrabajo where idOrdenTrabajo=26;

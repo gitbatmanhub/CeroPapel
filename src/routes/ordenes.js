@@ -3,8 +3,7 @@ const router = express.Router();
 
 const pool = require('../database');
 const {isLoggedIn, isNotLoggedIn, permissions} = require('../lib/auth');
-const assert = require("assert");
-const Console = require("console");
+
 
 
 //=======================================================Home
@@ -69,7 +68,7 @@ router.get('/misordenes', isLoggedIn, async (req, res)=>{
 })
 
 
-router.get('/ordenesporaceptar', isLoggedIn, async (req, res)=>{
+router.get('/ordenesporaceptar', isLoggedIn, permissions, async (req, res)=>{
     //console.log(req.user)
     //const idUser = ([req.user.iduser][0]);
     //console.log()
@@ -81,7 +80,7 @@ router.get('/ordenesporaceptar', isLoggedIn, async (req, res)=>{
 
 })
 
-router.get('/ordenesaprobadas', isLoggedIn, async (req, res)=>{
+router.get('/ordenesaprobadas', isLoggedIn, permissions, async (req, res)=>{
     //console.log(req.user)
     //const idUser = ([req.user.iduser][0]);
     //console.log()
@@ -94,7 +93,7 @@ router.get('/ordenesaprobadas', isLoggedIn, async (req, res)=>{
 })
 
 
-router.get('/ordenesasignadas', isLoggedIn, async (req, res)=>{
+router.get('/ordenesasignadas', isLoggedIn, permissions, async (req, res)=>{
     const idUser = ([req.user.iduser][0]);
     const ordenesPorAceptar = await pool.query('select ordenTrabajo.*, s.nameStatus, ordenTrabajo.descripcion, ordenTrabajo.create_at , a.nameArea, m.nameMaquina , e.nameEstado,  p.namePrioridad from ordenTrabajo inner join prioridad p on ordenTrabajo.idPrioridad = p.idPrioridad inner join maquina m on ordenTrabajo.idMaquina = m.idMaquina inner join area a on ordenTrabajo.idArea=a.idArea inner join estadoMaquina e on ordenTrabajo.estadoMaquina = e.idEstadoMaquina inner join status s on ordenTrabajo.idStatus = s.idStatus where ordenTrabajo.idStatus=3;');
     //console.log(ordenesPorAceptar);
@@ -142,7 +141,7 @@ router.post('/agregarOrden', isLoggedIn, async (req, res) => {
 
 
 //=============================================Borrar Ordenes
-router.get('/delete/:id', isLoggedIn, async (req, res) => {
+router.get('/delete/:id', isLoggedIn, permissions, async (req, res) => {
     const {id} = req.params;
 
     await pool.query('DELETE FROM ordenTrabajo where idOrdenTrabajo=?', [id]);
@@ -188,7 +187,7 @@ router.post('/edit/:id', isLoggedIn, async (req, res) => {
 
     await pool.query('UPDATE ordenTrabajo set ? WHERE idOrdenTrabajo = ?', [newOrden, id]);
     req.flash('success', 'Orden actualizada correctamente');
-    res.redirect('/orden');
+    res.redirect('/misordenes');
 })
 
 
@@ -344,7 +343,7 @@ router.post('/viewT/:id', isLoggedIn, async (req, res) => {
 //=======================================================
 
 
-router.post('/accept/:id', isLoggedIn, async (req, res) => {
+router.post('/accept/:id', isLoggedIn, permissions, async (req, res) => {
     const {orden, status, tipoMantenimiento} = req.body;
     const data =
         {
@@ -361,7 +360,7 @@ router.post('/accept/:id', isLoggedIn, async (req, res) => {
 })
 
 
-router.get('/probe', isLoggedIn, async (req, res) => {
+router.get('/probe', isLoggedIn,  async (req, res) => {
     const {id} = req.params;
     res.render('ordenes/probe');
 });
@@ -391,11 +390,11 @@ router.post('/probe/', isLoggedIn, async (req, res) => {
 });
 
 
-router.get('/suministro/:id', isLoggedIn async (req, res) => {
+router.get('/suministro/:id', isLoggedIn, permissions, async (req, res) => {
     res.render('ordenes/liderMantenimiento/assign/suministros');
 });
 
-router.get('/tecnico/:id', isLoggedIn, async (req, res) => {
+router.get('/tecnico/:id', isLoggedIn, permissions, async (req, res) => {
     //console.log([req.user.iduser][0]);
     const id = req.params.id;
     const tecnicos = await pool.query('select u.fullname, e.nameEspecialidad, u.iduser from tecnico inner join usuario u on tecnico.idUser = u.iduser inner join especialidadtecnico e on tecnico.idEspecialidad = e.idEspecialidad where e.idEspecialidad !=4');
@@ -412,7 +411,7 @@ router.get('/tecnico/:id', isLoggedIn, async (req, res) => {
 
 });
 
-router.post('/tecnico/:id', isLoggedIn, async (req, res) => {
+router.post('/tecnico/:id', isLoggedIn, permissions, async (req, res) => {
     const userId = [req.user.iduser][0];
     const idOrden = req.params.id;
     //console.log(userId)
@@ -434,7 +433,7 @@ router.post('/tecnico/:id', isLoggedIn, async (req, res) => {
 })
 
 
-router.get('/trabajoexterno/:id', isLoggedIn, async (req, res) => {
+router.get('/trabajoexterno/:id', isLoggedIn, permissions, async (req, res) => {
     const maquina = await pool.query('select * from maquina');
     const id = req.params.id;
     const ordenes = await pool.query('select ordenTrabajo.*, s.nameStatus, ordenTrabajo.descripcion, ordenTrabajo.create_at , a.nameArea, m.nameMaquina , e.nameEstado,  p.namePrioridad from ordenTrabajo inner join prioridad p on ordenTrabajo.idPrioridad = p.idPrioridad inner join maquina m on ordenTrabajo.idMaquina = m.idMaquina inner join area a on ordenTrabajo.idArea=a.idArea inner join estadoMaquina e on ordenTrabajo.estadoMaquina = e.idEstadoMaquina inner join status s on ordenTrabajo.idStatus = s.idStatus where ordenTrabajo.idOrdenTrabajo=?;', [id]);
@@ -444,7 +443,7 @@ router.get('/trabajoexterno/:id', isLoggedIn, async (req, res) => {
     //console.log(req.body);
 })
 
-router.post('/trabajoexterno/:id', isLoggedIn, async (req, res) => {
+router.post('/trabajoexterno/:id', isLoggedIn, permissions, async (req, res) => {
     //console.log(req.body);
     //console.log(idOrden)
     //idOrden: req.params.id
@@ -474,5 +473,80 @@ router.post('/trabajoexterno/:id', isLoggedIn, async (req, res) => {
 
     res.redirect('/ordenesaprobadas/');
 })
+
+
+//Rutas add x cosa
+
+
+router.get('/addtecnico/:id', async(req, res)=>{
+    res.render('ordenes/liderMantenimiento/addRecursos/tecnico');
+});
+
+
+router.post('/addtecnico/:id', async(req, res)=>{
+    const users= await pool.query('select * from usuario');
+    const{nameTec}=req.body;
+    await pool.query ('insert into tecnico set ?');
+    res.render('ordenes/')
+});
+
+
+router.get('/addmaquina', async(req, res)=>{
+    const maquina= await pool.query('selec * from maquina')
+    await pool.query('insert into maquina set ?');
+    res.render('ordenes/liderMantenimiento/addRecursos/maquina', [maquina]);
+
+    console.log(req.body);
+});
+
+router.post('/addmaquina', async(req, res)=>{
+    const {nameMaquina}=req.body;
+    await pool.query('Insert into maquina (nameMaquina) value ?', [nameMaquina]);
+    res.render('ordenes/')
+    console.log(req.body);
+})
+
+router.get('/addarea', async(req, res)=>{
+    res.render('ordenes/liderMantenimiento/addRecursos/areas');
+    console.log(req.body);
+})
+
+router.post('/addarea', async(req, res)=>{
+    await pool.query('insert into area set ?');
+    res.render('ordenes/')
+    console.log(req.body);
+})
+
+router.get('/addProveedor', async(req, res)=>{
+    res.render('ordenes/liderMantenimiento/addRecursos/proveedor');
+
+    console.log(req.body);
+})
+
+router.post('/addProveedor', async(req, res)=>{
+    const{nameProveedor}=req.body;
+    await pool.query('insert into proveedor set ?', [nameProveedor])
+    res.render('ordenes/')
+    console.log(req.body);
+})
+
+router.get('/addsuministros', async(req, res)=>{
+    res.render('ordenes/liderMantenimiento/addRecursos/suministros');
+    console.log(req.body);
+})
+
+router.post('/addsuministros', async(req, res)=>{
+    const{nameSuministros}= req.body;
+    await pool.query('insert into suministros set ?');
+    res.render('ordenes/')
+    console.log(req.body);
+})
+
+
+
+
+
+
+
 
 module.exports = router;

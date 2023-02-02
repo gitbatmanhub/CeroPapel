@@ -18,7 +18,8 @@ module.exports = {
     },
     permissions(req, res, next) {
         console.log(req.user);
-        if(req.user.idRol === 4 ){
+        const rolusuario=req.user.rolusuario;
+        if( rolusuario === 4 ){
             return res.redirect('/');
 
         }else {
