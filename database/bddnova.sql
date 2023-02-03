@@ -450,6 +450,45 @@ alter table proveedor_orden
 alter table proveedor_orden
     add constraint fk_proveedorOrdenTipoM foreign key (id_tipoMantenimiento) references tipoMantenimiento (idTipoMantenimiento);
 
+
+
+/*--------------------Vistas------------------------*/
+
+
+
+/*--------------------//Vistas------------------------*/
+create view  TodosDatos as
+SELECT ordenTrabajo.idOrdenTrabajo
+     , a.nameArea
+     , m.nameMaquina
+     , ordenTrabajo.descripcion
+     , ordenTrabajo.create_at as HoradeCreacion
+     , em.nameEstado          as EstadoMaquina
+     , u.fullname             as Creador
+     , p.namePrioridad        as Prioridad
+     , s.nameStatus           as Status
+
+FROM ordentrabajo
+         inner join area a on ordenTrabajo.idArea = a.idArea
+         inner join maquina m on ordenTrabajo.idMaquina = m.idMaquina
+         inner join estadoMaquina em on em.idEstadoMaquina = ordenTrabajo.estadoMaquina
+         inner join usuario u on u.iduser = ordenTrabajo.idUsuario
+         inner join prioridad p on ordenTrabajo.idPrioridad = p.idPrioridad
+         inner join status s on ordenTrabajo.idStatus = s.idStatus
+         inner join orden_Status oS on oS.idOrden = ordenTrabajo.idOrdenTrabajo
+GROUP BY idOrdenTrabajo;
+
+create view ordenStatusDetails as
+select os.idOrden,os.fechaInicio as HoraInicio,
+       os.fechaFinal as HoraFinal, u.fullname as NameAcepto,
+       s.nameStatus as Estado, os.create_at, s.idStatus
+from orden_Status as os
+         inner join usuario u on iduser = os.idUsuario
+         inner join status s on os.idStatus = s.idStatus;
+
+
+
+
 /* ================================== */
 create table probe1
 (
@@ -986,7 +1025,7 @@ from ordentrabajo
          inner join orden_Status oS on oS.idOrden = ordenTrabajo.idOrdenTrabajo
 
 where idOrdenTrabajo = 27;
-
+create view  TodosDatos as
 SELECT ordenTrabajo.idOrdenTrabajo
      , a.nameArea
      , m.nameMaquina
@@ -1005,8 +1044,9 @@ FROM ordentrabajo
          inner join prioridad p on ordenTrabajo.idPrioridad = p.idPrioridad
          inner join status s on ordenTrabajo.idStatus = s.idStatus
          inner join orden_Status oS on oS.idOrden = ordenTrabajo.idOrdenTrabajo
-where idOrdenTrabajo = 27
 GROUP BY idOrdenTrabajo;
+
+select * from TodosDatos where idOrdenTrabajo=27;
 /* Fin query */
 
 
@@ -1015,20 +1055,35 @@ GROUP BY idOrdenTrabajo;
 select *
 from orden_Status
 where idOrden = 27;
+#create view  StatusInfo as
 
+create view ordenStatusDetails as
 select os.idOrden,os.fechaInicio as HoraInicio,
        os.fechaFinal as HoraFinal, u.fullname as NameAcepto,
-       s.nameStatus as Estado, os.create_at
+       s.nameStatus as Estado, os.create_at, s.idStatus
 from orden_Status as os
          inner join usuario u on iduser = os.idUsuario
-         inner join status s on os.idStatus = s.idStatus
-where idOrden = 27
-group by Estado;
+         inner join status s on os.idStatus = s.idStatus;
+
+
+select * from orden_Status;
+drop view ordenStatusDetails;
+select * from ordenStatusDetails;
+
+select * from ordenStatusDetails where idStatus=2 and idOrden=27;
+select * from ordenStatusDetails where idStatus=3 and idOrden=27 group by idStatus;
+
+
+select os.idOrden,os.fechaInicio as HoraInicio, os.fechaFinal as HoraFinal, u.fullname as NameAcepto, s.nameStatus as Estado, os.create_at from orden_Status as os inner join usuario u on iduser = os.idUsuario inner join status s on os.idStatus = s.idStatus where idOrden=27 group by Estado;
+
+
+
 select * from orden_Status;
 /* Fin query */
 select * from ordentrabajo where idOrdenTrabajo=28;
 select * from orden_Status where idOrden=28;
 /* Tecnicos a la orden */
+create view tecnicosOrden as
 select ot.idOrden,
        ot.create_at    as HoraAsignacionTecnico,
        e.nameEspecialidad,
@@ -1038,8 +1093,9 @@ from orden_trabajador ot
          inner join tecnico t on ot.idTecnico = t.idTecnico
          inner join usuario u on t.idUser = u.iduser
          inner join especialidadtecnico e on t.idEspecialidad = e.idEspecialidad
-         inner join ordentrabajo ot2 on ot.idOrden = ot2.idOrdenTrabajo
-where idOrden = 27;
+         inner join ordentrabajo ot2 on ot.idOrden = ot2.idOrdenTrabajo;
+
+select * from tecnicosorden where idOrden = 27;
 /* Fin query */
 
 select *

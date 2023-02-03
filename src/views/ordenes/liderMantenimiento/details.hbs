@@ -1,6 +1,24 @@
 <div class="container">
-    <h1>Detalles de la orden #</h1>
-    <div class="esteban">
-        <h1>Helou</h1>
-    </div>
+    <h1>Detalles de la orden #{{ datos.idOrdenTrabajo}}</h1>
+
 </div>
+
+<h1>Este es el id: {{ datos.idOrdenTrabajo}}</h1>
+<p>Nombre del area: {{ datos.nameArea}}</p>
+<p>Nombre de la Maquina: {{ datos.nameMaquina}}</p>
+<p>Nombre de la descripcion: {{ datos.descripcion}}</p>
+<p>Fecha y hora de creación: {{ datos.HoradeCreacion}}</p>
+<p>Estado de la maquina: {{ datos.EstadoMaquina}}</p>
+<p>Nombre de Creador: {{ datos.Creador}}</p>
+<p>Prioridad: {{ datos.Prioridad}}</p>
+<p>Status de la orden: {{ datos.Status}}</p>
+
+<!----------------------------------------------------->
+<p>id: {{Status2.idOrden}}</p>
+<p>HoraInicio: {{Status2.HoraInicio}}</p>
+<p>Name: {{Status2.NameAcepto}}</p>
+<p>Estado: {{Status2.Estado}}</p>
+<input type="datetime-local" value="{{Status2.create_at}}">Create: </input>
+
+
+

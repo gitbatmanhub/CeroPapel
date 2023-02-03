@@ -206,9 +206,15 @@ router.get('/view/:id', isLoggedIn, async (req, res) => {
 //=============================================Asignar Ordenes
 
 router.get('/details/:id', isLoggedIn, async (req, res) => {
-
-
-    res.render('ordenes/liderMantenimiento/details');
+    //console.log(req.params);
+    const idOrden=req.params.id;
+    //console.log(idOrden)
+    const everDatos = await pool.query('select * from TodosDatos where idOrdenTrabajo=?', [idOrden]);
+    const tecnicosOrden= await pool.query('select * from tecnicosorden where idOrden = ?;', [idOrden]);
+    const Status2 = await pool.query('select * from ordenStatusDetails where idStatus=2 and idOrden=?;', [idOrden])
+    console.log(Status2)
+    //console.log(datosStatus)
+    res.render('ordenes/liderMantenimiento/details', {datos: everDatos[0],Status2: Status2[0], tecnicosOrden:tecnicosOrden[0]});
 
 });
 //================================================
@@ -441,6 +447,7 @@ router.get('/trabajoexterno/:id', isLoggedIn, permissions, async (req, res) => {
 
 router.post('/trabajoexterno/:id', isLoggedIn, permissions, async (req, res) => {
     //console.log(req.body);
+    //console.log(idOrden)
     //console.log(idOrden)
     //idOrden: req.params.id
     const userId = [req.user.iduser][0];
