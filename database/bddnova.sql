@@ -965,52 +965,72 @@ delete
 from proveedor_orden
 where idProveedor_Orden = 2;
 
-
+/* Sacar todos los datos de la orden creada */
 select ordenTrabajo.idOrdenTrabajo
      , a.nameArea
      , m.nameMaquina
      , ordenTrabajo.descripcion
      , ordenTrabajo.create_at as HoradeCreacion
-     , em.nameEstado
-     , u.fullname             as PersonCreoOrden
-     , p.namePrioridad
-     , oS.idStatus
+     , em.nameEstado          as EstadoMaquina
+     , u.fullname             as Creador
+     , p.namePrioridad        as Prioridad
+     , s.nameStatus           as Status
+
 from ordentrabajo
          inner join area a on ordenTrabajo.idArea = a.idArea
          inner join maquina m on ordenTrabajo.idMaquina = m.idMaquina
          inner join estadoMaquina em on em.idEstadoMaquina = ordenTrabajo.estadoMaquina
          inner join usuario u on u.iduser = ordenTrabajo.idUsuario
          inner join prioridad p on ordenTrabajo.idPrioridad = p.idPrioridad
-#inner join orden_trabajador ot on ordenTrabajo.idOrdenTrabajo=ot.idOrden
+         inner join status s on ordenTrabajo.idStatus = s.idStatus
          inner join orden_Status oS on oS.idOrden = ordenTrabajo.idOrdenTrabajo
 
-where idOrdenTrabajo = 26;
+where idOrdenTrabajo = 27;
 
-select orden_Trabajador.idOrden,
-       orden_Trabajador.idTecnico,
-       u.fullname          as TecnicoAsignado,
-       et.nameEspecialidad as EspecialidadTecnico
-from orden_trabajador
-         inner join tecnico t on orden_Trabajador.idTecnico = t.idTecnico
-         inner join usuario u on t.idUser = u.iduser
-         inner join especialidadtecnico et on t.idEspecialidad = et.idEspecialidad
-;
+SELECT ordenTrabajo.idOrdenTrabajo
+     , a.nameArea
+     , m.nameMaquina
+     , ordenTrabajo.descripcion
+     , ordenTrabajo.create_at as HoradeCreacion
+     , em.nameEstado          as EstadoMaquina
+     , u.fullname             as Creador
+     , p.namePrioridad        as Prioridad
+     , s.nameStatus           as Status
 
+FROM ordentrabajo
+         inner join area a on ordenTrabajo.idArea = a.idArea
+         inner join maquina m on ordenTrabajo.idMaquina = m.idMaquina
+         inner join estadoMaquina em on em.idEstadoMaquina = ordenTrabajo.estadoMaquina
+         inner join usuario u on u.iduser = ordenTrabajo.idUsuario
+         inner join prioridad p on ordenTrabajo.idPrioridad = p.idPrioridad
+         inner join status s on ordenTrabajo.idStatus = s.idStatus
+         inner join orden_Status oS on oS.idOrden = ordenTrabajo.idOrdenTrabajo
+where idOrdenTrabajo = 27
+GROUP BY idOrdenTrabajo;
+/* Fin query */
+
+
+/* Sacar Datos del status de la orden */
 
 select *
-from area;
-select *
-from maquina;
+from orden_Status
+where idOrden = 27;
 
-select *
-from usuario;
-select *
-from tecnico;
-select *
-from especialidadtecnico;
-
+select os.idOrden,os.fechaInicio as HoraInicio,
+       os.fechaFinal as HoraFinal, u.fullname as NameAcepto,
+       s.nameStatus as Estado, os.create_at
+from orden_Status as os
+         inner join usuario u on iduser = os.idUsuario
+         inner join status s on os.idStatus = s.idStatus
+where idOrden = 27
+group by Estado;
+select * from orden_Status;
+/* Fin query */
+select * from ordentrabajo where idOrdenTrabajo=28;
+select * from orden_Status where idOrden=28;
+/* Tecnicos a la orden */
 select ot.idOrden,
-       ot.create_at    as HoradeCreación,
+       ot.create_at    as HoraAsignacionTecnico,
        e.nameEspecialidad,
        u.fullname,
        ot2.descripcion as DescripcionOrdenCreada
@@ -1019,14 +1039,8 @@ from orden_trabajador ot
          inner join usuario u on t.idUser = u.iduser
          inner join especialidadtecnico e on t.idEspecialidad = e.idEspecialidad
          inner join ordentrabajo ot2 on ot.idOrden = ot2.idOrdenTrabajo
-         #inner join orden_Status oS on oS.idOrden=ot.idOrden
+where idOrden = 27;
+/* Fin query */
 
-where idOrden = 25;
-
-
-
-select idOrden
-from orden_trabajador
-where idOrden = 26;
-
-select * from usuario;
+select *
+from tipoMantenimiento;

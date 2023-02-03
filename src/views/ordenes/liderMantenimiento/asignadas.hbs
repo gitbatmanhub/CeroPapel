@@ -9,7 +9,7 @@
                 <h1 style="padding: 20px">Ordenes Asignadas</h1>
 
 
-                <table id="table3" class="display">
+                <table id="table1" class="display">
 
                     <thead>
                     <tr>
@@ -49,9 +49,7 @@
                             </td>
                             <td style="text-align: center">
 
-                                <button class="btn btn-primary" data-bs-target="#modalAcciones3"
-                                        data-bs-toggle="modal">Ver Detalles
-                                </button>
+                                <a href="/details/{{idOrdenTrabajo}}" class=" btn btn-primary">Ver Detalles</a>
 
                             </td>
                         </tr>
@@ -67,8 +65,21 @@
     <!-- end col -->
 </div>
 
+<!--
+<script>
+    const table1 = document.getElementById('table1');
+    table1.addEventListener('click', (e)=>{
+        e.stopPropagation();
+        const id=e.target.parentElement.parentElement.children[0].textContent.trim();
+        console.log(id);
+        document.getElementById("detallesLM").href="/details/" + id;
+        document.getElementById("editBtn").href="/edit/" + id;
+        document.getElementById("deleteBtn").href="/delete/" + id;
 
-
+    });
+</script>
+-->
+<!--
 
 {{#each ordenesAceptadas}}
     <div class="modal fade" id="modalAcciones3" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
@@ -128,3 +139,4 @@
     </div>
 
 {{/each}}
+-->

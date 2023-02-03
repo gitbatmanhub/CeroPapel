@@ -204,26 +204,17 @@ router.get('/view/:id', isLoggedIn, async (req, res) => {
 
 
 //=============================================Asignar Ordenes
-/*
-router.get('/assign/:id', isLoggedIn, async (req, res) => {
-    const {id} = req.params;
-    const ordenes = await pool.query('SELECT ordenestrabajo.*, users.fullname  FROM novared.ordenestrabajo, novared.users where ordenestrabajo.user_id = users.id AND ordenestrabajo.idStatus=0', [req.user.id]);
-    const fechas = await pool.query('select date_format(ordenestrabajo.fecha, "%Y-%m-%d") as fecha from ordenestrabajo where ordenestrabajo.id =?', [id]);
-    const datosTecnicos = await pool.query('select fullname, id from users where idRol=4');
-    const tipoMantenimientos = await pool.query('select * from tipoMantenimiento;');
 
-    res.render('ordenes/liderMantenimiento/assign', {
-        orden: ordenes[0],
-        fecha: fechas[0],
-        datos: datosTecnicos,
-        tipos: tipoMantenimientos
-    });
+router.get('/details/:id', isLoggedIn, async (req, res) => {
+
+
+    res.render('ordenes/liderMantenimiento/details');
 
 });
 //================================================
 
 
- */
+
 
 //=============================================Ver Ordenes Tecnicos
 /*
@@ -418,7 +409,7 @@ router.post('/tecnico/:id', isLoggedIn, permissions, async (req, res) => {
     const objo = Object.assign({}, req.body);
     //console.log(objo);
     const exmaple = {idTecnico, fechaInicioPre, fechaFinalPre, tipoMantenimiento, descripcionTrabajo, idStatus} = objo;
-    const comentario={descripcionTrabajo};
+    console.log(exmaple);
     //console.log(comentario);
     for (let i = 0; i < exmaple.idTecnico.length; i++) {
         const idTecnico = exmaple.idTecnico[i];
@@ -429,6 +420,10 @@ router.post('/tecnico/:id', isLoggedIn, permissions, async (req, res) => {
         await pool.query('update orden_status set fechaFinal=?, fechaInicio=?,  comentariosLider=? where idOrden=?;', [fechaFinalPre, fechaInicioPre, descripcionTrabajo, idOrden]);
         await pool.query('UPDATE ordenTrabajo SET idStatus=3 WHERE idOrdenTrabajo = ?', [idOrden]);
     }
+
+
+
+
     res.redirect('/ordenesaprobadas')
 })
 
@@ -438,6 +433,7 @@ router.get('/trabajoexterno/:id', isLoggedIn, permissions, async (req, res) => {
     const id = req.params.id;
     const ordenes = await pool.query('select ordenTrabajo.*, s.nameStatus, ordenTrabajo.descripcion, ordenTrabajo.create_at , a.nameArea, m.nameMaquina , e.nameEstado,  p.namePrioridad from ordenTrabajo inner join prioridad p on ordenTrabajo.idPrioridad = p.idPrioridad inner join maquina m on ordenTrabajo.idMaquina = m.idMaquina inner join area a on ordenTrabajo.idArea=a.idArea inner join estadoMaquina e on ordenTrabajo.estadoMaquina = e.idEstadoMaquina inner join status s on ordenTrabajo.idStatus = s.idStatus where ordenTrabajo.idOrdenTrabajo=?;', [id]);
     const proveedor = await pool.query('select * from proveedor');
+
     //console.log(maquina)
     res.render('ordenes/liderMantenimiento/assign/trabajoexterno', {maquina, proveedor, ordenes});
     //console.log(req.body);
@@ -447,21 +443,23 @@ router.post('/trabajoexterno/:id', isLoggedIn, permissions, async (req, res) => 
     //console.log(req.body);
     //console.log(idOrden)
     //idOrden: req.params.id
+    const userId = [req.user.iduser][0];
 
-    const {proveedor, fechaInicioTE, fechaFinalTE, descripcion, tipoMantenimiento} = req.body;
+
+    const {proveedor, fechaInicioTE, fechaFinalTE, descripcionTrabajo, tipoMantenimiento} = req.body;
     const trabajoExterno =
         {
             idProveedor: proveedor,
             fechaInicioTrabajo: fechaInicioTE,
             fechaFinalTrabajo: fechaFinalTE,
-            descripcionTrabajo:descripcion,
+            descripcionTrabajo,
             //idStatus:4,
             id_tipoMantenimiento: tipoMantenimiento,
             idOrdenTrabajo: req.params.id
 
         }
-    console.log(trabajoExterno)
-
+    //console.log(trabajoExterno)
+    await pool.query("insert orden_status (idStatus, idOrden, idTipoMantenimiento, idUsuario,  comentariosLider) values (?,?,?,?,?)", [3, req.params.id,4,userId,descripcionTrabajo]);
     await pool.query('UPDATE ordenTrabajo SET idStatus=3 WHERE idOrdenTrabajo = ?', [req.params.id]);
     await pool.query('INSERT INTO proveedor_orden set ?', [trabajoExterno]);
 
