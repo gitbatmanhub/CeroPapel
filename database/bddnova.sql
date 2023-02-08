@@ -1070,6 +1070,7 @@ select * from orden_Status;
 drop view ordenStatusDetails;
 select * from ordenStatusDetails;
 
+
 select * from ordenStatusDetails where idStatus=2 and idOrden=27;
 select * from ordenStatusDetails where idStatus=3 and idOrden=27 group by idStatus;
 
@@ -1100,3 +1101,7 @@ select * from tecnicosorden where idOrden = 27;
 
 select *
 from tipoMantenimiento;
+
+select * from tecnicosorden where idOrden = 27;
+select * from ordenStatusDetails  group by idOrden;
+select * from ordenStatusDetails where idOrden=27 group by idStatus;
