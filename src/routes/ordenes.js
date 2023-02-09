@@ -497,19 +497,23 @@ router.post('/addtecnico/:id', async(req, res)=>{
 
 
 router.get('/addmaquina', async(req, res)=>{
-    const maquina= await pool.query('select * from maquina')
-    //await pool.query('insert into maquina set ?');
-    console.log(maquina);
-    res.render('ordenes/liderMantenimiento/addRecursos/maquina', [maquina]);
+    const area= await pool.query('select * from area')
+    //console.log(area);
+    res.render('ordenes/liderMantenimiento/addRecursos/maquina', {area});
 
-    console.log(req.body);
+    //console.log(req.body);
 });
 
 router.post('/addmaquina', async(req, res)=>{
-    const {nameMaquina}=req.body;
-    await pool.query('Insert into maquina (nameMaquina) value ?', [nameMaquina]);
-    res.render('ordenes/')
-    console.log(req.body);
+    //console.log(req.body)
+    const {idArea, nameMaquina}=req.body;
+    const dataMaquina={
+        nameMaquina: nameMaquina.replace(/\b\w/g, function(l){ return l.toUpperCase() }),
+        idArea
+    }
+    await pool.query('insert into maquina set ?', [dataMaquina]);
+    req.flash('success', 'Maquina agregada correctamente');
+    res.redirect('/addmaquina')
 })
 
 router.get('/addarea', async(req, res)=>{

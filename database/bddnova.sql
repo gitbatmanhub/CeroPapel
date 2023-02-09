@@ -1106,5 +1106,6 @@ select * from tecnicosorden where idOrden = 27;
 select * from ordenStatusDetails  group by idOrden;
 select * from ordenStatusDetails where idOrden=27 group by idStatus;
 select * from maquina;
+select * from area;
 select * from sessions;
 select * from usuario;

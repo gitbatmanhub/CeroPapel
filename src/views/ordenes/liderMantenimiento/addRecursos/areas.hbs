@@ -1,0 +1,48 @@
+<div class="formulario">
+    <div class="container">
+        <h2>Agregar Maquina</h2>
+    </div>
+    <form action="/addmaquina" method="post" id="" name="">
+        <div class="row g-2">
+            <div class="col-md">
+                <div class="form-floating">
+                    <select name="idArea" class="form-select" id="idArea">
+                        <option value="null" selected>Selecciona una por favor</option>
+                        {{#each area}}
+                            <option value="{{idArea}}" name="{{nameArea}}">{{nameArea}}</option>
+                        {{/each}}
+                    </select>
+                    <label for="floatingSelectGrid">Area</label>
+                </div>
+            </div>
+
+
+            <div class="col-md">
+                <div class="form-floating mb-3">
+                    <input type="text" class="form-control" name="nameMaquina" id="floatingInput" placeholder="Ingresa el nombre de la maquina">
+                    <label for="floatingInput">Nombre de la maquina</label>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-group boton-send">
+            <input type="submit" class="btn btn-success btn-block" id="">
+        </div>
+
+
+    </form>
+
+</div>
+
+
+</div>
+
+
+<script>
+
+
+</script>
+
+
+
