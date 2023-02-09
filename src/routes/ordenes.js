@@ -497,8 +497,9 @@ router.post('/addtecnico/:id', async(req, res)=>{
 
 
 router.get('/addmaquina', async(req, res)=>{
-    const maquina= await pool.query('selec * from maquina')
-    await pool.query('insert into maquina set ?');
+    const maquina= await pool.query('select * from maquina')
+    //await pool.query('insert into maquina set ?');
+    console.log(maquina);
     res.render('ordenes/liderMantenimiento/addRecursos/maquina', [maquina]);
 
     console.log(req.body);
@@ -536,7 +537,7 @@ router.post('/addProveedor', async(req, res)=>{
 })
 
 router.get('/addsuministros', async(req, res)=>{
-    res.render('ordenes/liderMantenimiento/addRecursos/suministros');
+    res.render('/liderMantenimiento/addRecursos/suministros');
     console.log(req.body);
 })
 
