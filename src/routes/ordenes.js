@@ -522,22 +522,28 @@ router.get('/addarea', async(req, res)=>{
 })
 
 router.post('/addarea', async(req, res)=>{
-    await pool.query('insert into area set ?');
-    res.render('ordenes/')
-    console.log(req.body);
+    const {nameArea}=req.body;
+    const dataArea={
+        nameArea: nameArea.replace(/\b\w/g, function(l){ return l.toUpperCase() })
+    }
+    await pool.query('insert into area set ?', [dataArea]);
+    req.flash('success', 'Area agregada correctamente');
+    res.redirect('/addarea')
+
 })
 
 router.get('/addProveedor', async(req, res)=>{
     res.render('ordenes/liderMantenimiento/addRecursos/proveedor');
-
-    console.log(req.body);
 })
 
 router.post('/addProveedor', async(req, res)=>{
-    const{nameProveedor}=req.body;
-    await pool.query('insert into proveedor set ?', [nameProveedor])
-    res.render('ordenes/')
-    console.log(req.body);
+    const {nameProveedor}=req.body;
+    const dataProveedor={
+        nameProveedor: nameProveedor.replace(/\b\w/g, function(l){ return l.toUpperCase() })
+    }
+    await pool.query('insert into proveedor set ?', [dataProveedor]);
+    req.flash('success', 'Proveedor agregado correctamente');
+    res.redirect('/addProveedor')
 })
 
 router.get('/addsuministros', async(req, res)=>{

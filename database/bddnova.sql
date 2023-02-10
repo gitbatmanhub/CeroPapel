@@ -1109,3 +1109,4 @@ select * from maquina;
 select * from area;
 select * from sessions;
 select * from usuario;
+select * from proveedor;
