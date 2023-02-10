@@ -4,7 +4,7 @@ $(document).ready(function () {
     $('#table1, #table2, #table3').DataTable({
         scrollY: '100vh',
         scrollCollapse: true,
-
+        responsive: true,
         paging: true,
         collapse:true,
         language: {

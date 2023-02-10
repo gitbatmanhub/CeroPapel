@@ -455,7 +455,6 @@ alter table proveedor_orden
 /*--------------------Vistas------------------------*/
 
 
-
 /*--------------------//Vistas------------------------*/
 create view  TodosDatos as
 SELECT ordenTrabajo.idOrdenTrabajo
@@ -467,6 +466,7 @@ SELECT ordenTrabajo.idOrdenTrabajo
      , u.fullname             as Creador
      , p.namePrioridad        as Prioridad
      , s.nameStatus           as Status
+     , s.avanceStatus           as AvenceStatus
 
 FROM ordentrabajo
          inner join area a on ordenTrabajo.idArea = a.idArea
@@ -481,11 +481,10 @@ GROUP BY idOrdenTrabajo;
 create view ordenStatusDetails as
 select os.idOrden,os.fechaInicio as HoraInicio,
        os.fechaFinal as HoraFinal, u.fullname as NameAcepto,
-       s.nameStatus as Estado, os.create_at, s.idStatus
+       s.nameStatus as Estado, s.avanceStatus as AvanceStatus ,os.create_at, s.idStatus
 from orden_Status as os
          inner join usuario u on iduser = os.idUsuario
          inner join status s on os.idStatus = s.idStatus;
-
 
 
 
@@ -1110,3 +1109,10 @@ select * from area;
 select * from sessions;
 select * from usuario;
 select * from proveedor;
+select * from tecnicosOrden where idOrden=27;
+select * from tecnicosOrden ;
+select * from status;
+select * from orden_trabajador;
+select * from bddnova.ordenStatusDetails where idOrden=27 group by Estado;
+select * from status;
+select * from tipoMantenimiento;

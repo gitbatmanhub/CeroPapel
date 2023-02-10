@@ -210,11 +210,11 @@ router.get('/details/:id', isLoggedIn, async (req, res) => {
     const idOrden=req.params.id;
     //console.log(idOrden)
     const everDatos = await pool.query('select * from TodosDatos where idOrdenTrabajo=?', [idOrden]);
-    const tecnicosOrden= await pool.query('select * from tecnicosorden where idOrden = ?;', [idOrden]);
-    const Status2 = await pool.query('select * from ordenStatusDetails where idStatus=2 and idOrden=?;', [idOrden])
-    console.log(Status2)
+    const tecnicosOrden= await pool.query('select * from tecnicosOrden where idOrden=?;', [idOrden]);
+    const statuS = await pool.query('select * from bddnova.ordenStatusDetails where idOrden=? group by Estado;', [idOrden])
+    console.log(tecnicosOrden)
     //console.log(datosStatus)
-    res.render('ordenes/liderMantenimiento/details', {datos: everDatos[0],Status2: Status2[0], tecnicosOrden:tecnicosOrden[0]});
+    res.render('ordenes/liderMantenimiento/details', {datos: everDatos[0],statuS, tecnicosOrden});
 
 });
 //================================================

@@ -2,8 +2,9 @@
     <h1>Detalles de la orden #{{ datos.idOrdenTrabajo}}</h1>
 
 </div>
-
 <h1>Este es el id: {{ datos.idOrdenTrabajo}}</h1>
+<h1>Creación</h1>
+
 <p>Nombre del area: {{ datos.nameArea}}</p>
 <p>Nombre de la Maquina: {{ datos.nameMaquina}}</p>
 <p>Nombre de la descripcion: {{ datos.descripcion}}</p>
@@ -12,13 +13,37 @@
 <p>Nombre de Creador: {{ datos.Creador}}</p>
 <p>Prioridad: {{ datos.Prioridad}}</p>
 <p>Status de la orden: {{ datos.Status}}</p>
+<p>Status de la orden #: {{ datos.AvenceStatus}}</p>
+<div class="progress" role="progressbar" aria-label="Animated striped example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
+    <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: {{ datos.AvenceStatus}}%">{{ datos.AvenceStatus}}</div>
+</div>
 
-<!----------------------------------------------------->
+
+<h1>Estatus</h1>
+{{#each statuS}}
+    <p>{{NameAcepto}}</p>
+    <!--<p>{{HoraInicio}}</p>-->
+    <p>{{Estado}}</p>
+    <p>{{create_at}}</p>
+
+{{/each}}
+
+<!---------------------------------------------------
 <p>id: {{Status2.idOrden}}</p>
 <p>HoraInicio: {{Status2.HoraInicio}}</p>
 <p>Name: {{Status2.NameAcepto}}</p>
 <p>Estado: {{Status2.Estado}}</p>
-<input type="datetime-local" value="{{Status2.create_at}}">Create: </input>
+-->
+<!-- Tecnicos orden -->
 
+<div>
+    <h1>Tecnicos</h1>
+{{#each tecnicosOrden}}
+    <p>{{fullname}}</p>
+    <p>{{nameEspecialidad}}</p>
+    <p>{{DescripcionOrdenCreada}}</p>
 
+{{/each}}
+
+</div>
 
