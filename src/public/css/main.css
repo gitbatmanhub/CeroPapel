@@ -1258,3 +1258,13 @@ h6 {
   font-size: 13px;
   color: #012970;
 }
+
+
+/* ---------- */
+.modal-body{
+  display: flex;
+}
+.card{
+  padding: 10px;
+  border-style: none;
+}

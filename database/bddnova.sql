@@ -1116,3 +1116,45 @@ select * from orden_trabajador;
 select * from bddnova.ordenStatusDetails where idOrden=27 group by Estado;
 select * from status;
 select * from tipoMantenimiento;
+
+
+
+/* a partir de aqui querys Jonathan */
+
+
+select * from rolUsuario;
+select * from usuario;
+select * from tecnico;
+update usuario
+set rolusuario = 4
+where iduser=?;
+
+select * from especialidadtecnico;
+select u.fullname, e.nameEspecialidad, u.iduser from tecnico inner join usuario u on tecnico.idUser = u.iduser inner join especialidadtecnico e on tecnico.idEspecialidad = e.idEspecialidad where e.idEspecialidad !=4;
+
+
+insert into tecnico (idUser, idEspecialidad)
+values (2, 1),
+        (3, 4);
+
+select *
+from tecnicosOrden;
+
+select * from tecnicosOrden where idOrden=?;
+select * from TodosDatos where idOrdenTrabajo=?;
+select * from bddnova.ordenStatusDetails where idOrden=? group by Estado;
+select * from ordenStatusDetails;
+
+
+select * from usuario;
+select u.fullname, u.username
+from tecnico
+inner join bddnova.usuario u on tecnico.idUser = u.iduser;
+
+select * from usuario;
+
+select * from ordenTrabajo;
+
+select * from tecnicosorden;
+select * from usuario;
+select * from tecnico;
