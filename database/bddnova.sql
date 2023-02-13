@@ -1076,7 +1076,7 @@ select * from ordenStatusDetails where idStatus=3 and idOrden=27 group by idStat
 
 select os.idOrden,os.fechaInicio as HoraInicio, os.fechaFinal as HoraFinal, u.fullname as NameAcepto, s.nameStatus as Estado, os.create_at from orden_Status as os inner join usuario u on iduser = os.idUsuario inner join status s on os.idStatus = s.idStatus where idOrden=27 group by Estado;
 
-
+select * from usuario;
 
 select * from orden_Status;
 /* Fin query */
@@ -1116,3 +1116,38 @@ select * from orden_trabajador;
 select * from bddnova.ordenStatusDetails where idOrden=27 group by Estado;
 select * from status;
 select * from tipoMantenimiento;
+
+
+
+select * from usuario;
+select * from tecnico;
+
+select tecnico.idUser, u.fullname, tecnico.idEspecialidad, e.nameEspecialidad
+from tecnico
+inner join usuario u on tecnico.idUser = u.iduser
+inner join especialidadtecnico e on tecnico.idEspecialidad = e.idEspecialidad;
+
+
+select * from tecnicosOrden;
+select * from orden_trabajador;
+
+select tecnico.idUser, u.fullname, tecnico.idEspecialidad, e.nameEspecialidad
+from tecnico
+    inner join usuario u on tecnico.idUser = u.iduser
+    inner join especialidadtecnico e on tecnico.idEspecialidad = e.idEspecialidad;
+
+select *
+from orden_status
+inner join ordentrabajo iO on orden_Status.idOrden where idOrdenTrabajo=32;
+select * from tecnicosOrden;
+
+select ot.idOrden,
+       ot.create_at    as HoraAsignacionTecnico,
+       e.nameEspecialidad,
+       u.fullname,
+       ot2.descripcion as DescripcionOrdenCreada
+from orden_trabajador ot
+         inner join tecnico t on ot.idTecnico = t.idTecnico
+         inner join usuario u on t.idUser = u.iduser
+         inner join especialidadtecnico e on t.idEspecialidad = e.idEspecialidad
+         inner join ordentrabajo ot2 on ot.idOrden = ot2.idOrdenTrabajo;
