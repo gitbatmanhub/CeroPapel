@@ -2,7 +2,7 @@ module.exports={
     database:{
         host: 'localhost',
         user: 'root',
-        password: 'barcelona',
+        password: 'admin1223',
         database: 'bddnova'
     }
 
