@@ -47,6 +47,8 @@
             <p>{{comentariosLider}}</p>
         {{/each}}
     {{else}}
+        <h1>Tecnicos</h1>
+        <p>Aún no se agregan Tecnicos</p>
     {{/if}}
     {{#if externo}}
         <h1>Trabajo Externo</h1>
@@ -54,6 +56,7 @@
         <p>{{externo.nameProveedor}}</p>
         <p>{{externo.fechaInicio}}</p>
         <p>{{externo.fechaFinal}}</p>
+        <a href="/tecnicoexterno/{{datos.idOrdenTrabajo}}" class="btn btn-primary">Asignar Tecnicos</a>
     {{/if}}
 
 

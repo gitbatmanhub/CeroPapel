@@ -1296,3 +1296,10 @@ select * from externo where idOrden=35 and idStatus=3;
 select * from status;
 
 select * from orden_trabajador where idOrden=35;
+
+select * from status;
+select * from usuario;
+
+select * from rolusuario;
+select * from orden_trabajador where idOrden=35;
+delete from orden_trabajador where idOrden=35;
