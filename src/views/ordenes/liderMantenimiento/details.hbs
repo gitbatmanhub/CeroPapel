@@ -14,8 +14,10 @@
 <p>Prioridad: {{ datos.Prioridad}}</p>
 <p>Status de la orden: {{ datos.Status}}</p>
 <p>Status de la orden #: {{ datos.AvenceStatus}}</p>
-<div class="progress" role="progressbar" aria-label="Animated striped example" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-    <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: {{ datos.AvenceStatus}}%">{{ datos.AvenceStatus}}</div>
+<div class="progress" role="progressbar" aria-label="Animated striped example" aria-valuenow="75" aria-valuemin="0"
+     aria-valuemax="100">
+    <div class="progress-bar progress-bar-striped progress-bar-animated"
+         style="width: {{ datos.AvenceStatus}}%">{{ datos.AvenceStatus}}</div>
 </div>
 
 
@@ -37,13 +39,23 @@
 <!-- Tecnicos orden -->
 
 <div>
-    <h1>Tecnicos</h1>
-{{#each tecnicosOrden}}
-    <p>{{fullname}}</p>
-    <p>{{nameEspecialidad}}</p>
-    <p>{{DescripcionOrdenCreada}}</p>
+    {{#if tecnicosOrden}}
+        <h1>Tecnicos</h1>
+        {{#each tecnicosOrden}}
+            <p>{{fullname}}</p>
+            <p>{{nameEspecialidad}}</p>
+            <p>{{comentariosLider}}</p>
+        {{/each}}
+    {{else}}
+    {{/if}}
+    {{#if externo}}
+        <h1>Trabajo Externo</h1>
+        <p>{{externo.nameTipoMantenimiento}}</p>
+        <p>{{externo.nameProveedor}}</p>
+        <p>{{externo.fechaInicio}}</p>
+        <p>{{externo.fechaFinal}}</p>
+    {{/if}}
 
-{{/each}}
 
 </div>
 

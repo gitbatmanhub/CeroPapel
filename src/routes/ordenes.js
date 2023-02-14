@@ -210,11 +210,12 @@ router.get('/details/:id', isLoggedIn, async (req, res) => {
     const idOrden=req.params.id;
     //console.log(idOrden)
     const everDatos = await pool.query('select * from TodosDatos where idOrdenTrabajo=?', [idOrden]);
-    const tecnicosOrden= await pool.query('select * from tecnicosOrden where idOrden=?;', [idOrden]);
+    const tecnicosOrden= await pool.query('select * from tecnicosOrden where idOrden = ? group by fullname;', [idOrden]);
     const statuS = await pool.query('select * from bddnova.ordenStatusDetails where idOrden=? group by Estado;', [idOrden])
-    console.log(tecnicosOrden)
+    const externo = await pool.query('select * from externo where idOrden=? and idStatus=3;', [idOrden])
+    console.log(externo)
     //console.log(datosStatus)
-    res.render('ordenes/liderMantenimiento/details', {datos: everDatos[0],statuS, tecnicosOrden});
+    res.render('ordenes/liderMantenimiento/details', {datos: everDatos[0],statuS, tecnicosOrden, externo: externo[0]});
 
 });
 //================================================
@@ -465,17 +466,10 @@ router.post('/trabajoexterno/:id', isLoggedIn, permissions, async (req, res) => 
             idOrdenTrabajo: req.params.id
 
         }
-    //console.log(trabajoExterno)
-    await pool.query("insert orden_status (idStatus, idOrden, idTipoMantenimiento, idUsuario,  comentariosLider) values (?,?,?,?,?)", [3, req.params.id,4,userId,descripcionTrabajo]);
+    await pool.query('INSERT orden_status (idStatus, idOrden, idTipoMantenimiento, idUsuario,  comentariosLider, fechaInicio, fechaFinal) values (?,?,?,?,?, ?, ?)', [3, req.params.id,4,userId,descripcionTrabajo, fechaInicioTE, fechaFinalTE]);
     await pool.query('UPDATE ordenTrabajo SET idStatus=3 WHERE idOrdenTrabajo = ?', [req.params.id]);
+    await pool.query('UPDATE orden_status SET idProveedor=? WHERE idOrden = ? and idStatus=3', [proveedor, req.params.id]);
     await pool.query('INSERT INTO proveedor_orden set ?', [trabajoExterno]);
-
-
-
-    //console.log(req.body);
-
-
-
     res.redirect('/ordenesaprobadas/');
 })
 
