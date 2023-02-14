@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const pool = require('../database');
-const {isLoggedIn, isNotLoggedIn, permissions} = require('../lib/auth');
+const {isLoggedIn, permissions} = require('../lib/auth');
 
 
 
@@ -218,127 +218,6 @@ router.get('/details/:id', isLoggedIn, async (req, res) => {
     res.render('ordenes/liderMantenimiento/details', {datos: everDatos[0],statuS, tecnicosOrden, externo: externo[0]});
 
 });
-//================================================
-
-
-
-
-//=============================================Ver Ordenes Tecnicos
-/*
-router.get('/review/:id', isLoggedIn, async (req, res) => {
-    const {id} = req.params;
-    const ordenes = await pool.query('select ordenesasignadas.*, ot.*, u.fullname from novared.ordenesasignadas inner join ordenestrabajo ot on ordenesasignadas.idOrden = ot.id inner join users u on ot.user_id = u.id where idOrden=?;', [id]);
-
-    const fechas = await pool.query('select date_format(ordenestrabajo.fecha, "%Y-%m-%d") as fecha from ordenestrabajo where ordenestrabajo.id =?', [id]);
-    const ayudante1 = await pool.query('SELECT fullname as ayudante1 FROM novared.ordenesasignadas inner join users u on ordenesasignadas.idAyudante1 = u.id where idOrden=?', [id]);
-    const ayudante2 = await pool.query('SELECT fullname as ayudante2 FROM novared.ordenesasignadas inner join users u on ordenesasignadas.idAyudante2 = u.id where idOrden=?', [id]);
-    const tecnico1 = await pool.query('SELECT fullname as tecnico1 FROM novared.ordenesasignadas inner join users u on ordenesasignadas.idTecnico1 = u.id where idOrden=?', [id]);
-    const tecnico2 = await pool.query('SELECT fullname as tecnico2 FROM novared.ordenesasignadas inner join users u on ordenesasignadas.idTecnico2 = u.id where idOrden=?', [id]);
-    const datosAdicionales = await pool.query('select nameTipoMantenimiento ,descripcionMantenimiento, date_format(ordenesasignadas.fechaHoraInicio, "%Y-%m-%d") as fechaInicio, date_format(ordenesasignadas.fechaHoraInicio, "%H:%m") as horaInicio,date_format(ordenesasignadas.fechaHoraFinal, "%H:%m") as horaFinal , date_format(ordenesasignadas.fechaHoraFinal, "%Y-%m-%d") as fechaFinal from novared.ordenesasignadas inner join tipomantenimiento t on ordenesasignadas.tipoMantenimiento = t.idTipoMantenimiento where idOrden=?;', [id]);
-
-    res.render('ordenes/tecnico/viewT', {
-        orden: ordenes[0],
-        fecha: fechas[0],
-        ayudante1: ayudante1[0],
-        ayudante2: ayudante2[0],
-        tecnico1: tecnico1[0],
-        tecnico2: tecnico2[0],
-        datosAdicionales: datosAdicionales[0]
-
-
-    });
-
-});
-
- */
-//================================================
-
-
-//============================================== Asignar Ordenes
-/*
-router.post('/assign/:id', isLoggedIn, async (req, res) => {
-    const {
-        idTecnico1,
-        idTecnico2,
-        idAyudante1,
-        idAyudante2,
-        tipoMantenimiento,
-        descripcionMantenimiento,
-        fechaHoraInicio,
-        fechaHoraFinal,
-        idOrden
-    } = req.body;
-    const newOrden = {
-        idTecnico1,
-        idTecnico2,
-        idAyudante1,
-        idAyudante2,
-        tipoMantenimiento,
-        descripcionMantenimiento,
-        fechaHoraInicio,
-        fechaHoraFinal,
-        idUserAsigno: req.user.id,
-        idOrden
-
-    };
-    await pool.query('INSERT INTO ordenesasignadas set ?', [newOrden]);
-    await pool.query('UPDATE ordenestrabajo SET idStatus=2 WHERE id = ?', [newOrden.idOrden]);
-    req.flash('success', 'Orden Asignada correctamente');
-    res.redirect('/orden');
-
-
-});
-//================================================
-
-
- */
-
-//============================================== Aprobar Ordenes
-/*
-router.post('/view/:id', isLoggedIn, async (req, res) => {
-    const {idOrden, idUserCreo, comentariosSupervisor} = req.body;
-    const newOrdenAprobada = {
-        idOrden,
-        idUserCreo,
-        idAprobo: req.user.id,
-        comentariosSupervisor
-    };
-
-    // await pool.query('INSERT INTO ordenesaprobadas set ?', [newOrdenAprobada]);
-    //await pool.query('UPDATE ordenestrabajo SET idStatus=1 WHERE id = ?', [idOrden]);
-    req.flash('success', 'Orden Aprobada correctamente');
-    res.redirect('/orden');
-
-
-});
-
- */
-//=======================================================
-
-//=============================================== Vista Ordenes Tecnicos
-/*
-router.post('/viewT/:id', isLoggedIn, async (req, res) => {
-
-    const {comentariosTecnico, id_orden} = req.body;
-    const newOrdenAtendida = {
-        user_id: req.user.id,
-        comentariosTecnico,
-        id_orden
-    };
-
-
-    await pool.query('INSERT INTO ordenesatendidas set ?', [newOrdenAtendida]);
-    await pool.query('UPDATE ordenestrabajo SET idStatus=3 WHERE id = ?', [newOrdenAtendida.id_orden]);
-    req.flash('success', 'Orden atendida correctamente');
-
-
-    res.redirect('/orden');
-
-
-});
-
- */
-//=======================================================
 
 
 router.post('/accept/:id', isLoggedIn, permissions, async (req, res) => {
@@ -374,12 +253,6 @@ router.post('/probe/', isLoggedIn, async (req, res) => {
         const newProbeName = data.nombres[i]
         const newProbeApellido = data.apellidos[i]
 
-        //console.log(newProbeName, newProbeApellido);
-
-
-        //await pool.query('INSERT probe (nameTecnico, apellidoTecnico) values (?, ?)', [newProbeName, newProbeApellido]);
-
-        // pocas cantidades de usuarios
     }
     req.flash('success', 'Nombre y apellidos');
     res.redirect('/orden/probe');
@@ -447,10 +320,6 @@ router.get('/trabajoexterno/:id', isLoggedIn, permissions, async (req, res) => {
 })
 
 router.post('/trabajoexterno/:id', isLoggedIn, permissions, async (req, res) => {
-    //console.log(req.body);
-    //console.log(idOrden)
-    //console.log(idOrden)
-    //idOrden: req.params.id
     const userId = [req.user.iduser][0];
 
 
@@ -493,6 +362,11 @@ router.post('/tecnicoexterno/:id', isLoggedIn, permissions, async (req, res) =>{
 })
 
 
+router.get('/ordenesatender', isLoggedIn, async (req, res)=>{
+   res.render('ordenes/tecnico/ordenesatender')
+});
+
+
 //Rutas add x cosa
 
 
@@ -509,7 +383,7 @@ router.post('/addtecnico/:id', async(req, res)=>{
 });
 
 
-router.get('/addmaquina', async(req, res)=>{
+router.get('/addmaquina', isLoggedIn, permissions, async(req, res)=>{
     const area= await pool.query('select * from area')
     //console.log(area);
     res.render('ordenes/liderMantenimiento/addRecursos/maquina', {area});

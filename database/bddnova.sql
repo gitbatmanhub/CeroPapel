@@ -491,8 +491,12 @@ from orden_Status as os
          inner join status s on os.idStatus = s.idStatus;
 
 create view externo as
-select orden_Status.idOrden, orden_Status.idStatus, t.nameTipoMantenimiento, p.nameProveedor,
-       orden_Status.fechaInicio, orden_Status.fechaFinal
+select orden_Status.idOrden,
+       orden_Status.idStatus,
+       t.nameTipoMantenimiento,
+       p.nameProveedor,
+       orden_Status.fechaInicio,
+       orden_Status.fechaFinal
 from orden_Status
          inner join tipomantenimiento t on orden_Status.idTipoMantenimiento = t.idTipoMantenimiento
          inner join proveedor p on orden_Status.idProveedor = p.idProveedor;
@@ -1289,17 +1293,52 @@ select *
 from orden_Status
 where idOrden = 35;
 
-delete from orden_Status where idOrdenStatus=70;
+delete
+from orden_Status
+where idOrdenStatus = 70;
 
 
-select * from externo where idOrden=35 and idStatus=3;
-select * from status;
+select *
+from externo
+where idOrden = 35
+  and idStatus = 3;
+select *
+from status;
 
-select * from orden_trabajador where idOrden=35;
+select *
+from orden_trabajador
+where idOrden = 35;
 
-select * from status;
-select * from usuario;
+select *
+from status;
+select *
+from usuario;
 
-select * from rolusuario;
-select * from orden_trabajador where idOrden=35;
-delete from orden_trabajador where idOrden=35;
+select *
+from rolusuario;
+select *
+from orden_trabajador
+where idOrden = 35;
+delete
+from orden_trabajador
+where idOrden = 35;
+
+select ot.idOrden, ot.idTecnico, t.idUser, u.username, t.idEspecialidad, e.nameEspecialidad
+from orden_trabajador as ot
+         inner join ordentrabajo o on ot.idOrden = o.idOrdenTrabajo
+         inner join tecnico t on ot.idTecnico = t.idTecnico
+         inner join usuario u on t.idUser = u.iduser
+         inner join especialidadtecnico e on t.idEspecialidad = e.idEspecialidad
+where idOrden = 35;
+
+select *
+from ordentrabajo;
+
+
+select *
+from orden_trabajador;
+select *
+from tecnico;
+
+select *
+from status;
