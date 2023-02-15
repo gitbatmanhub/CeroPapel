@@ -17,7 +17,7 @@
 <div class="progress" role="progressbar" aria-label="Animated striped example" aria-valuenow="75" aria-valuemin="0"
      aria-valuemax="100">
     <div class="progress-bar progress-bar-striped progress-bar-animated"
-         style="width: {{ datos.AvanceStatus}}%">{{ datos.AvanceStatus}}</div>
+         style="width: {{ datos.AvanceStatus}}%">{{ datos.AvanceStatus}}%</div>
 </div>
 
 
@@ -49,6 +49,8 @@
     {{else}}
         <h1>Tecnicos</h1>
         <p>Aún no se agregan Tecnicos</p>
+        <a href="/tecnicoexterno/{{datos.idOrdenTrabajo}}" class="btn btn-primary">Asignar Tecnicos</a>
+
     {{/if}}
     {{#if externo}}
         <h1>Trabajo Externo</h1>

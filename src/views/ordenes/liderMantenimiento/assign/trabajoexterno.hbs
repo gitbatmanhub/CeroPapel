@@ -1,9 +1,12 @@
 <div class="formulario">
-    <div class="container">
-        <h2>Agregar Datos de Proveedor</h2>
-    </div>
 
-    {{#each ordenes}}  <form action="/trabajoexterno/{{idOrdenTrabajo}}" method="post">{{/each}}
+    {{#each ordenes}}
+        <div class="container">
+            <h2>Agregar Datos de Proveedor #{{idOrdenTrabajo}}</h2>
+        </div>
+
+
+    <form action="/trabajoexterno/{{idOrdenTrabajo}}" method="post">{{/each}}
 
 
     <div class="row ">

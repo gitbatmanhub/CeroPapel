@@ -293,6 +293,9 @@ VALUES ('Abierta', 20),
        ('Atendida', 60),
        ('En Progreso', 70),
        ('Terminada', 100);
+insert into status (nameStatus, avanceStatus)
+values ('Espera Revisión', 90);
+
 select *
 from status;
 
@@ -399,8 +402,11 @@ alter table orden_status
 alter table orden_status
     add column comentariosLider varchar(500) not null default "No comentarios";
 
+alter table orden_Status
+add column comentariosTecnico  varchar(500) not null default "Los comentarios se activan al momento de que la orden pasa a Revisión por el Lider Mantenimiento o PLanificador respectivamente";
 select *
 from orden_status;
+select * from status;
 
 
 
@@ -447,8 +453,9 @@ alter table proveedor_orden
 alter table proveedor_orden
     add column id_tipoMantenimiento int(5) not null;
 
+
 alter table proveedor_orden
-    add constraint fk_proveedorOrdenTipoM foreign key (id_tipoMantenimiento) references tipoMantenimiento (idTipoMantenimiento);
+    add constraint fk_proveedorOrdenTipoM foreign key (id_tipoMantenimiento) references tipoMantenimiento (idTipoMantenimiento) on update cascade ;
 
 
 /*--------------------Vistas------------------------*/
@@ -566,3 +573,56 @@ select * from orden_Status;
 select * from orden_Status where idOrden=31;
 select * from tipoMantenimiento;
 select * from TodosDatos;
+select * from orden_Status where idOrden=31 group by idStatus;
+select * from status;
+
+describe orden_Status;
+select * from ordenTrabajo;
+
+select * from status;
+
+select * from ordenStatusDetails where idStatus=6 group by Estado;
+select * from bddnova.tecnicosDatosOrden where idStatus=6 group by idOrden;
+
+select * from ordenTrabajo where idOrdenTrabajo=34;
+select * from status;
+
+select * from orden_status where idOrden=31 and idStatus=6;
+INSERT INTO proveedor_orden set `idProveedor` = '3', `fechaInicioTrabajo` = '2023-02-15T17:45', `fechaFinalTrabajo` = '2023-02-24T19:47', `descripcionTrabajo` = 'Orden 37 ', `id_tipoMantenimiento` = '6', `idOrdenTrabajo` = '37';
+select *
+from ordenTrabajo where idOrdenTrabajo=39;
+select * from proveedor_orden;
+select * from tipoMantenimiento;
+
+select * from bddnova.tecnicosDatosOrden where idStatus=6 ;
+
+select * from ordenTrabajo where idOrdenTrabajo= 39;
+
+select * from orden_status where idOrden=40;
+select * from tecnicosDatosOrden where idOrden=40;
+select ot.idOrden,
+       t.iduser,
+       em.nameEstado,
+       o.descripcion,
+       a.nameArea,
+       m.nameMaquina,
+       p.namePrioridad,
+       s.nameStatus,
+       t.nameEspecialidad,
+       t.fullname,
+       t.DescripcionOrdenCreada
+from orden_trabajador as ot
+         inner join ordentrabajo o on ot.idOrden = o.idOrdenTrabajo
+         inner join estadoMaquina em on o.estadoMaquina = em.idEstadoMaquina
+         inner join area a on o.idArea = a.idArea
+         inner join maquina m on o.idMaquina = m.idMaquina
+         inner join prioridad p on o.idPrioridad = p.idPrioridad
+         inner join status s on o.idStatus = s.idStatus
+         inner join tecnicosOrden t on ot.idOrden = t.idOrden
+where ot.idOrden=40;
+
+select * from tecnicosorden;
+select * from externo where idOrden=42 and idTipoMantenimiento=4;
+select * from ordenTrabajo ;
+delete from ordenTrabajo;
+select * from externo;
