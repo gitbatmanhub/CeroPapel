@@ -1,0 +1,120 @@
+<div class="container">
+    <h1>Detalles de la orden #{{ datos.idOrdenTrabajo}}</h1>
+
+</div>
+<h1>Este es el id: {{ datos.idOrdenTrabajo}}</h1>
+<h1>Creación</h1>
+
+<p>Nombre del area: {{ datos.nameArea}}</p>
+<p>Nombre de la Maquina: {{ datos.nameMaquina}}</p>
+<p>Nombre de la descripcion: {{ datos.descripcion}}</p>
+<p>Fecha y hora de creación: {{ datos.HoradeCreacion}}</p>
+<p>Estado de la maquina: {{ datos.EstadoMaquina}}</p>
+<p>Prioridad: {{ datos.Prioridad}}</p>
+
+
+
+<div>
+    {{#if tecnicosOrden}}
+        <h1>Tecnicos</h1>
+        {{#each tecnicosOrden}}
+            <p>{{fullname}}</p>
+            <p>{{nameEspecialidad}}</p>
+            <p>{{comentariosLider}}</p>
+        {{/each}}
+    {{else}}
+        <h1>Tecnicos</h1>
+        <p>Aún no se agregan Tecnicos</p>
+    {{/if}}
+    {{#if externo}}
+        <h1>Trabajo Externo</h1>
+        <p>{{externo.nameTipoMantenimiento}}</p>
+        <p>{{externo.nameProveedor}}</p>
+        <p>{{externo.fechaInicio}}</p>
+        <p>{{externo.fechaFinal}}</p>
+
+    {{/if}}
+
+
+</div>
+
+{{#when datos.idStatus 'eq' 3 }}
+    <button class="btn btn-primary" data-bs-target="#modalll1"
+            data-bs-toggle="modal">Ver Acciones</button>
+{{/when}}
+
+{{#when datos.idStatus 'eq' 4 }}
+    <button class="btn btn-primary" data-bs-target="#modalll2"
+            data-bs-toggle="modal">Ver Acciones</button>
+{{/when}}
+
+
+<div class="modal fade" id="modalll1" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+     tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Acciones</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="display: flex; margin: 0 auto;text-align: center">
+                <div class="card" style="width: 18rem;">
+
+                    <lord-icon
+                            src="https://cdn.lordicon.com/hbigeisx.json"
+                            trigger="loop"
+                            delay="2000"
+                            style="width:150px;height:150px">
+                    </lord-icon>
+                    <div class="card-body">
+                        <h5 class="card-title">Atender</h5>
+                        <p class="card-text">¿Todo listo?, reunete con tu compañero asignado y a trabajar!</p>
+                        <form action="/attendTecnico" method="post" id="attendTecnico">
+                            <button type="submit" class="btn btn-primary">Atender</button>
+                            <input type="hidden" value="4" name="status">
+                            <input type="hidden" value="{{datos.idOrdenTrabajo}}" name="orden">
+                            <input type="hidden" value="{{externo.idTipoMantenimiento}}" name="tipoMantenimiento">
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+<div class="modal fade" id="modalll2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+     tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Acciones</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="display: flex; margin: 0 auto;text-align: center">
+                <div class="card" style="width: 18rem;">
+                    <lord-icon
+                            src="https://cdn.lordicon.com/kulwmpzs.json"                            trigger="loop"
+                            delay="300"
+                            style="width:150px;height:150px">
+                    </lord-icon>
+                    <div class="card-body">
+                        <h5 class="card-title">Terminar y Agregar Comentarios</h5>
+                        <p class="card-text">Si al presente orden ha sido terminada porfavor marcala como culminada, el Lider Mantenimiento revisará la orden y la cerrará. No olvides dejar un comentario.</p>
+                        <form action="/attendTecnico" method="post" id="attendTecnico">
+                            <button type="submit" class="btn btn-primary">Atender</button>
+                            <input type="hidden" value="4" name="status">
+                            <input type="hidden" value="{{datos.idOrdenTrabajo}}" name="orden">
+                            <input type="hidden" value="{{externo.idTipoMantenimiento}}" name="tipoMantenimiento">
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+
