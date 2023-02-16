@@ -144,6 +144,7 @@ create table orden_Status
 
 );
 
+
 alter table orden_Status
     auto_increment = 1;
 
@@ -292,9 +293,9 @@ VALUES ('Abierta', 20),
        ('Aprobada', 40),
        ('Atendida', 60),
        ('En Progreso', 70),
+       ('Espera Revisión', 90),
        ('Terminada', 100);
-insert into status (nameStatus, avanceStatus)
-values ('Espera Revisión', 90);
+
 
 select *
 from status;
@@ -533,6 +534,16 @@ from orden_trabajador as ot
          inner join status s on o.idStatus = s.idStatus
          inner join tecnicosOrden t on ot.idOrden = t.idOrden;
 
+create view ordenesRevisar as
+select  os.idOrden, os.idStatus, a.nameArea, m.nameMaquina, e.nameEstado, p.namePrioridad
+from orden_status os
+inner join ordentrabajo o on os.idOrden = o.idOrdenTrabajo
+inner join area a on o.idArea = a.idArea
+inner join maquina m on o.idMaquina = m.idMaquina
+inner join estadoMaquina e on o.estadoMaquina = e.idEstadoMaquina
+inner join prioridad p on o.idPrioridad = p.idPrioridad;
+
+
 
 create table probe1
 (
@@ -640,6 +651,54 @@ select * from externo where idOrden=48;
 select * from ordenTrabajo;
 select * from orden_status  where idOrden=49;
 select * from orden_status where idOrden=49 group by idStatus;
-select * from ordenStatusDetails where idOrden=49;
+select * from ordenStatusDetails where idOrden=52;
 select * from ordenStatusDetails where idOrden=49 order by AvanceStatus;
 select * from orden_status where idOrden=50;
+
+select * from ordenStatusDetails where idOrden=50;
+
+select * from ordenTrabajo where idOrdenTrabajo=52;
+
+select * from orden_status where idOrden=52;
+select * from tecnicosdatosorden;
+
+
+
+select * from probee  where idOrden=52 and idStatus=6;
+select * from ordenesRevisar where idStatus=6 group by idOrden;
+
+select * from tecnicosDatosOrden where idOrden= 52 group by idOrden;
+select * from ordenesRevisar where idStatus=6 group by idOrden;
+
+
+
+
+select * from orden_status where idOrden=53 group by idStatus;
+
+select * from ordenesRevisar where idStatus=6;
+select * from ordenTrabajo;
+
+ where idStatus=53 group by idStatus;
+
+select * from orden_status where idOrden=52;
+select * from tecnicosDatosOrden where idOrden=52 group by fullname;
+select * from ordenTrabajo;
+
+
+
+select * from ordenStatusDetails where idOrden=54 order by AvanceStatus;
+
+delete from ordenTrabajo;
+
+select * from orden_status where idOrden=60;
+select * from ordenTrabajo where idOrdenTrabajo=60;
+
+select *
+from proveedor;
+select * from usuario;
+select * from ordenStatusDetails where idOrden=57 order by AvanceStatus;
+
+select * from orden_Status where idOrden=63;
+select * from tecnicosDatosOrden where idOrden=63;
+
+select * from externo where idOrden=63;

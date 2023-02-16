@@ -20,13 +20,13 @@
          style="width: {{ datos.AvanceStatus}}%">{{ datos.AvanceStatus}}%</div>
 </div>
 
-
+<p>-----------------------------------</p>
 <h1>Estatus</h1>
 {{#each statuS}}
-    <p>{{NameAcepto}}</p>
+    <p>Responsable: {{NameAcepto}}</p>
     <!--<p>{{HoraInicio}}</p>-->
-    <p>{{Estado}}</p>
-    <p>{{create_at}}</p>
+    <p>Estado: {{Estado}}</p>
+    <p>Hora{{create_at}}</p>
     {{#when idStatus 'eq' 2}}
     <p></p>
     {{/when}}
@@ -36,12 +36,14 @@
     {{#when idStatus 'eq' 4}}
     <p></p>
     {{/when}}
-    {{#when idStatus 'eq' 6}}
+    {{#when idStatus 'eq' 5}}
         {{ComentariosTecnico}}
     {{/when}}
-    {{#when idStatus 'eq' 5}}
+    {{#when idStatus 'eq' 6}}
         {{ComentariosLider}}
     {{/when}}
+    <p>-----------------------------------</p>
+
 
 {{/each}}
 
@@ -67,11 +69,10 @@
         <p>{{externo.nameProveedor}}</p>
         <p>{{externo.fechaInicio}}</p>
         <p>{{externo.fechaFinal}}</p>
-        <a href="/tecnicoexterno/{{datos.idOrdenTrabajo}}" class="btn btn-primary">Asignar Tecnicos</a>
     {{/if}}
 
 
-    {{#when datos.idStatus 'eq' 6 }}
+    {{#when datos.idStatus 'eq' 5 }}
         <button class="btn btn-primary" data-bs-target="#modalFinish"
                 data-bs-toggle="modal">Ver Acciones</button>
     {{/when}}
@@ -100,7 +101,7 @@
                         <p class="card-text">Si al revisar la orden no ha existido detalle alguno pudes proceder a cerrarla, agradecemos tu compromiso con Novared</p>
                         <form action="/finishLiderplanificador" method="post" id="attendTecnico">
                             <textarea class="form-control" name="comentarioLider" id="" cols="30" rows="5" placeholder="Novared siempre agradece tu comentario para poder mejorar" required></textarea>
-                            <input type="hidden" value="5" name="status">
+                            <input type="hidden" value="6" name="status">
                             <input type="hidden" value="{{datos.idOrdenTrabajo}}" name="orden">
                             <input type="hidden" value="{{externo.idTipoMantenimiento}}" name="tipoMantenimiento">
                             <button type="submit" class="btn btn-primary">Cerrar Orden</button>
