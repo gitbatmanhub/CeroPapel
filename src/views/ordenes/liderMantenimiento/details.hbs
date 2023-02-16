@@ -27,15 +27,24 @@
     <!--<p>{{HoraInicio}}</p>-->
     <p>{{Estado}}</p>
     <p>{{create_at}}</p>
+    {{#when idStatus 'eq' 2}}
+    <p></p>
+    {{/when}}
+    {{#when idStatus 'eq' 3}}
+        {{ComentariosLider}}
+    {{/when}}
+    {{#when idStatus 'eq' 4}}
+    <p></p>
+    {{/when}}
+    {{#when idStatus 'eq' 6}}
+        {{ComentariosTecnico}}
+    {{/when}}
+    {{#when idStatus 'eq' 5}}
+        {{ComentariosLider}}
+    {{/when}}
 
 {{/each}}
 
-<!---------------------------------------------------
-<p>id: {{Status2.idOrden}}</p>
-<p>HoraInicio: {{Status2.HoraInicio}}</p>
-<p>Name: {{Status2.NameAcepto}}</p>
-<p>Estado: {{Status2.Estado}}</p>
--->
 <!-- Tecnicos orden -->
 
 <div>
@@ -53,7 +62,7 @@
 
     {{/if}}
     {{#if externo}}
-        <h1>Trabajo Externo</h1>
+        <h1>Trabajo</h1>
         <p>{{externo.nameTipoMantenimiento}}</p>
         <p>{{externo.nameProveedor}}</p>
         <p>{{externo.fechaInicio}}</p>
@@ -62,5 +71,46 @@
     {{/if}}
 
 
+    {{#when datos.idStatus 'eq' 6 }}
+        <button class="btn btn-primary" data-bs-target="#modalFinish"
+                data-bs-toggle="modal">Ver Acciones</button>
+    {{/when}}
+
 </div>
 
+
+<div class="modal fade" id="modalFinish" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+     tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Acciones</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" >
+                <div class="card" style="width: 18rem;">
+                    <lord-icon
+                            src="https://cdn.lordicon.com/fpmskzsv.json"
+                            trigger="loop"
+                            delay="300"
+                            style="width:150px;height:150px">
+                    </lord-icon>
+                    <div class="card-body">
+                        <h5 class="card-title">Terminar y Agregar Comentarios</h5>
+                        <p class="card-text">Si al revisar la orden no ha existido detalle alguno pudes proceder a cerrarla, agradecemos tu compromiso con Novared</p>
+                        <form action="/finishLiderplanificador" method="post" id="attendTecnico">
+                            <textarea class="form-control" name="comentarioLider" id="" cols="30" rows="5" placeholder="Novared siempre agradece tu comentario para poder mejorar" required></textarea>
+                            <input type="hidden" value="5" name="status">
+                            <input type="hidden" value="{{datos.idOrdenTrabajo}}" name="orden">
+                            <input type="hidden" value="{{externo.idTipoMantenimiento}}" name="tipoMantenimiento">
+                            <button type="submit" class="btn btn-primary">Cerrar Orden</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+</div>

@@ -211,8 +211,8 @@ router.get('/details/:id', isLoggedIn, async (req, res) => {
     //console.log(idOrden)
     const everDatos = await pool.query('select * from TodosDatos where idOrdenTrabajo=?', [idOrden]);
     const tecnicosOrden= await pool.query('select * from tecnicosOrden where idOrden = ? group by fullname;', [idOrden]);
-    const statuS = await pool.query('select * from bddnova.ordenStatusDetails where idOrden=? group by Estado;', [idOrden])
-    const externo = await pool.query('select * from externo where idOrden=? and idTipoMantenimiento=4;', [idOrden])
+    const statuS = await pool.query('select * from ordenStatusDetails where idOrden=49 order by AvanceStatus;', [idOrden])
+    const externo = await pool.query('select * from externo where idOrden=?;', [idOrden])
     console.log(externo)
     //console.log(datosStatus)
     res.render('ordenes/liderMantenimiento/details', {datos: everDatos[0],statuS, tecnicosOrden, externo: externo[0]});
@@ -433,7 +433,29 @@ router.get('/porrevisar', isLoggedIn, async (req, res)=>{
     res.render('ordenes/liderMantenimiento/ordenesporrevisar', {tecnicosDatosOrden})
 })
 
+router.post('/finishLiderplanificador', isLoggedIn, async (req, res)=>{
+    const {orden, status, tipoMantenimiento, comentarioLider} = req.body;
+    const data =
+        {
+            idOrden: orden,
+            idStatus: status,
+            idTipoMantenimiento: tipoMantenimiento,
+            idUsuario: req.user.iduser,
+            comentariosLider: comentarioLider
+        };
 
+    await pool.query('INSERT INTO orden_Status set ?', [data]);
+    await pool.query('UPDATE ordenTrabajo SET idStatus=5 WHERE idOrdenTrabajo = ?', [orden]);
+
+    console.log(data);
+
+    res.redirect('/ordenesatendidasT')
+})
+
+router.get('/cerradas', isLoggedIn, permissions, async (req, res)=>{
+    const tecnicosDatosOrden = await pool.query('select * from bddnova.tecnicosDatosOrden where idStatus=5 group by idOrden;');
+    res.render('ordenes/liderMantenimiento/ordenesporrevisar', {tecnicosDatosOrden})
+})
 
 
 

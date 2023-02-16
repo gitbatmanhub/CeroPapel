@@ -27,7 +27,7 @@
         <p>Aún no se agregan Tecnicos</p>
     {{/if}}
     {{#if externo}}
-        <h1>Trabajo Externo</h1>
+        <h1>Trabajo</h1>
         <p>{{externo.nameTipoMantenimiento}}</p>
         <p>{{externo.nameProveedor}}</p>
         <p>{{externo.fechaInicio}}</p>
@@ -64,7 +64,7 @@
                     <lord-icon
                             src="https://cdn.lordicon.com/hbigeisx.json"
                             trigger="loop"
-                            delay="2000"
+                            delay="300"
                             style="width:150px;height:150px">
                     </lord-icon>
                     <div class="card-body">
@@ -105,7 +105,7 @@
                         <p class="card-text">Si al presente orden ha sido terminada porfavor marcala como culminada, el Lider Mantenimiento revisará la orden y la cerrará. No olvides dejar un comentario.</p>
                         <form action="/finishTecnico" method="post" id="attendTecnico">
                             <textarea class="form-control" name="comentarioTecnico" id="" cols="30" rows="10" placeholder="¿Existió alguna anomalía o algo que desees agregar antes de cerrar este orden?" required></textarea>
-                            <input type="hidden" value="5" name="status">
+                            <input type="hidden" value="6" name="status">
                             <input type="hidden" value="{{datos.idOrdenTrabajo}}" name="orden">
                             <input type="hidden" value="{{externo.idTipoMantenimiento}}" name="tipoMantenimiento">
                             <button type="submit" class="btn btn-primary">Culminada</button>

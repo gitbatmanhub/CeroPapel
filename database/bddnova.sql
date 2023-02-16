@@ -485,7 +485,6 @@ FROM ordentrabajo
          inner join status s on ordenTrabajo.idStatus = s.idStatus
          inner join orden_Status oS on oS.idOrden = ordenTrabajo.idOrdenTrabajo
 GROUP BY idOrdenTrabajo;
-
 create view ordenStatusDetails as
 select os.idOrden,
        os.fechaInicio as HoraInicio,
@@ -494,6 +493,8 @@ select os.idOrden,
        s.nameStatus   as Estado,
        s.avanceStatus as AvanceStatus,
        os.create_at,
+       os.comentariosLider as ComentariosLider,
+       os.comentariosTecnico as ComentariosTecnico,
        s.idStatus
 from orden_Status as os
          inner join usuario u on iduser = os.idUsuario
@@ -626,3 +627,19 @@ select * from externo where idOrden=42 and idTipoMantenimiento=4;
 select * from ordenTrabajo ;
 delete from ordenTrabajo;
 select * from externo;
+select * from ordenStatusDetails;
+select * from status;
+select * from orden_status;
+select * from ordenTrabajo;
+UPDATE ordenTrabajo SET idStatus=? WHERE idOrdenTrabajo = ? and idStatus=6;
+delete from orden_status where idStatus=6;
+select * from orden_status;
+select * from ordenTrabajo where idOrdenTrabajo=48;
+select * from orden_status group by idStatus;
+select * from externo where idOrden=48;
+select * from ordenTrabajo;
+select * from orden_status  where idOrden=49;
+select * from orden_status where idOrden=49 group by idStatus;
+select * from ordenStatusDetails where idOrden=49;
+select * from ordenStatusDetails where idOrden=49 order by AvanceStatus;
+select * from orden_status where idOrden=50;
