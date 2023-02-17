@@ -51,8 +51,11 @@ router.get('/orden', isLoggedIn, async (req, res) => {
 
 });
 */
-
-
+router.get('/dashboard', isLoggedIn, async (req, res)=>{
+    const ordenesTotal= await pool.query('SELECT COUNT(idOrdenTrabajo) as TotalOrdenes FROM ordenTrabajo;')
+    console.log(ordenesTotal[0])
+    res.render('ordenes/dashboard', {ordenesTotal})
+})
 
 //====================================================
 router.get('/misordenes', isLoggedIn, async (req, res)=>{
@@ -450,6 +453,11 @@ router.post('/finishLiderplanificador', isLoggedIn, async (req, res)=>{
 router.get('/cerradas', isLoggedIn, permissions, async (req, res)=>{
     const tecnicosDatosOrden = await pool.query('select * from bddnova.tecnicosDatosOrden where idStatus=6 group by idOrden;');
     res.render('ordenes/liderMantenimiento/ordenescerradas', {tecnicosDatosOrden})
+})
+
+router.get('/externas', isLoggedIn, permissions, async (req, res)=>{
+    const tecnicosDatosOrden = await pool.query('select * from externo;');
+    res.render('ordenes/liderMantenimiento/externas', {tecnicosDatosOrden})
 })
 
 

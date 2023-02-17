@@ -503,16 +503,25 @@ from orden_Status as os
 
 create view externo as
 select orden_Status.idOrden,
+       a.nameArea,
+       m.nameMaquina,
+       eM.nameEstado,
        orden_Status.idStatus,
+       p2.namePrioridad,
        t.idTipoMantenimiento,
        t.nameTipoMantenimiento,
        p.nameProveedor,
        orden_Status.fechaInicio,
        orden_Status.fechaFinal
 from orden_Status
+         inner join ordenTrabajo ot on idOrden = ot.idOrdenTrabajo
+         inner join area a on ot.idArea = a.idArea
+         inner join maquina m on ot.idMaquina = m.idMaquina
          inner join tipomantenimiento t on orden_Status.idTipoMantenimiento = t.idTipoMantenimiento
-         inner join proveedor p on orden_Status.idProveedor = p.idProveedor;
-
+         inner join proveedor p on orden_Status.idProveedor = p.idProveedor
+    inner join prioridad p2 on ot.idPrioridad = p2.idPrioridad
+inner join estadoMaquina eM on ot.estadoMaquina= eM.idEstadoMaquina where t.idTipoMantenimiento=4 order by idOrden;
+select * from externo;
 create view tecnicosDatosOrden as
 select ot.idOrden,
        t.iduser,
@@ -702,3 +711,36 @@ select * from orden_Status where idOrden=63;
 select * from tecnicosDatosOrden where idOrden=63;
 
 select * from externo where idOrden=63;
+
+
+select * from orden_Status;
+select * from ordenTrabajo;
+select * from bddnova.tecnicosDatosOrden where idStatus=6 group by idOrden;
+select * from externo where idStatus=5 and idTipoMantenimiento=4;
+
+
+select orden_Status.idOrden,
+       a.nameArea,
+       m.nameMaquina,
+       eM.nameEstado,
+       orden_Status.idStatus,
+       p2.namePrioridad,
+       t.idTipoMantenimiento,
+       t.nameTipoMantenimiento,
+       p.nameProveedor,
+       orden_Status.fechaInicio,
+       orden_Status.fechaFinal
+from orden_Status
+         inner join ordenTrabajo ot on idOrden = ot.idOrdenTrabajo
+         inner join area a on ot.idArea = a.idArea
+         inner join maquina m on ot.idMaquina = m.idMaquina
+         inner join tipomantenimiento t on orden_Status.idTipoMantenimiento = t.idTipoMantenimiento
+         inner join proveedor p on orden_Status.idProveedor = p.idProveedor
+    inner join prioridad p2 on ot.idPrioridad = p2.idPrioridad
+inner join estadoMaquina eM on ot.estadoMaquina= eM.idEstadoMaquina where t.idTipoMantenimiento=4 order by idOrden;
+
+
+select * from externo;
+select * from orden_Status where idOrden=65;
+
+SELECT COUNT(idOrdenTrabajo) AS TotalOrdenes FROM ordenTrabajo;
