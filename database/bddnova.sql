@@ -520,7 +520,10 @@ from orden_Status
          inner join tipomantenimiento t on orden_Status.idTipoMantenimiento = t.idTipoMantenimiento
          inner join proveedor p on orden_Status.idProveedor = p.idProveedor
     inner join prioridad p2 on ot.idPrioridad = p2.idPrioridad
-inner join estadoMaquina eM on ot.estadoMaquina= eM.idEstadoMaquina where t.idTipoMantenimiento=4 order by idOrden;
+inner join estadoMaquina eM on ot.estadoMaquina= eM.idEstadoMaquina where t.idTipoMantenimiento=4 and orden_Status.idStatus=5 order by idOrden;
+
+select * from orden_Status where idOrden=65;
+
 select * from externo;
 create view tecnicosDatosOrden as
 select ot.idOrden,
@@ -744,3 +747,40 @@ select * from externo;
 select * from orden_Status where idOrden=65;
 
 SELECT COUNT(idOrdenTrabajo) AS TotalOrdenes FROM ordenTrabajo;
+
+select * from ordenTrabajo;
+select * from ordenTrabajo Order By idOrdenTrabajo DESC WHERE create_at=NOW();
+
+select * from ordenTrabajo where create_at=NOW();
+SELECT * FROM ordenTrabajo WHERE create_at LIKE 'CURDATE()%' ORDER BY idOrdenTrabajo;
+SELECT DATE(NOW()) AS fecha;
+
+SELECT DATE_FORMAT(create_at, "%Y-%m-%d") where DATE(NOW()) from ;
+
+
+select * from ordenTrabajo where DATE_FORMAT(create_at, "%Y-%m-%d") = NOW();
+select * from ordenTrabajo where create_at = NOW();
+
+
+
+create view ordenesFechaActual as
+select idOrdenTrabajo, DATE_FORMAT(create_at, "%Y-%m-%d") as fecha
+    from ordenTrabajo;
+
+select count(idOrdenTrabajo) as ordenesHoy from ordenesFechaActual where fecha= DATE (NOW());
+select count(idOrdenTrabajo) as ordenesTotales from ordenesFechaActual;
+
+
+
+select count(idOrdenTrabajo) as ordenesPorAprobar from ordenTrabajo where idStatus=1;
+
+select * from status;
+
+select * from externo;
+
+select count(idOrden) from externo;
+
+select * from externo;
+select * from ordenTrabajo;
+select * from orden_Status where idOrden=65;
+select * from externo;

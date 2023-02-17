@@ -52,9 +52,28 @@ router.get('/orden', isLoggedIn, async (req, res) => {
 });
 */
 router.get('/dashboard', isLoggedIn, async (req, res)=>{
-    const ordenesTotal= await pool.query('SELECT COUNT(idOrdenTrabajo) as TotalOrdenes FROM ordenTrabajo;')
-    console.log(ordenesTotal[0])
-    res.render('ordenes/dashboard', {ordenesTotal})
+    const ordenesHoy= await pool.query('select count(idOrdenTrabajo) as ordenesHoy from ordenesFechaActual where fecha= DATE (NOW());')
+    const ordenesTotal= await pool.query('select count(idOrdenTrabajo) as ordenesTotales from ordenesFechaActual;')
+    const ordenesAprobar= await pool.query('select count(idOrdenTrabajo) as ordenesPorAprobar from ordenTrabajo where idStatus=1;')
+    const ordenesAprobadas= await pool.query('select count(idOrdenTrabajo) as ordenesPorAprobadas from ordenTrabajo where idStatus=2;')
+    const ordenesAsignadas= await pool.query('select count(idOrdenTrabajo) as ordenesPorAsignadas from ordenTrabajo where idStatus=3;')
+    const ordenesRevisar= await pool.query('select count(idOrdenTrabajo) as ordenesPorRevisar from ordenTrabajo where idStatus=5;')
+    const ordenesCerradas= await pool.query('select count(idOrdenTrabajo) as ordenesPorCerradas from ordenTrabajo where idStatus=6;')
+    const ordenesExternas = await pool.query('select count(idOrden) as ordenesPorExternas from externo;');
+
+
+
+
+    res.render('ordenes/dashboard', {
+        ordenesHoy: ordenesHoy[0],
+        ordenesTotal: ordenesTotal[0],
+        ordenesAprobar: ordenesAprobar[0],
+        ordenesAprobadas: ordenesAprobadas[0],
+        ordenesAsignadas: ordenesAsignadas[0],
+        ordenesRevisar: ordenesRevisar[0],
+        ordenesCerradas: ordenesCerradas[0],
+        ordenesExternas: ordenesExternas[0]
+    })
 })
 
 //====================================================

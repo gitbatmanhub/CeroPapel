@@ -836,9 +836,12 @@ h6 {
   flex-grow: 0;
 }
 
-.dashboard .sales-card .card-icon {
-  color: #4154f1;
-  background: #f6f6fe;
+.dashboard .otrabajo-card .card-icon {
+  background-color: rgba(79, 102, 185, 0.66);
+}
+.dashboard .poraprobar-card .card-icon {
+  color: #ff771d;
+  background: #ffecdf;
 }
 
 .dashboard .revenue-card .card-icon {
@@ -850,7 +853,9 @@ h6 {
   color: #ff771d;
   background: #ffecdf;
 }
-
+.mutedd{
+  font-size: 10px;
+}
 /* Activity */
 .dashboard .activity {
   font-size: 14px;
