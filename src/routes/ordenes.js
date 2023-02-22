@@ -51,7 +51,7 @@ router.get('/orden', isLoggedIn, async (req, res) => {
 
 });
 */
-router.get('/dashboard', isLoggedIn, async (req, res)=>{
+router.get('/dashboard', isLoggedIn, permissions, async (req, res)=>{
     const ordenesHoy= await pool.query('select count(idOrdenTrabajo) as ordenesHoy from ordenesFechaActual where fecha= DATE (NOW());')
     const ordenesTotal= await pool.query('select count(idOrdenTrabajo) as ordenesTotales from ordenesFechaActual;')
     const ordenesAprobar= await pool.query('select count(idOrdenTrabajo) as ordenesPorAprobar from ordenTrabajo where idStatus=1;')
@@ -232,8 +232,8 @@ router.get('/details/:id', isLoggedIn, async (req, res) => {
     const idOrden=req.params.id;
     //console.log(idOrden)
     const everDatos = await pool.query('select * from TodosDatos where idOrdenTrabajo=?', [idOrden]);
-    const tecnicosOrden= await pool.query('select * from tecnicosOrden where idOrden = ? group by fullname;', [idOrden]);
-    const statuS = await pool.query('select * from ordenStatusDetails where idOrden=? order by AvanceStatus;', [idOrden])
+    const tecnicosOrden= await pool.query('select * from tecnicosOrden where idOrden = ? group by iduser;', [idOrden]);
+    const statuS = await pool.query('select * from ordenStatusDetails where idOrden=? group by AvanceStatus;', [idOrden])
     const externo = await pool.query('select * from externo where idOrden=?;', [idOrden])
     //console.log(datosStatus)
     res.render('ordenes/liderMantenimiento/details', {datos: everDatos[0],statuS, tecnicosOrden, externo: externo[0]});
@@ -305,21 +305,28 @@ router.get('/tecnico/:id', isLoggedIn, permissions, async (req, res) => {
 
 router.post('/tecnico/:id', isLoggedIn, permissions, async (req, res) => {
     const userId = [req.user.iduser][0];
-    const idOrden = req.params.id;
+    const idOrden = [req.params.id];
     //console.log(userId)
     const objo = Object.assign({}, req.body);
     //console.log(objo);
     const exmaple = {idTecnico, fechaInicioPre, fechaFinalPre, tipoMantenimiento, descripcionTrabajo, idStatus} = objo;
     //console.log(comentario);
+    /*
     for (let i = 0; i < exmaple.idTecnico.length; i++) {
         const idTecnico = exmaple.idTecnico[i];
         //Inserto en tabla orden_Trabajador los id de los tecnicos junto a los de la orden
+
         await pool.query('INSERT orden_Trabajador (idOrden, idTecnico) values (?, ?);', [idOrden, idTecnico]);
         //
         await pool.query('insert orden_status (idStatus, idOrden, idTipoMantenimiento, idUsuario,  comentariosLider) values (?,?,?,?,?)', [idStatus, idOrden, tipoMantenimiento, userId ,descripcionTrabajo]);
         await pool.query('update orden_status set fechaFinal=?, fechaInicio=?,  comentariosLider=? where idOrden=?;', [fechaFinalPre, fechaInicioPre, descripcionTrabajo, idOrden]);
         await pool.query('UPDATE ordenTrabajo SET idStatus=3 WHERE idOrdenTrabajo = ?', [idOrden]);
     }
+    await pool.query('insert into fechas_orden (fechaInicio, fechaFinal, idUser, idOrden) values (?,?,?,?);', [ fechaInicioPre, fechaFinalPre, userId, idOrden ] );
+
+     */
+    console.log(exmaple);
+    await pool.query('insert into comentarios_orden (comentario, idOrden, idUser) values (?,?,?)', [descripcionTrabajo, userId, idOrden])
 
 
 
@@ -464,13 +471,14 @@ router.post('/finishLiderplanificador', isLoggedIn, async (req, res)=>{
 
     await pool.query('INSERT INTO orden_Status set ?', [data]);
     await pool.query('UPDATE ordenTrabajo SET idStatus=6 WHERE idOrdenTrabajo = ?', [orden]);
+    await pool.query('UPDATE ordenTrabajo SET idStatus=6 WHERE idOrdenTrabajo = ?', [orden]);
 
 
     res.redirect('/ordenesatendidasT')
 })
 
 router.get('/cerradas', isLoggedIn, permissions, async (req, res)=>{
-    const tecnicosDatosOrden = await pool.query('select * from bddnova.tecnicosDatosOrden where idStatus=6 group by idOrden;');
+    const tecnicosDatosOrden = await pool.query('select * from orden_Status where idStatus=6 group by idOrden;');
     res.render('ordenes/liderMantenimiento/ordenescerradas', {tecnicosDatosOrden})
 })
 
