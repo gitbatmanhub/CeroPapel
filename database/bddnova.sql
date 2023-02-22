@@ -497,18 +497,42 @@ alter table comentarios_orden
 alter table comentarios_orden
     add constraint fk_UserComentarios foreign key (idUser) references usuario (iduser) ON UPDATE CASCADE ;
 
-insert into comentarios_orden (comentario, idOrden, idUser) values ('helo',2,74);
-
-select * from comentarios_orden;
-DELETE FROM comentarios_orden;
 
 
 
+describe orden_Status;
+alter table orden_Status drop fechaFinal;
+alter table orden_Status drop fechaInicio;
+alter table orden_Status drop comentariosTecnico;
+alter table orden_Status drop comentariosLider;
+
+select * from orden_Status;
+
+
+describe orden_Status;
+
+
+create table orden_tipomantenimiento
+(
+    idOrdeTipoMantenimiento int(10) primary key auto_increment,
+    idOrden int(10),
+    idTipoMantenimiento int(10)
+);
+
+
+alter table orden_tipomantenimiento
+    add constraint fk_orden_tipomantenimeinto foreign key (idOrden) references ordentrabajo (idOrdenTrabajo) ON UPDATE CASCADE ;
+
+alter table orden_tipomantenimiento
+    add constraint fk_tipoidTipo foreign key (idTipoMantenimiento) references tipoMantenimiento (idTipoMantenimiento) ON UPDATE CASCADE ;
+
+
+alter table orden_Status drop constraint fk_idTipoMantenimiento;
+alter table orden_Status drop idTipoMantenimiento;
+
+describe orden_Status;
 
 /*--------------------Vistas------------------------*/
-
-
-/*--------------------//Vistas------------------------*/
 
 create view TodosDatos as
 SELECT ordenTrabajo.idOrdenTrabajo
@@ -535,18 +559,15 @@ GROUP BY idOrdenTrabajo;
 
 create view ordenStatusDetails as
 select os.idOrden,
-       os.fechaInicio as HoraInicio,
-       os.fechaFinal  as HoraFinal,
        u.fullname     as NameAcepto,
        s.nameStatus   as Estado,
        s.avanceStatus as AvanceStatus,
        os.create_at,
-       os.comentariosLider as ComentariosLider,
-       os.comentariosTecnico as ComentariosTecnico,
        s.idStatus
 from orden_Status as os
          inner join usuario u on iduser = os.idUsuario
          inner join status s on os.idStatus = s.idStatus;
+
 
 create view externo as
 select orden_Status.idOrden,
@@ -557,9 +578,7 @@ select orden_Status.idOrden,
        p2.namePrioridad,
        t.idTipoMantenimiento,
        t.nameTipoMantenimiento,
-       p.nameProveedor,
-       orden_Status.fechaInicio,
-       orden_Status.fechaFinal
+       p.nameProveedor
 from orden_Status
          inner join ordenTrabajo ot on idOrden = ot.idOrdenTrabajo
          inner join area a on ot.idArea = a.idArea
@@ -569,26 +588,8 @@ from orden_Status
     inner join prioridad p2 on ot.idPrioridad = p2.idPrioridad
 inner join estadoMaquina eM on ot.estadoMaquina= eM.idEstadoMaquina where t.idTipoMantenimiento=4 and orden_Status.idStatus=5 order by idOrden;
 
-create view tecnicosDatosOrden as
-select ot.idOrden,
-       t.iduser,
-       em.nameEstado,
-       o.descripcion,
-       a.nameArea,
-       m.nameMaquina,
-       p.namePrioridad,
-       s.nameStatus,
-       t.nameEspecialidad,
-       t.fullname,
-       t.DescripcionOrdenCreada
-from orden_trabajador as ot
-         inner join ordentrabajo o on ot.idOrden = o.idOrdenTrabajo
-         inner join estadoMaquina em on o.estadoMaquina = em.idEstadoMaquina
-         inner join area a on o.idArea = a.idArea
-         inner join maquina m on o.idMaquina = m.idMaquina
-         inner join prioridad p on o.idPrioridad = p.idPrioridad
-         inner join status s on o.idStatus = s.idStatus
-         inner join tecnicosOrden t on ot.idOrden = t.idOrden;
+
+
 
 create view ordenesRevisar as
 select  os.idOrden, os.idStatus, a.nameArea, m.nameMaquina, e.nameEstado, p.namePrioridad
@@ -603,112 +604,171 @@ create view ordenesFechaActual as
 select idOrdenTrabajo, DATE_FORMAT(create_at, "%Y-%m-%d") as fecha
     from ordenTrabajo;
 
+
 create view tecnicosOrden as
-select ot.idOrden,
+select o_t.idOrdenTrabajador,
+       ot.idOrdenTrabajo,
        u.iduser,
-       ot.create_at    as HoraAsignacionTecnico,
-       e.nameEspecialidad,
+       o.idTipoMantenimiento,
+       t2.nameTipoMantenimiento,
+       t.idTecnico,
+       Os.idStatus,
+       em.nameEstado,
+       a.nameArea,
+       m.nameMaquina,
+       p.namePrioridad,
+       s.nameStatus,
        u.fullname,
-       ot2.descripcion as DescripcionOrdenCreada,
-       oS.comentariosLider,
-       oS.fechaInicio as FechaInicioTrabajo,
-       oS.fechaFinal as FechaFinalTrabajo,
-       oS.idTipoMantenimiento
-from orden_trabajador ot
-         inner join tecnico t on ot.idTecnico = t.idTecnico
-         inner join usuario u on t.idUser = u.iduser
+       e.nameEspecialidad
+from orden_trabajador o_t
+         inner join ordentrabajo ot on o_t.idOrden = ot.idOrdenTrabajo
+         inner join estadoMaquina em on ot.estadoMaquina = em.idEstadoMaquina
+         inner join area a on ot.idArea = a.idArea
+         inner join maquina m on ot.idMaquina = m.idMaquina
+         inner join prioridad p on ot.idPrioridad = p.idPrioridad
+         inner join status s on ot.idStatus = s.idStatus
+         inner join tecnico t on o_t.idTecnico = t.idTecnico
          inner join especialidadtecnico e on t.idEspecialidad = e.idEspecialidad
-         inner join ordentrabajo ot2 on ot.idOrden = ot2.idOrdenTrabajo
-         right join orden_Status oS on ot.idOrden = oS.idOrden;
+         inner join usuario u on t.idUser = u.iduser
+         inner join orden_Status oS on s.idStatus = oS.idStatus
+         inner join orden_tipomantenimiento o on o_t.idOrden = o.idOrden
+         inner join tipomantenimiento t2 on o.idTipoMantenimiento = t2.idTipoMantenimiento;
 
-create table probe1
-(
-    id   int(1) auto_increment not null primary key,
-    name varchar(19)
-);
+/*--------------------//Vistas------------------------*/
 
-create table probe2
-(
-    id   int(1) auto_increment not null primary key,
-    name varchar(19)
-);
+
+
+
+
 
 /* ================================== */
 
 
 
+select * from comentarios_orden where idOrden=77;
+
+select * from fechas_orden where idOrden=77;
+
+select * from TodosDatos;
+select * from tecnicosOrden where idOrdenTrabajo=77 group by idOrdenTrabajo;
+
+select * from ordenStatusDetails;
+select * from tipoMantenimiento;
+select * from orden_Status;
+select * from ordenStatusDetails;
+
+select os.idOrden,
+       os.fechaInicio as HoraInicio,
+       os.fechaFinal  as HoraFinal,
+       u.fullname     as NameAcepto,
+       s.nameStatus   as Estado,
+       s.avanceStatus as AvanceStatus,
+       os.create_at,
+       os.comentariosLider as ComentariosLider,
+       os.comentariosTecnico as ComentariosTecnico,
+       s.idStatus
+from orden_Status as os
+         inner join usuario u on iduser = os.idUsuario
+         inner join status s on os.idStatus = s.idStatus;
+
+
+select os.idOrden,
+       u.fullname     as NameAcepto,
+       s.nameStatus   as Estado,
+       s.avanceStatus as AvanceStatus,
+       os.create_at,
+       s.idStatus
+from orden_Status as os
+         inner join usuario u on iduser = os.idUsuario
+         inner join status s on os.idStatus = s.idStatus;
+
 select * from externo;
+select * from ordenStatusDetails;
+select * from TodosDatos;
+select * from tecnicosOrden where idOrdenTrabajo=78;
+select * from tipoMantenimiento;
 
-select * from tecnicosDatosOrden;
-select * from status;
-select * from orden_trabajador;
-select * from orden_Status where idOrden=67;
-select * from orden_Status where idOrden=68;
+select * from orden_Status;
+describe orden_Status;
 
-select ot.idOrden,
-       t.iduser,
+select from tecnicosOrden where idOrdenTrabajo=78 group by iduser order by idTipoMantenimiento desc;
+
+select * from tecnicosOrden where idOrdenTrabajo=78 order by idTipoMantenimiento desc ;
+
+
+select * from ordentrabajo;
+select * from orden_Status where idOrden=79;
+
+describe orden_Status;
+select * from orden_Status where idOrden;
+
+UPDATE orden_status SET idtipoMantenimiento=? WHERE idOrden = ?;
+
+
+
+insert into orden_tipomantenimiento (idOrden, idTipoMantenimiento) VALUES (10,1);
+delete from orden_tipomantenimiento;
+
+
+
+
+select * from tecnicosOrden where iduser=3 and idStatus=3 group by idOrdenTrabajador ;
+
+select * from tecnicosOrden;
+
+select o_t.idOrdenTrabajador,
+       ot.idOrdenTrabajo,
+       u.iduser,
+       o.idTipoMantenimiento,
+       t2.nameTipoMantenimiento,
+       t.idTecnico,
+       Os.idStatus,
        em.nameEstado,
-       o.descripcion,
        a.nameArea,
        m.nameMaquina,
        p.namePrioridad,
        s.nameStatus,
-       t.nameEspecialidad,
-       t.fullname,
-       t.DescripcionOrdenCreada
-from orden_trabajador as ot
-         inner join ordentrabajo o on ot.idOrden = o.idOrdenTrabajo
-         inner join estadoMaquina em on o.estadoMaquina = em.idEstadoMaquina
-         inner join area a on o.idArea = a.idArea
-         inner join maquina m on o.idMaquina = m.idMaquina
-         inner join prioridad p on o.idPrioridad = p.idPrioridad
-         inner join status s on o.idStatus = s.idStatus
-         inner join tecnicosOrden t on ot.idOrden = t.idOrden;
-
-
-select * from orden_Status where idOrden=68; /* Aquí si están en 6 */
-select * from ordenTrabajo where idOrdenTrabajo=68; /* Aquí si están en 6 */
-select * from tecnicosDatosOrden;
-select * from orden_Status where idOrden=67;
-select * from ordenStatusDetails;
-select * from externo;
-delete from ordenTrabajo;
-select * from externo;
-select * from orden_Status where idOrden=70 and idStatus=3;
-select * from tecnicosOrden where idOrden=70 group by idOrden;
-
-
-
-
-
-
-
-select ot.idOrden,
-       u.iduser,
-       ot.create_at    as HoraAsignacionTecnico,
-       e.nameEspecialidad,
        u.fullname,
-       ot2.descripcion as DescripcionOrdenCreada,
-       oS.comentariosLider,
-       oS.fechaInicio as FechaInicioTrabajo,
-       oS.fechaFinal as FechaFinalTrabajo
-from orden_trabajador ot
-         inner join tecnico t on ot.idTecnico = t.idTecnico
-         inner join usuario u on t.idUser = u.iduser
+       e.nameEspecialidad
+from orden_trabajador o_t
+         inner join ordentrabajo ot on o_t.idOrden = ot.idOrdenTrabajo
+         inner join estadoMaquina em on ot.estadoMaquina = em.idEstadoMaquina
+         inner join area a on ot.idArea = a.idArea
+         inner join maquina m on ot.idMaquina = m.idMaquina
+         inner join prioridad p on ot.idPrioridad = p.idPrioridad
+         inner join status s on ot.idStatus = s.idStatus
+         inner join tecnico t on o_t.idTecnico = t.idTecnico
          inner join especialidadtecnico e on t.idEspecialidad = e.idEspecialidad
-         inner join ordentrabajo ot2 on ot.idOrden = ot2.idOrdenTrabajo
-         right join orden_Status oS on ot.idOrden = oS.idOrden;
-
-drop view esteban;
-
-select * from esteban where idOrden=71 group by iduser;
+         inner join usuario u on t.idUser = u.iduser
+         inner join orden_Status oS on s.idStatus = oS.idStatus
+         inner join orden_tipomantenimiento o on o_t.idOrden = o.idOrden
+         inner join tipomantenimiento t2 on o.idTipoMantenimiento = t2.idTipoMantenimiento;
 
 
-select * from tecnicosOrden where idOrden=71 group by iduser;
-select * from ordenStatusDetails where idOrden=71 group by Estado order by AvanceStatus;
-select * from tecnicosorden;
+select * from tecnicosOrden where iduser=3 and idStatus=3 group by idOrdenTrabajo ;
 
 
+delete from ordentrabajo;
 
 
+select * from tecnicosOrden;
 
+select * from ordenStatusDetails;
+
+select os.idOrden,
+       u.fullname     as NameAcepto,
+       s.nameStatus   as Estado,
+       s.avanceStatus as AvanceStatus,
+       os.create_at,
+       s.idStatus
+from orden_Status as os
+         inner join usuario u on iduser = os.idUsuario
+         inner join status s on os.idStatus = s.idStatus;
+
+select * from orden_Status;
+
+select *
+from tecnicosOrden;
+select * from 
+
+SELECT * FROM comentarios_orden;

@@ -19,11 +19,11 @@
         {{#each tecnicosOrden}}
             <p>Name Tecnico: {{fullname}}</p>
             <p>Especialidad Tecnico: {{nameEspecialidad}}</p>
-            <p>Comentarios Lider: {{comentariosLider}}</p>
-            <p>Fecha Inicio Trabajo: {{FechaInicioTrabajo}}</p>
-            <p>Fecha Final Trabajo: {{FechaFinalTrabajo}}</p>
             <p>------------------------</p>
         {{/each}}
+        <p>Comentario Orden: {{comentario.comentario}}</p>
+        <p>Fecha y Hora Inicio: {{fecha.fechaInicio}}</p>
+        <p>Fecha y Hora Final: {{fecha.fechaFinal}}</p>
     {{else}}
         <h1>Tecnicos</h1>
         <p>Aún no se agregan Tecnicos</p>
@@ -78,9 +78,7 @@
                             <button type="submit" class="btn btn-primary">Atender</button>
                             <input type="hidden" value="4" name="status">
                             <input type="hidden" value="{{datos.idOrdenTrabajo}}" name="orden">
-                            {{#each tecnicosOrden}}
-                                <input type="hidden" value="{{idTipoMantenimiento}}" name="tipoMantenimiento">
-                            {{/each}}
+
                         </form>
                     </div>
                 </div>
@@ -116,7 +114,6 @@
                                       required></textarea>
                             <input type="hidden" value="5" name="status">
                             <input type="hidden" value="{{datos.idOrdenTrabajo}}" name="orden">
-                            <input type="hidden" value="{{externo.idTipoMantenimiento}}" name="tipoMantenimiento">
                             <button type="submit" class="btn btn-primary">Culminada</button>
                         </form>
                     </div>

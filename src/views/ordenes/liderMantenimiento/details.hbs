@@ -56,8 +56,6 @@
             <p>{{fullname}}</p>
             <p>{{nameEspecialidad}}</p>
             <p>{{comentariosLider}}</p>
-            <p>Fecha Inicio Trabajo: {{FechaInicioTrabajo}}</p>
-            <p>Fecha Final Trabajo: {{FechaFinalTrabajo}}</p>
         <p>----------------------------</p>
         {{/each}}
     {{else}}
@@ -106,7 +104,6 @@
                             <textarea class="form-control" name="comentarioLider" id="" cols="30" rows="5" placeholder="Novared siempre agradece tu comentario para poder mejorar" required></textarea>
                             <input type="hidden" value="6" name="status">
                             <input type="hidden" value="{{datos.idOrdenTrabajo}}" name="orden">
-                            <input type="hidden" value="{{externo.idTipoMantenimiento}}" name="tipoMantenimiento">
                             <button type="submit" class="btn btn-primary">Cerrar Orden</button>
                         </form>
                     </div>
