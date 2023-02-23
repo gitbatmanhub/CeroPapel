@@ -1,0 +1,56 @@
+
+<div class="container">
+
+    {{#each ordenes}}
+    <form action="/addsuministros/{{idOrdenTrabajo}}" id="form" class="formTecnicos" id="" method="post">
+        <div class="este">
+            <h1 style="text-align: center">Asignar Suministros a la orden Nr#  {{idOrdenTrabajo}}</h1>
+
+        </div>
+    {{/each}}
+
+
+    <div class="row g-2 mb-3 tecnicosAl">
+        <div class="col-md">
+
+            <div id="divPadre">
+                <select class="form-select" name="producto" id="producto" required >
+                    <option value="null" disabled selected> Selecciona un item de la Lista</option>
+                    {{#each suministros}}
+                        <option value="{{idProducto}}">{{nameProducto}}</option>
+                    {{/each}}
+                </select>
+                <div class="form-floating mb-3">
+                    <input id="descripcionAO" type="number" class="form-control" name="cantidad"
+                              required placeholder="Descripción" value="" >
+                    <label for="floatingInput">Cantidad</label>
+                </div>
+            </div>
+
+            <div id="selectsTecnico"></div>
+
+        </div>
+        <div class="col-1 botonAgregarT">
+            <a class="btn btn-dark" href="#" onclick="duplicar1();"> +</a>
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+    <button class="btn btn-primary" type="submit" onclick="validate();">Enviar</button>
+</form>
+
+</div>
+
+
+
+
+
+
+
+

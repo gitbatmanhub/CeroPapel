@@ -650,14 +650,77 @@ select * from comentarios_orden;
 select c.idOrden, c.idStatus, oSD.AvanceStatus, c.fullname as Responsable, c.comentario
 from ordenStatusDetails oSD
 inner join comentariosordenuser c on oSD.idStatus = c.idStatus group by c.idStatus;
+
+
+
+create view ordenesStatus as
+select ordenTrabajo.*,
+       s.nameStatus,
+       a.nameArea,
+       m.nameMaquina,
+       e.nameEstado,
+       p.namePrioridad
+from ordenTrabajo
+         inner join prioridad p on ordenTrabajo.idPrioridad = p.idPrioridad
+         inner join maquina m on ordenTrabajo.idMaquina = m.idMaquina
+         inner join area a on ordenTrabajo.idArea = a.idArea
+         inner join estadoMaquina e on ordenTrabajo.estadoMaquina = e.idEstadoMaquina
+         inner join status s on ordenTrabajo.idStatus = s.idStatus;
+
+select * from ordenesStatus where idStatus=6;
+
+select * from ordentrabajo;
+
+select * from orden_Status;
+
+select * from orden_Status where idStatus=6;
+
+alter table producto drop column cantidadProducto;
+alter table producto drop column datosAdicionales;
+
+select * from producto;
+
+alter table producto add column DetallesProducto varchar(200);
+
+select * from producto;
+select * from orden_producto;
+alter table orden_producto add column datosAdicionales varchar(200);
+select * from orden_producto;
+
+alter table orden_producto add column idUser int(100);
+
+alter table orden_producto
+    add constraint fk_orden_producto foreign key (idUser) references usuario(iduser) ON DELETE CASCADE ;
+SELECT * FROM orden_producto;
+
+select * from ordentrabajo;
+
+ALTER TABLE orden_producto add column cantidad int(5) not null ;
+alter table orden_producto drop column datosAdicionales;
+select * from orden_producto;
+describe orden_producto;
+
+
+
 /*--------------------//Vistas------------------------*/
 
+select * from producto;
 
+select * from orden_producto;
 
 
 
 /* ================================== */
 
+
+select * from orden_producto;
+select * from producto;
+
+
+
+select count(idOrdenTrabajo) as ordenesHoy from ordenesFechaActual where fecha= DATE (NOW());
+select count(idOrdenTrabajo) as ordenesTotales from ordenesFechaActual;
+select count(idOrdenTrabajo) as ordenesPorAprobar from ordenTrabajo where idStatus=1;
 
 
 select * from comentarios_orden where idOrden=77;
@@ -808,3 +871,39 @@ from comentarios_orden co
 
 describe comentarios_orden;
 select * from orden_Status;
+
+select * from ordentrabajo where idStatus=6;
+select * from orden_Status where idStatus=6;
+select * from usuario;
+
+
+
+
+select ot.idOrden, o.idStatus, ot.idTecnico, u.fullname
+from orden_trabajador ot
+inner join ordentrabajo o on o.idOrdenTrabajo= ot.idOrden
+inner join tecnico t on ot.idTecnico = t.idTecnico
+inner join usuario u on t.idUser = u.iduser
+where idOrdenTrabajo=91;
+
+select * from orden_trabajador;
+
+
+select ordenTrabajo.*, s.nameStatus,
+       ordenTrabajo.descripcion, ordenTrabajo.create_at ,
+       a.nameArea, m.nameMaquina , e.nameEstado,  p.namePrioridad
+from ordenTrabajo inner join prioridad p on ordenTrabajo.idPrioridad = p.idPrioridad
+    inner join maquina m on ordenTrabajo.idMaquina = m.idMaquina
+    inner join area a on ordenTrabajo.idArea=a.idArea
+    inner join estadoMaquina e on ordenTrabajo.estadoMaquina = e.idEstadoMaquina
+    inner join status s on ordenTrabajo.idStatus = s.idStatus
+where ordenTrabajo.idStatus=3 or ordenTrabajo.idStatus=4;
+
+
+
+select * from orden_trabajador;
+
+
+
+
+
