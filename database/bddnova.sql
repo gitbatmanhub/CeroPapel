@@ -701,15 +701,21 @@ select * from orden_producto;
 describe orden_producto;
 
 
+create view productosOrdenes as
+select op.idOrdenProducto, op.idOrden, op.create_at, op.idUser, op.cantidad, p.idProducto, p.nameProducto, p.DetallesProducto
+from orden_producto op
+inner join producto p on op.idProducto = p.idProducto;
+
 
 /*--------------------//Vistas------------------------*/
 
 select * from producto;
 
-select * from orden_producto;
 
 
+select * from productosOrdenes where idOrden=92;
 
+select * from producto;
 /* ================================== */
 
 
@@ -905,5 +911,9 @@ select * from orden_trabajador;
 
 
 
+delete from orden_producto where idOrdenProducto=2;
+select *
+from orden_producto;
 
 
+select * from producto;

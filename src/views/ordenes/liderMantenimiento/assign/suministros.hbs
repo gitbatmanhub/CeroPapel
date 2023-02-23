@@ -1,4 +1,3 @@
-
 <div class="container">
 
     {{#each ordenes}}
@@ -14,7 +13,7 @@
         <div class="col-md">
 
             <div id="divPadre">
-                <select class="form-select" name="producto" id="producto" required >
+                <select class="form-select" name="producto" id="producto" required>
                     <option value="null" disabled selected> Selecciona un item de la Lista</option>
                     {{#each suministros}}
                         <option value="{{idProducto}}">{{nameProducto}}</option>
@@ -22,7 +21,7 @@
                 </select>
                 <div class="form-floating mb-3">
                     <input id="descripcionAO" type="number" class="form-control" name="cantidad"
-                              required placeholder="Descripción" value="" >
+                           required placeholder="Descripción" >
                     <label for="floatingInput">Cantidad</label>
                 </div>
             </div>
@@ -36,14 +35,60 @@
 
     </div>
 
-
-
-
-
-
-
     <button class="btn btn-primary" type="submit" onclick="validate();">Enviar</button>
 </form>
+
+    <div class="tables-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card-style mb-30">
+                    <h1 style="padding: 20px">Suministros en la orden</h1>
+                    <table id="table1" class="display">
+                        <thead>
+                        <tr>
+                            <th><h6>Producto</h6></th>
+                            <th><h6>Cantidad</h6></th>
+                            <th><h6>Acción</h6></th>
+
+                        </tr>
+
+                        </thead>
+
+                        <tbody class="list" id="tab">
+
+                        {{#each productosOrdenes }}
+
+                            <tr>
+
+                                <td class="">
+                                    <div class="">
+                                        <div class="">
+                                            <p>{{nameProducto}}</p>
+                                        </div>
+                                    </div>
+                                </td>
+
+
+                                <td class="area">
+                                    <p>{{cantidad}}</p>
+                                </td>
+
+                                <td class="area">
+                                    <a href="/deleteItem/{{idOrdenProducto}}" class="btn btn-danger">Eliminar</a>
+                                </td>
+
+                            </tr>
+                        {{/each}}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
 
 </div>
 

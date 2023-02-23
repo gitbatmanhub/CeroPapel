@@ -250,8 +250,8 @@ router.get('/suministro/:id', isLoggedIn, permissions, async (req, res) => {
     const idOrden = req.params.id;
     const ordenes = await pool.query('select * from ordentrabajo where idOrdenTrabajo=?;', [idOrden]);
     const suministros = await pool.query('select * from producto;')
-    console.log(suministros);
-    res.render('ordenes/liderMantenimiento/assign/suministros', {ordenes, suministros});
+    const productosOrdenes = await pool.query('select * from productosOrdenes where idOrden=?;', [idOrden])
+    res.render('ordenes/liderMantenimiento/assign/suministros', {ordenes, suministros, productosOrdenes});
 });
 
 router.get('/tecnico/:id', isLoggedIn, permissions, async (req, res) => {
@@ -554,16 +554,33 @@ router.post('/addsuministros/:id', async (req, res) => {
     const idUser = ([req.user.iduser][0]);
     const objo = Object.assign({}, req.body);
     const exmaple = {producto, cantidad} = objo;
-    for (let i = 0; i < exmaple.producto.length; i++) {
-        const idProducto = exmaple.producto[i];
-        const cantidad = exmaple.cantidad[i];
-        await pool.query('INSERT orden_producto (idOrden, idUser, idProducto, cantidad) VALUES (?,?,?,?)', [idOrden, idUser, idProducto,cantidad ]);
+
+    if (exmaple.producto.length<2){
+        await pool.query('INSERT orden_producto (idOrden, idUser, idProducto, cantidad) VALUES (?,?,?,?)', [idOrden, idUser, producto,cantidad ]);
+        console.log(producto, cantidad)
+    }else {
+
+        for (let i = 0; i < exmaple.producto.length; i++) {
+            const idProducto = exmaple.producto[i];
+            const cantidad = exmaple.cantidad[i];
+            await pool.query('INSERT orden_producto (idOrden, idUser, idProducto, cantidad) VALUES (?,?,?,?)', [idOrden, idUser, idProducto,cantidad ]);
+            console.log(idProducto, cantidad)
+
+        }
+
 
     }
+
     req.flash('success', 'Item agregado correctamente a la orden '+ req.params.id);
     res.redirect('/ordenesaprobadas')
 
 })
 
+router.get('/deleteItem/:id', isLoggedIn, permissions, async (req, res) => {
+    const {id} = req.params;
+    await pool.query('DELETE FROM orden_producto where idOrdenProducto=?', [id]);
+    req.flash('error', 'Item eliminado correctamente');
+    res.redirect('/ordenesaprobadas');
+});
 
 module.exports = router;
