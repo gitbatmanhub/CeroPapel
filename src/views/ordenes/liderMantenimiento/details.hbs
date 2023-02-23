@@ -20,31 +20,24 @@
          style="width: {{ datos.AvanceStatus}}%">{{ datos.AvanceStatus}}%</div>
 </div>
 
-<p>-----------------------------------</p>
 <h1>Estatus</h1>
 {{#each statuS}}
     <p>Responsable: {{NameAcepto}}</p>
-    <!--<p>{{HoraInicio}}</p>-->
     <p>Estado: {{Estado}}</p>
-    <p>Hora{{create_at}}</p>
-    {{#when idStatus 'eq' 2}}
-    <p></p>
-    {{/when}}
-    {{#when idStatus 'eq' 3}}
-        {{ComentariosLider}}
-    {{/when}}
-    {{#when idStatus 'eq' 4}}
-    <p></p>
-    {{/when}}
-    {{#when idStatus 'eq' 5}}
-        {{ComentariosTecnico}}
-    {{/when}}
-    {{#when idStatus 'eq' 6}}
-        {{ComentariosLider}}
-    {{/when}}
+    <p>Hora{{ create_at}}</p>
+
     <p>-----------------------------------</p>
 
 
+{{/each}}
+
+
+<h1>Comentarios</h1>
+{{#each comentarios}}
+    <p>Estatus: {{nameStatus}}</p>
+    <p>Comentario: {{comentario}}</p>
+    <p>Responsable: {{fullname}}</p>
+    <p>----------------------------</p>
 {{/each}}
 
 <!-- Tecnicos orden -->
@@ -68,7 +61,7 @@
         <h1>Trabajo</h1>
         <p>Tipo Mantenimiento: {{externo.nameTipoMantenimiento}}</p>
         <p>Nombre del Responsable: {{externo.nameProveedor}}</p>
-        <p>Fecha Inicio Trabajo: {{externo.fechaInicio}}</p>
+        <p>Fecha Inicio Trabajo: {{ externo.fechaInicio}}</p>
         <p>Fecha Final Trabajo: {{externo.fechaFinal}}</p>
     {{/if}}
 

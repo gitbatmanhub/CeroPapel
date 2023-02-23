@@ -21,13 +21,19 @@
             <p>Especialidad Tecnico: {{nameEspecialidad}}</p>
             <p>------------------------</p>
         {{/each}}
-        <p>Comentario Orden: {{comentario.comentario}}</p>
         <p>Fecha y Hora Inicio: {{fecha.fechaInicio}}</p>
         <p>Fecha y Hora Final: {{fecha.fechaFinal}}</p>
     {{else}}
         <h1>Tecnicos</h1>
         <p>Aún no se agregan Tecnicos</p>
+
     {{/if}}
+    <h1>Comentarios</h1>
+    {{#each comentario}}
+        <p>Estatus: {{nameStatus}}</p>
+        <p>Comentario: {{comentario}}</p>
+        <p>----------------------------</p>
+    {{/each}}
     {{#if externo}}
         <h1>Trabajo</h1>
         <p>{{externo.nameTipoMantenimiento}}</p>

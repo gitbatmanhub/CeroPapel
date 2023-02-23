@@ -492,15 +492,17 @@ SET GLOBAL FOREIGN_KEY_CHECKS=0;
 alter table comentarios_orden drop constraint fk_UserComentarios;
 
 alter table comentarios_orden
-    add constraint fk_idComentarios foreign key (idOrden) references ordenTrabajo (idOrdenTrabajo);
+    add constraint fk_idComentarios foreign key (idOrden) references ordenTrabajo (idOrdenTrabajo) on delete cascade ;
 
 alter table comentarios_orden
     add constraint fk_UserComentarios foreign key (idUser) references usuario (iduser) ON UPDATE CASCADE ;
 
+alter table comentarios_orden
+    add column idStatus int(100) not null ;
+alter table comentarios_orden
+    add constraint fk_status_orden foreign key (idStatus) references status(idStatus) on delete cascade ;
 
 
-
-describe orden_Status;
 alter table orden_Status drop fechaFinal;
 alter table orden_Status drop fechaInicio;
 alter table orden_Status drop comentariosTecnico;
@@ -568,7 +570,6 @@ from orden_Status as os
          inner join usuario u on iduser = os.idUsuario
          inner join status s on os.idStatus = s.idStatus;
 
-
 create view externo as
 select orden_Status.idOrden,
        a.nameArea,
@@ -588,9 +589,6 @@ from orden_Status
     inner join prioridad p2 on ot.idPrioridad = p2.idPrioridad
 inner join estadoMaquina eM on ot.estadoMaquina= eM.idEstadoMaquina where t.idTipoMantenimiento=4 and orden_Status.idStatus=5 order by idOrden;
 
-
-
-
 create view ordenesRevisar as
 select  os.idOrden, os.idStatus, a.nameArea, m.nameMaquina, e.nameEstado, p.namePrioridad
 from orden_status os
@@ -603,7 +601,6 @@ inner join prioridad p on o.idPrioridad = p.idPrioridad;
 create view ordenesFechaActual as
 select idOrdenTrabajo, DATE_FORMAT(create_at, "%Y-%m-%d") as fecha
     from ordenTrabajo;
-
 
 create view tecnicosOrden as
 select o_t.idOrdenTrabajador,
@@ -634,8 +631,26 @@ from orden_trabajador o_t
          inner join orden_tipomantenimiento o on o_t.idOrden = o.idOrden
          inner join tipomantenimiento t2 on o.idTipoMantenimiento = t2.idTipoMantenimiento;
 
-/*--------------------//Vistas------------------------*/
+create view comentariosOrdenUser as
+select co.idOrden, co.idUser, co.idStatus, co.comentario, u.fullname, s.nameStatus
+from comentarios_orden co
+         inner join status s on s.idStatus = co.idStatus
+         inner join usuario u on co.idUser = u.iduser
+order by idStatus;
 
+
+select * from comentariosOrdenUser where idOrden=85;
+
+
+select * from ordenStatusDetails;
+select * from comentariosOrdenUser;
+select * from comentarios_orden;
+
+/* Query que agrupa los comentarios con el status */
+select c.idOrden, c.idStatus, oSD.AvanceStatus, c.fullname as Responsable, c.comentario
+from ordenStatusDetails oSD
+inner join comentariosordenuser c on oSD.idStatus = c.idStatus group by c.idStatus;
+/*--------------------//Vistas------------------------*/
 
 
 
@@ -767,8 +782,29 @@ from orden_Status as os
 
 select * from orden_Status;
 
-select *
-from tecnicosOrden;
-select * from 
+select * from comentarios_orden;
 
-SELECT * FROM comentarios_orden;
+select idOrden, comentario, u.fullname, idStatus
+from comentarios_orden
+inner join usuario u on comentarios_orden.idUser = u.iduser where idOrden=86;
+
+select * from ordenStatusDetails where idOrden=85;
+select * from comentarios_orden where idOrden=85;
+select * from comentarios_orden;
+
+
+
+
+
+select oS.idStatus, oS.idOrden, oS.create_at, co.comentario, co.idUser
+from orden_Status oS
+inner join comentarios_orden co on oS.idOrden = co.idOrden
+where co.idOrden=86;
+
+select co.idOrden, co.idUser, co.idStatus, co.comentario, u.fullname
+from comentarios_orden co
+         inner join status s on s.idStatus = co.idStatus
+         inner join usuario u on co.idUser = u.iduser;
+
+describe comentarios_orden;
+select * from orden_Status;

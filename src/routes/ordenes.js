@@ -235,11 +235,13 @@ router.get('/details/:id', isLoggedIn, async (req, res) => {
     const everDatos = await pool.query('select * from TodosDatos where idOrdenTrabajo=?', [idOrden]);
     const tecnicosOrden = await pool.query('select * from tecnicosOrden where idOrdenTrabajo = ? group by iduser;', [idOrden]);
     const statuS = await pool.query('select * from ordenStatusDetails where idOrden=? group by AvanceStatus;', [idOrden])
-    //console.log(datosStatus)
+    const comentarios = await pool.query('select * from comentariosOrdenUser where idOrden=?;', [idOrden])
+    console.log(comentarios)
     res.render('ordenes/liderMantenimiento/details', {
         datos: everDatos[0],
         statuS,
-        tecnicosOrden/*, externo: externo[0]*/
+        tecnicosOrden,
+        comentarios/*, externo: externo[0]*/
     });
 
 });
@@ -321,7 +323,7 @@ router.post('/tecnico/:id', isLoggedIn, permissions, async (req, res) => {
     }
     await pool.query('INSERT orden_status (idStatus, idOrden, idUsuario) VALUES (?,?,?)', [idStatus, idOrden, userId]);
     await pool.query('insert into fechas_orden (fechaInicio, fechaFinal, idUser, idOrden) values (?,?,?,?);', [fechaInicioPre, fechaFinalPre, userId, idOrden]);
-    await pool.query('insert into comentarios_orden (comentario, idOrden, idUser) values (?,?,?)', [descripcionTrabajo, idOrden, userId])
+    await pool.query('insert into comentarios_orden (comentario, idOrden, idUser, idStatus) values (?,?,?,?)', [descripcionTrabajo, idOrden, userId, 3])
     await pool.query('UPDATE ordenTrabajo SET idStatus=3 WHERE idOrdenTrabajo = ?', [idOrden]);
     await pool.query('insert into orden_tipomantenimiento (idOrden, idTipoMantenimiento) VALUES (?,?);', [idOrden, tipoMantenimiento]);
 
@@ -398,13 +400,13 @@ router.get('/datosordent/:id', isLoggedIn, async (req, res) => {
     //console.log(idOrden)
     const datosOrden = await pool.query('select * from TodosDatos where idOrdenTrabajo=?', [idOrden]);
     const tecnicosOrden = await pool.query('select * from tecnicosOrden where idOrdenTrabajo=? group by iduser;', [idOrden]);
-    const comentariosOrden = await pool.query('select comentario from comentarios_orden where idOrden=?;', [idOrden])
+    const comentario = await pool.query('select * from comentariosOrdenUser where idOrden=?;', [idOrden])
     const fechasOrden = await pool.query('select fechaInicio, fechaFinal from fechas_orden where idOrden=?', [idOrden]);
     console.log(fechasOrden);
     res.render('ordenes/tecnico/detailsTecnico', {
         datos: datosOrden[0],
         tecnicosOrden,
-        comentario: comentariosOrden[0],
+        comentario,
         fecha: fechasOrden[0]/*, externo: externo[0]*/
     })
 });
@@ -441,7 +443,7 @@ router.post('/finishTecnico', isLoggedIn, async (req, res) => {
             comentariosTecnico: comentarioTecnico
         };
     await pool.query('INSERT INTO orden_Status (idOrden, idStatus, idUsuario) values (?,?,?)', [orden, status, req.user.iduser]);
-    await pool.query('INSERT INTO comentarios_orden (comentario, idOrden, idUser) values (?,?,?)', [comentarioTecnico, orden, req.user.iduser ]);
+    await pool.query('INSERT INTO comentarios_orden (comentario, idOrden, idUser, idStatus) values (?,?,?,5)', [comentarioTecnico, orden, req.user.iduser ]);
     await pool.query('UPDATE ordenTrabajo SET idStatus=5 WHERE idOrdenTrabajo = ?', [orden]);
 
 
@@ -468,7 +470,7 @@ router.post('/finishLiderplanificador', isLoggedIn, async (req, res) => {
         };
 
     await pool.query('INSERT INTO orden_Status (idOrden, idStatus, idUsuario) values (?,?,?)', [orden, status, req.user.iduser]);
-    await pool.query('INSERT INTO comentarios_orden (comentario, idOrden, idUser) values (?,?,?)', [comentarioLider, orden, req.user.iduser ]);
+    await pool.query('INSERT INTO comentarios_orden (comentario, idOrden, idUser, idStatus) values (?,?,?,6)', [comentarioLider, orden, req.user.iduser ]);
     await pool.query('UPDATE ordenTrabajo SET idStatus=6 WHERE idOrdenTrabajo = ?', [orden]);
 
 
