@@ -1208,15 +1208,52 @@ where t.idTipoMantenimiento = 4
 order by idOrden;
 
 select *
-from orden_Status
-         inner join ordenTrabajo ot on ot.idOrdenTrabajo=idOrden
+from orden_Status oS
+         inner join ordenTrabajo ot on ot.idOrdenTrabajo = idOrden
          inner join area a on ot.idArea = a.idArea
          inner join maquina m on ot.idMaquina = m.idMaquina
+         inner join proveedor_orden po on ot.idOrdenTrabajo = po.idOrdenTrabajo
+         inner join orden_tipomantenimiento o on ot.idOrdenTrabajo = o.idOrden
+where idOrden = 96;
 
-where idOrden = 93;
+select *
+from orden_tipomantenimiento
+         inner join ordentrabajo ot on ot.idOrdenTrabajo = idOrden
+         inner join area a on ot.idArea = a.idArea
+         inner join maquina m on ot.idMaquina = m.idMaquina
+         inner join proveedor_orden po on ot.idOrdenTrabajo = po.idOrdenTrabajo
+where idOrden = 96;
+
+
+in
+
 
 
 select * from orden_tipomantenimiento;
+select * from orden_tipomantenimiento;
+select * from proveedor_orden;
+select * from proveedor;
+
+
+select * from orden_tipomantenimiento;
+describe orden_tipomantenimiento;
 
 
 select * from comentarios_orden where idOrden=93;
+select * from proveedor;
+
+select po.idOrdenTrabajo,
+       po.idProveedor,
+       po.id_tipoMantenimiento,
+       p.nameProveedor,
+       t.nameTipoMantenimiento
+from proveedor_orden po
+         inner join proveedor p on po.idProveedor = p.idProveedor
+         inner join tipomantenimiento t on t.idTipoMantenimiento = po.id_tipoMantenimiento
+where idOrdenTrabajo = 97;
+
+
+select *
+from ordentrabajo;
+
+select * from fechas_orden;

@@ -330,11 +330,11 @@ router.post('/trabajoexterno/:id', isLoggedIn, permissions, async (req, res) => 
     console.log(trabajoExterno);
     await pool.query('INSERT into orden_status (idStatus, idOrden, idUsuario, idProveedor) values (?,?,?,?);', [7, idOrden, userId, proveedor]);
     await pool.query('UPDATE ordenTrabajo SET idStatus=? WHERE idOrdenTrabajo = ?', [7,idOrden]);
-
+    await pool.query('insert into proveedor_orden(idOrdenTrabajo, idProveedor, id_tipoMantenimiento) values(?,?,?);', [idOrden, proveedor, tipoMantenimiento])
     await pool.query('insert into orden_tipomantenimiento(idorden, idtipomantenimiento) VALUES (?,?);', [idOrden, tipoMantenimiento]);
     await pool.query('insert into comentarios_orden(comentario, idOrden, idUser, idStatus) VALUES (?,?,?,?);', [descripcionTrabajo,idOrden, userId,7 ]);
 
-    res.redirect('/porrevisar');
+    res.redirect('/externas');
 })
 
 
