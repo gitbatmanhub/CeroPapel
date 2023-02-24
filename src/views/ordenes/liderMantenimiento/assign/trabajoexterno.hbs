@@ -24,8 +24,45 @@
                             </select>
                         </div>
                     </div>
+                    <div class="col-md">
+                        <div class="form mb-3">
+                            <label for="tipoTrabajo" class="form-floating">Tipo Trabajo</label>
+                            <select name="tipoTrabajo" id="tipoTrabajo" class="form-select" required>
+                                {{#each tipoTrabajo}}
+                                    <option value="{{idTipoTrabajo}}" name="{{nameTipoTrabajo}}">{{nameTipoTrabajo}}</option>
+                                {{/each}}
+                            </select>
+                        </div>
+                    </div>
 
+                </div>
+                <div class="row g-2 mb-3 tecnicosAl">
+                    <div class="col-md">
 
+                        <div id="divPadre">
+                            <select class="form-select" name="tecnico" id="nombreTecnico">
+                                <option value="null" selected> Selecciona un tecnico de la Lista</option>
+                                {{#each tecnico}}
+                                    <option value="{{idUser}}">{{fullname}}</option>
+                                {{/each}}
+                            </select>
+
+                        </div>
+                        <div id="selectsTecnico"></div>
+
+                    </div>
+                    <div class="col-1 botonAgregarT">
+                        <a class="btn btn-dark" href="#" onclick="duplicar1();"> +</a>
+                    </div>
+
+                </div>
+                <div class=" mb-3">
+                    <select class="form-select" name="tipoMantenimiento" id="tipoMantenimiento">
+                        <option value="null" selected>Tipo Mantenimiento</option>
+                        {{#each tipoMantenimiento}}
+                            <option value="{{idTipoMantenimiento}}">{{nameTipoMantenimiento}}</option>
+                        {{/each}}
+                    </select>
                 </div>
                 <div class="row g-2">
                     <div class="col-md">
@@ -56,7 +93,7 @@
 
         </div>
         <div class="inputsHidden">
-            <input type="hidden" value="4" name="tipoMantenimiento"/>
+            <input type="hidden" value="7" name="idStatus"/>
         </div>
     </div>
 
