@@ -36,7 +36,11 @@
     </div>
 
     <button class="btn btn-primary" type="submit" onclick="validate();">Enviar</button>
+    <a href="javascript:history.back()" class="btn btn-secondary" type="submit" onclick="validate();">Volver</a>
 </form>
+
+    {{#if productosOrdenes}}
+
 
     <div class="tables-wrapper">
         <div class="row">
@@ -74,7 +78,11 @@
                                 </td>
 
                                 <td class="area">
-                                    <a href="/deleteItem/{{idOrdenProducto}}" class="btn btn-danger">Eliminar</a>
+                                    <form action="/deleteItem/{{idOrdenProducto}}" method="post">
+                                        <input type="hidden" name="idOrdenProducto" value="{{idOrdenProducto}}">
+                                        <input type="hidden" name="idOrden" value="{{idOrden}}">
+                                        <button class="btn btn-danger" type="submit">Eliminar</button>
+                                    </form>
                                 </td>
 
                             </tr>
@@ -91,6 +99,9 @@
     </div>
 
 </div>
+    {{else}}
+        <p >Aún no se agregan suministros a la orden</p>
+    {{/if}}
 
 
 

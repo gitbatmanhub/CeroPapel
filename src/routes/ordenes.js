@@ -557,14 +557,12 @@ router.post('/addsuministros/:id', async (req, res) => {
 
     if (exmaple.producto.length<2){
         await pool.query('INSERT orden_producto (idOrden, idUser, idProducto, cantidad) VALUES (?,?,?,?)', [idOrden, idUser, producto,cantidad ]);
-        console.log(producto, cantidad)
     }else {
 
         for (let i = 0; i < exmaple.producto.length; i++) {
             const idProducto = exmaple.producto[i];
             const cantidad = exmaple.cantidad[i];
             await pool.query('INSERT orden_producto (idOrden, idUser, idProducto, cantidad) VALUES (?,?,?,?)', [idOrden, idUser, idProducto,cantidad ]);
-            console.log(idProducto, cantidad)
 
         }
 
@@ -572,15 +570,17 @@ router.post('/addsuministros/:id', async (req, res) => {
     }
 
     req.flash('success', 'Item agregado correctamente a la orden '+ req.params.id);
-    res.redirect('/ordenesaprobadas')
+    res.redirect('/suministro/'+idOrden)
 
 })
 
-router.get('/deleteItem/:id', isLoggedIn, permissions, async (req, res) => {
-    const {id} = req.params;
+router.post('/deleteItem/:id', isLoggedIn, permissions, async (req, res) => {
+    const {id}= req.params;
+    const {idOrden} = req.body;
+    console.log(req.body)
     await pool.query('DELETE FROM orden_producto where idOrdenProducto=?', [id]);
     req.flash('error', 'Item eliminado correctamente');
-    res.redirect('/ordenesaprobadas');
+    res.redirect('/suministro/'+idOrden);
 });
 
 module.exports = router;

@@ -913,7 +913,34 @@ select * from orden_trabajador;
 
 delete from orden_producto where idOrdenProducto=2;
 select *
-from orden_producto;
+from orden_producto where idOrden=92;
+select * from productosOrdenes;
+
+
+select * from externo;
 
 
 select * from producto;
+
+
+
+select orden_Status.idOrden,
+       a.nameArea,
+       m.nameMaquina,
+       eM.nameEstado,
+       orden_Status.idStatus,
+       p2.namePrioridad,
+       t.idTipoMantenimiento,
+       t.nameTipoMantenimiento,
+       p.nameProveedor
+from orden_Status
+         inner join ordenTrabajo ot on idOrden = ot.idOrdenTrabajo
+         inner join area a on ot.idArea = a.idArea
+         inner join maquina m on ot.idMaquina = m.idMaquina
+         inner join tipomantenimiento t on orden_Status.idTipoMantenimiento = t.idTipoMantenimiento
+         inner join proveedor p on orden_Status.idProveedor = p.idProveedor
+    inner join prioridad p2 on ot.idPrioridad = p2.idPrioridad
+inner join estadoMaquina eM on ot.estadoMaquina= eM.idEstadoMaquina where t.idTipoMantenimiento=4 and orden_Status.idStatus=5 order by idOrden;
+
+
+select * from tipoMantenimiento;
