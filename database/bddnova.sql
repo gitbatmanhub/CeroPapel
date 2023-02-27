@@ -1257,3 +1257,7 @@ select *
 from ordentrabajo;
 
 select * from fechas_orden;
+select fullname, idRol, ro.nameRol
+from usuario
+inner join rolusuario ro on rolusuario = ro.idRol;
+select * from TodosDatos;

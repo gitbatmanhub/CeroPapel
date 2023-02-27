@@ -7,8 +7,9 @@ const {isLoggedIn, permissions} = require('../lib/auth');
 
 //=======================================================Home
 
-router.get('/dashboard', isLoggedIn, permissions, async (req, res) => {
+router.get('/dashboard', isLoggedIn, async (req, res) => {
 
+    const rolusuario = req.user.rolusuario;
     const ordenesHoy= await pool.query('select count(idOrdenTrabajo) as ordenesHoy from ordenesFechaActual where fecha= DATE (NOW());')
     const ordenesTotal= await pool.query('select count(idOrdenTrabajo) as ordenesTotales from ordenesFechaActual;')
     const ordenesAprobar= await pool.query('select count(idOrdenTrabajo) as ordenesPorAprobar from ordenTrabajo where idStatus=1;')
@@ -26,7 +27,8 @@ router.get('/dashboard', isLoggedIn, permissions, async (req, res) => {
         ordenesAsignadas: ordenesAsignadas[0],
         ordenesRevisar: ordenesRevisar[0],
         ordenesCerradas: ordenesCerradas[0],
-        ordenesExternas: ordenesExternas[0]
+        ordenesExternas: ordenesExternas[0],
+        rolusuario
     })
 })
 
