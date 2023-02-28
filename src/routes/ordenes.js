@@ -9,16 +9,22 @@ const {isLoggedIn, permissions} = require('../lib/auth');
 
 router.get('/dashboard', isLoggedIn, async (req, res) => {
 
-    const rolusuario = req.user.rolusuario;
-    const ordenesHoy= await pool.query('select count(idOrdenTrabajo) as ordenesHoy from ordenesFechaActual where fecha= DATE (NOW());')
-    const ordenesTotal= await pool.query('select count(idOrdenTrabajo) as ordenesTotales from ordenesFechaActual;')
-    const ordenesAprobar= await pool.query('select count(idOrdenTrabajo) as ordenesPorAprobar from ordenTrabajo where idStatus=1;')
-    const ordenesAprobadas= await pool.query('select count(idOrdenTrabajo) as ordenesPorAprobadas from ordenTrabajo where idStatus=2;')
-    const ordenesAsignadas= await pool.query('select count(idOrdenTrabajo) as ordenesPorAsignadas from ordenTrabajo where idStatus=3;')
-    const ordenesRevisar= await pool.query('select count(idOrdenTrabajo) as ordenesPorRevisar from ordenTrabajo where idStatus=5;')
-    const ordenesCerradas= await pool.query('select count(idOrdenTrabajo) as ordenesPorCerradas from ordenTrabajo where idStatus=6;')
-    const ordenesExternas = await pool.query('select count(idOrden) as ordenesPorExternas  from orden_Status where idStatus=7;');
-
+    window.onload=function(){
+        setInterval(
+            function query(){    
+                const rolusuario = req.user.rolusuario;
+                const ordenesHoy= await pool.query('select count(idOrdenTrabajo) as ordenesHoy from ordenesFechaActual where fecha= DATE (NOW());')
+                const ordenesTotal= await pool.query('select count(idOrdenTrabajo) as ordenesTotales from ordenesFechaActual;')
+                const ordenesAprobar= await pool.query('select count(idOrdenTrabajo) as ordenesPorAprobar from ordenTrabajo where idStatus=1;')
+                const ordenesAprobadas= await pool.query('select count(idOrdenTrabajo) as ordenesPorAprobadas from ordenTrabajo where idStatus=2;')
+                const ordenesAsignadas= await pool.query('select count(idOrdenTrabajo) as ordenesPorAsignadas from ordenTrabajo where idStatus=3;')
+                const ordenesRevisar= await pool.query('select count(idOrdenTrabajo) as ordenesPorRevisar from ordenTrabajo where idStatus=5;')
+                const ordenesCerradas= await pool.query('select count(idOrdenTrabajo) as ordenesPorCerradas from ordenTrabajo where idStatus=6;')
+                const ordenesExternas = await pool.query('select count(idOrden) as ordenesPorExternas  from orden_Status where idStatus=7;');
+            },
+            1000
+       );
+    }
     res.render('ordenes/dashboard', {
         ordenesHoy: ordenesHoy[0],
         ordenesTotal: ordenesTotal[0],
