@@ -112,7 +112,193 @@
         </nav><!-- End Icons Navigation -->
 
     </header><!-- End Header -->
+    {{#when user.rolusuario 'eq' 1}}
 
+        <aside id="sidebar" class="sidebar">
+
+            <ul class="sidebar-nav" id="sidebar-nav">
+
+                <li class="nav-item">
+                    <a class="nav-link " href="/dashboard">
+                        <i class="bi bi-grid"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-heading">Pages</li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="/profile">
+                        <i class="bi bi-person"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#ordenes-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-file-earmark-bar-graph"></i><span>Ordenes</span><i
+                            class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="ordenes-nav" class="nav-content collapse " data-bs-parent="#ordenes-nav">
+                        <li>
+                            <a href="/agregarOrden">
+                                <i class="bi bi-circle"></i><span>Agregar Orden</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/misordenes">
+                                <i class="bi bi-circle"></i><span>Ver mis Ordenes</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/ordenesporaceptar">
+                                <i class="bi bi-circle"></i><span>Ordenes Por Aprobar</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/ordenesaprobadas">
+                                <i class="bi bi-circle"></i><span>Ordenes Aprobadas</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/ordenesasignadas">
+                                <i class="bi bi-circle"></i><span>Ordenes Asignadas</span>
+                            </a>
+                        </li>
+                        <li>
+                        <li>
+                            <a href="/porrevisar">
+                                <i class="bi bi-circle"></i><span>Ordenes Por Revisar</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/externas">
+                                <i class="bi bi-circle"></i><span>Ordenes Externas</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/cerradas">
+                                <i class="bi bi-circle"></i><span>Ordenes Cerradas</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#add-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-node-plus-fill"></i><span>Agregar</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="add-nav" class="nav-content collapse " data-bs-parent="#add-nav">
+                        <li>
+                            <a href="/addarea">
+                                <i class="bi bi-circle"></i><span>Agregar Area</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/addmaquina">
+                                <i class="bi bi-circle"></i><span>Agregar Maquina</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/addproducto">
+                                <i class="bi bi-circle"></i><span>Agregar Suministros</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/addProveedor">
+                                <i class="bi bi-circle"></i><span>Agregar Proveedor</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/addtecnico/">
+                                <i class="bi bi-circle"></i><span>Agregar Tecnico</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/addsuministros">
+                                <i class="bi bi-circle"></i><span>Agregar Rol</span>
+                            </a>
+                        </li>
+
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#usersadmin" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-person-rolodex"></i><span>Usuarios</span><i class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="usersadmin" class="nav-content collapse " data-bs-parent="#usersadmin">
+                        <li>
+                            <a href="/editrolusuario">
+                                <i class="bi bi-circle"></i><span>Rol Usuarios</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/especialidadtecnico">
+                                <i class="bi bi-circle"></i><span>Especialidad Tecnicos</span>
+                            </a>
+                        </li>
+                        <!--
+                        <li>
+                            <a href="/addproducto">
+                                <i class="bi bi-circle"></i><span>Agregar Suministros</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/addProveedor">
+                                <i class="bi bi-circle"></i><span>Agregar Proveedor</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/addtecnico/">
+                                <i class="bi bi-circle"></i><span>Agregar Tecnico</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/addsuministros">
+                                <i class="bi bi-circle"></i><span>Agregar Rol</span>
+                            </a>
+                        </li>
+                        -->
+
+                    </ul>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="/editrolusuario">
+                        <i class="bi bi-person-video2"></i>
+                        <span>Roles Usuarios</span>
+                    </a>
+                </li><!-- End Contact Page Nav -->
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="pages-register.html">
+                        <i class="bi bi-card-list"></i>
+                        <span>Especialidad Tecnicos</span>
+                    </a>
+                </li><!-- End Register Page Nav -->
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="/salir">
+                        <i class="bi bi-box-arrow-left"></i>
+                        <span>Salir</span>
+                    </a>
+                </li><!-- End Login Page Nav -->
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="pages-error-404.html">
+                        <i class="bi bi-dash-circle"></i>
+                        <span>Error 404</span>
+                    </a>
+                </li><!-- End Error 404 Page Nav -->
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="pages-blank.html">
+                        <i class="bi bi-file-earmark"></i>
+                        <span>Blank</span>
+                    </a>
+                </li><!-- End Blank Page Nav -->
+
+            </ul>
+
+        </aside><!-- End Sidebar-->
+    {{/when}}
 
     {{#when user.rolusuario 'eq' 2}}
 
@@ -237,9 +423,9 @@
                 </li><!-- End Register Page Nav -->
 
                 <li class="nav-item">
-                    <a class="nav-link collapsed" href="pages-login.html">
-                        <i class="bi bi-box-arrow-in-right"></i>
-                        <span>Login</span>
+                    <a class="nav-link collapsed" href="/salir">
+                        <i class="bi bi-box-arrow-left"></i>
+                        <span>Salir</span>
                     </a>
                 </li><!-- End Login Page Nav -->
 
@@ -320,6 +506,7 @@
         </aside><!-- End Sidebar-->
 
     {{/when}}
+
 
 {{/if}}
 

@@ -3,6 +3,7 @@ const router = express.Router();
 
 const pool = require('../database');
 const {isLoggedIn, permissions} = require('../lib/auth');
+const {he} = require("timeago.js/lib/lang");
 
 
 //=======================================================Home
@@ -591,5 +592,45 @@ router.post('/deleteItem/:id', isLoggedIn, permissions, async (req, res) => {
     req.flash('error', 'Item eliminado correctamente');
     res.redirect('/suministro/'+idOrden);
 });
+
+
+router.get('/editrolusuario', isLoggedIn, permissions, async (req, res)=>{
+    const usuario= await pool.query('select * from usuario');
+    const roles= await pool.query('select * from rolusuario');
+    res.render('ordenes/paneladmin/rolusuarios', {usuario, roles});
+});
+
+router.post('/editrolusuario/', isLoggedIn, permissions, async (req, res) => {
+    const {idUser, idRol} = req.body;
+    console.log(idUser, idRol);
+    await pool.query('update usuario set rolusuario= ? where iduser=?;', [idRol, idUser]);
+    req.flash('success', 'Usuario actualizado correctamente');
+    res.redirect('/editrolusuario/');
+});
+
+router.get('/especialidadtecnico', isLoggedIn, permissions, async (req, res)=>{
+    const usuario= await pool.query('select * from usuario where rolusuario=4');
+    const especialidad= await pool.query('select * from especialidadtecnico');
+    res.render('ordenes/paneladmin/especialidadtecnicos', {usuario, especialidad});
+});
+
+router.post('/especialidadtecnico/', isLoggedIn, permissions, async (req, res) => {
+    const {idUser, idEspecialidad} = req.body;
+    const datos={
+        idUser,
+        idEspecialidad
+    }
+    const probe = await pool.query('select * from tecnico where idUser=?', [idUser]);
+    if(probe.length>0){
+        await pool.query('update tecnico set idEspecialidad= ? where iduser=?;', [idEspecialidad, idUser]);
+        req.flash('success', 'Especialidad Actualizada Correctamente');
+
+    }else{
+        await pool.query('insert into tecnico set ?;', [datos]);
+        req.flash('success', 'Especialidad Asignada Correctamente');
+    }
+    res.redirect('/especialidadtecnico/');
+});
+
 
 module.exports = router;

@@ -17,15 +17,15 @@ module.exports = {
         return res.redirect('/profile');
     },
     permissions(req, res, next) {
-        console.log(req.user);
         const rolusuario=req.user.rolusuario;
-        if( rolusuario === 4 ){
+        if( rolusuario === 4 && rolusuario === 3){
             return res.redirect('/');
 
         }else {
             return next();
 
         }
+
 
         /*
         switch (req.user.idRol) {

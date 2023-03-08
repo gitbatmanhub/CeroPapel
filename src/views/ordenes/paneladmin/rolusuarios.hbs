@@ -1,0 +1,53 @@
+<div class="formulario">
+    <div class="container">
+        <h2>Rol Usuario</h2>
+    </div>
+    <form action="/editrolusuario" method="post" id="" name="">
+        <div class="row g-2">
+            <div class="col-md">
+                <div class="form-floating">
+                    <select name="idUser" class="form-select" id="idArea">
+                        <option value="null" selected>Selecciona un usuario por favor</option>
+                        {{#each usuario}}
+                            <option value="{{iduser}}" name="{{fullname}}">{{fullname}}</option>
+                        {{/each}}
+                    </select>
+                    <label for="floatingSelectGrid">Usuario</label>
+                </div>
+            </div>
+            <div class="col-md">
+                <div class="form-floating">
+                    <select name="idRol" class="form-select" id="idArea">
+                        <option value="null" selected>Selecciona un usuario por favor</option>
+                        {{#each roles}}
+                            <option value="{{idRol}}" name="{{nameRol}}">{{nameRol}}</option>
+                        {{/each}}
+                    </select>
+                    <label for="floatingSelectGrid">Rol</label>
+                </div>
+            </div>
+
+
+
+
+        <div class="form-group boton-send">
+            <input type="submit" value="Actualizar" class="btn btn-success btn-block" id="">
+            <a href="/especialidadtecnico" type="submit" class="btn btn-secondary btn-block" id=""> Asignar Especialidad a tecnico</a>
+
+        </div>
+        </div>
+    </form>
+
+</div>
+
+
+</div>
+
+
+<script>
+
+
+</script>
+
+
+

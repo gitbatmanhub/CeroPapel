@@ -1,0 +1,57 @@
+<div class="formulario">
+    <div class="container">
+        <h2>Asignar Especialidad Técnico</h2>
+    </div>
+    <form action="/especialidadtecnico" class="needs-validation" novalidate method="post" id="" name="">
+        <div class="row g-2">
+            <div class="col-md">
+                <label for="especialidad" class="form-label">Tecnico</label>
+                <select name="idUser" class="form-select" id="especialidad" required>
+                    <option selected disabled value="">Escoge un Tecnico</option>
+                    {{#each usuario}}
+                        <option value="{{iduser}}" name="{{fullname}}">{{fullname}}</option>
+                    {{/each}}
+                </select>
+                <div class="invalid-feedback">
+                    Selecciona un Técnico
+                </div>
+            </div>
+            <div class="col-md">
+                <label for="especialidad" class="form-label">Especialidad</label>
+                <select name="idEspecialidad" class="form-select" id="especialidad" required>
+                    <option selected disabled value="">Escoge una especialidad</option>
+                    {{#each especialidad}}
+                        <option value="{{idEspecialidad}}" name="{{nameEspecialidad}}">{{nameEspecialidad}}</option>
+                    {{/each}}
+                </select>
+                <div class="invalid-feedback">
+                    Selecciona una especialidad
+                </div>
+            </div>
+
+
+
+
+            <div class="form-group boton-send">
+                <input type="submit" value="Actualizar" class="btn btn-success btn-block" id="">
+            </div>
+
+        </div>
+    </form>
+
+</div>
+
+
+</div>
+
+
+<script>
+
+
+
+</script>
+
+
+
+
+

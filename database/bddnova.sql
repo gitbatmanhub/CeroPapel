@@ -17,8 +17,7 @@ create table usuario
     rolusuario  int(4)
 );
 
-alter table usuario
-    auto_increment = 1;
+alter table usuario modify column rolusuario int(4) not null  default 3;
 
 
 create table rolUsuario
@@ -29,6 +28,8 @@ create table rolUsuario
 
 alter table rolUsuario
     auto_increment = 1;
+
+
 
 create table ordenTrabajo
 (
@@ -790,474 +791,50 @@ alter table tipoTrabajo_orden
 
 insert into status (nameStatus, avanceStatus) VALUES ('Asignada Externo',80);
 
+
+
 /*--------------------//Vistas------------------------*/
 
-select * from tipoTrabajo;
-select * from tipoTrabajo_orden;
-select * from tipoMantenimiento;
-select * from tipoTrabajo_orden;
-select * from orden_Status;
-select * from ordentrabajo;
-select * from orden_tipomantenimiento;
-insert into orden_tipomantenimiento(idorden, idtipomantenimiento) VALUES (?,?);
-select * from comentarios_orden;
-insert into comentarios_orden(comentario, idOrden, idUser, idStatus) VALUES (?,?,?,?);
 
 
-select * from proveedor;
+update usuario set rolusuario = 1 where iduser=6;
+
+select * from usuario;
+select * from rolusuario;
+select * from especialidadtecnico;
+select * from tecnico;
+
+select * from usuario where rolusuario =4;
+select * from rolusuario;
+
+
+select t.idUser, u.fullname, e.nameEspecialidad
+from tecnico t
+inner join usuario u on t.idUser = u.iduser
+inner join especialidadtecnico e on t.idEspecialidad = e.idEspecialidad;
+
+
+delete from especialidadtecnico;
+DELETE from tecnico where idTecnico=5;
+select * from tecnico;
+
+
 select * from tecnico;
 select * from usuario;
-select * from tipoTrabajo;
-select * from orden_Status;
-describe orden_Status;
-select * from orden_tipomantenimiento;
-select * from ordenesStatus where idOrdenTrabajo=94;
-select * from orden_Status where idOrden=94;
-select * from ordenesStatus where idOrdenTrabajo=94;
-select * from ordentrabajo where idOrdenTrabajo=94;
-select * from orden_tipomantenimiento  where idOrden=94;
-select * from comentarios_orden  where idOrden=94;
-select * from ordenesStatus where idStatus=7;
-select * from tecnicosOrden where idOrdenTrabajo=94;
-select * from tecnicosorden where idOrdenTrabajo=93;
-select * from orden_Trabajador;
+select * from rolusuario;
+select * from especialidadtecnico;
 
-select * from orden_Trabajador where idOrden=93;
 
 
-select count(idOrden) as ordenesPorExternas  from orden_Status where idStatus=7 group by idOrden;
-select count(idOrden) as ordenesPorExternas  from orden_Status where idStatus=7;
+select t.*
+from tecnico t
+inner join usuario u on t.idUser = u.iduser
+where rolusuario=4;
 
+select * from especialidadtecnico;
+select * from tecnico;
+select * from usuario;
 
-select * from orden_Status where idOrden=93;
+update tecnico set idEspecialidad= ? where iduser=?;
 
-
-select * from externo;
-select * from status;
-select *
-from producto;
-select *
-from fechas_orden;
-select *
-from comentarios_orden;
-
-describe comentarios_orden;
-
-select *
-from proveedor_orden;
-
-select *
-from orden_Status;
-select *
-from productosOrdenes
-where idOrden = 92;
-
-select *
-from producto;
-/* ================================== */
-
-select *
-from status;
-select *
-from orden_producto;
-select *
-from producto;
-
-select *
-from usuario;
-
-select count(idOrdenTrabajo) as ordenesHoy
-from ordenesFechaActual
-where fecha = DATE(NOW());
-select count(idOrdenTrabajo) as ordenesTotales
-from ordenesFechaActual;
-select count(idOrdenTrabajo) as ordenesPorAprobar
-from ordenTrabajo
-where idStatus = 1;
-
-
-select *
-from comentarios_orden
-where idOrden = 77;
-
-select *
-from fechas_orden
-where idOrden = 77;
-
-select *
-from TodosDatos;
-select *
-from tecnicosOrden
-where idOrdenTrabajo = 77
-group by idOrdenTrabajo;
-
-select *
-from ordenStatusDetails;
-select *
-from tipoMantenimiento;
-select *
-from orden_Status;
-select *
-from ordenStatusDetails;
-
-select os.idOrden,
-       os.fechaInicio        as HoraInicio,
-       os.fechaFinal         as HoraFinal,
-       u.fullname            as NameAcepto,
-       s.nameStatus          as Estado,
-       s.avanceStatus        as AvanceStatus,
-       os.create_at,
-       os.comentariosLider   as ComentariosLider,
-       os.comentariosTecnico as ComentariosTecnico,
-       s.idStatus
-from orden_Status as os
-         inner join usuario u on iduser = os.idUsuario
-         inner join status s on os.idStatus = s.idStatus;
-
-select *
-from proveedor_orden;
-insert into proveedor_orden(idOrdenTrabajo, idProveedor)
-values ();
-select *
-from tipoMantenimiento;
-select *
-from status;
-select os.idOrden,
-       u.fullname     as NameAcepto,
-       s.nameStatus   as Estado,
-       s.avanceStatus as AvanceStatus,
-       os.create_at,
-       s.idStatus
-from orden_Status as os
-         inner join usuario u on iduser = os.idUsuario
-         inner join status s on os.idStatus = s.idStatus;
-
-select *
-from externo;
-select *
-from ordenStatusDetails;
-select *
-from TodosDatos;
-select *
-from tecnicosOrden
-where idOrdenTrabajo = 78;
-select *
-from tipoMantenimiento;
-
-select *
-from orden_Status;
-describe orden_Status;
-
-select
-from tecnicosOrden
-where idOrdenTrabajo = 78
-group by iduser
-order by idTipoMantenimiento desc;
-
-select *
-from tecnicosOrden
-where idOrdenTrabajo = 78
-order by idTipoMantenimiento desc;
-
-
-select *
-from ordentrabajo;
-select *
-from orden_Status
-where idOrden = 79;
-
-describe orden_Status;
-select *
-from orden_Status
-where idOrden;
-
-UPDATE orden_status
-SET idtipoMantenimiento=?
-WHERE idOrden = ?;
-
-
-
-insert into orden_tipomantenimiento (idOrden, idTipoMantenimiento)
-VALUES (10, 1);
-delete
-from orden_tipomantenimiento;
-
-
-
-select *
-from tecnicosOrden
-where iduser = 3
-  and idStatus = 3
-group by idOrdenTrabajador;
-
-select *
-from tecnicosOrden;
-
-select o_t.idOrdenTrabajador,
-       ot.idOrdenTrabajo,
-       u.iduser,
-       o.idTipoMantenimiento,
-       t2.nameTipoMantenimiento,
-       t.idTecnico,
-       Os.idStatus,
-       em.nameEstado,
-       a.nameArea,
-       m.nameMaquina,
-       p.namePrioridad,
-       s.nameStatus,
-       u.fullname,
-       e.nameEspecialidad
-from orden_trabajador o_t
-         inner join ordentrabajo ot on o_t.idOrden = ot.idOrdenTrabajo
-         inner join estadoMaquina em on ot.estadoMaquina = em.idEstadoMaquina
-         inner join area a on ot.idArea = a.idArea
-         inner join maquina m on ot.idMaquina = m.idMaquina
-         inner join prioridad p on ot.idPrioridad = p.idPrioridad
-         inner join status s on ot.idStatus = s.idStatus
-         inner join tecnico t on o_t.idTecnico = t.idTecnico
-         inner join especialidadtecnico e on t.idEspecialidad = e.idEspecialidad
-         inner join usuario u on t.idUser = u.iduser
-         inner join orden_Status oS on s.idStatus = oS.idStatus
-         inner join orden_tipomantenimiento o on o_t.idOrden = o.idOrden
-         inner join tipomantenimiento t2 on o.idTipoMantenimiento = t2.idTipoMantenimiento;
-
-
-select *
-from tecnicosOrden
-where iduser = 3
-  and idStatus = 3
-group by idOrdenTrabajo;
-
-
-delete
-from ordentrabajo;
-
-
-select *
-from tecnicosOrden;
-
-select *
-from ordenStatusDetails;
-
-select os.idOrden,
-       u.fullname     as NameAcepto,
-       s.nameStatus   as Estado,
-       s.avanceStatus as AvanceStatus,
-       os.create_at,
-       s.idStatus
-from orden_Status as os
-         inner join usuario u on iduser = os.idUsuario
-         inner join status s on os.idStatus = s.idStatus;
-
-select *
-from orden_Status;
-
-select *
-from comentarios_orden;
-
-select idOrden, comentario, u.fullname, idStatus
-from comentarios_orden
-         inner join usuario u on comentarios_orden.idUser = u.iduser
-where idOrden = 86;
-
-select *
-from ordenStatusDetails
-where idOrden = 85;
-select *
-from comentarios_orden
-where idOrden = 85;
-select *
-from comentarios_orden;
-
-
-
-select oS.idStatus, oS.idOrden, oS.create_at, co.comentario, co.idUser
-from orden_Status oS
-         inner join comentarios_orden co on oS.idOrden = co.idOrden
-where co.idOrden = 86;
-
-select co.idOrden, co.idUser, co.idStatus, co.comentario, u.fullname
-from comentarios_orden co
-         inner join status s on s.idStatus = co.idStatus
-         inner join usuario u on co.idUser = u.iduser;
-
-describe comentarios_orden;
-select *
-from orden_Status;
-
-select *
-from ordentrabajo
-where idStatus = 6;
-select *
-from orden_Status
-where idStatus = 6;
-select *
-from usuario;
-
-
-
-select ot.idOrden, o.idStatus, ot.idTecnico, u.fullname
-from orden_trabajador ot
-         inner join ordentrabajo o on o.idOrdenTrabajo = ot.idOrden
-         inner join tecnico t on ot.idTecnico = t.idTecnico
-         inner join usuario u on t.idUser = u.iduser
-where idOrdenTrabajo = 91;
-
-select *
-from orden_trabajador;
-
-
-select ordenTrabajo.*,
-       s.nameStatus,
-       ordenTrabajo.descripcion,
-       ordenTrabajo.create_at,
-       a.nameArea,
-       m.nameMaquina,
-       e.nameEstado,
-       p.namePrioridad
-from ordenTrabajo
-         inner join prioridad p on ordenTrabajo.idPrioridad = p.idPrioridad
-         inner join maquina m on ordenTrabajo.idMaquina = m.idMaquina
-         inner join area a on ordenTrabajo.idArea = a.idArea
-         inner join estadoMaquina e on ordenTrabajo.estadoMaquina = e.idEstadoMaquina
-         inner join status s on ordenTrabajo.idStatus = s.idStatus
-where ordenTrabajo.idStatus = 3
-   or ordenTrabajo.idStatus = 4;
-
-
-
-select *
-from orden_trabajador;
-
-
-
-delete
-from orden_producto
-where idOrdenProducto = 2;
-select *
-from orden_producto
-where idOrden = 92;
-select *
-from productosOrdenes;
-
-
-select *
-from externo;
-
-
-select *
-from producto;
-
-
-
-select orden_Status.idOrden,
-       a.nameArea,
-       m.nameMaquina,
-       eM.nameEstado,
-       p2.namePrioridad,
-
-       p.nameProveedor
-from orden_Status
-         inner join ordenTrabajo ot on idOrden = ot.idOrdenTrabajo
-         inner join area a on ot.idArea = a.idArea
-         inner join maquina m on ot.idMaquina = m.idMaquina
-         inner join tipomantenimiento t on orden_Status.idTipoMantenimiento = t.idTipoMantenimiento
-         inner join proveedor p on orden_Status.idProveedor = p.idProveedor
-         inner join prioridad p2 on ot.idPrioridad = p2.idPrioridad
-         inner join estadoMaquina eM on ot.estadoMaquina = eM.idEstadoMaquina
-where t.idTipoMantenimiento = 4
-  and orden_Status.idStatus = 5
-order by idOrden;
-
-
-select *
-from tipoMantenimiento;
-select *
-from ordentrabajo
-where idOrdenTrabajo = 92;
-select *
-from status;
-
-select *
-from proveedor;
-select *
-from proveedor_orden;
-select *
-from fechas_orden;
-
-
-select orden_Status.idOrden,
-       a.nameArea,
-       m.nameMaquina,
-       eM.nameEstado,
-       orden_Status.idStatus,
-       p2.namePrioridad,
-       t.idTipoMantenimiento,
-       t.nameTipoMantenimiento,
-       p.nameProveedor
-from orden_Status
-         inner join ordenTrabajo ot on idOrden = ot.idOrdenTrabajo
-         inner join area a on ot.idArea = a.idArea
-         inner join maquina m on ot.idMaquina = m.idMaquina
-         inner join tipomantenimiento t on orden_Status.idTipoMantenimiento = t.idTipoMantenimiento
-         inner join proveedor p on orden_Status.idProveedor = p.idProveedor
-         inner join prioridad p2 on ot.idPrioridad = p2.idPrioridad
-         inner join estadoMaquina eM on ot.estadoMaquina = eM.idEstadoMaquina
-where t.idTipoMantenimiento = 4
-  and orden_Status.idStatus = 5
-order by idOrden;
-
-select *
-from orden_Status oS
-         inner join ordenTrabajo ot on ot.idOrdenTrabajo = idOrden
-         inner join area a on ot.idArea = a.idArea
-         inner join maquina m on ot.idMaquina = m.idMaquina
-         inner join proveedor_orden po on ot.idOrdenTrabajo = po.idOrdenTrabajo
-         inner join orden_tipomantenimiento o on ot.idOrdenTrabajo = o.idOrden
-where idOrden = 96;
-
-select *
-from orden_tipomantenimiento
-         inner join ordentrabajo ot on ot.idOrdenTrabajo = idOrden
-         inner join area a on ot.idArea = a.idArea
-         inner join maquina m on ot.idMaquina = m.idMaquina
-         inner join proveedor_orden po on ot.idOrdenTrabajo = po.idOrdenTrabajo
-where idOrden = 96;
-
-
-in
-
-
-
-select * from orden_tipomantenimiento;
-select * from orden_tipomantenimiento;
-select * from proveedor_orden;
-select * from proveedor;
-
-
-select * from orden_tipomantenimiento;
-describe orden_tipomantenimiento;
-
-
-select * from comentarios_orden where idOrden=93;
-select * from proveedor;
-
-select po.idOrdenTrabajo,
-       po.idProveedor,
-       po.id_tipoMantenimiento,
-       p.nameProveedor,
-       t.nameTipoMantenimiento
-from proveedor_orden po
-         inner join proveedor p on po.idProveedor = p.idProveedor
-         inner join tipomantenimiento t on t.idTipoMantenimiento = po.id_tipoMantenimiento
-where idOrdenTrabajo = 97;
-
-
-select *
-from ordentrabajo;
-
-select * from fechas_orden;
-select fullname, idRol, ro.nameRol
-from usuario
-inner join rolusuario ro on rolusuario = ro.idRol;
-select * from TodosDatos;
+insert into tecnico( idUser, idEspecialidad) VALUES (?,?);
