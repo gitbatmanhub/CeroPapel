@@ -18,7 +18,7 @@ router.get('/dashboard', isLoggedIn, async (req, res) => {
     const ordenesRevisar= await pool.query('select count(idOrdenTrabajo) as ordenesPorRevisar from ordenTrabajo where idStatus=5;')
     const ordenesCerradas= await pool.query('select count(idOrdenTrabajo) as ordenesPorCerradas from ordenTrabajo where idStatus=6;')
     const ordenesExternas = await pool.query('select count(idOrden) as ordenesPorExternas  from orden_Status where idStatus=7;');
-
+    const nrUsuarios= await pool.query('select count(iduser) as nrUsuarios from usuario;')
     res.render('ordenes/dashboard', {
         ordenesHoy: ordenesHoy[0],
         ordenesTotal: ordenesTotal[0],
@@ -28,7 +28,8 @@ router.get('/dashboard', isLoggedIn, async (req, res) => {
         ordenesRevisar: ordenesRevisar[0],
         ordenesCerradas: ordenesCerradas[0],
         ordenesExternas: ordenesExternas[0],
-        rolusuario
+        rolusuario,
+        nrUsuarios: nrUsuarios[0]
     })
 })
 

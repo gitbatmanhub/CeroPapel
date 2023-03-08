@@ -2,28 +2,32 @@
     <div class="container">
         <h2>Rol Usuario</h2>
     </div>
-    <form action="/editrolusuario" method="post" id="" name="">
+    <form action="/editrolusuario" class="needs-validation" novalidate method="post" id="" name="">
         <div class="row g-2">
+
             <div class="col-md">
-                <div class="form-floating">
-                    <select name="idUser" class="form-select" id="idArea">
-                        <option value="null" selected>Selecciona un usuario por favor</option>
-                        {{#each usuario}}
-                            <option value="{{iduser}}" name="{{fullname}}">{{fullname}}</option>
-                        {{/each}}
-                    </select>
-                    <label for="floatingSelectGrid">Usuario</label>
+                <label for="especialidad" class="form-label">Rol</label>
+                <select name="idUser" class="form-select" id="especialidad" required>
+                    <option selected disabled value="">Selecciona un usuario por favor</option>
+                    {{#each usuario}}
+                        <option value="{{iduser}}" name="{{fullname}}">{{fullname}}</option>
+                    {{/each}}
+                </select>
+                <div class="invalid-feedback">
+                    Selecciona un Usuario para asignar
                 </div>
             </div>
+
             <div class="col-md">
-                <div class="form-floating">
-                    <select name="idRol" class="form-select" id="idArea">
-                        <option value="null" selected>Selecciona un usuario por favor</option>
-                        {{#each roles}}
-                            <option value="{{idRol}}" name="{{nameRol}}">{{nameRol}}</option>
-                        {{/each}}
-                    </select>
-                    <label for="floatingSelectGrid">Rol</label>
+                <label for="especialidad" class="form-label">Rol</label>
+                <select name="idRol" class="form-select" id="especialidad" required>
+                    <option selected disabled value="">Escoge un Rol Porfavor</option>
+                    {{#each roles}}
+                        <option value="{{idRol}}" name="{{nameRol}}">{{nameRol}}</option>
+                    {{/each}}
+                </select>
+                <div class="invalid-feedback">
+                    Selecciona un rol para asignar
                 </div>
             </div>
 

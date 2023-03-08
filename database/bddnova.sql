@@ -830,6 +830,8 @@ select t.*
 from tecnico t
 inner join usuario u on t.idUser = u.iduser
 where rolusuario=4;
+select count(iduser) from usuario;
+
 
 select * from especialidadtecnico;
 select * from tecnico;
@@ -838,3 +840,9 @@ select * from usuario;
 update tecnico set idEspecialidad= ? where iduser=?;
 
 insert into tecnico( idUser, idEspecialidad) VALUES (?,?);
+select fullname, rolusuario
+from usuario
+inner join tecnico t on usuario.iduser = t.idUser;
+select * from rolusuario;
+
+select * from status;
