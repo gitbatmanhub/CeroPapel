@@ -3,7 +3,6 @@ const router = express.Router();
 
 const pool = require('../database');
 const {isLoggedIn, permissions} = require('../lib/auth');
-const {he} = require("timeago.js/lib/lang");
 
 
 //=======================================================Home
@@ -575,10 +574,7 @@ router.post('/addsuministros/:id', async (req, res) => {
             await pool.query('INSERT orden_producto (idOrden, idUser, idProducto, cantidad) VALUES (?,?,?,?)', [idOrden, idUser, idProducto,cantidad ]);
 
         }
-
-
     }
-
     req.flash('success', 'Item agregado correctamente a la orden '+ req.params.id);
     res.redirect('/suministro/'+idOrden)
 
@@ -592,7 +588,6 @@ router.post('/deleteItem/:id', isLoggedIn, permissions, async (req, res) => {
     req.flash('error', 'Item eliminado correctamente');
     res.redirect('/suministro/'+idOrden);
 });
-
 
 router.get('/editrolusuario', isLoggedIn, permissions, async (req, res)=>{
     const usuario= await pool.query('select * from usuario');
@@ -631,6 +626,7 @@ router.post('/especialidadtecnico/', isLoggedIn, permissions, async (req, res) =
     }
     res.redirect('/especialidadtecnico/');
 });
+
 
 
 module.exports = router;
