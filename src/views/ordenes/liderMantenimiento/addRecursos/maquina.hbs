@@ -2,26 +2,28 @@
     <div class="container">
         <h2>Agregar Maquina</h2>
     </div>
-    <form action="/addmaquina" method="post" id="" name="">
-        <div class="row g-2">
-            <div class="col-md">
-                <div class="form-floating">
-                    <select name="idArea" class="form-select" id="idArea">
-                        <option value="null" selected>Selecciona una por favor</option>
-                        {{#each area}}
-                            <option value="{{idArea}}" name="{{nameArea}}">{{nameArea}}</option>
-                        {{/each}}
-                    </select>
-                    <label for="floatingSelectGrid">Area</label>
-                </div>
+    <form action="/addmaquina" class="needs-validation" novalidate method="post" id="" name="">
+
+
+        <div class="col-md">
+            <label for="idArea" class="form-label">Área</label>
+            <select class="form-select" id="idArea" name="idArea" required>
+                <option selected disabled value="">Escoge el área</option>
+                {{#each area}}
+                    <option value="{{idArea}}" name="{{nameArea}}">{{nameArea}}</option>
+                {{/each}}
+            </select>
+            <div class="invalid-feedback">
+                Escoge el área antes de agregar una maquina.
             </div>
+        </div>
 
 
-            <div class="col-md">
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control" name="nameMaquina" id="floatingInput" placeholder="Ingresa el nombre de la maquina">
-                    <label for="floatingInput">Nombre de la maquina</label>
-                </div>
+        <div class="col-md">
+            <label for="nameMaquina" class="form-label">Nombre de la maquina</label>
+            <input type="text" class="form-control" name="nameMaquina" id="nameMaquina" required placeholder="Ingresa el nombre de la maquina">
+            <div class="invalid-feedback">
+                Ingresa el nombre de la maquina.
             </div>
         </div>
 
@@ -36,13 +38,6 @@
 </div>
 
 
-</div>
-
-
-<script>
-
-
-</script>
 
 
 

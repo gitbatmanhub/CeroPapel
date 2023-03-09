@@ -1,7 +1,7 @@
 <div class="container">
 
     {{#each ordenes}}
-    <form action="/tecnico/{{idOrdenTrabajo}}" id="form" class="formTecnicos" id="" method="post">
+    <form action="/tecnico/{{idOrdenTrabajo}}" id="form" class="formTecnicos needs-validation" novalidate id="" method="post">
 
 
         <div class="este">
@@ -15,12 +15,15 @@
         <div class="col-md">
 
             <div id="divPadre">
-                <select class="form-select" name="idTecnico" id="nombreTecnico">
-                    <option value="null" selected> Selecciona un tecnico de la Lista</option>
+                <select class="form-select" name="idTecnico" id="nombreTecnico" required>
+                    <option disabled selected value=""> Selecciona un tecnico de la Lista</option>
                     {{#each tecnico}}
                         <option value="{{idUser}}">{{fullname}}</option>
                     {{/each}}
                 </select>
+                <div class="invalid-feedback">
+                    Selecciona uno o más tecnicos porfavor
+                </div>
 
             </div>
             <div id="selectsTecnico"></div>
@@ -36,28 +39,39 @@
             <div class="form">
                 <label for="">Fecha Inicio (Prevista)</label>
                 <input name="fechaInicioPre" type="datetime-local" class="form-control" required>
-
+                <div class="invalid-feedback">
+                    Selecciona una fecha de inicio!
+                </div>
             </div>
         </div>
         <div class="col-md ">
             <div class="form">
                 <label for="">Fecha Final (Prevista)</label>
                 <input name="fechaFinalPre" type="datetime-local" class="form-control" required>
+                <div class="invalid-feedback">
+                    Selecciona una fecha final!
+                </div>
             </div>
         </div>
     </div>
     <div class=" mb-3">
-        <select class="form-select" name="tipoMantenimiento" id="tipoMantenimiento">
-            <option value="null" selected>Tipo Mantenimiento</option>
+        <select class="form-select" name="tipoMantenimiento" id="tipoMantenimiento" required>
+            <option value="" selected disabled>Selecciona el tipo de mantenimiento</option>
             {{#each tipoMantenimiento}}
                 <option value="{{idTipoMantenimiento}}">{{nameTipoMantenimiento}}</option>
             {{/each}}
         </select>
+        <div class="invalid-feedback">
+            Selecciona el tipo de mantenimiento!
+        </div>
     </div>
     <div class="mb-3">
         <label for="a">Ingrese la descripción del trabajo a realizarse</label>
         <textarea class="form-control" name="descripcionTrabajo" id="a" cols="15" rows="10"
-                  placeholder="Se lo más especifico que puedas, ayudanos a entenderte."></textarea>
+                  placeholder="Se lo más especifico que puedas, ayudanos a entenderte." required></textarea>
+        <div class="invalid-feedback">
+            Ingrese la descripción del trabajo.
+        </div>
     </div>
     <input type="hidden" name="idStatus" value="3">
 

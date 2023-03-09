@@ -2,19 +2,18 @@
     <div class="container">
         <h2>Agregar Área</h2>
     </div>
-    <form action="/addarea" method="post" id="" name="">
+    <form action="/addarea" method="post" class="needs-validation" novalidate>
         <div class="row g-2">
-            <div class="col-md">
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control" name="nameArea" id="floatingInput" placeholder="Ingresa el nombre del área">
-                    <label for="floatingInput">Nombre del Área</label>
+                <div class="col-md-6">
+                    <label for="namearea" class="form-label">Nombre del Área</label>
+                    <input type="text" name="nameArea" class="form-control" id="namearea" required placeholder="Nombre del área">
+                    <div class="invalid-feedback">
+                        Ingresa el nombre del Área
+                    </div>
                 </div>
-            </div>
-        </div>
-
-
         <div class="form-group boton-send">
             <input type="submit" class="btn btn-success btn-block" id="">
+        </div>
         </div>
 
 
@@ -22,14 +21,6 @@
 
 </div>
 
-
-</div>
-
-
-<script>
-
-
-</script>
 
 
 

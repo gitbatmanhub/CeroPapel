@@ -17,12 +17,17 @@ create table usuario
     rolusuario  int(4)
 );
 
-alter table usuario modify column rolusuario int(4) not null  default 3;
+alter table usuario
+    modify column rolusuario int(4) not null default 3;
 
-alter table usuario modify column telefono varchar(15);
-alter table usuario modify column igLink varchar(100);
-alter table usuario modify column twitterLink varchar(100);
-alter table usuario modify column inkedInLink varchar(100);
+alter table usuario
+    modify column telefono varchar(15);
+alter table usuario
+    modify column igLink varchar(100);
+alter table usuario
+    modify column twitterLink varchar(100);
+alter table usuario
+    modify column inkedInLink varchar(100);
 
 create table rolUsuario
 (
@@ -251,9 +256,8 @@ alter table orden_Trabajador
     add constraint fk_idOrdenT foreign key (idOrden) references ordenTrabajo (idOrdenTrabajo) on delete cascade;
 
 
-
 alter table orden_Trabajador
-    add constraint fk_idTecnico foreign key (idTecnico) references tecnico (idTecnico);
+    add constraint fk_idTecnico foreign key (idTecnico) references tecnico (idTecnico) on update cascade;
 
 alter table tecnico
     add constraint fk_idUserT foreign key (idUser) references usuario (iduser);
@@ -779,103 +783,223 @@ create table tipoTrabajo
 );
 insert into tipoTrabajo(nameTipoTrabajo) value ('Externo');
 
-select * from tipoTrabajo;
+select *
+from tipoTrabajo;
 create table tipoTrabajo_orden
 (
-      id_tipoTrabajo_orden int(100) not null primary key auto_increment,
-      idOrden int(100) not null,
-      idProveedor int(100) not null
+    id_tipoTrabajo_orden int(100) not null primary key auto_increment,
+    idOrden              int(100) not null,
+    idProveedor          int(100) not null
 );
 
 alter table tipoTrabajo_orden
     add constraint fk_tipoTrabajo_orden foreign key (idOrden) references ordentrabajo (idOrdenTrabajo) ON DELETE CASCADE;
 
 alter table tipoTrabajo_orden
-    add constraint fk_tipoTrabajo_proveedor foreign key (idProveedor) references proveedor(idProveedor) on delete cascade ;
+    add constraint fk_tipoTrabajo_proveedor foreign key (idProveedor) references proveedor (idProveedor) on delete cascade;
 
-insert into status (nameStatus, avanceStatus) VALUES ('Asignada Externo',80);
+insert into status (nameStatus, avanceStatus)
+VALUES ('Asignada Externo', 80);
 
 create view dataUser as
 select u.iduser, u.fullname, u.username, r.nameRol
 from usuario u
-inner join rolusuario r on u.rolusuario= r.idRol;
+         inner join rolusuario r on u.rolusuario = r.idRol;
 
 /*--------------------//Vistas------------------------*/
 
-select * from bddnova.dataUser;
+select *
+from bddnova.dataUser;
 
-update usuario set rolusuario = 1 where iduser=6;
+update usuario
+set rolusuario = 1
+where iduser = 6;
 
 
-select * from usuario;
+select *
+from usuario;
 
 
 
-select * from usuario;
-select * from rolusuario;
-select * from especialidadtecnico;
-select * from tecnico;
+select *
+from usuario;
+select *
+from rolusuario;
+select *
+from especialidadtecnico;
+select *
+from tecnico;
 
-select * from usuario where rolusuario =4;
-select * from rolusuario;
+select *
+from usuario
+where rolusuario = 4;
+select *
+from rolusuario;
 
 
 select t.idUser, u.fullname, e.nameEspecialidad
 from tecnico t
-inner join usuario u on t.idUser = u.iduser
-inner join especialidadtecnico e on t.idEspecialidad = e.idEspecialidad;
+         inner join usuario u on t.idUser = u.iduser
+         inner join especialidadtecnico e on t.idEspecialidad = e.idEspecialidad;
 
 
-delete from especialidadtecnico;
-DELETE from tecnico where idTecnico=5;
-select * from tecnico;
+delete
+from especialidadtecnico;
+DELETE
+from tecnico
+where idTecnico = 5;
+select *
+from tecnico;
 
 
-select * from tecnico;
-select * from usuario;
-select * from rolusuario;
-select * from especialidadtecnico;
+select *
+from tecnico;
+select *
+from usuario;
+select *
+from rolusuario;
+select *
+from especialidadtecnico;
 
 
 
 select t.*
 from tecnico t
-inner join usuario u on t.idUser = u.iduser
-where rolusuario=4;
-select count(iduser) from usuario;
+         inner join usuario u on t.idUser = u.iduser
+where rolusuario = 4;
+select count(iduser)
+from usuario;
 
 
-select * from especialidadtecnico;
-select * from tecnico;
-select * from usuario;
+select *
+from especialidadtecnico;
+select *
+from tecnico;
+select *
+from usuario;
 
-update tecnico set idEspecialidad= ? where iduser=?;
+update tecnico
+set idEspecialidad= ?
+where iduser = ?;
 
-insert into tecnico( idUser, idEspecialidad) VALUES (?,?);
+insert into tecnico(idUser, idEspecialidad)
+VALUES (?, ?);
 select fullname, rolusuario
 from usuario
-inner join tecnico t on usuario.iduser = t.idUser;
-select * from rolusuario;
+         inner join tecnico t on usuario.iduser = t.idUser;
+select *
+from rolusuario;
 
-select * from status;
+select *
+from status;
 create view dataUser as
-select  u.fullname, u.username, r.nameRol
+select u.fullname, u.username, r.nameRol
 from usuario u
-inner join rolusuario r on u.rolusuario= r.idRol;
+         inner join rolusuario r on u.rolusuario = r.idRol;
 
 
-select * from usuario;
+select *
+from usuario;
 
 
 
-
-
-select * from sessions;
-select * from usuario;
+select *
+from sessions;
+select *
+from usuario;
 describe usuario;
 
 
 
-select * from rolusuario;
-update usuario set rolusuario=1 where iduser=7;
+select *
+from rolusuario;
+update usuario
+set rolusuario=1
+where iduser = 7;
+select *
+from area;
+
+select *
+from orden_Trabajador;
+select *
+from tecnicosOrden;
+select *
+from tecnicosOrden;
+select *
+from fechas_orden;
+select *
+from comentarios_orden;
+select *
+from orden_tipomantenimiento;
+
+select *
+from tecnico;
+select *
+from tecnicosOrden;
+
+
+select o_t.idOrdenTrabajador,
+       ot.idOrdenTrabajo,
+       u.iduser,
+       o.idTipoMantenimiento,
+       t2.nameTipoMantenimiento,
+       t.idTecnico,
+       Os.idStatus,
+       em.nameEstado,
+       a.nameArea,
+       m.nameMaquina,
+       p.namePrioridad,
+       s.nameStatus,
+       u.fullname,
+       e.nameEspecialidad
+from orden_trabajador o_t
+         inner join ordentrabajo ot on o_t.idOrden = ot.idOrdenTrabajo
+         inner join estadoMaquina em on ot.estadoMaquina = em.idEstadoMaquina
+         inner join area a on ot.idArea = a.idArea
+         inner join maquina m on ot.idMaquina = m.idMaquina
+         inner join prioridad p on ot.idPrioridad = p.idPrioridad
+         inner join status s on ot.idStatus = s.idStatus
+         inner join tecnico t on o_t.idTecnico = t.idTecnico
+         inner join especialidadtecnico e on t.idEspecialidad = e.idEspecialidad
+         inner join usuario u on t.idUser = u.iduser
+         inner join orden_Status oS on s.idStatus = oS.idStatus
+         inner join orden_tipomantenimiento o on o_t.idOrden = o.idOrden
+         inner join tipomantenimiento t2 on o.idTipoMantenimiento = t2.idTipoMantenimiento;
+
+
+select o_t.idOrdenTrabajador,
+       ot.idOrdenTrabajo,
+       em.nameEstado,
+       a.nameArea,
+       m.nameMaquina,
+       p.namePrioridad,
+       o.idTipoMantenimiento,
+       t2.nameTipoMantenimiento
+from orden_Trabajador o_t
+    inner join tecnico t on o_t.idTecnico = t.idTecnico
+         inner join ordentrabajo ot on o_t.idOrden = ot.idOrdenTrabajo
+         inner join estadoMaquina em on ot.estadoMaquina = em.idEstadoMaquina
+         inner join area a on ot.idArea = a.idArea
+         inner join maquina m on ot.idMaquina = m.idMaquina
+         inner join prioridad p on ot.idPrioridad = p.idPrioridad
+         inner join status s on ot.idStatus = s.idStatus
+         inner join orden_tipomantenimiento o on o_t.idOrden = o.idOrden
+         inner join tipomantenimiento t2 on o.idTipoMantenimiento = t2.idTipoMantenimiento;
+
+
+
+select *
+from tecnico
+inner join especialidadtecnico e on tecnico.idEspecialidad = e.idEspecialidad;
+
+select * from orden_Trabajador
+inner join tecnico t on orden_Trabajador.idTecnico = t.idTecnico;
+
+select * from orden_Trabajador;
+
+select * from tecnico
+inner join orden_Trabajador oT on tecnico.idTecnico = oT.idTecnico;
+
+
+select iduser, fullname from usuario
 

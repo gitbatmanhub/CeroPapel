@@ -272,17 +272,14 @@ router.get('/tecnico/:id', isLoggedIn, permissions, async (req, res) => {
 router.post('/tecnico/:id', isLoggedIn, permissions, async (req, res) => {
     const userId = [req.user.iduser][0];
     const idOrden = [req.params.id];
-    //console.log(userId)
     const objo = Object.assign({}, req.body);
-    //console.log(objo);
     const exmaple = {idTecnico, fechaInicioPre, fechaFinalPre, tipoMantenimiento, descripcionTrabajo, idStatus} = objo;
     for (let i = 0; i < exmaple.idTecnico.length; i++) {
         const idTecnico = exmaple.idTecnico[i];
-        //Inserto en tabla orden_Trabajador los id de los tecnicos junto a los de la orden
-
-        await pool.query('INSERT orden_Trabajador (idOrden, idTecnico) VALUES (?, ?)', [idOrden, idTecnico]);
+        await pool.query('INSERT into orden_Trabajador (idOrden, idTecnico) VALUES (?, ?)', [idOrden, idTecnico]);
+        console.log("Aquí estoy",+idOrden, idTecnico)
     }
-    await pool.query('INSERT orden_status (idStatus, idOrden, idUsuario) VALUES (?,?,?)', [idStatus, idOrden, userId]);
+    await pool.query('INSERT into orden_status (idStatus, idOrden, idUsuario) VALUES (?,?,?)', [idStatus, idOrden, userId]);
     await pool.query('insert into fechas_orden (fechaInicio, fechaFinal, idUser, idOrden) values (?,?,?,?);', [fechaInicioPre, fechaFinalPre, userId, idOrden]);
     await pool.query('insert into comentarios_orden (comentario, idOrden, idUser, idStatus) values (?,?,?,?)', [descripcionTrabajo, idOrden, userId, 3])
     await pool.query('UPDATE ordenTrabajo SET idStatus=3 WHERE idOrdenTrabajo = ?', [idOrden]);

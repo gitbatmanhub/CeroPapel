@@ -1,31 +1,44 @@
 <div class="container">
 
-    {{#each ordenes}}
-    <form action="/addsuministros/{{idOrdenTrabajo}}" id="form" class="formTecnicos" id="" method="post">
+{{#each ordenes}}
+    <form action="/addsuministros/{{idOrdenTrabajo}}" id="form" class="formTecnicos needs-validation" novalidate id=""
+          method="post">
         <div class="este">
             <h1 style="text-align: center">Asignar Suministros a la orden Nr#  {{idOrdenTrabajo}}</h1>
 
         </div>
-    {{/each}}
+{{/each}}
 
 
     <div class="row g-2 mb-3 tecnicosAl">
         <div class="col-md">
-
             <div id="divPadre">
-                <select class="form-select" name="producto" id="producto" required>
-                    <option value="null" disabled selected> Selecciona un item de la Lista</option>
-                    {{#each suministros}}
-                        <option value="{{idProducto}}">{{nameProducto}}</option>
-                    {{/each}}
-                </select>
-                <div class="form-floating mb-3">
-                    <input id="descripcionAO" type="number" class="form-control" name="cantidad"
-                           required placeholder="Descripción" >
-                    <label for="floatingInput">Cantidad</label>
+                <div class="container">
+                    <div class="row align-items-start">
+
+                        <div class="col">
+                            <label for="producto" class="form-label">Item</label>
+                            <select class="form-select" id="producto" name="producto" required>
+                                <option selected disabled value="">Selecciona un item de la Lista</option>
+                                {{#each suministros}}
+                                    <option value="{{idProducto}}">{{nameProducto}}</option>
+                                {{/each}}
+                            </select>
+                            <div class="invalid-feedback">
+                                Por favor selecciona un item
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label for="descripcionAO" class="form-label">Cantidad</label>
+                            <input type="number" class="form-control" name="cantidad" id="descripcionAO" required
+                                   placeholder="Cantidad">
+                            <div class="invalid-feedback">
+                                Ingresa una cantidad
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
             <div id="selectsTecnico"></div>
 
         </div>
@@ -39,69 +52,69 @@
     <a href="javascript:history.back()" class="btn btn-secondary" type="submit" onclick="validate();">Volver</a>
 </form>
 
-    {{#if productosOrdenes}}
+{{#if productosOrdenes}}
 
 
-    <div class="tables-wrapper">
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="card-style mb-30">
-                    <h1 style="padding: 20px">Suministros en la orden</h1>
-                    <table id="table1" class="display">
-                        <thead>
-                        <tr>
-                            <th><h6>Producto</h6></th>
-                            <th><h6>Cantidad</h6></th>
-                            <th><h6>Acción</h6></th>
-
-                        </tr>
-
-                        </thead>
-
-                        <tbody class="list" id="tab">
-
-                        {{#each productosOrdenes }}
-
+        <div class="tables-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="card-style mb-30">
+                        <h1 style="padding: 20px">Suministros en la orden</h1>
+                        <table id="table1" class="display">
+                            <thead>
                             <tr>
-
-                                <td class="">
-                                    <div class="">
-                                        <div class="">
-                                            <p>{{nameProducto}}</p>
-                                        </div>
-                                    </div>
-                                </td>
-
-
-                                <td class="area">
-                                    <p>{{cantidad}}</p>
-                                </td>
-
-                                <td class="area">
-                                    <form action="/deleteItem/{{idOrdenProducto}}" method="post">
-                                        <input type="hidden" name="idOrdenProducto" value="{{idOrdenProducto}}">
-                                        <input type="hidden" name="idOrden" value="{{idOrden}}">
-                                        <button class="btn btn-danger" type="submit">Eliminar</button>
-                                    </form>
-                                </td>
+                                <th><h6>Producto</h6></th>
+                                <th><h6>Cantidad</h6></th>
+                                <th><h6>Acción</h6></th>
 
                             </tr>
-                        {{/each}}
-                        </tbody>
-                    </table>
 
+                            </thead>
+
+                            <tbody class="list" id="tab">
+
+                            {{#each productosOrdenes }}
+
+                                <tr>
+
+                                    <td class="">
+                                        <div class="">
+                                            <div class="">
+                                                <p>{{nameProducto}}</p>
+                                            </div>
+                                        </div>
+                                    </td>
+
+
+                                    <td class="area">
+                                        <p>{{cantidad}}</p>
+                                    </td>
+
+                                    <td class="area">
+                                        <form action="/deleteItem/{{idOrdenProducto}}" method="post">
+                                            <input type="hidden" name="idOrdenProducto" value="{{idOrdenProducto}}">
+                                            <input type="hidden" name="idOrden" value="{{idOrden}}">
+                                            <button class="btn btn-danger" type="submit">Eliminar</button>
+                                        </form>
+                                    </td>
+
+                                </tr>
+                            {{/each}}
+                            </tbody>
+                        </table>
+
+                    </div>
                 </div>
+
             </div>
+
 
         </div>
 
-
     </div>
-
-</div>
-    {{else}}
-        <p >Aún no se agregan suministros a la orden</p>
-    {{/if}}
+{{else}}
+    <h1 style="text-align: center">Aún no se agregan suministros a la orden</h1>
+{{/if}}
 
 
 
