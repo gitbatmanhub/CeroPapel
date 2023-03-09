@@ -629,5 +629,31 @@ router.post('/especialidadtecnico/', isLoggedIn, permissions, async (req, res) =
 });
 
 
+router.get('/todosusuarios', permissions, isLoggedIn, async (req, res)=>{
+   const dataUser= await pool.query('select * from dataUser');
+   res.render('ordenes/paneladmin/todosusuarios', {dataUser})
+});
+
+
+router.post('/edituser', isLoggedIn, async (req, res)=>{
+    const {fullName, sobremi, empresa, pais, direccion, telefono, email, twitter, instagram, linkedin, iduser}= req.body;
+    const dataUser={
+        fullname: fullName,
+        sobreMi: sobremi,
+        empresa,
+        pais,
+        direccion,
+        telefono,
+        username: email,
+        twitterLink: twitter,
+        igLink: instagram,
+        inkedInLink: linkedin,
+        iduser
+    }
+    console.log(dataUser);
+    await pool.query('update usuario set ? where iduser=?', [dataUser, iduser]);
+    res.redirect('/profile')
+});
+
 
 module.exports = router;

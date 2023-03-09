@@ -1,19 +1,3 @@
-<!--
-
-<div class="container p-4">
-    <div class="row">
-        <div class="card text-center">
-            <div class="card-body">
-                <h3>Welcome {{user.fullname}}</h3>
-                <h3>User: {{user.username}}</h3>
-                <a href="/orden/agregarOrden" class="btn btn-primary">Agrega Orden de mantenimiento</a>
-            </div>
-        </div>
-    </div>
-</div>
-
-
--->
 
 
 
@@ -39,10 +23,10 @@
                         <h2>{{user.fullname}}</h2>
                         <h3>{{user.empresa}}</h3>
                         <div class="social-links mt-2">
-                            <a href="{{user.twitterLink}}" class="twitter"><i class="bi bi-twitter"></i></a>
-                            <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-                            <a href="{{user.igLink}}" class="instagram"><i class="bi bi-instagram"></i></a>
-                            <a href="{{user.inkedInLink}}" class="linkedin"><i class="bi bi-linkedin"></i></a>
+                            <a href="{{user.twitterLink}}" target="_blank" class="twitter"><i class="bi bi-twitter"></i></a>
+                            <a href="{{user.igLink}}" target="_blank" class="instagram"><i class="bi bi-instagram"></i></a>
+                            <a href="{{user.inkedInLink}}" target="_blank" class="linkedin"><i class="bi bi-linkedin"></i></a>
+                            <a href="https://wa.me/593{{user.telefono}}" target="_blank" class="linkedin"><i class="bi bi-whatsapp"></i></a>
                         </div>
                     </div>
                 </div>
@@ -64,9 +48,7 @@
                                 <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-edit">Edit Profile</button>
                             </li>
 
-                            <li class="nav-item">
-                                <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-settings">Settings</button>
-                            </li>
+
 
                             <li class="nav-item">
                                 <button class="nav-link" data-bs-toggle="tab" data-bs-target="#profile-change-password">Change Password</button>
@@ -77,23 +59,18 @@
 
                             <div class="tab-pane fade show active profile-overview" id="profile-overview">
                                 <h5 class="card-title first">Sobre mi</h5>
-                                <p class="small fst-italic">{{user.sobreMi}}</p>
+                                <p class="font-weight-normal">{{user.sobreMi}}</p>
 
-                                <h5 class="card-title">Profile Details</h5>
+                                <h5 class="card-title">Detalles del perfil</h5>
 
                                 <div class="row">
-                                    <div class="col-lg-3 col-md-4 label ">Full Name</div>
+                                    <div class="col-lg-3 col-md-4 label ">Nombres</div>
                                     <div class="col-lg-9 col-md-8">{{user.fullname}}</div>
                                 </div>
 
                                 <div class="row">
-                                    <div class="col-lg-3 col-md-4 label">Company</div>
+                                    <div class="col-lg-3 col-md-4 label">Empresa</div>
                                     <div class="col-lg-9 col-md-8">{{user.empresa}}</div>
-                                </div>
-
-                                <div class="row">
-                                    <div class="col-lg-3 col-md-4 label">Puesto</div>
-                                    <div class="col-lg-9 col-md-8">{{null}}</div>
                                 </div>
 
                                 <div class="row">
@@ -113,7 +90,7 @@
 
                                 <div class="row">
                                     <div class="col-lg-3 col-md-4 label">Email</div>
-                                    <div class="col-lg-9 col-md-8">{{user.email}}</div>
+                                    <div class="col-lg-9 col-md-8">{{user.username}}</div>
                                 </div>
 
                             </div>
@@ -121,23 +98,11 @@
                             <div class="tab-pane fade profile-edit pt-3" id="profile-edit">
 
                                 <!-- Profile Edit Form -->
-                                <form>
-                                    <div class="row mb-3">
-                                        <!--
-                                      <label for="profileImage" class="col-md-4 col-lg-3 col-form-label">Profile Image</label>
-
-                                      <div class="col-md-8 col-lg-9">
-                                          <img src="assets/img/profile-img.jpg" alt="Profile">
-                                          <div class="pt-2">
-                                              <a href="#" class="btn btn-primary btn-sm" title="Upload new profile image"><i class="bi bi-upload"></i></a>
-                                              <a href="#" class="btn btn-danger btn-sm" title="Remove my profile image"><i class="bi bi-trash"></i></a>
-                                          </div>
-                                      </div>
-                                      -->
-                                    </div>
+                                <form action="/edituser" class="needs-validation" novalidate method="post" id="formEditUser"
+                                      name="formularioeditdata">
 
                                     <div class="row mb-3">
-                                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Full Name</label>
+                                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Nombre Completo</label>
                                         <div class="col-md-8 col-lg-9">
                                             <input name="fullName" type="text" class="form-control" id="floatingInput" value="{{user.fullname}}">
                                         </div>
@@ -146,128 +111,79 @@
                                     <div class="row mb-3">
                                         <label for="about" class="col-md-4 col-lg-3 col-form-label">Sobre mi</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <textarea name="about" class="form-control" id="about" style="height: 100px">{{user.sobreMi}}</textarea>
+                                            <textarea name="sobremi" placeholder="Cuentanos un poco sobre ti!" class="form-control" id="about" style="height: 100px">{{user.sobreMi}}</textarea>
                                         </div>
                                     </div>
 
                                     <div class="row mb-3">
                                         <label for="company" class="col-md-4 col-lg-3 col-form-label">Empresa</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="empresa" type="text" class="form-control" id="company" value="{{user.empresa}}">
+                                            <input name="empresa" type="text" class="form-control" id="company" value="{{user.empresa}}" readonly>
                                         </div>
                                     </div>
 
-                                    <div class="row mb-3">
-                                        <label for="Job" class="col-md-4 col-lg-3 col-form-label">Puesto</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="job" type="text" class="form-control" id="Job" value="{{null}}">
-                                        </div>
-                                    </div>
 
                                     <div class="row mb-3">
                                         <label for="Country" class="col-md-4 col-lg-3 col-form-label">Pais</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="country" type="text" class="form-control" id="Country" value="{{user.pais}}">
+                                            <input name="pais" placeholder="Ingresa tu país!" type="text" class="form-control" id="Country" value="{{user.pais}}">
                                         </div>
                                     </div>
 
                                     <div class="row mb-3">
                                         <label for="Address" class="col-md-4 col-lg-3 col-form-label">Dirección</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="address" type="text" class="form-control" id="Address" value="{{user.direccion}}">
+                                            <input name="direccion" type="text" class="form-control" id="Address" value="{{user.direccion}}">
                                         </div>
                                     </div>
 
                                     <div class="row mb-3">
                                         <label for="Phone" class="col-md-4 col-lg-3 col-form-label">Telefono</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="phone" type="number" class="form-control" id="Phone" value="{{user.telefono}}">
+                                            <input name="telefono" type="number" class="form-control" id="Phone" value="{{user.telefono}}">
                                         </div>
                                     </div>
 
                                     <div class="row mb-3">
                                         <label for="Email" class="col-md-4 col-lg-3 col-form-label">Email</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="email" type="email" class="form-control" id="Email" value="{{user.username}}">
+                                            <input name="email" type="email" class="form-control" id="Email" value="{{user.username}}" readonly>
                                         </div>
                                     </div>
 
                                     <div class="row mb-3">
                                         <label for="Twitter" class="col-md-4 col-lg-3 col-form-label">Twitter Profile</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="twitter" type="text" class="form-control" id="Twitter" value="{{user.twitterLink}}">
+                                            <input name="twitter" type="text" placeholder="Puedes ingresar tu link de Twitter" class="form-control" id="Twitter" value="{{user.twitterLink}}">
                                         </div>
                                     </div>
 
-                                    <div class="row mb-3">
-                                        <label for="Facebook" class="col-md-4 col-lg-3 col-form-label">Facebook Profile</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <input name="facebook" type="text" class="form-control" id="Facebook" value="{{null}}">
-                                        </div>
-                                    </div>
 
                                     <div class="row mb-3">
                                         <label for="Instagram" class="col-md-4 col-lg-3 col-form-label">Instagram Profile</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="instagram" type="text" class="form-control" id="Instagram" value="{{user.igLink}}">
+                                            <input name="instagram" type="text" placeholder="Puedes ingresar tu link de Instagram" class="form-control" id="Instagram" value="{{user.igLink}}">
                                         </div>
                                     </div>
 
                                     <div class="row mb-3">
                                         <label for="Linkedin" class="col-md-4 col-lg-3 col-form-label">Linkedin Profile</label>
                                         <div class="col-md-8 col-lg-9">
-                                            <input name="linkedin" type="text" class="form-control" id="Linkedin" value="{{user.inkedInLink}}">
+                                            <input name="linkedin" type="text" placeholder="Puedes ingresar tu link de LinkedIn" class="form-control" id="Linkedin" value="{{user.inkedInLink}}">
                                         </div>
+                                    </div>
+                                    <div class="inputsHiddens">
+                                        <input type="hidden" name="iduser" value="{{user.iduser}}">
                                     </div>
 
                                     <div class="text-center">
-                                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                                        <button type="submit" class="btn btn-primary">Guardar Cambios</button>
                                     </div>
                                 </form><!-- End Profile Edit Form -->
 
                             </div>
 
-                            <div class="tab-pane fade pt-3" id="profile-settings">
 
-                                <!-- Settings Form -->
-                                <form>
-
-                                    <div class="row mb-3">
-                                        <label for="fullName" class="col-md-4 col-lg-3 col-form-label">Email Notifications</label>
-                                        <div class="col-md-8 col-lg-9">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="changesMade" checked>
-                                                <label class="form-check-label" for="changesMade">
-                                                    Changes made to your account
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="newProducts" checked>
-                                                <label class="form-check-label" for="newProducts">
-                                                    Information on new products and services
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="proOffers">
-                                                <label class="form-check-label" for="proOffers">
-                                                    Marketing and promo offers
-                                                </label>
-                                            </div>
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" id="securityNotify" checked disabled>
-                                                <label class="form-check-label" for="securityNotify">
-                                                    Security alerts
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="text-center">
-                                        <button type="submit" class="btn btn-primary">Save Changes</button>
-                                    </div>
-                                </form><!-- End settings Form -->
-
-                            </div>
 
                             <div class="tab-pane fade pt-3" id="profile-change-password">
                                 <!-- Change Password Form -->

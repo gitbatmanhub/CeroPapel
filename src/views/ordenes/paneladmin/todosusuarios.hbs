@@ -1,0 +1,133 @@
+
+<div class="tables-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card-style mb-30">
+                <h1 style="padding: 20px">Todos los usuarios</h1>
+                <table id="table1" class="display">
+                    <thead>
+                    <tr>
+                        <th><h6>Id User</h6></th>
+                        <th><h6>Nombre Completo</h6></th>
+                        <th><h6>Username</h6></th>
+                        <th><h6>Rol</h6></th>
+                    </tr>
+
+                    </thead>
+
+                    <tbody class="list" id="tab">
+
+                    {{#each dataUser }}
+
+                        <tr>
+
+                            <td class="">
+                                <div class="">
+                                    <div class="">
+                                        <p>{{iduser}}</p>
+                                    </div>
+                                </div>
+                            </td>
+
+
+                            <td class="area">
+                                <p>{{fullname}}</p>
+                            </td>
+                            <td class="area">
+                                <p>{{username}}</p>
+                            </td>
+                            <td class="prioridad">
+                                <p>{{nameRol}}</p>
+                            </td>
+
+                        </tr>
+                    {{/each}}
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+{{#each misOrdenes }}
+    <div class="modal fade" id="modalAcciones1" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+         tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Acciones</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="card" style="width: 18rem;">
+
+                        <lord-icon
+                                src="https://cdn.lordicon.com/ofwpzftr.json"
+                                trigger="loop"
+                                delay="300"
+                                style="width:150px;height:150px; margin: 0 auto">
+                        </lord-icon>
+                        <div class="card-body">
+                            <h5 class="card-title">Ver</h5>
+                            <p class="card-text">Asegurate que los datos ingresados son correctos hechandole un ojo.</p>
+                            <a href="/orden/view/" class="btn btn-primary " id="viewBtn">Ver</a>
+                        </div>
+                    </div>
+                    <div class="card" style="width: 18rem;">
+                        <lord-icon
+                                src="https://cdn.lordicon.com/iiixgoqp.json"
+                                trigger="loop"
+                                delay="300"
+                                style="width:150px;height:150px; margin: 0 auto">
+                        </lord-icon>
+                        <div class="card-body">
+                            <h5 class="card-title">Editar</h5>
+                            <p class="card-text">¿Te equivocaste escribiendo un dato?. Editalo aquí!</p>
+                            <a href="/orden/edit/" class="btn btn-secondary" id="editBtn">Editar</a>
+                        </div>
+                    </div>
+                    <div class="card" style="width: 18rem;">
+                        <lord-icon
+                                src="https://cdn.lordicon.com/kfzfxczd.json"
+                                trigger="loop"
+                                delay="300"
+                                style="width:150px;height:150px; margin: 0 auto">
+                        </lord-icon>
+                        <div class="card-body">
+                            <h5 class="card-title">Eliminar</h5>
+                            <p class="card-text">Elimina la orden de manera instantanea y aquí no ha pasado nada!</p>
+                            <a href="/orden/delete/" class="btn btn-danger"
+                               id="deleteBtn">Eliminar</a>
+
+
+                        </div>
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+    </div>
+{{/each}}
+
+
+<script>
+    const table1 = document.getElementById('table1');
+    table1.addEventListener('click', (e)=>{
+        e.stopPropagation();
+        const id=e.target.parentElement.parentElement.children[0].textContent.trim();
+        console.log(id);
+        document.getElementById("viewBtn").href="/view/" + id;
+        document.getElementById("editBtn").href="/edit/" + id;
+        document.getElementById("deleteBtn").href="/delete/" + id;
+
+    });
+</script>

@@ -19,6 +19,10 @@ create table usuario
 
 alter table usuario modify column rolusuario int(4) not null  default 3;
 
+alter table usuario modify column telefono varchar(15);
+alter table usuario modify column igLink varchar(100);
+alter table usuario modify column twitterLink varchar(100);
+alter table usuario modify column inkedInLink varchar(100);
 
 create table rolUsuario
 (
@@ -791,13 +795,21 @@ alter table tipoTrabajo_orden
 
 insert into status (nameStatus, avanceStatus) VALUES ('Asignada Externo',80);
 
-
+create view dataUser as
+select u.iduser, u.fullname, u.username, r.nameRol
+from usuario u
+inner join rolusuario r on u.rolusuario= r.idRol;
 
 /*--------------------//Vistas------------------------*/
 
-
+select * from bddnova.dataUser;
 
 update usuario set rolusuario = 1 where iduser=6;
+
+
+select * from usuario;
+
+
 
 select * from usuario;
 select * from rolusuario;
@@ -846,3 +858,24 @@ inner join tecnico t on usuario.iduser = t.idUser;
 select * from rolusuario;
 
 select * from status;
+create view dataUser as
+select  u.fullname, u.username, r.nameRol
+from usuario u
+inner join rolusuario r on u.rolusuario= r.idRol;
+
+
+select * from usuario;
+
+
+
+
+
+select * from sessions;
+select * from usuario;
+describe usuario;
+
+
+
+select * from rolusuario;
+update usuario set rolusuario=1 where iduser=7;
+
