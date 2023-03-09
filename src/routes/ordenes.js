@@ -255,7 +255,7 @@ router.get('/suministro/:id', isLoggedIn, permissions, async (req, res) => {
 router.get('/tecnico/:id', isLoggedIn, permissions, async (req, res) => {
     //console.log([req.user.iduser][0]);
     const id = req.params.id;
-    const tecnicos = await pool.query('select tecnico.idUser, u.fullname, tecnico.idEspecialidad, e.nameEspecialidad from tecnico inner join usuario u on tecnico.idUser = u.iduser inner join especialidadtecnico e on tecnico.idEspecialidad = e.idEspecialidad');
+    const tecnicos = await pool.query('select tecnico.idUser, u.fullname, tecnico.idTecnico, tecnico.idEspecialidad, e.nameEspecialidad from tecnico inner join usuario u on tecnico.idUser = u.iduser inner join especialidadtecnico e on tecnico.idEspecialidad = e.idEspecialidad');
     const ordenes = await pool.query('select ordenTrabajo.*, s.nameStatus, ordenTrabajo.descripcion, ordenTrabajo.create_at , a.nameArea, m.nameMaquina , e.nameEstado,  p.namePrioridad from ordenTrabajo inner join prioridad p on ordenTrabajo.idPrioridad = p.idPrioridad inner join maquina m on ordenTrabajo.idMaquina = m.idMaquina inner join area a on ordenTrabajo.idArea=a.idArea inner join estadoMaquina e on ordenTrabajo.estadoMaquina = e.idEstadoMaquina inner join status s on ordenTrabajo.idStatus = s.idStatus where ordenTrabajo.idOrdenTrabajo=?;', [id]);
     const tipoMantenimiento = await pool.query('select * from tipomantenimiento')
     //console.log(tecnicos);
@@ -279,11 +279,14 @@ router.post('/tecnico/:id', isLoggedIn, permissions, async (req, res) => {
         await pool.query('INSERT into orden_Trabajador (idOrden, idTecnico) VALUES (?, ?)', [idOrden, idTecnico]);
         console.log("Aquí estoy",+idOrden, idTecnico)
     }
+
     await pool.query('INSERT into orden_status (idStatus, idOrden, idUsuario) VALUES (?,?,?)', [idStatus, idOrden, userId]);
     await pool.query('insert into fechas_orden (fechaInicio, fechaFinal, idUser, idOrden) values (?,?,?,?);', [fechaInicioPre, fechaFinalPre, userId, idOrden]);
     await pool.query('insert into comentarios_orden (comentario, idOrden, idUser, idStatus) values (?,?,?,?)', [descripcionTrabajo, idOrden, userId, 3])
     await pool.query('UPDATE ordenTrabajo SET idStatus=3 WHERE idOrdenTrabajo = ?', [idOrden]);
     await pool.query('insert into orden_tipomantenimiento (idOrden, idTipoMantenimiento) VALUES (?,?);', [idOrden, tipoMantenimiento]);
+
+
 
 
     res.redirect('/ordenesasignadas')
@@ -296,7 +299,7 @@ router.get('/trabajoexterno/:id', isLoggedIn, permissions, async (req, res) => {
     const ordenes = await pool.query('select ordenTrabajo.*, s.nameStatus, ordenTrabajo.descripcion, ordenTrabajo.create_at , a.nameArea, m.nameMaquina , e.nameEstado,  p.namePrioridad from ordenTrabajo inner join prioridad p on ordenTrabajo.idPrioridad = p.idPrioridad inner join maquina m on ordenTrabajo.idMaquina = m.idMaquina inner join area a on ordenTrabajo.idArea=a.idArea inner join estadoMaquina e on ordenTrabajo.estadoMaquina = e.idEstadoMaquina inner join status s on ordenTrabajo.idStatus = s.idStatus where ordenTrabajo.idOrdenTrabajo=?;', [id]);
     const proveedor = await pool.query('select * from proveedor');
     const tipoTrabajo = await pool.query('select * from tipoTrabajo');
-    const tecnicos = await pool.query('select tecnico.idUser, u.fullname, tecnico.idEspecialidad, e.nameEspecialidad from tecnico inner join usuario u on tecnico.idUser = u.iduser inner join especialidadtecnico e on tecnico.idEspecialidad = e.idEspecialidad');
+    const tecnicos = await pool.query('select tecnico.idUser,tecnico.idTecnico, u.fullname, tecnico.idEspecialidad, e.nameEspecialidad from tecnico inner join usuario u on tecnico.idUser = u.iduser inner join especialidadtecnico e on tecnico.idEspecialidad = e.idEspecialidad');
     const tipoMantenimiento = await pool.query('select * from tipomantenimiento');
 
 
@@ -323,7 +326,6 @@ router.post('/trabajoexterno/:id', isLoggedIn, permissions, async (req, res) => 
         }
     for (let i = 0; i < trabajoExterno.tecnico.length; i++) {
         const idTecnico = trabajoExterno.tecnico[i];
-        //Inserto en tabla orden_Trabajador los id de los tecnicos junto a los de la orden
 
         await pool.query('INSERT into orden_Trabajador (idOrden, idTecnico) VALUES (?, ?)', [idOrden, idTecnico]);
     }
@@ -341,7 +343,7 @@ router.post('/trabajoexterno/:id', isLoggedIn, permissions, async (req, res) => 
 router.get('/tecnicoexterno/:id', isLoggedIn, permissions, async (req, res) => {
     const id = req.params.id;
     const ordenes = await pool.query('select ordenTrabajo.*, s.nameStatus, ordenTrabajo.descripcion, ordenTrabajo.create_at , a.nameArea, m.nameMaquina , e.nameEstado,  p.namePrioridad from ordenTrabajo inner join prioridad p on ordenTrabajo.idPrioridad = p.idPrioridad inner join maquina m on ordenTrabajo.idMaquina = m.idMaquina inner join area a on ordenTrabajo.idArea=a.idArea inner join estadoMaquina e on ordenTrabajo.estadoMaquina = e.idEstadoMaquina inner join status s on ordenTrabajo.idStatus = s.idStatus where ordenTrabajo.idOrdenTrabajo=?;', [id]);
-    const tecnicos = await pool.query('select tecnico.idUser, u.fullname, tecnico.idEspecialidad, e.nameEspecialidad from tecnico inner join usuario u on tecnico.idUser = u.iduser inner join especialidadtecnico e on tecnico.idEspecialidad = e.idEspecialidad');
+    const tecnicos = await pool.query('select tecnico.idUser, tecnico.idTecnico, u.fullname, tecnico.idEspecialidad, e.nameEspecialidad from tecnico inner join usuario u on tecnico.idUser = u.iduser inner join especialidadtecnico e on tecnico.idEspecialidad = e.idEspecialidad');
     const tipoMantenimiento = await pool.query('select * from tipomantenimiento')
     res.render('ordenes/liderMantenimiento/assign/tecnicoExterno', {ordenes, tecnico: tecnicos, tipoMantenimiento});
 })

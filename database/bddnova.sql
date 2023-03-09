@@ -987,10 +987,9 @@ from orden_Trabajador o_t
          inner join tipomantenimiento t2 on o.idTipoMantenimiento = t2.idTipoMantenimiento;
 
 
+select * from tecnicosOrden where idOrdenTrabajo = ? group by iduser;
 
-select *
-from tecnico
-inner join especialidadtecnico e on tecnico.idEspecialidad = e.idEspecialidad;
+select * from orden_Trabajador;
 
 select * from orden_Trabajador
 inner join tecnico t on orden_Trabajador.idTecnico = t.idTecnico;
@@ -1000,6 +999,63 @@ select * from orden_Trabajador;
 select * from tecnico
 inner join orden_Trabajador oT on tecnico.idTecnico = oT.idTecnico;
 
+select * from orden_Trabajador;
+describe orden_Trabajador;
 
-select iduser, fullname from usuario
 
+select idOrden, t.idTecnico
+from orden_Trabajador
+inner join tecnico t on orden_Trabajador.idTecnico = t.idTecnico;
+
+select * from orden_Trabajador;
+
+
+select  nameArea
+from bddnova.ordentrabajo
+inner join area a on ordenTrabajo.idArea = a.idArea;
+
+
+select idTecnico, u.fullname
+from tecnico
+inner join usuario u on tecnico.idUser = u.iduser;
+
+select * from usuario;
+select * from orden_Trabajador;
+select * from orden_Trabajador;
+
+select tecnico.idUser,
+       tecnico.idTecnico,
+       u.fullname,
+       tecnico.idEspecialidad,
+       e.nameEspecialidad
+from tecnico inner join usuario u on tecnico.idUser = u.iduser
+    inner join especialidadtecnico e on tecnico.idEspecialidad = e.idEspecialidad;
+
+delete from orden_Trabajador;
+select * from orden_Trabajador;
+
+delete from orden_Trabajador;
+delete from ordentrabajo;
+delete from fechas_orden;
+delete from orden_Producto;
+delete from orden_tipomantenimiento;
+select * from usuario;
+
+select * from orden_Trabajador;
+select * from tecnicosOrden where idOrdenTrabajo = ? group by iduser;
+select * from tecnicosOrden;
+select * from tecnicosOrden;
+select * from usuario;
+select * from orden_Trabajador;
+select idTecnico, fullname from tecnico
+inner join usuario u on tecnico.idUser = u.iduser;
+
+select tecnico.idUser, tecnico.idTecnico, u.fullname, tecnico.idEspecialidad, e.nameEspecialidad
+from tecnico
+    inner join usuario u on tecnico.idUser = u.iduser
+    inner join especialidadtecnico e on tecnico.idEspecialidad = e.idEspecialidad;
+
+select count(idOrden) as ordenesPorExternas  from orden_Status where idStatus=7;
+select count(idOrden) as ordenesPorExternas  from orden_Status where idStatus=7;
+select * from orden_Status;
+select * from status;
