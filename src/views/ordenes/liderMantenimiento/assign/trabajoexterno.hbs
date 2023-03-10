@@ -6,7 +6,8 @@
         </div>
 
 
-    <form action="/trabajoexterno/{{idOrdenTrabajo}}" method="post">{{/each}}
+    <form action="/trabajoexterno/{{idOrdenTrabajo}}" class="needs-validation" novalidate method="post">
+    {{/each}}
 
 
     <div class="row ">
@@ -17,11 +18,14 @@
                         <div class="form mb-3">
                             <label for="proveedor" class="form-floating">Proveedor</label>
                             <select name="proveedor" id="proveedor" class="form-select" required>
-                                <option value="null" selected>Selecciona una por favor</option>
+                                <option value="" selected disabled>Selecciona una por favor</option>
                                 {{#each proveedor}}
                                     <option value="{{idProveedor}}" name="{{nameProveedor}}">{{nameProveedor}}</option>
                                 {{/each}}
                             </select>
+                            <div class="invalid-feedback">
+                                Selecciona un proveedor por favor.
+                            </div>
                         </div>
                     </div>
                     <div class="col-md">
@@ -32,6 +36,9 @@
                                     <option value="{{idTipoTrabajo}}" name="{{nameTipoTrabajo}}">{{nameTipoTrabajo}}</option>
                                 {{/each}}
                             </select>
+                            <div class="invalid-feedback">
+                                Selecciona un tipo de trabajo por favor.
+                            </div>
                         </div>
                     </div>
 
@@ -40,12 +47,15 @@
                     <div class="col-md">
 
                         <div id="divPadre">
-                            <select class="form-select" name="tecnico" id="nombreTecnico">
-                                <option value="null" selected> Selecciona un tecnico de la Lista</option>
+                            <select class="form-select" name="tecnico" id="nombreTecnico" required>
+                                <option value="" disabled selected> Selecciona un tecnico de la Lista</option>
                                 {{#each tecnico}}
                                     <option value="{{idTecnico}}">{{fullname}}</option>
                                 {{/each}}
                             </select>
+                            <div class="invalid-feedback">
+                                Selecciona un tecnico por favor.
+                            </div>
 
                         </div>
                         <div id="selectsTecnico"></div>
@@ -57,19 +67,26 @@
 
                 </div>
                 <div class=" mb-3">
-                    <select class="form-select" name="tipoMantenimiento" id="tipoMantenimiento">
-                        <option value="null" selected>Tipo Mantenimiento</option>
+                    <select class="form-select" name="tipoMantenimiento" id="tipoMantenimiento" required>
+                        <option value="" disabled selected>Selecciona Tipo Mantenimiento</option>
                         {{#each tipoMantenimiento}}
                             <option value="{{idTipoMantenimiento}}">{{nameTipoMantenimiento}}</option>
                         {{/each}}
                     </select>
+                    <div class="invalid-feedback">
+                        Selecciona un tipo de mantenimiento por favor.
+                    </div>
                 </div>
                 <div class="row g-2">
                     <div class="col-md">
                         <div class="form-floating mb-3">
                             <input type="datetime-local" class="form-control" id="floatingInput" name="fechaInicioTE" placeholder="Fecha Inicio Trabajo" required>
                             <label for="floatingInput">Fecha Inicio Trabajo</label>
+                            <div class="invalid-feedback">
+                                Selecciona una fecha de inicio por favor.
+                            </div>
                         </div>
+
                     </div>
 
 
@@ -78,6 +95,9 @@
                             <input type="datetime-local" class="form-control" id="floatingInput"
                                    placeholder="Fecha Final Trabajo" name="fechaFinalTE" required>
                             <label for="floatingInput">Fecha Final Trabajo</label>
+                            <div class="invalid-feedback">
+                                Selecciona una fecha de finalización por favor.
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -87,7 +107,12 @@
                 <label for="">Descripción/Comentarios del trabajo a realizarse</label>
                 <textarea id="descripcionAO" type="text" class="form-control" name="descripcionTrabajo" cols="15" rows="10"
                           required placeholder="Se lo más especifico que puedas, ayudanos a entenderte."></textarea>
+                <div class="invalid-feedback">
+                    Escribe una descripción por favor.
+                </div>
             </div>
+
+
 
 
 

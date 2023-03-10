@@ -303,6 +303,7 @@ VALUES ('Abierta', 20),
        ('Atendida', 60),
        ('En Progreso', 70),
        ('Espera Revisión', 90),
+       ('Asignada Externo', 80),
        ('Terminada', 100);
 
 
@@ -1059,3 +1060,18 @@ select count(idOrden) as ordenesPorExternas  from orden_Status where idStatus=7;
 select count(idOrden) as ordenesPorExternas  from orden_Status where idStatus=7;
 select * from orden_Status;
 select * from status;
+select * from usuario;
+
+select * from status;
+
+select * from status;
+
+select * from orden_Status;
+select count(idOrden) as ordenesPorExternas  from orden_Status where idStatus=7;
+
+select * from orden_Status;
+delete from orden_Status;
+
+select * from status;
+select * from usuario;
+

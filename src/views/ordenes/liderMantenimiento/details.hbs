@@ -70,7 +70,7 @@
         <button class="btn btn-primary" data-bs-target="#modalFinish"
                 data-bs-toggle="modal">Ver Acciones</button>
     {{/when}}
-    {{#when datos.idStatus 'eq' 7 }}
+    {{#when datos.idStatus 'eq' 6 }}
         <button class="btn btn-primary" data-bs-target="#modalFinish"
                 data-bs-toggle="modal">Ver Acciones</button>
     {{/when}}
@@ -99,7 +99,7 @@
                         <p class="card-text">Si al revisar la orden no ha existido detalle alguno pudes proceder a cerrarla, agradecemos tu compromiso con Novared</p>
                         <form action="/finishLiderplanificador" method="post" id="attendTecnico">
                             <textarea class="form-control" name="comentarioLider" id="" cols="30" rows="5" placeholder="Novared siempre agradece tu comentario para poder mejorar" required></textarea>
-                            <input type="hidden" value="6" name="status">
+                            <input type="hidden" value="7" name="status">
                             <input type="hidden" value="{{datos.idOrdenTrabajo}}" name="orden">
                             <button type="submit" class="btn btn-primary">Cerrar Orden</button>
                         </form>
