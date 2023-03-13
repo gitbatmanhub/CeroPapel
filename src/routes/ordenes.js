@@ -39,7 +39,7 @@ router.get('/misordenes', isLoggedIn, async (req, res) => {
     const idUser = ([req.user.iduser][0]);
     //console.log(req.user.rolusuario)
     const misOrdenes = await pool.query('select ordenTrabajo.idOrdenTrabajo, s.avanceStatus, ordenTrabajo.descripcion, ordenTrabajo.create_at , a.nameArea, m.nameMaquina,  e.nameEstado,  p.namePrioridad from ordenTrabajo inner join prioridad p on ordenTrabajo.idPrioridad = p.idPrioridad inner join maquina m on ordenTrabajo.idMaquina = m.idMaquina inner join area a on ordenTrabajo.idArea=a.idArea inner join estadoMaquina e on ordenTrabajo.estadoMaquina = e.idEstadoMaquina inner join status s on ordenTrabajo.idStatus = s.idStatus where ordenTrabajo.idUsuario=?', [idUser]);
-    const contadorMisOrdenes = await pool.query('select count(*) from ordentrabajo where idUsuario=2')
+    const contadorMisOrdenes = await pool.query('select count(*) from ordenTrabajo where idUsuario=2')
     //console.log(misOrdenes);
     //console.log(contadorMisOrdenes)
     res.render('ordenes/misordenes', {misOrdenes, contadorMisOrdenes})
@@ -252,7 +252,7 @@ router.post('/probe/', isLoggedIn, async (req, res) => {
 
 router.get('/suministro/:id', isLoggedIn, permissions, async (req, res) => {
     const idOrden = req.params.id;
-    const ordenes = await pool.query('select * from ordentrabajo where idOrdenTrabajo=?;', [idOrden]);
+    const ordenes = await pool.query('select * from ordenTrabajo where idOrdenTrabajo=?;', [idOrden]);
     const suministros = await pool.query('select * from producto;')
     const productosOrdenes = await pool.query('select * from productosOrdenes where idOrden=?;', [idOrden])
     res.render('ordenes/liderMantenimiento/assign/suministros', {ordenes, suministros, productosOrdenes});
@@ -286,7 +286,7 @@ router.post('/tecnico/:id', isLoggedIn, permissions, async (req, res) => {
         console.log("Aquí estoy",+idOrden, idTecnico)
     }
 
-    await pool.query('INSERT into orden_status (idStatus, idOrden, idUsuario) VALUES (?,?,?)', [idStatus, idOrden, userId]);
+    await pool.query('INSERT into orden_Status (idStatus, idOrden, idUsuario) VALUES (?,?,?)', [idStatus, idOrden, userId]);
     await pool.query('insert into fechas_orden (fechaInicio, fechaFinal, idUser, idOrden) values (?,?,?,?);', [fechaInicioPre, fechaFinalPre, userId, idOrden]);
     await pool.query('insert into comentarios_orden (comentario, idOrden, idUser, idStatus) values (?,?,?,?)', [descripcionTrabajo, idOrden, userId, 3])
     await pool.query('UPDATE ordenTrabajo SET idStatus=3 WHERE idOrdenTrabajo = ?', [idOrden]);
@@ -306,7 +306,7 @@ router.get('/trabajoexterno/:id', isLoggedIn, permissions, async (req, res) => {
     const proveedor = await pool.query('select * from proveedor');
     const tipoTrabajo = await pool.query('select * from tipoTrabajo');
     const tecnicos = await pool.query('select tecnico.idUser,tecnico.idTecnico, u.fullname, tecnico.idEspecialidad, e.nameEspecialidad from tecnico inner join usuario u on tecnico.idUser = u.iduser inner join especialidadtecnico e on tecnico.idEspecialidad = e.idEspecialidad');
-    const tipoMantenimiento = await pool.query('select * from tipomantenimiento');
+    const tipoMantenimiento = await pool.query('select * from tipoMantenimiento');
 
 
 
@@ -573,13 +573,13 @@ router.post('/addsuministros/:id', async (req, res) => {
     const exmaple = {producto, cantidad} = objo;
 
     if (exmaple.producto.length<2){
-        await pool.query('INSERT orden_producto (idOrden, idUser, idProducto, cantidad) VALUES (?,?,?,?)', [idOrden, idUser, producto,cantidad ]);
+        await pool.query('INSERT into orden_Producto (idOrden, idUser, idProducto, cantidad) VALUES (?,?,?,?)', [idOrden, idUser, producto,cantidad ]);
     }else {
 
         for (let i = 0; i < exmaple.producto.length; i++) {
             const idProducto = exmaple.producto[i];
             const cantidad = exmaple.cantidad[i];
-            await pool.query('INSERT orden_producto (idOrden, idUser, idProducto, cantidad) VALUES (?,?,?,?)', [idOrden, idUser, idProducto,cantidad ]);
+            await pool.query('INSERT into orden_Producto (idOrden, idUser, idProducto, cantidad) VALUES (?,?,?,?)', [idOrden, idUser, idProducto,cantidad ]);
 
         }
     }
@@ -592,21 +592,21 @@ router.post('/deleteItem/:id', isLoggedIn, permissions, async (req, res) => {
     const {id}= req.params;
     const {idOrden} = req.body;
     console.log(req.body)
-    await pool.query('DELETE FROM orden_producto where idOrdenProducto=?', [id]);
+    await pool.query('DELETE FROM orden_Producto where idOrdenProducto=?', [id]);
     req.flash('error', 'Item eliminado correctamente');
     res.redirect('/suministro/'+idOrden);
 });
 
 router.get('/editrolusuario', isLoggedIn, permissions, async (req, res)=>{
     const usuario= await pool.query('select * from usuario');
-    const roles= await pool.query('select * from rolusuario');
+    const roles= await pool.query('select * from rolUsuario');
     res.render('ordenes/paneladmin/rolusuarios', {usuario, roles});
 });
 
 router.post('/editrolusuario/', isLoggedIn, permissions, async (req, res) => {
     const {idUser, idRol} = req.body;
     console.log(idUser, idRol);
-    await pool.query('update usuario set rolusuario= ? where iduser=?;', [idRol, idUser]);
+    await pool.query('update usuario set rolUsuario= ? where iduser=?;', [idRol, idUser]);
     req.flash('success', 'Usuario actualizado correctamente');
     res.redirect('/editrolusuario/');
 });
