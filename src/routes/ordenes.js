@@ -191,12 +191,18 @@ router.get('/details/:id', isLoggedIn, async (req, res) => {
     const tecnicosOrden = await pool.query('select * from tecnicosOrden where idOrdenTrabajo = ? group by iduser;', [idOrden]);
     const statuS = await pool.query('select * from ordenStatusDetails where idOrden=? group by AvanceStatus;', [idOrden])
     const comentarios = await pool.query('select * from comentariosOrdenUser where idOrden=?;', [idOrden])
-    console.log(comentarios)
+    const suministro = await pool.query('select * from productosOrdenes where idOrden=?;', [idOrden])
+    const tecnicosOrdenExterna = await pool.query('select * from tecnicosOrdenExterna where idOrdenTrabajo=?;', [idOrden])
+    const proveedor = await pool.query('select * from proveedorNombreOrden where idOrdenTrabajo=?;', [idOrden])
+    console.log(tecnicosOrdenExterna);
     res.render('ordenes/liderMantenimiento/details', {
         datos: everDatos[0],
         statuS,
         tecnicosOrden,
-        comentarios/*, externo: externo[0]*/
+        comentarios,
+        suministro,
+        tecnicosOrdenExterna,
+        proveedor/*, externo: externo[0]*/
     });
 
 });
@@ -329,7 +335,7 @@ router.post('/trabajoexterno/:id', isLoggedIn, permissions, async (req, res) => 
 
         await pool.query('INSERT into orden_Trabajador (idOrden, idTecnico) VALUES (?, ?)', [idOrden, idTecnico]);
     }
-    console.log(trabajoExterno);
+    //console.log(trabajoExterno);
     await pool.query('INSERT into orden_status (idStatus, idOrden, idUsuario, idProveedor) values (?,?,?,?);', [6, idOrden, userId, proveedor]);
     await pool.query('UPDATE ordenTrabajo SET idStatus=? WHERE idOrdenTrabajo = ?', [6,idOrden]);
     await pool.query('insert into proveedor_orden(idOrdenTrabajo, idProveedor, id_tipoMantenimiento) values(?,?,?);', [idOrden, proveedor, tipoMantenimiento])
@@ -373,15 +379,15 @@ router.get('/datosordent/:id', isLoggedIn, async (req, res) => {
     const idOrden = req.params.id;
     //console.log(idOrden)
     const datosOrden = await pool.query('select * from TodosDatos where idOrdenTrabajo=?', [idOrden]);
-    const tecnicosOrden = await pool.query('select * from tecnicosOrden where idOrdenTrabajo=? group by iduser;', [idOrden]);
     const comentario = await pool.query('select * from comentariosOrdenUser where idOrden=?;', [idOrden])
     const fechasOrden = await pool.query('select fechaInicio, fechaFinal from fechas_orden where idOrden=?', [idOrden]);
+    const suministro = await pool.query('select * from productosOrdenes where idOrden=?;', [idOrden])
     console.log(fechasOrden);
     res.render('ordenes/tecnico/detailsTecnico', {
         datos: datosOrden[0],
-        tecnicosOrden,
         comentario,
-        fecha: fechasOrden[0]/*, externo: externo[0]*/
+        fecha: fechasOrden[0],
+        suministro/*, externo: externo[0]*/
     })
 });
 

@@ -12,7 +12,7 @@
 <p>Estado de la maquina: {{ datos.EstadoMaquina}}</p>
 <p>Prioridad: {{ datos.Prioridad}}</p>
 
-
+<!--
 <div>
     {{#if tecnicosOrden}}
         <h1>Tecnicos</h1>
@@ -28,6 +28,7 @@
         <p>Aún no se agregan Tecnicos</p>
 
     {{/if}}
+-->
     <h1>Comentarios</h1>
     {{#each comentario}}
         <p>Estatus: {{nameStatus}}</p>
@@ -41,6 +42,17 @@
         <p>{{externo.fechaInicio}}</p>
         <p>{{externo.fechaFinal}}</p>
 
+    {{/if}}
+    {{#if suministro}}
+
+        <h1>Suministros</h1>
+        {{#each suministro}}
+            <p>Nombre Producto: {{ nameProducto}}</p>
+            <p>Cantidad: {{cantidad}}</p>
+            <p>----------------------------</p>
+        {{/each}}
+    {{else}}
+        <h1>Aún no se agregan suministros a esta orden</h1>
     {{/if}}
 
 

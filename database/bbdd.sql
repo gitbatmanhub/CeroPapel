@@ -732,9 +732,11 @@ select op.idOrdenProducto,
        op.cantidad,
        p.idProducto,
        p.nameProducto,
-       p.DetallesProducto
+       p.DetallesProducto,
+       u.fullname
 from orden_producto op
-         inner join producto p on op.idProducto = p.idProducto;
+         inner join producto p on op.idProducto = p.idProducto
+         inner join usuario u on op.idUser = u.iduser;
 
 
 alter table proveedor_orden
@@ -786,3 +788,30 @@ from usuario u
 select * from usuario;
 select * from rolUsuario;
 update usuario set rolusuario=1 where iduser=1;
+
+alter table proveedor_orden add column create_at timestamp default current_timestamp;
+
+
+create view proveedorNombreOrden as
+select po.idProveedor, po.idOrdenTrabajo, create_at, p.nameProveedor, tm.nameTipoMantenimiento
+from proveedor_orden po
+         inner join proveedor p on po.idProveedor = p.idProveedor
+         inner join tipoMantenimiento tM on po.id_tipoMantenimiento=tM.idTipoMantenimiento;
+
+create view tecnicosOrdenExterna as
+select po.idOrdenTrabajo,
+       po.idProveedor,
+       po.id_tipoMantenimiento,
+       p.nameProveedor,
+       tm.nameTipoMantenimiento,
+       po.create_at,
+       ot.idTecnico,
+       u.fullname,
+       e.nameEspecialidad
+from proveedor_orden po
+         inner join proveedor p on po.idProveedor = p.idProveedor
+         inner join tipoMantenimiento tm on tm.idTipoMantenimiento = po.id_tipoMantenimiento
+         inner join orden_Trabajador ot on ot.idOrden = po.idOrdenTrabajo
+         inner join tecnico t on ot.idTecnico = t.idTecnico
+         inner join especialidadtecnico e on t.idEspecialidad = e.idEspecialidad
+         inner join usuario u on t.idUser = u.iduser;

@@ -44,25 +44,53 @@
 
 <div>
     {{#if tecnicosOrden}}
-        <h1>Tecnicos</h1>
+        <h1>Tecnicos - Orden Interna</h1>
         {{#each tecnicosOrden}}
             <p>{{fullname}}</p>
             <p>{{nameEspecialidad}}</p>
             <p>{{comentariosLider}}</p>
         <p>----------------------------</p>
         {{/each}}
+    {{else if tecnicosOrdenExterna}}
+        <h1>Orden Externa</h1>
+        {{#each proveedor}}
+            <p>Prestador de servicios: {{nameProveedor}}</p>
+            <p>Tipo Mantenimiento: {{nameTipoMantenimiento}}</p>
+            <p>Hora de Asignación: {{create_at}}</p>
+        {{/each}}
+        <h3>Tecncios en la orden</h3>
+        {{#each tecnicosOrdenExterna}}
+            <p>{{fullname}} - {{nameEspecialidad}}</p>
+        {{/each}}
     {{else}}
         <h1>Tecnicos</h1>
         <p>Aún no se agregan Tecnicos</p>
-        <a href="/tecnicoexterno/{{datos.idOrdenTrabajo}}" class="btn btn-primary">Asignar Tecnicos</a>
+        <a href="/tecnico/{{datos.idOrdenTrabajo}}" class="btn btn-primary">Asignar Tecnicos</a>
 
     {{/if}}
+
+    <!--
     {{#if externo}}
         <h1>Trabajo</h1>
         <p>Tipo Mantenimiento: {{externo.nameTipoMantenimiento}}</p>
         <p>Nombre del Responsable: {{externo.nameProveedor}}</p>
         <p>Fecha Inicio Trabajo: {{ externo.fechaInicio}}</p>
         <p>Fecha Final Trabajo: {{externo.fechaFinal}}</p>
+    {{/if}}
+            -->
+    {{#if suministro}}
+
+        <h1>Suministros</h1>
+        {{#each suministro}}
+            <p>Nombre quien asignó: {{fullname}}</p>
+            <p>Fecha y Hora: {{create_at}}</p>
+            <p>Nombre Producto: {{ nameProducto}}</p>
+            <p>Cantidad: {{cantidad}}</p>
+            <p>----------------------------</p>
+        {{/each}}
+    {{else}}
+        <h1>Aún no se agregan suministros a esta orden</h1>
+    <a href="/suministro/{{datos.idOrdenTrabajo}} " class="btn btn-primary">Agregar</a>
     {{/if}}
 
 

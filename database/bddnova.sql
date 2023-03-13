@@ -479,6 +479,7 @@ create table fechas_orden
     idOrden       int(10)
 );
 
+describe fechas_orden;
 
 
 alter table fechas_orden
@@ -623,7 +624,6 @@ from orden_status os
 create view ordenesFechaActual as
 select idOrdenTrabajo, DATE_FORMAT(create_at, "%Y-%m-%d") as fecha
 from ordenTrabajo;
-
 create view tecnicosOrden as
 select o_t.idOrdenTrabajador,
        ot.idOrdenTrabajo,
@@ -638,7 +638,10 @@ select o_t.idOrdenTrabajador,
        p.namePrioridad,
        s.nameStatus,
        u.fullname,
-       e.nameEspecialidad
+       e.nameEspecialidad,
+       fo.fechaInicio,
+       fo.fechaFinal
+
 from orden_trabajador o_t
          inner join ordentrabajo ot on o_t.idOrden = ot.idOrdenTrabajo
          inner join estadoMaquina em on ot.estadoMaquina = em.idEstadoMaquina
@@ -651,7 +654,8 @@ from orden_trabajador o_t
          inner join usuario u on t.idUser = u.iduser
          inner join orden_Status oS on s.idStatus = oS.idStatus
          inner join orden_tipomantenimiento o on o_t.idOrden = o.idOrden
-         inner join tipomantenimiento t2 on o.idTipoMantenimiento = t2.idTipoMantenimiento;
+         inner join tipomantenimiento t2 on o.idTipoMantenimiento = t2.idTipoMantenimiento
+         inner join fechas_orden fo on o.idOrden = fo.idOrden;
 
 create view comentariosOrdenUser as
 select co.idOrden, co.idUser, co.idStatus, co.comentario, u.fullname, s.nameStatus
@@ -757,9 +761,11 @@ select op.idOrdenProducto,
        op.cantidad,
        p.idProducto,
        p.nameProducto,
-       p.DetallesProducto
+       p.DetallesProducto,
+       u.fullname
 from orden_producto op
-         inner join producto p on op.idProducto = p.idProducto;
+         inner join producto p on op.idProducto = p.idProducto
+         inner join usuario u on op.idUser = u.iduser;
 
 
 alter table proveedor_orden
@@ -807,271 +813,41 @@ select u.iduser, u.fullname, u.username, r.nameRol
 from usuario u
          inner join rolusuario r on u.rolusuario = r.idRol;
 
+alter table proveedor_orden add column create_at timestamp default current_timestamp;
+
+create view tecnicosOrdenExterna as
+        select po.idOrdenTrabajo,
+       po.idProveedor,
+       po.id_tipoMantenimiento,
+       p.nameProveedor,
+       tm.nameTipoMantenimiento,
+       po.create_at,
+        ot.idTecnico,
+        u.fullname,
+    e.nameEspecialidad
+from proveedor_orden po
+         inner join proveedor p on po.idProveedor = p.idProveedor
+         inner join tipoMantenimiento tm on tm.idTipoMantenimiento = po.id_tipoMantenimiento
+         inner join orden_Trabajador ot on ot.idOrden = po.idOrdenTrabajo
+            inner join tecnico t on ot.idTecnico = t.idTecnico
+    inner join especialidadtecnico e on t.idEspecialidad = e.idEspecialidad
+inner join usuario u on t.idUser = u.iduser;
+
+
+create view proveedorNombreOrden as
+select po.idProveedor, po.idOrdenTrabajo, create_at, p.nameProveedor, tm.nameTipoMantenimiento
+from proveedor_orden po
+inner join proveedor p on po.idProveedor = p.idProveedor
+inner join tipoMantenimiento tM on po.id_tipoMantenimiento=tM.idTipoMantenimiento;
+
+
 /*--------------------//Vistas------------------------*/
 
-select *
-from bddnova.dataUser;
-
-update usuario
-set rolusuario = 1
-where iduser = 6;
-
-
-select *
-from usuario;
-
-
-
-select *
-from usuario;
-select *
-from rolusuario;
-select *
-from especialidadtecnico;
-select *
-from tecnico;
-
-select *
-from usuario
-where rolusuario = 4;
-select *
-from rolusuario;
-
-
-select t.idUser, u.fullname, e.nameEspecialidad
-from tecnico t
-         inner join usuario u on t.idUser = u.iduser
-         inner join especialidadtecnico e on t.idEspecialidad = e.idEspecialidad;
-
-
-delete
-from especialidadtecnico;
-DELETE
-from tecnico
-where idTecnico = 5;
-select *
-from tecnico;
-
-
-select *
-from tecnico;
-select *
-from usuario;
-select *
-from rolusuario;
-select *
-from especialidadtecnico;
-
-
-
-select t.*
-from tecnico t
-         inner join usuario u on t.idUser = u.iduser
-where rolusuario = 4;
-select count(iduser)
-from usuario;
-
-
-select *
-from especialidadtecnico;
-select *
-from tecnico;
-select *
-from usuario;
-
-update tecnico
-set idEspecialidad= ?
-where iduser = ?;
-
-insert into tecnico(idUser, idEspecialidad)
-VALUES (?, ?);
-select fullname, rolusuario
-from usuario
-         inner join tecnico t on usuario.iduser = t.idUser;
-select *
-from rolusuario;
-
-select *
-from status;
-create view dataUser as
-select u.fullname, u.username, r.nameRol
-from usuario u
-         inner join rolusuario r on u.rolusuario = r.idRol;
-
-
-select *
-from usuario;
-
-
-
-select *
-from sessions;
-select *
-from usuario;
-describe usuario;
-
-
-
-select *
-from rolusuario;
-update usuario
-set rolusuario=1
-where iduser = 7;
-select *
-from area;
-
-select *
-from orden_Trabajador;
-select *
-from tecnicosOrden;
-select *
-from tecnicosOrden;
-select *
-from fechas_orden;
-select *
-from comentarios_orden;
-select *
-from orden_tipomantenimiento;
-
-select *
-from tecnico;
-select *
-from tecnicosOrden;
-
-
-select o_t.idOrdenTrabajador,
-       ot.idOrdenTrabajo,
-       u.iduser,
-       o.idTipoMantenimiento,
-       t2.nameTipoMantenimiento,
-       t.idTecnico,
-       Os.idStatus,
-       em.nameEstado,
-       a.nameArea,
-       m.nameMaquina,
-       p.namePrioridad,
-       s.nameStatus,
-       u.fullname,
-       e.nameEspecialidad
-from orden_trabajador o_t
-         inner join ordentrabajo ot on o_t.idOrden = ot.idOrdenTrabajo
-         inner join estadoMaquina em on ot.estadoMaquina = em.idEstadoMaquina
-         inner join area a on ot.idArea = a.idArea
-         inner join maquina m on ot.idMaquina = m.idMaquina
-         inner join prioridad p on ot.idPrioridad = p.idPrioridad
-         inner join status s on ot.idStatus = s.idStatus
-         inner join tecnico t on o_t.idTecnico = t.idTecnico
-         inner join especialidadtecnico e on t.idEspecialidad = e.idEspecialidad
-         inner join usuario u on t.idUser = u.iduser
-         inner join orden_Status oS on s.idStatus = oS.idStatus
-         inner join orden_tipomantenimiento o on o_t.idOrden = o.idOrden
-         inner join tipomantenimiento t2 on o.idTipoMantenimiento = t2.idTipoMantenimiento;
-
-
-select o_t.idOrdenTrabajador,
-       ot.idOrdenTrabajo,
-       em.nameEstado,
-       a.nameArea,
-       m.nameMaquina,
-       p.namePrioridad,
-       o.idTipoMantenimiento,
-       t2.nameTipoMantenimiento
-from orden_Trabajador o_t
-    inner join tecnico t on o_t.idTecnico = t.idTecnico
-         inner join ordentrabajo ot on o_t.idOrden = ot.idOrdenTrabajo
-         inner join estadoMaquina em on ot.estadoMaquina = em.idEstadoMaquina
-         inner join area a on ot.idArea = a.idArea
-         inner join maquina m on ot.idMaquina = m.idMaquina
-         inner join prioridad p on ot.idPrioridad = p.idPrioridad
-         inner join status s on ot.idStatus = s.idStatus
-         inner join orden_tipomantenimiento o on o_t.idOrden = o.idOrden
-         inner join tipomantenimiento t2 on o.idTipoMantenimiento = t2.idTipoMantenimiento;
-
-
-select * from tecnicosOrden where idOrdenTrabajo = ? group by iduser;
-
-select * from orden_Trabajador;
-
-select * from orden_Trabajador
-inner join tecnico t on orden_Trabajador.idTecnico = t.idTecnico;
-
-select * from orden_Trabajador;
-
-select * from tecnico
-inner join orden_Trabajador oT on tecnico.idTecnico = oT.idTecnico;
-
-select * from orden_Trabajador;
-describe orden_Trabajador;
-
-
-select idOrden, t.idTecnico
-from orden_Trabajador
-inner join tecnico t on orden_Trabajador.idTecnico = t.idTecnico;
-
-select * from orden_Trabajador;
-
-
-select  nameArea
-from bddnova.ordentrabajo
-inner join area a on ordenTrabajo.idArea = a.idArea;
-
-
-select idTecnico, u.fullname
-from tecnico
-inner join usuario u on tecnico.idUser = u.iduser;
-
-select * from usuario;
-select * from orden_Trabajador;
-select * from orden_Trabajador;
-
-select tecnico.idUser,
-       tecnico.idTecnico,
-       u.fullname,
-       tecnico.idEspecialidad,
-       e.nameEspecialidad
-from tecnico inner join usuario u on tecnico.idUser = u.iduser
-    inner join especialidadtecnico e on tecnico.idEspecialidad = e.idEspecialidad;
-
-delete from orden_Trabajador;
-select * from orden_Trabajador;
-
-delete from orden_Trabajador;
-delete from ordentrabajo;
-delete from fechas_orden;
-delete from orden_Producto;
-delete from orden_tipomantenimiento;
-select * from usuario;
-
-select * from orden_Trabajador;
-select * from tecnicosOrden where idOrdenTrabajo = ? group by iduser;
-select * from tecnicosOrden;
-select * from tecnicosOrden;
-select * from usuario;
-select * from orden_Trabajador;
-select idTecnico, fullname from tecnico
-inner join usuario u on tecnico.idUser = u.iduser;
-
-select tecnico.idUser, tecnico.idTecnico, u.fullname, tecnico.idEspecialidad, e.nameEspecialidad
-from tecnico
-    inner join usuario u on tecnico.idUser = u.iduser
-    inner join especialidadtecnico e on tecnico.idEspecialidad = e.idEspecialidad;
-
-select count(idOrden) as ordenesPorExternas  from orden_Status where idStatus=7;
-select count(idOrden) as ordenesPorExternas  from orden_Status where idStatus=7;
-select * from orden_Status;
-select * from status;
-select * from usuario;
-
 select * from status;
 
-select * from status;
-
-select * from orden_Status;
-select count(idOrden) as ordenesPorExternas  from orden_Status where idStatus=7;
-
-select * from orden_Status;
-delete from orden_Status;
-
-select * from status;
-select * from usuario;
+#Editar la view productosordenes --
+#Editar la view fechasOrden ??
+#Editar la tabla proveedor_orden agregar creat_at --
+#Agregar vista proveedorNombreOrden --
+#Corregir vista tecnicosordenesexterna
 
