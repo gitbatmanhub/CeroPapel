@@ -8,8 +8,11 @@ const {isLoggedIn, permissions} = require('../lib/auth');
 //=======================================================Home
 
 router.get('/dashboard', isLoggedIn, async (req, res) => {
-
+    const idUsuario= req.user.iduser;
+    //console.log(idUsuario);
     const rolusuario = req.user.rolusuario;
+    const ordenesMias= await pool.query('select count(idOrdenTrabajo) as ordenesMias from ordenTrabajo where idUsuario=?;', [idUsuario])
+    //console.log(ordenesMias);
     const ordenesHoy= await pool.query('select count(idOrdenTrabajo) as ordenesHoy from ordenesFechaActual where fecha= DATE (NOW());')
     const ordenesTotal= await pool.query('select count(idOrdenTrabajo) as ordenesTotales from ordenesFechaActual;')
     const ordenesAprobar= await pool.query('select count(idOrdenTrabajo) as ordenesPorAprobar from ordenTrabajo where idStatus=1;')
@@ -20,6 +23,7 @@ router.get('/dashboard', isLoggedIn, async (req, res) => {
     const ordenesExternas = await pool.query('select count(idOrden) as ordenesPorExternas  from orden_Status where idStatus=6;');
     const nrUsuarios= await pool.query('select count(iduser) as nrUsuarios from usuario;')
     res.render('ordenes/dashboard', {
+        ordenesMias: ordenesMias[0],
         ordenesHoy: ordenesHoy[0],
         ordenesTotal: ordenesTotal[0],
         ordenesAprobar: ordenesAprobar[0],
@@ -183,7 +187,7 @@ router.get('/view/:id', isLoggedIn, async (req, res) => {
 
 //=============================================Asignar Ordenes
 
-router.get('/details/:id', isLoggedIn, async (req, res) => {
+router.get('/details/:id', permissions, isLoggedIn, async (req, res) => {
     //console.log(req.params);
     const idOrden = req.params.id;
     //console.log(idOrden)

@@ -112,6 +112,8 @@
         </nav><!-- End Icons Navigation -->
 
     </header><!-- End Header -->
+
+    <!-- Admin SideBar -->
     {{#when user.rolusuario 'eq' 1}}
 
         <aside id="sidebar" class="sidebar">
@@ -292,7 +294,7 @@
 
         </aside><!-- End Sidebar-->
     {{/when}}
-
+    <!-- Lider Mantenimiento SideBar -->
     {{#when user.rolusuario 'eq' 2}}
 
         <aside id="sidebar" class="sidebar">
@@ -440,8 +442,56 @@
 
         </aside><!-- End Sidebar-->
     {{/when}}
+    <!-- Usuario SideBar -->
+    {{#when user.rolusuario 'eq' 3}}
+
+        <aside id="sidebar" class="sidebar">
+
+            <ul class="sidebar-nav" id="sidebar-nav">
+
+                <li class="nav-item">
+                    <a class="nav-link " href="/dashboard">
+                        <i class="bi bi-grid"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-heading">Pages</li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="/profile">
+                        <i class="bi bi-person"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#ordenes-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-file-earmark-bar-graph"></i><span>Ordenes</span><i
+                            class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="ordenes-nav" class="nav-content collapse " data-bs-parent="#ordenes-nav">
+                        <li>
+                            <a href="/agregarOrden">
+                                <i class="bi bi-circle"></i><span>Agregar Orden</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/misordenes">
+                                <i class="bi bi-circle"></i><span>Ver mis Ordenes</span>
+                            </a>
+                        </li>
 
 
+                    </ul>
+                </li>
+
+
+
+            </ul>
+
+        </aside><!-- End Sidebar-->
+
+    {{/when}}
+    <!-- Tecnico Mantenimiento SideBar -->
     {{#when user.rolusuario 'eq' 4}}
 
         <aside id="sidebar" class="sidebar">

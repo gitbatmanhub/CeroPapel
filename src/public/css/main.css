@@ -1264,10 +1264,16 @@ h6 {
 }
 
 
-/* ---------- */
+
 .modal-body{
   display: flex;
 }
+
+.modal-body .card{
+  text-align: center;
+}
+
+/* ----------
 .card{
   padding: 10px;
   border-style: none;
@@ -1279,3 +1285,5 @@ h6 {
 .hidden{
   display: none;
 }
+
+ */
