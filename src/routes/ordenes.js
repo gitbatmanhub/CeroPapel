@@ -90,7 +90,7 @@ router.get('/agregarOrden', isLoggedIn, async (req, res) => {
     var maquina = await pool.query('select * from maquina');
     var prioridad = await pool.query('select * from prioridad');
     var estadoMaquina = await pool.query('select * from estadoMaquina');
-    res.render('ordenes/agregarorden', {area, maquina, prioridad, estadoMaquina});
+    res.render('ordenes/agregarOrden', {area, maquina, prioridad, estadoMaquina});
 
 });
 
@@ -224,7 +224,7 @@ router.post('/accept/:id', isLoggedIn, permissions, async (req, res) => {
     await pool.query('INSERT INTO orden_Status set ?', [data]);
     await pool.query('UPDATE ordenTrabajo SET idStatus=2 WHERE idOrdenTrabajo = ?', [orden]);
 
-    res.redirect('/ordenesaprobadas');
+    res.redirect('/ordenesAprobadas');
 })
 
 
