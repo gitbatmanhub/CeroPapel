@@ -656,7 +656,7 @@ from orden_trabajador o_t
          inner join orden_tipomantenimiento o on o_t.idOrden = o.idOrden
          inner join tipomantenimiento t2 on o.idTipoMantenimiento = t2.idTipoMantenimiento
          inner join fechas_orden fo on o.idOrden = fo.idOrden;
-
+select * from ordenesFechaActual;
 create view comentariosOrdenUser as
 select co.idOrden, co.idUser, co.idStatus, co.comentario, u.fullname, s.nameStatus
 from comentarios_orden co
@@ -767,6 +767,10 @@ from orden_producto op
          inner join producto p on op.idProducto = p.idProducto
          inner join usuario u on op.idUser = u.iduser;
 
+         select * from orden_Producto;
+select * from productosOrdenes;
+select * from producto;
+
 
 alter table proveedor_orden
     drop column fechaFinalTrabajo;
@@ -865,3 +869,15 @@ select count(idOrdenTrabajo) from tecnicosOrden where (iduser=9 and idStatus=4) 
 select * from tecnicosOrden;
 select count(iduser) from bddnova.tecnicosOrden where iduser=? and idStatus=4 group by idOrdenTrabajo;
 select * from usuario;
+select * from maquina;
+
+describe orden_Status;
+select * from orden_Status;
+
+select * from orden_Status;
+
+select * from status;
+
+INSERT INTO orden_Status set `idOrden` = '3', `idStatus` = '2', `idUsuario` = 5;
+select * from tipoMantenimiento;
+describe orden_Status;

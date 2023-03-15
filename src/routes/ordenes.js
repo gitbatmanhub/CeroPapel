@@ -80,7 +80,7 @@ router.get('/ordenesasignadas', isLoggedIn, permissions, async (req, res) => {
     const idUser = ([req.user.iduser][0]);
     const ordenesasignadas = await pool.query('select * from ordenesStatus where idStatus=3 or idStatus=4;');
     //console.log(ordenesPorAceptar);
-    res.render('ordenes/lidermantenimiento/asignadas', {ordenesasignadas});
+    res.render('ordenes/liderMantenimiento/asignadas', {ordenesasignadas});
 })
 
 
@@ -267,7 +267,7 @@ router.get('/tecnico/:id', isLoggedIn, permissions, async (req, res) => {
     const id = req.params.id;
     const tecnicos = await pool.query('select tecnico.idUser, u.fullname, tecnico.idTecnico, tecnico.idEspecialidad, e.nameEspecialidad from tecnico inner join usuario u on tecnico.idUser = u.iduser inner join especialidadtecnico e on tecnico.idEspecialidad = e.idEspecialidad');
     const ordenes = await pool.query('select ordenTrabajo.*, s.nameStatus, ordenTrabajo.descripcion, ordenTrabajo.create_at , a.nameArea, m.nameMaquina , e.nameEstado,  p.namePrioridad from ordenTrabajo inner join prioridad p on ordenTrabajo.idPrioridad = p.idPrioridad inner join maquina m on ordenTrabajo.idMaquina = m.idMaquina inner join area a on ordenTrabajo.idArea=a.idArea inner join estadoMaquina e on ordenTrabajo.estadoMaquina = e.idEstadoMaquina inner join status s on ordenTrabajo.idStatus = s.idStatus where ordenTrabajo.idOrdenTrabajo=?;', [id]);
-    const tipoMantenimiento = await pool.query('select * from tipomantenimiento')
+    const tipoMantenimiento = await pool.query('select * from tipoMantenimiento')
     //console.log(tecnicos);
     res.render('ordenes/liderMantenimiento/assign/tecnicos',
         {
@@ -340,7 +340,7 @@ router.post('/trabajoexterno/:id', isLoggedIn, permissions, async (req, res) => 
         await pool.query('INSERT into orden_Trabajador (idOrden, idTecnico) VALUES (?, ?)', [idOrden, idTecnico]);
     }
     //console.log(trabajoExterno);
-    await pool.query('INSERT into orden_status (idStatus, idOrden, idUsuario, idProveedor) values (?,?,?,?);', [6, idOrden, userId, proveedor]);
+    await pool.query('INSERT into orden_Status (idStatus, idOrden, idUsuario, idProveedor) values (?,?,?,?);', [6, idOrden, userId, proveedor]);
     await pool.query('UPDATE ordenTrabajo SET idStatus=? WHERE idOrdenTrabajo = ?', [6,idOrden]);
     await pool.query('insert into proveedor_orden(idOrdenTrabajo, idProveedor, id_tipoMantenimiento) values(?,?,?);', [idOrden, proveedor, tipoMantenimiento])
     await pool.query('insert into orden_tipomantenimiento(idorden, idtipomantenimiento) VALUES (?,?);', [idOrden, tipoMantenimiento]);
@@ -412,7 +412,7 @@ router.post('/attendTecnico', isLoggedIn, async (req, res) => {
 
 router.get('/ordenesatendidasT', isLoggedIn, async (req, res) => {
     const idUser = ([req.user.iduser][0]);
-    const tecnicosDatosOrdenAtendida = await pool.query('select * from bddnova.tecnicosOrden where iduser=? and idStatus=4 group by idOrdenTrabajo;', [idUser]);
+    const tecnicosDatosOrdenAtendida = await pool.query('select * from tecnicosOrden where iduser=? and idStatus=4 group by idOrdenTrabajo;', [idUser]);
     res.render('ordenes/tecnico/ordenesatendidas', {tecnicosDatosOrdenAtendida});
 });
 
