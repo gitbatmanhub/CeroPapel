@@ -1,108 +1,175 @@
-<div class="container">
+<div class="tittleDetails">
     <h1>Detalles de la orden #{{ datos.idOrdenTrabajo}}</h1>
-
 </div>
-<h1>Este es el id: {{ datos.idOrdenTrabajo}}</h1>
-<h1>Creación</h1>
-
-<p>Nombre del area: {{ datos.nameArea}}</p>
-<p>Nombre de la Maquina: {{ datos.nameMaquina}}</p>
-<p>Nombre de la descripcion: {{ datos.descripcion}}</p>
-<p>Fecha y hora de creación: {{ datos.HoradeCreacion}}</p>
-<p>Estado de la maquina: {{ datos.EstadoMaquina}}</p>
-<p>Nombre de Creador: {{ datos.Creador}}</p>
-<p>Prioridad: {{ datos.Prioridad}}</p>
-<p>Status de la orden: {{ datos.Status}}</p>
-<p>Status de la orden #: {{ datos.AvanceStatus}}</p>
-<div class="progress" role="progressbar" aria-label="Animated striped example" aria-valuenow="75" aria-valuemin="0"
-     aria-valuemax="100">
-    <div class="progress-bar progress-bar-striped progress-bar-animated"
-         style="width: {{ datos.AvanceStatus}}%">{{ datos.AvanceStatus}}%</div>
-</div>
-
-<h1>Estatus</h1>
-{{#each statuS}}
-    <p>Responsable: {{NameAcepto}}</p>
-    <p>Estado: {{Estado}}</p>
-    <p>Hora{{ create_at}}</p>
-
-    <p>-----------------------------------</p>
-
-
-{{/each}}
-
-
-<h1>Comentarios</h1>
-{{#each comentarios}}
-    <p>Estatus: {{nameStatus}}</p>
-    <p>Comentario: {{comentario}}</p>
-    <p>Responsable: {{fullname}}</p>
-    <p>----------------------------</p>
-{{/each}}
-
-<!-- Tecnicos orden -->
-
-<div>
-    {{#if tecnicosOrden}}
-        <h1>Tecnicos </h1>
-        {{#each tecnicosOrden}}
-            <p>{{fullname}}</p>
-            <p>{{nameEspecialidad}}</p>
-            <p>{{comentariosLider}}</p>
-        <p>----------------------------</p>
-        {{/each}}
-    {{else if tecnicosOrdenExterna}}
-        <h1>Orden Externa</h1>
-        {{#each proveedor}}
-            <p>Prestador de servicios: {{nameProveedor}}</p>
-            <p>Tipo Mantenimiento: {{nameTipoMantenimiento}}</p>
-            <p>Hora de Asignación: {{create_at}}</p>
-        {{/each}}
-        <h3>Tecncios en la orden</h3>
-        {{#each tecnicosOrdenExterna}}
-            <p>{{fullname}} - {{nameEspecialidad}}</p>
-        {{/each}}
-    {{else}}
-        <h1>Tecnicos</h1>
-        <p>Aún no se agregan Tecnicos</p>
-        <a href="/tecnico/{{datos.idOrdenTrabajo}}" class="btn btn-primary">Asignar Tecnicos</a>
-
-    {{/if}}
-
-    <!--
-    {{#if externo}}
-        <h1>Trabajo</h1>
-        <p>Tipo Mantenimiento: {{externo.nameTipoMantenimiento}}</p>
-        <p>Nombre del Responsable: {{externo.nameProveedor}}</p>
-        <p>Fecha Inicio Trabajo: {{ externo.fechaInicio}}</p>
-        <p>Fecha Final Trabajo: {{externo.fechaFinal}}</p>
-    {{/if}}
+<div class="table-responsive">
+    <table class="table">
+        <thead>
+        <tr>
+            <!--
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
             -->
-    {{#if suministro}}
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td style="text-align: center" colspan="4"><b>Datos de creación</b></td>
+        </tr>
+        <tr class="table-group-divider"></tr>
+        <tr>
+            <td><b>Id de Orden: </b>{{ datos.idOrdenTrabajo}} </td>
+            <td><b>Area: </b>{{ datos.nameArea}} </td>
+            <td><b>Maquina: </b>{{ datos.nameMaquina}} </td>
+            <td><b>Estado: </b>{{ datos.EstadoMaquina}} </td>
 
-        <h1>Suministros</h1>
-        {{#each suministro}}
-            <p>Nombre quien asignó: {{fullname}}</p>
-            <p>Fecha y Hora: {{create_at}}</p>
-            <p>Nombre Producto: {{ nameProducto}}</p>
-            <p>Cantidad: {{cantidad}}</p>
-            <p>----------------------------</p>
+        </tr>
+
+        <tr>
+            <td colspan="4"><b>Descripción:</b> {{datos.descripcion}}</td>
+        </tr>
+        <tr>
+            <td><b>Estado Orden: </b>{{ datos.Status}} </td>
+            <td><b>Prioridad: </b>{{ datos.Prioridad}} </td>
+            <td><b>Creador: </b>{{ datos.Creador}} </td>
+            <td colspan="2"><b>Fecha y hora de creación: </b>{{datos.HoradeCreacion}}</td>
+            <td></td>
+
+        </tr>
+
+        <tr>
+            <td style="text-align: center" colspan="4"><b>Datos de estado de la orden</b></td>
+
+        </tr>
+        <tr class="table-group-divider"></tr>
+
+        {{#each statuS}}
+            <tr>
+                <td><b>Responsable: </b>{{NameAcepto}} </td>
+                <td><b>Estado: </b>{{ Estado}} </td>
+                <td colspan="2"><b>Fecha y Hora: </b>{{ create_at}} </td>
+            </tr>
         {{/each}}
-    {{else}}
-        <h1>Aún no se agregan suministros a esta orden</h1>
-    <a href="/suministro/{{datos.idOrdenTrabajo}} " class="btn btn-primary">Agregar</a>
-    {{/if}}
+        <tr>
+            <td style="text-align: center" colspan="4"><b>Comentarios de la orden</b></td>
+        </tr>
+        <tr class="table-group-divider"></tr>
+
+        {{#each comentarios}}
+            <tr>
+                <td><b>Estatus: </b>{{nameStatus}} </td>
+                <td colspan="2"><b>Comentario: </b>{{comentario}} </td>
+                <td><b>Responsable: </b>{{fullname}} </td>
+            </tr>
+        {{/each}}
+
+        <tr class="table-group-divider"></tr>
+        {{#if tecnicosOrden}}
+            <tr>
+                <td style="text-align: center" colspan="4"><b>Tecnicos Orden</b></td>
+            </tr>
+            {{#each tecnicosOrden}}
+                <tr>
+                    <td colspan="2"><b>Nombre: </b>{{fullname}}</td>
+                    <td colspan=""><b>Especialidad: </b>{{nameEspecialidad}}</td>
+                    <td colspan=""><b>Mantenimiento: </b>{{nameTipoMantenimiento}}</td>
+                </tr>
+            {{/each}}
+            {{#each fechasOrden}}
+                <tr>
+                    <td style="text-align: center" colspan="4"><b>Fechas Asignadas</b></td>
+                </tr>
+                <tr class="table-group-divider"></tr>
+
+                <tr>
+                    <td colspan="2"><b>Fecha Inicio: </b> {{fechaInicio}}</td>
+                    <td colspan="2"><b>Fecha Final: </b>{{fechaFinal}}</td>
+                </tr>
+            {{/each}}
 
 
-    {{#when datos.idStatus 'eq' 5 }}
-        <button class="btn btn-primary" data-bs-target="#modalFinish"
-                data-bs-toggle="modal">Ver Acciones</button>
-    {{/when}}
-    {{#when datos.idStatus 'eq' 6 }}
-        <button class="btn btn-primary" data-bs-target="#modalFinish"
-                data-bs-toggle="modal">Ver Acciones</button>
-    {{/when}}
 
+        {{else if tecnicosOrdenExterna}}
+            <tr>
+                <td style="text-align: center" colspan="4"><b>Orden Externa Información</b></td>
+            </tr>
+            <tr class="table-group-divider"></tr>
+
+            {{#each proveedor}}
+                <tr>
+                    <td colspan="2"><b>Prestador de servicios: </b>{{nameProveedor}}</td>
+                    <td><b>Mantenimiento: </b>{{nameTipoMantenimiento}}</td>
+                    <td colspan="2"><b>Hora de Asignación: </b>{{create_at}}</td>
+                </tr>
+            {{/each}}
+            {{#each fechasOrden}}
+                <tr>
+                    <td style="text-align: center" colspan="4"><b>Fechas Asignadas</b></td>
+                </tr>
+                <tr class="table-group-divider"></tr>
+
+                <tr>
+                    <td colspan="2"><b>Fecha Inicio: </b> {{fechaInicio}}</td>
+                    <td colspan="2"><b>Fecha Final: </b>{{fechaFinal}}</td>
+                </tr>
+            {{/each}}
+
+
+            <tr>
+                <td style="text-align: center" colspan="4"><b>Tecnicos Orden Externa</b></td>
+            </tr>
+            <tr class="table-group-divider"></tr>
+
+            {{#each tecnicosOrdenExterna}}
+                <tr>
+                    <td colspan="2"><b>Nombre del Técnico: </b>{{fullname}}</td>
+                    <td colspan="2"><b>Especialidad Técnico: </b>{{nameEspecialidad}}</td>
+                </tr>
+            {{/each}}
+
+        {{else}}
+            <tr>
+                <td style="text-align: center" colspan="4">Aún no se agregan Tecnicos a esta orden <br><a
+                        href="/tecnico/{{datos.idOrdenTrabajo}}" class="btn btn-primary">Asignar Tecnicos</a></td>
+            </tr>
+        {{/if}}
+        <tr>
+            <td style="text-align: center" colspan="4"><b>Suministros</b></td>
+        </tr>
+        <tr class="table-group-divider"></tr>
+        {{#if suministro}}
+            <tr>
+            {{#each suministro}}
+                <tr>
+                    <td colspan="2"><b>Responsable: </b>{{fullname}}</td>
+                    <td><b>Cantidad: </b>{{cantidad}}</td>
+
+                    <td colspan="2"><b>Nombre Producto: </b>{{ nameProducto}}</td>
+                </tr>
+            {{/each}}
+            </tr>
+        {{else}}
+            <tr>
+                <td style="text-align: center" colspan="4">Aún no se agregan suministros a esta orden <br><a
+                        href="/suministro/{{datos.idOrdenTrabajo}} " class="btn btn-primary">Agregar</a></td>
+            </tr>
+        {{/if}}
+        <tr>
+            {{#when datos.idStatus 'eq' 5 }}
+                <td>
+                    <button class="btn btn-primary" data-bs-target="#modalFinish" data-bs-toggle="modal">Ver Acciones
+                    </button>
+                </td>
+            {{/when}}
+            {{#when datos.idStatus 'eq' 6 }}
+                <td>
+                    <button class="btn btn-primary" data-bs-target="#modalFinish" data-bs-toggle="modal">Ver Acciones
+                    </button>
+                </td>
+            {{/when}}
+
+        </tbody>
+    </table>
 </div>
 
 
@@ -114,7 +181,7 @@
                 <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Acciones</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body" >
+            <div class="modal-body">
                 <div class="card" style="width: 18rem;">
                     <lord-icon
                             src="https://cdn.lordicon.com/fpmskzsv.json"
@@ -124,9 +191,12 @@
                     </lord-icon>
                     <div class="card-body">
                         <h5 class="card-title">Terminar y Agregar Comentarios</h5>
-                        <p class="card-text">Si al revisar la orden no ha existido detalle alguno pudes proceder a cerrarla, agradecemos tu compromiso con Novared</p>
+                        <p class="card-text">Si al revisar la orden no ha existido detalle alguno pudes proceder a
+                            cerrarla, agradecemos tu compromiso con Novared</p>
                         <form action="/finishLiderplanificador" method="post" id="attendTecnico">
-                            <textarea class="form-control" name="comentarioLider" id="" cols="30" rows="5" placeholder="Novared siempre agradece tu comentario para poder mejorar" required></textarea>
+                            <textarea class="form-control" name="comentarioLider" id="" cols="30" rows="5"
+                                      placeholder="Novared siempre agradece tu comentario para poder mejorar"
+                                      required></textarea>
                             <input type="hidden" value="7" name="status">
                             <input type="hidden" value="{{datos.idOrdenTrabajo}}" name="orden">
                             <button type="submit" class="btn btn-primary">Cerrar Orden</button>

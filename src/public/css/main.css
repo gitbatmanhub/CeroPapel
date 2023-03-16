@@ -1,13 +1,4 @@
-/**
-* Template Name: NiceAdmin - v2.5.0
-* Template URL: https://bootstrapmade.com/nice-admin-bootstrap-admin-html-template/
-* Author: BootstrapMade.com
-* License: https://bootstrapmade.com/license/
-*/
 
-/*--------------------------------------------------------------
-# General
---------------------------------------------------------------*/
 :root {
   scroll-behavior: smooth;
 }
@@ -385,7 +376,7 @@ h6 {
 }
 
 .logo span {
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 700;
   color: #012970;
   font-family: "Nunito", sans-serif;
@@ -398,8 +389,10 @@ h6 {
   box-shadow: 0px 2px 20px rgba(1, 41, 112, 0.1);
   background-color: #fff;
   padding-left: 20px;
-  /* Toggle Sidebar Button */
-  /* Search Bar */
+
+}
+.d-none{
+  display: flex;
 }
 
 .header .toggle-sidebar-btn {
@@ -1272,18 +1265,17 @@ h6 {
 .modal-body .card{
   text-align: center;
 }
-
-/* ----------
-.card{
-  padding: 10px;
-  border-style: none;
-}
-.card-body{
+.tittleDetails{
+width: 80%;
   text-align: center;
+  margin: 0 auto;
+}
+.tittleDetails h1{
 }
 
-.hidden{
-  display: none;
+.table{
+  margin: 0 auto;
+  width: 95%;
 }
-
- */
+.table td{
+}

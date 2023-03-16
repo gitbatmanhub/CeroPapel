@@ -881,3 +881,29 @@ select * from status;
 INSERT INTO orden_Status set `idOrden` = '3', `idStatus` = '2', `idUsuario` = 5;
 select * from tipoMantenimiento;
 describe orden_Status;
+
+select count(idOrdenTrabajo) from ordenesStatus where idStatus=6;
+select * from usuario;
+select * from TodosDatos where idOrdenTrabajo=117;
+select * from tecnicosOrden where idOrdenTrabajo = ? group by iduser;
+
+select fechaFinal, fechaFinal, idOrdenTrabajo, iduser from tecnicosOrden where idOrdenTrabajo=117 group by fechaFinal;
+
+select * from tecnicosOrdenExterna where idOrdenTrabajo=?;
+select * from comentarios_orden where idOrden=117;
+select * from fechas_orden where idOrden=119;
+select *
+from usuario;
+
+select * from fechas_orden;
+
+
+
+select * from tecnicosOrden where idOrdenTrabajo = 116 group by iduser;
+select fechaInicio, fechaFinal from fechas_orden where idOrden=116;
+select * from TodosDatos;
+
+
+
+select * from status;
+select * from tecnicosOrdenExterna;
