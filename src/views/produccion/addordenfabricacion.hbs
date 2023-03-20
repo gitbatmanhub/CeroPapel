@@ -1,0 +1,88 @@
+<div class="formulario">
+    <div class="container">
+        <h2>Agregar Orden de Fabricación</h2>
+    </div>
+    <form action="/agregarorden" class="needs-validation" novalidate method="post" id="formAgregar"
+          name="formularioAgregar">
+        <div class="container">
+            <div class="row g-2 mb-3">
+                <div class="col-md">
+                    <label for="area" class="form-label">Fecha</label>
+                    <input type="date" class="form-control" required>
+                    <div class="invalid-feedback">
+                        Selecciona la fecha para la orden de fabricación
+                    </div>
+                </div>
+
+                <div class="col-md">
+                    <label for="maquina" class="form-label">Maquinaria</label>
+                    <select name="maquina" class="form-select" id="maquina" required>
+                        <option selected disabled value="">Escoge una Maquina</option>
+                        {{#each maquinarias}}
+                            <option value="{{idMaquinaria}}" name="{{nameMaquinaria}}">{{nameMaquinaria}}</option>
+                        {{/each}}
+                    </select>
+                    <div class="invalid-feedback">
+                        Selecciona una Maquinaria
+                    </div>
+                </div>
+
+                <div class="col-md">
+                    <label for="turno" class="form-label">Turno</label>
+                    <select name="turno" class="form-select" id="turno" required>
+                        <option selected disabled value="">Escoge un Turno</option>
+                        {{#each turno}}
+                            <option value="{{idTurno}}" name="{{nameTurno}}">{{nameTurno}}</option>
+                        {{/each}}
+                    </select>
+                    <div class="invalid-feedback">
+                        Selecciona un Turno
+                    </div>
+                </div>
+
+
+
+
+
+                <div class="col-md">
+                    <label for="prioridad" class="form-label">Prioridad</label>
+                    <select name="prioridad" class="form-select" id="prioridad" required>
+                        <option selected disabled value="">Escoge una Prioridad</option>
+                        {{#each prioridad}}
+                            <option value="{{idPrioridad}}" name="{{namePrioridad}}">{{namePrioridad}}</option>
+                        {{/each}}
+                    </select>
+                    <div class="invalid-feedback">
+                        Selecciona una Prioridad
+                    </div>
+                </div>
+
+                <div class="col-md">
+                    <label for="estadoMaquina" class="form-label">Estado Maquina</label>
+                    <select name="estadoMaquina" class="form-select" id="estadoMaquina" required>
+                        <option selected disabled value="">Escoge un Estado</option>
+                        {{#each estadoMaquina}}
+                            <option value="{{idEstadoMaquina}}" name="{{nameEstado}}">{{nameEstado}}</option>
+                        {{/each}}
+                    </select>
+                    <div class="invalid-feedback">
+                        Selecciona un Estado
+                    </div>
+                </div>
+
+                <div class="inputsHidden">
+                    <input type="hidden" value="1" name="idStatus"/>
+
+                </div>
+                <div class="form-group boton-send">
+                    <input type="submit" class="btn btn-success btn-block" id="">
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>
+
+
+
+
