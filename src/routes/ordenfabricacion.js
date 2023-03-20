@@ -3,29 +3,44 @@ const router = express.Router();
 
 const pool = require('../database');
 const {isLoggedIn, permissions} = require('../lib/auth');
-const {el} = require("timeago.js/lib/lang");
+const {el, de} = require("timeago.js/lib/lang");
 
-
+//Rutas de admin
 
 router.get('/agregarof', isLoggedIn, permissions, async (req, res)=>{
-   console.log(req.user);
-   const todasordenes = await pool.query('select * from ordenFabricacion');
+   //console.log(req.user);
+   //const todasordenes = await pool.query('select * from ordenFabricacion');
    const maquinarias = await pool.query('select * from maquinaria');
    const turno = await pool.query('select * from turno');
-   console.log(todasordenes);
-   res.render('produccion/addordenfabricacion', {todasordenes, maquinarias, turno})
+   const operador =await pool.query('select u.fullname, t.nameTipoOperador, o.idOperador from operador o inner join usuario u on o.idUsuario=u.iduser inner join tipoOperador t on o.idtipoOperador = t.idTipoOperador where t.idTipoOperador=1;')
+   //console.log(todasordenes);
+   res.render('produccion/addordenfabricacion', { maquinarias, turno, operador})
 });
 
 router.post('/agregarof', isLoggedIn, permissions, async (req, res)=>{
+   const {fecha, idMaquinaria, idTurno, idOperador, idstatus}=req.body;
+   //console.log(req.body);
+   const ordenfabricacion={
+      fecha,
+      idMaquinaria,
+      idTurno,
+      idOperador,
+      idstatus,
+      idCreador: req.user.iduser
+   }
+   await pool.query('INSERT INTO ordenFabricacion set ?', [ordenfabricacion]);
+   req.flash('success', 'Orden de fabricacion agregada correctamente');
 
-   res.redirect('produccion/ordenesfabricacion')
+   res.redirect('/ordenesfabricacion')
+
 });
 
 
 
 router.get('/ordenesfabricacion', isLoggedIn, permissions, async (req, res)=>{
+   const todasordenes = await pool.query('select * from ordenFabricacionTodosDatos');
 
-   res.render('produccion/ordenesfabricacion')
+   res.render('produccion/ordenesfabricacion', {todasordenes})
 });
 
 router.get('/tipoOperador', isLoggedIn, permissions, async (req, res)=>{
@@ -51,10 +66,16 @@ router.post('/edittipoOperador/', isLoggedIn, permissions, async (req, res) => {
 });
 
 
+router.get('/detallesof/:id', permissions, isLoggedIn, async (req, res )=>{
+   const detallesOrden= await pool.query('select * from ordenFabricacionTodosDatos where idOrdenFabricacion=?;', [req.params.id])
+   console.log(detallesOrden);
+   res.render('produccion/detallesof', {detallesOrden: detallesOrden[0]})
+});
 
 
 
 
+//A partir de aquí las rutas de los tecnicos
 
 
 

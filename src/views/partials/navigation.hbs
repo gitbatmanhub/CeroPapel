@@ -207,6 +207,37 @@
 
                     </ul>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#a-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-joystick"></i><span>Ordenes de Fabricación</span><i
+                            class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="a-nav" class="nav-content collapse " data-bs-parent="#ordenes-nav">
+
+                        <li>
+                            <a href="/agregarof">
+                                <i class="bi bi-circle"></i><span>Agregar OF´s</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/ordenesfabricacion">
+                                <i class="bi bi-circle"></i><span>Ver OF´s</span>
+                            </a>
+                        </li>
+                        <!--
+                        <li>
+                            <a href="/ordenesatender">
+                                <i class="bi bi-circle"></i><span>Ordenes Por Atender</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/ordenesatendidasT">
+                                <i class="bi bi-circle"></i><span>Ordenes Atendidas</span>
+                            </a>
+                        </li>
+-->
+                    </ul>
+                </li>
 
 
 
@@ -480,6 +511,91 @@
                             </a>
                         </li>
 
+                    </ul>
+                </li>
+
+
+
+            </ul>
+
+        </aside><!-- End Sidebar-->
+
+    {{/when}}
+    <!-- Operador SideBar -->
+    {{#when user.rolusuario 'eq' 5}}
+
+        <aside id="sidebar" class="sidebar">
+
+            <ul class="sidebar-nav" id="sidebar-nav">
+
+                <li class="nav-item">
+                    <a class="nav-link " href="/dashboard">
+                        <i class="bi bi-grid"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-heading">Pages</li>
+
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="/profile">
+                        <i class="bi bi-person"></i>
+                        <span>Profile</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#ordenes-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-file-earmark-bar-graph"></i><span>Ordenes</span><i
+                            class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="ordenes-nav" class="nav-content collapse " data-bs-parent="#ordenes-nav">
+                        <li>
+                            <a href="/agregarOrden">
+                                <i class="bi bi-circle"></i><span>Agregar Orden</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/misordenes">
+                                <i class="bi bi-circle"></i><span>Ver mis Ordenes</span>
+                            </a>
+                        </li>
+                        <!--
+                        <li>
+                            <a href="/ordenesatender">
+                                <i class="bi bi-circle"></i><span>Ordenes Por Atender</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/ordenesatendidasT">
+                                <i class="bi bi-circle"></i><span>Ordenes Atendidas</span>
+                            </a>
+                        </li>
+-->
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link collapsed" data-bs-target="#a-nav" data-bs-toggle="collapse" href="#">
+                        <i class="bi bi-joystick"></i><span>Ordenes de Fabricación</span><i
+                            class="bi bi-chevron-down ms-auto"></i>
+                    </a>
+                    <ul id="a-nav" class="nav-content collapse " data-bs-parent="#ordenes-nav">
+
+                        <li>
+                            <a href="/misordenes">
+                                <i class="bi bi-circle"></i><span>Ver mis Ordenes</span>
+                            </a>
+                        </li>
+                        <!--
+                        <li>
+                            <a href="/ordenesatender">
+                                <i class="bi bi-circle"></i><span>Ordenes Por Atender</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/ordenesatendidasT">
+                                <i class="bi bi-circle"></i><span>Ordenes Atendidas</span>
+                            </a>
+                        </li>
+-->
                     </ul>
                 </li>
 
