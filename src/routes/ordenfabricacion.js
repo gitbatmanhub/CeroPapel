@@ -52,7 +52,7 @@ router.get('/tipoOperador', isLoggedIn, permissions, async (req, res)=>{
 
 router.post('/edittipoOperador/', isLoggedIn, permissions, async (req, res) => {
    const {idUser, idTipoOperador} = req.body;
-   console.log(idUser, idTipoOperador);
+   //console.log(idUser, idTipoOperador);
    const idUserdb= await pool.query('select * from operador where idUsuario=?', [idUser])
    if (idUserdb.length>0){
       await pool.query('update operador set idtipoOperador=? where idUsuario=?;', [idTipoOperador, idUser]);
@@ -68,7 +68,7 @@ router.post('/edittipoOperador/', isLoggedIn, permissions, async (req, res) => {
 
 router.get('/detallesof/:id', permissions, isLoggedIn, async (req, res )=>{
    const detallesOrden= await pool.query('select * from ordenFabricacionTodosDatos where idOrdenFabricacion=?;', [req.params.id])
-   console.log(detallesOrden);
+   //console.log(detallesOrden);
    res.render('produccion/detallesof', {detallesOrden: detallesOrden[0]})
 });
 
@@ -77,6 +77,17 @@ router.get('/detallesof/:id', permissions, isLoggedIn, async (req, res )=>{
 
 //A partir de aquí las rutas de los tecnicos
 
+router.get('/ofsasignadas', isLoggedIn, async (req, res)=>{
+   const userid=req.user.iduser;
+   const misoft = await pool.query('select * from ordenFabricacionTodosDatos where iduser=?;', [userid]);
+   console.log(misoft);
+   res.render('produccion/operadores/ofsasignadas', {misoft})
+});
 
+router.get('/detallesofoperador/:id', permissions, isLoggedIn, async (req, res )=>{
+   const detallesOrden= await pool.query('select * from ordenFabricacionTodosDatos where idOrdenFabricacion=?;', [req.params.id])
+   //console.log(detallesOrden);
+   res.render('produccion/operadores/detallesofT', {detallesOrden: detallesOrden[0]})
+});
 
 module.exports = router;

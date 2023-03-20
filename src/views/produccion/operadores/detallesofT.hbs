@@ -1,0 +1,55 @@
+<div class="tittleDetails">
+    <h1>Detalles de la Orden de Fabricación #{{detallesOrden.idOrdenFabricacion}}</h1>
+</div>
+
+
+
+
+        <div class="container">
+            <div class="row g-2 mb-3">
+                <div class="col-md">
+                    <label for="fecha" class="form-label">Fecha</label>
+                    <input name="fecha" type="text" value="{{detallesOrden.fecha}}" class="form-control" readonly>
+                    <div class="invalid-feedback">
+                        Selecciona la fecha para la orden de fabricación
+                    </div>
+                </div>
+                <div class="col-md">
+                    <label for="fecha" class="form-label">Maquinaria</label>
+                    <input name="fecha" type="text" value="{{detallesOrden.nameMaquinaria}}" class="form-control" readonly>
+                    <div class="invalid-feedback">
+                        Selecciona la fecha para la orden de fabricación
+                    </div>
+                </div>
+
+            </div>
+            <div class="row g-2 mb-3">
+                <div class="col-md">
+                    <label for="idTurno" class="form-label">Turno</label>
+                    <input name="fecha" type="text" value="{{detallesOrden.nameTurno}}" class="form-control" readonly>
+                </div>
+
+                <div class="col-md">
+                    <label for="idOperador" class="form-label">Operador</label>
+                    <input name="fecha" type="text" value="{{detallesOrden.operador}}" class="form-control" readonly>
+                </div>
+                {{#each probe}}
+                    <input name="fecha" type="text" value="{{fecha}}" class="form-control" required>
+                {{/each}}
+
+
+
+                <div class="container" style="text-align: center; padding-top:10px;">
+                    <button class="btn btn-primary">Agregar Paras</button>
+                    <button class="btn btn-primary">Agregar Material Trabajado</button>
+                    <button class="btn btn-primary">Agregar Kg Material</button>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
