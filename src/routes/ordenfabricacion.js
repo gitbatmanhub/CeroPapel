@@ -3,7 +3,6 @@ const router = express.Router();
 
 const pool = require('../database');
 const {isLoggedIn, permissions} = require('../lib/auth');
-const {el, de} = require("timeago.js/lib/lang");
 
 //Rutas de admin
 
