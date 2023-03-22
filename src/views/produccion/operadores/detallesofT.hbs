@@ -3,52 +3,301 @@
 </div>
 
 
-
-
-        <div class="container">
-            <div class="row g-2 mb-3">
-                <div class="col-md">
-                    <label for="fecha" class="form-label">Fecha</label>
-                    <input name="fecha" type="text" value="{{detallesOrden.fecha}}" class="form-control" readonly>
-                    <div class="invalid-feedback">
-                        Selecciona la fecha para la orden de fabricación
-                    </div>
-                </div>
-                <div class="col-md">
-                    <label for="fecha" class="form-label">Maquinaria</label>
-                    <input name="fecha" type="text" value="{{detallesOrden.nameMaquinaria}}" class="form-control" readonly>
-                    <div class="invalid-feedback">
-                        Selecciona la fecha para la orden de fabricación
-                    </div>
-                </div>
-
+<div class="container">
+    <div class="row g-2 mb-3">
+        <div class="col-md">
+            <label for="fecha" class="form-label">Fecha</label>
+            <input name="fecha" type="text" value="{{detallesOrden.fecha}}" class="form-control" readonly>
+            <div class="invalid-feedback">
+                Selecciona la fecha para la orden de fabricación
             </div>
-            <div class="row g-2 mb-3">
-                <div class="col-md">
-                    <label for="idTurno" class="form-label">Turno</label>
-                    <input name="fecha" type="text" value="{{detallesOrden.nameTurno}}" class="form-control" readonly>
-                </div>
-
-                <div class="col-md">
-                    <label for="idOperador" class="form-label">Operador</label>
-                    <input name="fecha" type="text" value="{{detallesOrden.operador}}" class="form-control" readonly>
-                </div>
-                {{#each probe}}
-                    <input name="fecha" type="text" value="{{fecha}}" class="form-control" required>
-                {{/each}}
-
-
-
-                <div class="container" style="text-align: center; padding-top:10px;">
-                    <button class="btn btn-primary">Agregar Paras</button>
-                    <button class="btn btn-primary">Agregar Material Trabajado</button>
-                    <button class="btn btn-primary">Agregar Kg Material</button>
-                </div>
+        </div>
+        <div class="col-md">
+            <label for="fecha" class="form-label">Maquinaria</label>
+            <input name="fecha" type="text" value="{{detallesOrden.nameMaquinaria}}" class="form-control" readonly>
+            <div class="invalid-feedback">
+                Selecciona la fecha para la orden de fabricación
             </div>
         </div>
 
+    </div>
+    <div class="row g-2 mb-3">
+        <div class="col-md">
+            <label for="idTurno" class="form-label">Turno</label>
+            <input name="fecha" type="text" value="{{detallesOrden.nameTurno}}" class="form-control" readonly>
+        </div>
+
+        <div class="col-md">
+            <label for="idOperador" class="form-label">Operador</label>
+            <input name="fecha" type="text" value="{{detallesOrden.operador}}" class="form-control" readonly>
+        </div>
+        {{#each probe}}
+            <input name="fecha" type="text" value="{{fecha}}" class="form-control" required>
+        {{/each}}
 
 
+
+        <div class="container" style="text-align: center; padding-top:10px;">
+            <button class="btn btn-primary" data-bs-target="#paras" data-bs-toggle="modal">Agregar Paras</button>
+            <button class="btn btn-primary" data-bs-target="#materiales" data-bs-toggle="modal">Agregar Material Trabajado</button>
+            <button class="btn btn-primary" data-bs-target="#kgMaterial" data-bs-toggle="modal">Agregar Kg Material</button>
+        </div>
+    </div>
+
+</div>
+
+<div class="container text-center">
+    <div class="row align-items-start">
+        <div class="col">
+            <h3>Horas Para</h3>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Inicio</th>
+                    <th scope="col">Fin </th>
+                    <th scope="col">Motivo</th>
+                    <th scope="col">Comentario</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#each horasPara}}
+                    <tr>
+                        <td>{{inicioPara}}</td>
+                        <td>{{finPara}}</td>
+                        <td>{{nameTipoPara}}</td>
+                        <td>{{comentario}}</td>
+                    </tr>
+                {{/each}}
+
+                </tbody>
+            </table>
+            </div>
+
+        <div class="col">
+            <h3>Material Trabajado</h3>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Material</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#each maquinaria_Material}}
+                    <tr>
+                        <td>{{nameMaterial}}</td>
+                    </tr>
+                {{/each}}
+
+                </tbody>
+            </table>
+        </div>
+        <div class="col">
+            <h3>Kg Material</h3>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Material</th>
+                    <th scope="col">Peso</th>
+                    <th scope="col">Horas</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#each kg_Material}}
+                    <tr>
+                        <td>{{nameMaterial}}</td>
+                        <td>{{pesoKg}}</td>
+                        <td>{{horasTrabajadas}}</td>
+                    </tr>
+                {{/each}}
+
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="paras" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+     tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Agregar Paras</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body">
+                    <form action="/agregarPara" class="needs-validation" novalidate method="post" id="agregarPara"
+                          name="agregarof">
+                        <div class="container">
+                            <label for="idTipoPara" class="form-label">Motivo de Para</label>
+                            <select name="idTipoPara" class="form-select" id="idTipoPara" required>
+                                <option selected disabled value="">Selecciona el motivo de Para</option>
+                                {{#each datosPara}}
+                                    <option value="{{idTipoPara}}" name="{{idTipoPara}}">{{nameTipoPara}}</option>
+                                {{/each}}
+                            </select>
+                            <div class="invalid-feedback">
+                                Selecciona la fecha para la orden de fabricación
+                            </div>
+                            <div class="row g-2 mb-3">
+
+                                <div class="col-md">
+                                    <label for="inicioPara" class="form-label">Inicio de Para</label>
+                                    <input type="time" value="" name="inicioPara" class="form-control" required>
+                                    <div class="invalid-feedback">
+                                        Selecciona una fecha Inicial
+                                    </div>
+                                </div>
+                                <div class="col-md">
+
+                                    <label for="finPara" class="form-label">Fin de Para</label>
+                                    <input type="time" value="" name="finPara" class="form-control" required>
+                                    <div class="invalid-feedback">
+                                        Selecciona una fecha final
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md">
+                                <label for="comentario">Comentario</label>
+                                <textarea class="form-control" name="comentario" id="comentario" cols="30"
+                                          rows="5" required></textarea>
+                                <div class="invalid-feedback">
+                                    Si no existen comentarios
+                                </div>
+                            </div>
+                            <div class="inputs-hidden">
+                                <textarea style="display: none" name="idOrdenFabricacion" id="" cols="" rows="">{{detallesOrden.idOrdenFabricacion}}</textarea>
+                            </div>
+                            <div class="form-group boton-send">
+                                <input type="submit" class="btn btn-success btn-block" id="">
+                            </div>
+                        </div>
+
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+</div>
+<div class="modal fade" id="materiales" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+     tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Agregar Materiales Trabajados</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body">
+                    <form action="/agregarMaterial" class="needs-validation" novalidate method="post" id="agregarof"
+                          name="agregarof">
+                        <div class="container">
+                            <label for="idMaterial" class="form-label">Materiales</label>
+                            <select name="idMaterial" class="form-select" id="idTipoPara" required>
+                                <option selected disabled value="">Selecciona el Material</option>
+                                {{#each material}}
+                                    <option value="{{idMaterial}}" name="{{idMaterial}}">{{nameMaterial}}</option>
+                                {{/each}}
+                            </select>
+                            <div class="invalid-feedback">
+                                Selecciona un material por favor
+                            </div>
+                            <div class="inputs-hidden">
+                                <textarea style="display: none" name="idOrdenFabricacion" id="" cols="" rows="">{{detallesOrden.idOrdenFabricacion}}</textarea>
+                            </div>
+
+                            <div class="form-group boton-send">
+
+                                <input type="submit" class="btn btn-success btn-block" id="" value="Agregar">
+                            </div>
+                        </div>
+
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>
+<div class="modal fade" id="kgMaterial" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+     tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Agregar Materiales Trabajados</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body">
+                    <form action="/agregarKg" class="needs-validation" novalidate method="post" id="agregarof"
+                          name="agregarof">
+                        <div class="container">
+                            <label for="idMaterial" class="form-label">Materiales</label>
+                            <select name="idMaterial" class="form-select" id="idTipoPara" required>
+                                <option selected disabled value="">Selecciona el Material</option>
+                                {{#each maquinaria_Material}}
+                                    <option value="{{idMaterial}}" name="{{idMaterial}}">{{nameMaterial}}</option>
+                                {{/each}}
+                            </select>
+                            <div class="invalid-feedback">
+                                Selecciona un material por favor
+                            </div>
+
+
+
+                            <div class="row g-2 mb-3">
+
+                                <div class="col-md">
+                                    <label for="cantidad">Cantidad en KG</label>
+                                    <input class="form-control" type="number" name="pesoKg" required>
+                                    <div class="invalid-feedback">
+                                        Ingresa la cantidad de producto en Kg
+                                    </div>
+                                </div>
+                                <div class="col-md">
+
+                                    <label for="horasTrabajadas">Horas Trabajadas/Material</label>
+                                    <input class="form-control" type="number" name="horasTrabajadas" required>
+                                    <div class="invalid-feedback">
+                                        Ingresa las horas invertidas en el material
+                                    </div>
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+                            <div class="inputs-hidden">
+                                <textarea style="display: none" name="idOrdenFabricacion" id="" cols="" rows="">{{detallesOrden.idOrdenFabricacion}}</textarea>
+                            </div>
+
+                            <div class="form-group boton-send">
+
+                                <input type="submit" class="btn btn-success btn-block" id="" value="Agregar">
+                            </div>
+                        </div>
+
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+</div>
 
 
 

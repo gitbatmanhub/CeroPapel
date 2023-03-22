@@ -67,7 +67,6 @@ router.post('/edittipoOperador/', isLoggedIn, permissions, async (req, res) => {
 
 router.get('/detallesof/:id', permissions, isLoggedIn, async (req, res )=>{
    const detallesOrden= await pool.query('select * from ordenFabricacionTodosDatos where idOrdenFabricacion=?;', [req.params.id])
-   //console.log(detallesOrden);
    res.render('produccion/detallesof', {detallesOrden: detallesOrden[0]})
 });
 
@@ -84,9 +83,55 @@ router.get('/ofsasignadas', isLoggedIn, async (req, res)=>{
 });
 
 router.get('/detallesofoperador/:id', permissions, isLoggedIn, async (req, res )=>{
-   const detallesOrden= await pool.query('select * from ordenFabricacionTodosDatos where idOrdenFabricacion=?;', [req.params.id])
-   //console.log(detallesOrden);
-   res.render('produccion/operadores/detallesofT', {detallesOrden: detallesOrden[0]})
+   const idOrdenF=req.params.id;
+   const detallesOrden= await pool.query('select * from ordenFabricacionTodosDatos where idOrdenFabricacion=?;', [idOrdenF])
+   const datosPara = await pool.query('select * from tipopara;');
+   const horasPara = await pool.query('select hP.inicioPara, hP.finPara, hP.comentario, t.nameTipoPara from horas_Para hP inner join tipopara t on hP.idTipoPara = t.idTipoPara where idOrdenFabricacion=?', [idOrdenF]);
+   const material = await pool.query('select * from material');
+   const maquinaria_Material = await pool.query('select m.idMaterial,mM.idMaquinaria_Material, m.nameMaterial from maquinaria_Material mM inner join material m on mM.idMaterial = m.idMaterial where idOrdenFabricacion=?', [idOrdenF])
+   const kg_Material = await pool.query('select m.nameMaterial, kgM.pesoKg,  kgM.horasTrabajadas from kg_material kgM inner join ordenFabricacion o on kgM.idOrdenFabricacion= o.idOrdenFabricacion inner join maquinaria_Material mM on mM.idOrdenFabricacion=o.idOrdenFabricacion inner join material m on mM.idMaterial = m.idMaterial where o.idOrdenFabricacion=?',[idOrdenF])
+   res.render('produccion/operadores/detallesofT', {detallesOrden: detallesOrden[0], datosPara, horasPara, material, maquinaria_Material, kg_Material})
+
+});
+
+
+
+router.post('/agregarPara', isLoggedIn, async(req, res)=>{
+   const { idTipoPara, comentario, inicioPara, finPara, idOrdenFabricacion}= req.body;
+   const horas_Para ={
+      idTipoPara,
+      comentario,
+      inicioPara,
+      finPara,
+      idOrdenFabricacion
+   };
+   console.log(horas_Para)
+   await pool.query('insert into horas_Para set ?', [horas_Para]);
+   //await pool.query('insert into horas_Para (idTipoPara, comentario, inicioPara, finPara, idOrdenFabricacion) values (?,?,?,?,?)', [idTipoPara, comentario, inicioPara, finPara, idOrdenFabricacion])
+   res.redirect('detallesofoperador/5')
+});
+
+router.post('/agregarMaterial', isLoggedIn, async(req, res)=>{
+   const { idMaterial, idOrdenFabricacion}= req.body;
+   const maquinaria_Material ={
+      idMaterial,
+      idOrdenFabricacion
+   };
+   console.log(maquinaria_Material)
+   await pool.query('insert into maquinaria_Material set ?', [maquinaria_Material]);
+   res.redirect('detallesofoperador/5')
+});
+
+router.post('/agregarKg', isLoggedIn, async(req, res)=>{
+   const { pesoKg, horasTrabajadas, idOrdenFabricacion}= req.body;
+   const kg_Material ={
+      pesoKg,
+      horasTrabajadas,
+      idOrdenFabricacion
+   };
+
+   await pool.query('insert into kg_Material set ?', [kg_Material]);
+   res.redirect('detallesofoperador/5')
 });
 
 module.exports = router;
