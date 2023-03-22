@@ -67,7 +67,8 @@ router.post('/edittipoOperador/', isLoggedIn, permissions, async (req, res) => {
 
 router.get('/detallesof/:id', permissions, isLoggedIn, async (req, res )=>{
    const detallesOrden= await pool.query('select * from ordenFabricacionTodosDatos where idOrdenFabricacion=?;', [req.params.id])
-   res.render('produccion/detallesof', {detallesOrden: detallesOrden[0]})
+   const operadores = await pool.query('select u.fullname, o.idOperador,t.nameTipoOperador from operador o inner join tipoOperador t on o.idtipoOperador = t.idTipoOperador inner join usuario u on o.idUsuario = u.iduser');
+   res.render('produccion/detallesof', {detallesOrden: detallesOrden[0], operadores})
 });
 
 
@@ -78,7 +79,7 @@ router.get('/detallesof/:id', permissions, isLoggedIn, async (req, res )=>{
 router.get('/ofsasignadas', isLoggedIn, async (req, res)=>{
    const userid=req.user.iduser;
    const misoft = await pool.query('select * from ordenFabricacionTodosDatos where iduser=?;', [userid]);
-   console.log(misoft);
+   //console.log(misoft);
    res.render('produccion/operadores/ofsasignadas', {misoft})
 });
 
@@ -89,7 +90,7 @@ router.get('/detallesofoperador/:id', permissions, isLoggedIn, async (req, res )
    const horasPara = await pool.query('select hP.inicioPara, hP.finPara, hP.comentario, t.nameTipoPara from horas_Para hP inner join tipopara t on hP.idTipoPara = t.idTipoPara where idOrdenFabricacion=?', [idOrdenF]);
    const material = await pool.query('select * from material');
    const maquinaria_Material = await pool.query('select m.idMaterial,mM.idMaquinaria_Material, m.nameMaterial from maquinaria_Material mM inner join material m on mM.idMaterial = m.idMaterial where idOrdenFabricacion=?', [idOrdenF])
-   const kg_Material = await pool.query('select m.nameMaterial, kgM.pesoKg,  kgM.horasTrabajadas from kg_material kgM inner join ordenFabricacion o on kgM.idOrdenFabricacion= o.idOrdenFabricacion inner join maquinaria_Material mM on mM.idOrdenFabricacion=o.idOrdenFabricacion inner join material m on mM.idMaterial = m.idMaterial where o.idOrdenFabricacion=?',[idOrdenF])
+   const kg_Material = await pool.query('select kg.pesoKg, kg.horasTrabajadas, m.nameMaterial from kg_material kg inner join material m on m.idMaterial=kg.idMaterial where kg.idOrdenFabricacion=?;',[idOrdenF])
    res.render('produccion/operadores/detallesofT', {detallesOrden: detallesOrden[0], datosPara, horasPara, material, maquinaria_Material, kg_Material})
 
 });
@@ -108,7 +109,7 @@ router.post('/agregarPara', isLoggedIn, async(req, res)=>{
    console.log(horas_Para)
    await pool.query('insert into horas_Para set ?', [horas_Para]);
    //await pool.query('insert into horas_Para (idTipoPara, comentario, inicioPara, finPara, idOrdenFabricacion) values (?,?,?,?,?)', [idTipoPara, comentario, inicioPara, finPara, idOrdenFabricacion])
-   res.redirect('detallesofoperador/5')
+   res.redirect('detallesofoperador/'+idOrdenFabricacion)
 });
 
 router.post('/agregarMaterial', isLoggedIn, async(req, res)=>{
@@ -119,19 +120,33 @@ router.post('/agregarMaterial', isLoggedIn, async(req, res)=>{
    };
    console.log(maquinaria_Material)
    await pool.query('insert into maquinaria_Material set ?', [maquinaria_Material]);
-   res.redirect('detallesofoperador/5')
+   res.redirect('detallesofoperador/'+idOrdenFabricacion)
 });
 
 router.post('/agregarKg', isLoggedIn, async(req, res)=>{
-   const { pesoKg, horasTrabajadas, idOrdenFabricacion}= req.body;
+   const { pesoKg, horasTrabajadas, idOrdenFabricacion, idMaterial}= req.body;
    const kg_Material ={
       pesoKg,
       horasTrabajadas,
-      idOrdenFabricacion
+      idOrdenFabricacion,
+      idMaterial
    };
 
    await pool.query('insert into kg_Material set ?', [kg_Material]);
-   res.redirect('detallesofoperador/5')
+   res.redirect('detallesofoperador/'+idOrdenFabricacion)
+});
+
+router.post('/cerrarof/:id', isLoggedIn, async(req, res)=>{
+   const idOrdenFabricacion= req.body.idOrdenFabricacion;
+   await pool.query('UPDATE ordenFabricacion SET idstatus=? WHERE idOrdenFabricacion=?', [2, idOrdenFabricacion]);
+   res.redirect('/ofsasignadas/')
+});
+
+
+
+router.post('/ayudanteof', isLoggedIn, async (req, res)=>{
+   console.log(req.body)
+   res.redirect('/detallesof/')
 });
 
 module.exports = router;

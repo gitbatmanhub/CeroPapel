@@ -1,7 +1,47 @@
 <p>{{detallesOrden.idOrdenFabricacion}}</p>
-{{detallesOrden.iduser}}
-{{detallesOrden.nameMaquinaria}}
-{{detallesOrden.nameTurno}}
-{{detallesOrden.nameTipoOperador}}
-{{detallesOrden.operador}}
-{{detallesOrden.fecha}}
+<p>{{detallesOrden.nameMaquinaria}}</p>
+<p>{{detallesOrden.nameTurno}}</p>
+<p>{{detallesOrden.operador}}</p>
+<p>{{detallesOrden.fecha}}</p>
+
+
+<button class="btn btn-primary" data-bs-target="#ayudantes" data-bs-toggle="modal">Agregar Ayudantes</button>
+<div class="modal fade" id="ayudantes" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+     tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="cerrarOrden">Agregar Ayudantes</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="margin: 0 auto">
+                <div class="card">
+
+                    <div class="card-body" >
+                        <div class="container">
+                        <h5 class="card-title">Agregar Ayudantes a la presente OF</h5>
+                        <p class="card-text"></p>
+
+                        <form action="/ayudanteof" method="post" id="agregar" class="needs-validation" novalidate>
+                                <label for="idMaterial" class="form-label">Materiales</label>
+                                <select name="idOperador" class="form-select" id="idOperador" required>
+                                    <option selected disabled value="">Selecciona el Operador</option>
+                                    {{#each operadores}}
+                                        <option value="{{idOperador}}" name="{{idOperador}}">{{fullname}}</option>
+                                    {{/each}}
+                                </select>
+                                <div class="invalid-feedback">
+                                    Selecciona un operador por favor
+                                </div>
+                            <button type="submit" class="btn btn-primary">Agregar</button>
+                            <input type="hidden" value="{{detallesOrden.idOrdenFabricacion}}" name="idOrdenFabricacion" id="idOrdenFabricacion">
+                        </form>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>

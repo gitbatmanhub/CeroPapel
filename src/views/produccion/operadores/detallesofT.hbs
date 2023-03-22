@@ -38,9 +38,17 @@
 
 
         <div class="container" style="text-align: center; padding-top:10px;">
-            <button class="btn btn-primary" data-bs-target="#paras" data-bs-toggle="modal">Agregar Paras</button>
-            <button class="btn btn-primary" data-bs-target="#materiales" data-bs-toggle="modal">Agregar Material Trabajado</button>
-            <button class="btn btn-primary" data-bs-target="#kgMaterial" data-bs-toggle="modal">Agregar Kg Material</button>
+
+            {{#when detallesOrden.idstatus 'eq' 1 }}
+                <button class="btn btn-primary" data-bs-target="#paras" data-bs-toggle="modal">Agregar Paras</button>
+                <button class="btn btn-primary" data-bs-target="#materiales" data-bs-toggle="modal">Agregar Material
+                    Trabajado
+                </button>
+                <button class="btn btn-primary" data-bs-target="#kgMaterial" data-bs-toggle="modal">Agregar Kg Material
+                </button>
+                <button class="btn btn-danger" data-bs-target="#cerrarOrden" data-bs-toggle="modal">Cerrar Orden
+                </button>
+            {{/when}}
         </div>
     </div>
 
@@ -54,7 +62,7 @@
                 <thead>
                 <tr>
                     <th scope="col">Inicio</th>
-                    <th scope="col">Fin </th>
+                    <th scope="col">Fin</th>
                     <th scope="col">Motivo</th>
                     <th scope="col">Comentario</th>
                 </tr>
@@ -71,7 +79,7 @@
 
                 </tbody>
             </table>
-            </div>
+        </div>
 
         <div class="col">
             <h3>Material Trabajado</h3>
@@ -116,7 +124,6 @@
         </div>
     </div>
 </div>
-
 
 
 <div class="modal fade" id="paras" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
@@ -170,7 +177,8 @@
                                 </div>
                             </div>
                             <div class="inputs-hidden">
-                                <textarea style="display: none" name="idOrdenFabricacion" id="" cols="" rows="">{{detallesOrden.idOrdenFabricacion}}</textarea>
+                                <textarea style="display: none" name="idOrdenFabricacion" id="" cols=""
+                                          rows="">{{detallesOrden.idOrdenFabricacion}}</textarea>
                             </div>
                             <div class="form-group boton-send">
                                 <input type="submit" class="btn btn-success btn-block" id="">
@@ -178,13 +186,12 @@
                         </div>
 
 
-                </form>
+                    </form>
+                </div>
             </div>
+
         </div>
-
     </div>
-</div>
-
 
 
 </div>
@@ -212,7 +219,8 @@
                                 Selecciona un material por favor
                             </div>
                             <div class="inputs-hidden">
-                                <textarea style="display: none" name="idOrdenFabricacion" id="" cols="" rows="">{{detallesOrden.idOrdenFabricacion}}</textarea>
+                                <textarea style="display: none" name="idOrdenFabricacion" id="" cols=""
+                                          rows="">{{detallesOrden.idOrdenFabricacion}}</textarea>
                             </div>
 
                             <div class="form-group boton-send">
@@ -222,12 +230,12 @@
                         </div>
 
 
-                </form>
+                    </form>
+                </div>
             </div>
-        </div>
 
+        </div>
     </div>
-</div>
 </div>
 <div class="modal fade" id="kgMaterial" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
      tabindex="-1">
@@ -254,7 +262,6 @@
                             </div>
 
 
-
                             <div class="row g-2 mb-3">
 
                                 <div class="col-md">
@@ -275,13 +282,9 @@
                             </div>
 
 
-
-
-
-
-
                             <div class="inputs-hidden">
-                                <textarea style="display: none" name="idOrdenFabricacion" id="" cols="" rows="">{{detallesOrden.idOrdenFabricacion}}</textarea>
+                                <textarea style="display: none" name="idOrdenFabricacion" id="" cols=""
+                                          rows="">{{detallesOrden.idOrdenFabricacion}}</textarea>
                             </div>
 
                             <div class="form-group boton-send">
@@ -291,14 +294,51 @@
                         </div>
 
 
-                </form>
+                    </form>
+                </div>
             </div>
-        </div>
 
+        </div>
     </div>
 </div>
+<div class="modal fade" id="cerrarOrden" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+     tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="cerrarOrden">Cerrar Orden</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <lord-icon
+                            src="https://cdn.lordicon.com/nhfyhmlt.json"
+                            trigger="loop"
+                            delay="300"
+                            style="width:250px;height:250px;margin: 0 auto">
+                    </lord-icon>
+                    <div class="card-body">
+                        <h5 class="card-title">Cerrar OF</h5>
+                        <p class="card-text">Si está seguro de cerrar de click en cerrar, no abrá vuelta atras</p>
+
+                        <form action="/cerrarof/{{detallesOrden.idOrdenFabricacion}}" method="post" id="accept">
+                            <button type="submit" class="btn btn-danger">Cerrar</button>
+                            <input type="hidden" value="{{detallesOrden.idOrdenFabricacion}}" name="idOrdenFabricacion"
+                                   id="idOrdenFabricacion">
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
 </div>
 
+<style>
 
+
+</style>
 
 
