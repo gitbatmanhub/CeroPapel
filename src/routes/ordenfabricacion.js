@@ -3,15 +3,24 @@ const router = express.Router();
 
 const pool = require('../database');
 const {isLoggedIn, permissions} = require('../lib/auth');
+const {logger} = require("browser-sync/dist/logger");
 
 //Rutas de admin
 
-router.get('/agregarof', isLoggedIn, permissions, async (req, res)=>{
+router.get('/agregarof', isLoggedIn,  async (req, res)=>{
    //console.log(req.user);
    //const todasordenes = await pool.query('select * from ordenFabricacion');
    const maquinarias = await pool.query('select * from maquinaria');
    const turno = await pool.query('select * from turno');
    const operador =await pool.query('select u.fullname, t.nameTipoOperador, o.idOperador from operador o inner join usuario u on o.idUsuario=u.iduser inner join tipoOperador t on o.idtipoOperador = t.idTipoOperador where t.idTipoOperador=1;')
+   let fecha = new Date();
+   let hora =fecha.getHours() /*+ ':' + fecha.getMinutes() + ':' + fecha.getSeconds()*/;
+      if (hora >= 7 && hora < 19){
+         console.log("Es de día")
+      }else {
+         console.log("Es de noche")
+      }
+
    //console.log(todasordenes);
    res.render('produccion/addordenfabricacion', { maquinarias, turno, operador})
 });
@@ -89,9 +98,15 @@ router.get('/detallesofoperador/:id', permissions, isLoggedIn, async (req, res )
    const datosPara = await pool.query('select * from tipopara;');
    const horasPara = await pool.query('select hP.inicioPara, hP.finPara, hP.comentario, t.nameTipoPara from horas_Para hP inner join tipopara t on hP.idTipoPara = t.idTipoPara where idOrdenFabricacion=?', [idOrdenF]);
    const material = await pool.query('select * from material');
-   const maquinaria_Material = await pool.query('select m.idMaterial,mM.idMaquinaria_Material, m.nameMaterial from maquinaria_Material mM inner join material m on mM.idMaterial = m.idMaterial where idOrdenFabricacion=?', [idOrdenF])
-   const kg_Material = await pool.query('select kg.pesoKg, kg.horasTrabajadas, m.nameMaterial from kg_material kg inner join material m on m.idMaterial=kg.idMaterial where kg.idOrdenFabricacion=?;',[idOrdenF])
-   res.render('produccion/operadores/detallesofT', {detallesOrden: detallesOrden[0], datosPara, horasPara, material, maquinaria_Material, kg_Material})
+   //const maquinaria_Material = await pool.query('select m.idMaterial,mM.idMaquinaria_Material, m.nameMaterial from maquinaria_Material mM inner join material m on mM.idMaterial = m.idMaterial where idOrdenFabricacion=?', [idOrdenF])
+   const kg_Material = await pool.query('select  km.idOrdenFabricacion, m.nameMaterial, km.pesoKg, km.hInicioTM, km.hFinTM from kg_material km  inner join material m on m.idMaterial=km.idMaterial where idOrdenFabricacion=?;',[idOrdenF])
+   const horasTurno=12;
+   const totalHorasMaterial = await pool.query('select sec_to_time(sum(time_to_sec(horasMaterial))) as horasMaterial  from horasMaterial where idOrdenFabricacion=?;',[idOrdenF])
+   const totalHorasPara = await pool.query('select sec_to_time(sum(time_to_sec(horasPara))) as horasPara from horasPara where idOrdenFabricacion=?;', [idOrdenF]);
+   console.log(totalHorasMaterial);
+   console.log(totalHorasPara);
+
+   res.render('produccion/operadores/detallesofT', {detallesOrden: detallesOrden[0], datosPara, horasPara, material, kg_Material, totalHorasMaterial:totalHorasMaterial[0], totalHorasPara:totalHorasPara[0] /*, maquinaria_Material, kg_Material*/})
 
 });
 
@@ -124,14 +139,15 @@ router.post('/agregarMaterial', isLoggedIn, async(req, res)=>{
 });
 
 router.post('/agregarKg', isLoggedIn, async(req, res)=>{
-   const { pesoKg, horasTrabajadas, idOrdenFabricacion, idMaterial}= req.body;
+   const { pesoKg, finTrabajo, inicioTrabajo, idOrdenFabricacion, idMaterial}= req.body;
    const kg_Material ={
       pesoKg,
-      horasTrabajadas,
+      hFinTM:finTrabajo,
+      hInicioTM:inicioTrabajo,
       idOrdenFabricacion,
       idMaterial
    };
-
+   console.log(kg_Material);
    await pool.query('insert into kg_Material set ?', [kg_Material]);
    res.redirect('detallesofoperador/'+idOrdenFabricacion)
 });

@@ -41,9 +41,9 @@
 
             {{#when detallesOrden.idstatus 'eq' 1 }}
                 <button class="btn btn-primary" data-bs-target="#paras" data-bs-toggle="modal">Agregar Paras</button>
-                <button class="btn btn-primary" data-bs-target="#materiales" data-bs-toggle="modal">Agregar Material
+                <!--<button class="btn btn-primary" data-bs-target="#materiales" data-bs-toggle="modal">Agregar Material
                     Trabajado
-                </button>
+                </button>-->
                 <button class="btn btn-primary" data-bs-target="#kgMaterial" data-bs-toggle="modal">Agregar Kg Material
                 </button>
                 <button class="btn btn-danger" data-bs-target="#cerrarOrden" data-bs-toggle="modal">Cerrar Orden
@@ -76,29 +76,18 @@
                         <td>{{comentario}}</td>
                     </tr>
                 {{/each}}
-
-                </tbody>
-            </table>
-        </div>
-
-        <div class="col">
-            <h3>Material Trabajado</h3>
-            <table class="table">
-                <thead>
                 <tr>
-                    <th scope="col">Material</th>
+                    <td></td>
+                    <td></td>
+                    <td>Total Horas</td>
+                    <td>{{totalHorasPara.horasPara}}</td>
                 </tr>
-                </thead>
-                <tbody>
-                {{#each maquinaria_Material}}
-                    <tr>
-                        <td>{{nameMaterial}}</td>
-                    </tr>
-                {{/each}}
 
                 </tbody>
             </table>
         </div>
+
+
         <div class="col">
             <h3>Kg Material</h3>
             <table class="table">
@@ -106,7 +95,8 @@
                 <tr>
                     <th scope="col">Material</th>
                     <th scope="col">Peso</th>
-                    <th scope="col">Horas</th>
+                    <th scope="col">Hora Inicio</th>
+                    <th scope="col">Hora Final</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -114,9 +104,18 @@
                     <tr>
                         <td>{{nameMaterial}}</td>
                         <td>{{pesoKg}}</td>
-                        <td>{{horasTrabajadas}}</td>
+                        <td>{{hInicioTM}}</td>
+                        <td>{{hFinTM}}</td>
                     </tr>
                 {{/each}}
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>Total Horas</td>
+
+                            <td>{{totalHorasMaterial.horasMaterial}}</td>
+
+                    </tr>
 
                 </tbody>
             </table>
@@ -250,36 +249,48 @@
                     <form action="/agregarKg" class="needs-validation" novalidate method="post" id="agregarof"
                           name="agregarof">
                         <div class="container">
+                            <div class="row g-2 mb-3" style="align-items: flex-end">
+                                <div class="col-md">
                             <label for="idMaterial" class="form-label">Materiales</label>
                             <select name="idMaterial" class="form-select" id="idTipoPara" required>
                                 <option selected disabled value="">Selecciona el Material</option>
-                                {{#each maquinaria_Material}}
+                                {{#each material}}
                                     <option value="{{idMaterial}}" name="{{idMaterial}}">{{nameMaterial}}</option>
                                 {{/each}}
                             </select>
                             <div class="invalid-feedback">
                                 Selecciona un material por favor
                             </div>
-
+                                </div>
+                            <div class="col-md">
+                                <label for="pesoKg">Cantidad en KG</label>
+                                <input class="form-control" type="number" id="pesoKg" name="pesoKg" required>
+                                <div class="invalid-feedback">
+                                    Ingresa la cantidad de producto en Kg
+                                </div>
+                            </div>
+                            </div>
 
                             <div class="row g-2 mb-3">
 
-                                <div class="col-md">
-                                    <label for="cantidad">Cantidad en KG</label>
-                                    <input class="form-control" type="number" name="pesoKg" required>
-                                    <div class="invalid-feedback">
-                                        Ingresa la cantidad de producto en Kg
-                                    </div>
-                                </div>
-                                <div class="col-md">
 
-                                    <label for="horasTrabajadas">Horas Trabajadas/Material</label>
-                                    <input class="form-control" type="number" name="horasTrabajadas" required>
+                                <div class="col-md">
+                                    <label for="inicioTrabajo" class="form-label">Inicio de Trabajo</label>
+                                    <input type="time" value="" name="inicioTrabajo" class="form-control" required>
                                     <div class="invalid-feedback">
-                                        Ingresa las horas invertidas en el material
+                                        Selecciona una Hora Inicial
                                     </div>
                                 </div>
+                                <div class="col-md">
+                                    <label for="finTrabajo" class="form-label">Fin Trabajo</label>
+                                    <input type="time" value="" name="finTrabajo" class="form-control" required>
+                                    <div class="invalid-feedback">
+                                        Selecciona una Hora final
+                                    </div>
+                                </div>
+
                             </div>
+
 
 
                             <div class="inputs-hidden">
