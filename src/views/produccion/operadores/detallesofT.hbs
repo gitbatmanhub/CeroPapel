@@ -1,56 +1,74 @@
 <div class="tittleDetails">
-    <h1>Detalles de la Orden de Fabricación #{{detallesOrden.idOrdenFabricacion}}</h1>
+    <h1>Detalles de la Orden de Fabricación #{{datosof.idOrdenFabricacion}}</h1>
 </div>
 
 
 <div class="container">
     <div class="row g-2 mb-3">
+
         <div class="col-md">
-            <label for="fecha" class="form-label">Fecha</label>
-            <input name="fecha" type="text" value="{{detallesOrden.fecha}}" class="form-control" readonly>
-            <div class="invalid-feedback">
-                Selecciona la fecha para la orden de fabricación
-            </div>
+            <label for="Maquinaria" class="form-label">Maquinaria</label>
+            <input name="Maquinaria" type="text" value="{{datosof.nameMaquinaria}}" class="form-control" readonly>
+
         </div>
         <div class="col-md">
-            <label for="fecha" class="form-label">Maquinaria</label>
-            <input name="fecha" type="text" value="{{detallesOrden.nameMaquinaria}}" class="form-control" readonly>
-            <div class="invalid-feedback">
-                Selecciona la fecha para la orden de fabricación
-            </div>
+            <label for="Material" class="form-label">Material</label>
+            <input name="Material" type="text" value="{{datosof.nameMaterial}}" class="form-control" readonly>
         </div>
+
 
     </div>
     <div class="row g-2 mb-3">
         <div class="col-md">
             <label for="idTurno" class="form-label">Turno</label>
-            <input name="fecha" type="text" value="{{detallesOrden.nameTurno}}" class="form-control" readonly>
+            <input name="fecha" type="text" value="{{datosof.nameTurno}}" class="form-control" readonly>
         </div>
 
         <div class="col-md">
             <label for="idOperador" class="form-label">Operador</label>
-            <input name="fecha" type="text" value="{{detallesOrden.operador}}" class="form-control" readonly>
+            <input name="fecha" type="text" value="{{datosof.fullname}}" class="form-control" readonly>
         </div>
-        {{#each probe}}
-            <input name="fecha" type="text" value="{{fecha}}" class="form-control" required>
-        {{/each}}
-
 
 
         <div class="container" style="text-align: center; padding-top:10px;">
 
-            {{#when detallesOrden.idstatus 'eq' 1 }}
+            {{#when datosof.idstatus 'eq' 1 }}
+
                 <button class="btn btn-primary" data-bs-target="#paras" data-bs-toggle="modal">Agregar Paras</button>
                 <!--<button class="btn btn-primary" data-bs-target="#materiales" data-bs-toggle="modal">Agregar Material
                     Trabajado
                 </button>-->
-                <button class="btn btn-primary" data-bs-target="#kgMaterial" data-bs-toggle="modal">Agregar Kg Material
+                <!--<button class="btn btn-primary" data-bs-target="#kgMaterial" data-bs-toggle="modal">Agregar Kg Material
+                </button>-->
+                <button class="btn btn-danger" data-bs-target="#kgMaterial" data-bs-toggle="modal">Cerrar Orden
                 </button>
-                <button class="btn btn-danger" data-bs-target="#cerrarOrden" data-bs-toggle="modal">Cerrar Orden
-                </button>
+            {{else}}
+                <div class="row g-2 mb-3">
+                    <div class="col-md">
+                        <label for="horaInicio" class="form-label">Hora Inicio</label>
+                        <input name="horaInicio" id="horaInicio" type="text" value="{{horasOrden.horaInicio}}" class="form-control" readonly>
+                    </div>
+                    <div class="col-md">
+                        <label for="horaFinal" class="form-label">Hora Final</label>
+                        <input name="horaFinal" id="horaFinal" type="text" value="{{horasOrden.horaFinal}}" class="form-control" readonly>
+                    </div>
+                    <div class="col-md">
+                        <label for="horasOrdenT" class="form-label">Total Horas Trabajadas</label>
+                        <input name="horasOrdenT" id="horasOrdenT" type="text" value="{{horasOrdenT.horasOrdenT}}" class="form-control" readonly>
+                    </div>
+
+
+                </div>
+            <div class="row g-2 mb-3">
+                <div class="col-md">
+                    <label for="idTurno" class="form-label">Total Horas Maquina</label>
+                    <input name="fecha" type="text" value="" class="form-control" readonly>
+                </div>
+            </div>
             {{/when}}
         </div>
     </div>
+
 
 </div>
 
@@ -68,10 +86,10 @@
                 </tr>
                 </thead>
                 <tbody>
-                {{#each horasPara}}
+                {{#each datosPara}}
                     <tr>
-                        <td>{{inicioPara}}</td>
-                        <td>{{finPara}}</td>
+                        <td>{{horaInicio}}</td>
+                        <td>{{horaFinal}}</td>
                         <td>{{nameTipoPara}}</td>
                         <td>{{comentario}}</td>
                     </tr>
@@ -80,7 +98,7 @@
                     <td></td>
                     <td></td>
                     <td>Total Horas</td>
-                    <td>{{totalHorasPara.horasPara}}</td>
+                    <td>{{horasPara.horasPara}}</td>
                 </tr>
 
                 </tbody>
@@ -88,40 +106,8 @@
         </div>
 
 
-        <div class="col">
-            <h3>Kg Material</h3>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th scope="col">Material</th>
-                    <th scope="col">Peso</th>
-                    <th scope="col">Hora Inicio</th>
-                    <th scope="col">Hora Final</th>
-                </tr>
-                </thead>
-                <tbody>
-                {{#each kg_Material}}
-                    <tr>
-                        <td>{{nameMaterial}}</td>
-                        <td>{{pesoKg}}</td>
-                        <td>{{hInicioTM}}</td>
-                        <td>{{hFinTM}}</td>
-                    </tr>
-                {{/each}}
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td>Total Horas</td>
-
-                            <td>{{totalHorasMaterial.horasMaterial}}</td>
-
-                    </tr>
-
-                </tbody>
-            </table>
-
-        </div>
     </div>
+
 </div>
 
 
@@ -141,7 +127,7 @@
                             <label for="idTipoPara" class="form-label">Motivo de Para</label>
                             <select name="idTipoPara" class="form-select" id="idTipoPara" required>
                                 <option selected disabled value="">Selecciona el motivo de Para</option>
-                                {{#each datosPara}}
+                                {{#each tipoPara}}
                                     <option value="{{idTipoPara}}" name="{{idTipoPara}}">{{nameTipoPara}}</option>
                                 {{/each}}
                             </select>
@@ -151,16 +137,16 @@
                             <div class="row g-2 mb-3">
 
                                 <div class="col-md">
-                                    <label for="inicioPara" class="form-label">Inicio de Para</label>
-                                    <input type="time" value="" name="inicioPara" class="form-control" required>
+                                    <label for="horaInicio" class="form-label">Inicio de Para</label>
+                                    <input type="time" value="" name="horaInicio" class="form-control" required>
                                     <div class="invalid-feedback">
                                         Selecciona una fecha Inicial
                                     </div>
                                 </div>
                                 <div class="col-md">
 
-                                    <label for="finPara" class="form-label">Fin de Para</label>
-                                    <input type="time" value="" name="finPara" class="form-control" required>
+                                    <label for="horaFinal" class="form-label">Fin de Para</label>
+                                    <input type="time" value="" name="horaFinal" class="form-control" required>
                                     <div class="invalid-feedback">
                                         Selecciona una fecha final
                                     </div>
@@ -177,7 +163,7 @@
                             </div>
                             <div class="inputs-hidden">
                                 <textarea style="display: none" name="idOrdenFabricacion" id="" cols=""
-                                          rows="">{{detallesOrden.idOrdenFabricacion}}</textarea>
+                                          rows="">{{datosof.idOrdenFabricacion}}</textarea>
                             </div>
                             <div class="form-group boton-send">
                                 <input type="submit" class="btn btn-success btn-block" id="">
@@ -194,153 +180,65 @@
 
 
 </div>
-<div class="modal fade" id="materiales" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
-     tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Agregar Materiales Trabajados</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="card-body">
-                    <form action="/agregarMaterial" class="needs-validation" novalidate method="post" id="agregarof"
-                          name="agregarof">
-                        <div class="container">
-                            <label for="idMaterial" class="form-label">Materiales</label>
-                            <select name="idMaterial" class="form-select" id="idTipoPara" required>
-                                <option selected disabled value="">Selecciona el Material</option>
-                                {{#each material}}
-                                    <option value="{{idMaterial}}" name="{{idMaterial}}">{{nameMaterial}}</option>
-                                {{/each}}
-                            </select>
-                            <div class="invalid-feedback">
-                                Selecciona un material por favor
-                            </div>
-                            <div class="inputs-hidden">
-                                <textarea style="display: none" name="idOrdenFabricacion" id="" cols=""
-                                          rows="">{{detallesOrden.idOrdenFabricacion}}</textarea>
-                            </div>
-
-                            <div class="form-group boton-send">
-
-                                <input type="submit" class="btn btn-success btn-block" id="" value="Agregar">
-                            </div>
-                        </div>
-
-
-                    </form>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
 <div class="modal fade" id="kgMaterial" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
      tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Agregar Materiales Trabajados</h1>
+                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Agregar Cantidad en KG</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="card-body">
-                    <form action="/agregarKg" class="needs-validation" novalidate method="post" id="agregarof"
+                    <form action="/cerrarof/{{datosof.idOrdenFabricacion}}" class="needs-validation" novalidate
+                          method="post" id="agregarof"
                           name="agregarof">
                         <div class="container">
                             <div class="row g-2 mb-3" style="align-items: flex-end">
                                 <div class="col-md">
-                            <label for="idMaterial" class="form-label">Materiales</label>
-                            <select name="idMaterial" class="form-select" id="idTipoPara" required>
-                                <option selected disabled value="">Selecciona el Material</option>
-                                {{#each material}}
-                                    <option value="{{idMaterial}}" name="{{idMaterial}}">{{nameMaterial}}</option>
-                                {{/each}}
-                            </select>
-                            <div class="invalid-feedback">
-                                Selecciona un material por favor
-                            </div>
+                                    <label for="idMaterial" class="form-label">Materiales</label>
+                                    <select name="idMaterial" class="form-select" id="idTipoPara" required>
+                                        <option selected
+                                                value="{{datosof.idMaterial}}">{{datosof.nameMaterial}}</option>
+
+                                    </select>
+
                                 </div>
-                            <div class="col-md">
-                                <label for="pesoKg">Cantidad en KG</label>
-                                <input class="form-control" type="number" id="pesoKg" name="pesoKg" required>
-                                <div class="invalid-feedback">
-                                    Ingresa la cantidad de producto en Kg
-                                </div>
-                            </div>
-                            </div>
-
-                            <div class="row g-2 mb-3">
-
-
                                 <div class="col-md">
-                                    <label for="inicioTrabajo" class="form-label">Inicio de Trabajo</label>
-                                    <input type="time" value="" name="inicioTrabajo" class="form-control" required>
+                                    <label for="pesoKg">Peso Material</label>
+                                    <input class="form-control" type="number" id="pesoKg" name="pesoKg" required>
                                     <div class="invalid-feedback">
-                                        Selecciona una Hora Inicial
+                                        Ingresa la hora inicial
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row g-2 mb-3" style="align-items: flex-end">
+                                <div class="col-md">
+                                    <label for="horaInicio">Inicio Trabajo</label>
+                                    <input class="form-control" type="time" id="horaInicio" name="horaInicio" required>
+                                    <div class="invalid-feedback">
+                                        Ingresa la hora incial
                                     </div>
                                 </div>
                                 <div class="col-md">
-                                    <label for="finTrabajo" class="form-label">Fin Trabajo</label>
-                                    <input type="time" value="" name="finTrabajo" class="form-control" required>
+                                    <label for="horaFinal">Fin Trabajo</label>
+                                    <input class="form-control" type="time" id="pesoKg" name="horaFinal" required>
                                     <div class="invalid-feedback">
-                                        Selecciona una Hora final
+                                        Ingresa la hora final
                                     </div>
                                 </div>
-
                             </div>
 
-
-
-                            <div class="inputs-hidden">
-                                <textarea style="display: none" name="idOrdenFabricacion" id="" cols=""
-                                          rows="">{{detallesOrden.idOrdenFabricacion}}</textarea>
-                            </div>
 
                             <div class="form-group boton-send">
 
-                                <input type="submit" class="btn btn-success btn-block" id="" value="Agregar">
+                                <input type="submit" class="btn btn-warning btn-block" id="" value="Agregar">
                             </div>
                         </div>
 
 
                     </form>
                 </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-<div class="modal fade" id="cerrarOrden" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
-     tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="cerrarOrden">Cerrar Orden</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="card">
-                    <lord-icon
-                            src="https://cdn.lordicon.com/nhfyhmlt.json"
-                            trigger="loop"
-                            delay="300"
-                            style="width:250px;height:250px;margin: 0 auto">
-                    </lord-icon>
-                    <div class="card-body">
-                        <h5 class="card-title">Cerrar OF</h5>
-                        <p class="card-text">Si está seguro de cerrar de click en cerrar, no abrá vuelta atras</p>
-
-                        <form action="/cerrarof/{{detallesOrden.idOrdenFabricacion}}" method="post" id="accept">
-                            <button type="submit" class="btn btn-danger">Cerrar</button>
-                            <input type="hidden" value="{{detallesOrden.idOrdenFabricacion}}" name="idOrdenFabricacion"
-                                   id="idOrdenFabricacion">
-                        </form>
-
-                    </div>
-                </div>
-
             </div>
 
         </div>

@@ -14,15 +14,15 @@
                         <th><h6>Id Orden</h6></th>
                         <th><h6>Turno</h6></th>
                         <th><h6>Maquinaria</h6></th>
-                        <th><h6>Operador</h6></th>
-                        <th><h6>Fecha</h6></th>
+                        <th><h6>Material</h6></th>
+                        <th><h6>Status</h6></th>
                         <th><h6 style="text-align: center">Acciones</h6></th>
                     </tr>
 
                     </thead>
 
                     <tbody class="list" id="tab">
-                    {{#each todasordenes}}
+                    {{#each datosof}}
 
                         <tr>
                             <td class="">
@@ -39,16 +39,16 @@
                                 <p>{{nameMaquinaria}}</p>
                             </td>
                             <td class="estado">
-                                <p>{{operador}}</p>
+                                <p>{{nameMaterial}}</p>
                             </td>
                             <td class="estado">
-                                <p>{{fecha}}</p>
+                                <p>{{nameStatus}}</p>
                             </td>
 
                             <td style="text-align: center">
 
 
-                                <a href="/detallesof/{{idOrdenFabricacion}}" class="btn btn-primary"><i class="bi bi-eye-fill"></i></a>
+                                <a href="/detallesofoperador/{{idOrdenFabricacion}}" class="btn btn-primary"><i class="bi bi-eye-fill"></i></a>
 
                             </td>
                         </tr>

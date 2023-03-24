@@ -206,5 +206,6 @@ $('#form').submit(function(event) {
 });
 
 
-
+const horaInicio= document.getElementById('horaInicio').value;
+console.log(horaInicio);
 

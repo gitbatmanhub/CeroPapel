@@ -6,13 +6,7 @@
           name="agregarof">
         <div class="container">
             <div class="row g-2 mb-3">
-                <div class="col-md">
-                    <label for="fecha" class="form-label">Fecha</label>
-                    <input name="fecha" type="date" class="form-control" required>
-                    <div class="invalid-feedback">
-                        Selecciona la fecha para la orden de fabricación
-                    </div>
-                </div>
+
 
                 <div class="col-md">
                     <label for="idMaquinaria" class="form-label">Maquinaria</label>
@@ -26,33 +20,19 @@
                         Selecciona una Maquinaria
                     </div>
                 </div>
+                <div class="col-md">
+                    <label for="idMaterial" class="form-label">Material</label>
+                    <select name="idMaterial" class="form-select" id="idMaterial" required>
+                        <option selected disabled value="">Escoge un Material</option>
+                        {{#each material}}
+                            <option value="{{idMaterial}}" name="{{nameMaterial}}">{{nameMaterial}}</option>
+                        {{/each}}
+                    </select>
+                    <div class="invalid-feedback">
+                        Selecciona un Material
+                    </div>
+                </div>
             </div>
-            <div class="row g-2 mb-3">
-                <div class="col-md">
-                    <label for="idTurno" class="form-label">Turno</label>
-                    <select name="idTurno" class="form-select" id="idTurno" required>
-                        <option selected disabled value="">Escoge un Turno</option>
-                        {{#each turno}}
-                            <option value="{{idTurno}}" name="{{nameTurno}}">{{nameTurno}}</option>
-                        {{/each}}
-                    </select>
-                    <div class="invalid-feedback">
-                        Selecciona un Turno
-                    </div>
-                </div>
-
-                <div class="col-md">
-                    <label for="idOperador" class="form-label">Operador Principal</label>
-                    <select name="idOperador" class="form-select" id="idOperador" required>
-                        <option selected disabled value="">Escoge un Operador Principal</option>
-                        {{#each operador}}
-                            <option value="{{idOperador}}" name="{{fullname}}">{{fullname}}</option>
-                        {{/each}}
-                    </select>
-                    <div class="invalid-feedback">
-                        Selecciona un Operador Principal
-                    </div>
-                </div>
 
 <div class="inputsHidden">
     <input name="idstatus" type="hidden" value="1">
