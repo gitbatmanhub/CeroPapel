@@ -99,6 +99,7 @@ router.get('/detallesofoperador/:id', permissions, isLoggedIn, async (req, res) 
     const tipoPara = await pool.query('select * from tipoPara');
     const datosPara = await pool.query('select * from datosPara where idOrdenFabricacion=?', [ordenid]);
     const horasPara= await pool.query('select sec_to_time(sum(time_to_sec(horasPara))) as horasPara, idOrdenFabricacion from horasPara where idOrdenFabricacion=?', [ordenid])
+
     const horasOrden=await pool.query('select * from horasordenfabricacion where idOrdenFabricacion=?', [ordenid]);
     const horasOrdenT= await pool.query('select sec_to_time(sum(time_to_sec(horasOf))) as horasOrdenT, idOrdenFabricacion from horasOf where idOrdenFabricacion=?;', [ordenid]);
     res.render('produccion/operadores/detallesofT', {datosof:datosof[0], tipoPara, datosPara, horasPara:horasPara[0], horasOrden: horasOrden[0], horasOrdenT: horasOrdenT[0]})
@@ -115,7 +116,7 @@ router.post('/agregarPara', isLoggedIn, async (req, res) => {
         comentario,
         idOrdenFabricacion
     };
-    //console.log(horaInicio,  horaFinal);
+   /*
     const horaInicios=(horaInicio).split(":");
     const horaFinals=(horaFinal).split(":");
     const h1=new Date();
@@ -125,7 +126,9 @@ router.post('/agregarPara', isLoggedIn, async (req, res) => {
     h2.setHours(horaFinals[0], horaFinals[1]);
     h1.setHours(h1.getHours()-h2.getHours(), h1.getMinutes()-h2.getMinutes());
     console.log("La diferencia es de: " + (h1.getHours() ? h1.getHours() + (h1.getHours() > 1 ? " horas" : " hora") : "") + (h1.getMinutes() ? ", " + h1.getMinutes() + (h1.getMinutes() > 1 ? " minutos" : " minuto") : ""));
-    //await pool.query('insert into horasParaS set ?', [horas_Para]);
+
+    */
+    await pool.query('insert into horasParaS set ?', [horas_Para]);
     res.redirect('detallesofoperador/'+ idOrdenFabricacion)
 });
 

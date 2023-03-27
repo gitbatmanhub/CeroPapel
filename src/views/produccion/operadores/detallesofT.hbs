@@ -46,25 +46,28 @@
                 <div class="row g-2 mb-3">
                     <div class="col-md">
                         <label for="horaInicio" class="form-label">Hora Inicio</label>
-                        <input name="horaInicio" id="horaInicio" type="text" value="{{horasOrden.horaInicio}}" class="form-control" readonly>
+                        <input name="horaInicio" id="horaInicio" type="text" value="{{horasOrden.horaInicio}}"
+                               class="form-control" readonly>
                     </div>
                     <div class="col-md">
                         <label for="horaFinal" class="form-label">Hora Final</label>
-                        <input name="horaFinal" id="horaFinal" type="text" value="{{horasOrden.horaFinal}}" class="form-control" readonly>
+                        <input name="horaFinal" id="horaFinal" type="text" value="{{horasOrden.horaFinal}}"
+                               class="form-control" readonly>
                     </div>
                     <div class="col-md">
                         <label for="horasOrdenT" class="form-label">Total Horas Trabajadas</label>
-                        <input name="horasOrdenT" id="horasOrdenT" type="text" value="{{horasOrdenT.horasOrdenT}}" class="form-control" readonly>
+                        <input name="horasOrdenT" id="horasOrdenT" type="text" value="{{horasOrdenT.horasOrdenT}}"
+                               class="form-control" readonly>
                     </div>
 
 
                 </div>
-            <div class="row g-2 mb-3">
-                <div class="col-md">
-                    <label for="idTurno" class="form-label">Total Horas Maquina</label>
-                    <input name="fecha" type="text" value="" class="form-control" readonly>
+                <div class="row g-2 mb-3">
+                    <div class="col-md">
+                        <label for="idTurno" class="form-label">Total Horas Maquina</label>
+                        <input name="fecha" type="text" value="" class="form-control" readonly>
+                    </div>
                 </div>
-            </div>
             {{/when}}
         </div>
     </div>
@@ -135,22 +138,47 @@
                                 Selecciona la fecha para la orden de fabricación
                             </div>
                             <div class="row g-2 mb-3">
-
-                                <div class="col-md">
-                                    <label for="horaInicio" class="form-label">Inicio de Para</label>
-                                    <input type="time" value="" name="horaInicio" class="form-control" required>
-                                    <div class="invalid-feedback">
-                                        Selecciona una fecha Inicial
+                                {{#when datosof.idTurno 'eq' 1 }}
+                                    <div class="col-md">
+                                        <label for="horaInicio" class="form-label">Inicio de Paraaaaa</label>
+                                        <input type="time" min="07:00:00" max="19:00:00" value="" name="horaInicio"
+                                               class="form-control" required>
+                                        <div class="invalid-feedback">
+                                            La fecha inicial debe ser entre las 07h00 a las 19h00 y/o no debe estar
+                                            vacía.
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md">
+                                    <div class="col-md">
 
-                                    <label for="horaFinal" class="form-label">Fin de Para</label>
-                                    <input type="time" value="" name="horaFinal" class="form-control" required>
-                                    <div class="invalid-feedback">
-                                        Selecciona una fecha final
+                                        <label for="horaFinal" class="form-label">Fin de Para</label>
+                                        <input type="time" value="" min="07:00:00" max="19:00:00" name="horaFinal"
+                                               class="form-control" required>
+                                        <div class="invalid-feedback">
+                                            La fecha final debe ser entre las 07h00 a las 19h00 y/o no debe estar
+                                            vacía.
+                                        </div>
                                     </div>
-                                </div>
+                                {{else}}
+                                    <div class="col-md">
+                                        <label for="horaInicio" class="form-label">Inicio de Para</label>
+                                        <input type="time" value="" min="19:00:00" max="07:00:00" name="horaInicio"
+                                               class="form-control" required>
+                                        <div class="invalid-feedback">
+                                            La fecha inicial debe ser entre las 19h00 a las 07h00 y/o no debe estar
+                                            vacía.                                        </div>
+                                    </div>
+                                    <div class="col-md">
+
+                                        <label for="horaFinal" class="form-label">Fin de Para</label>
+                                        <input type="time" value="" min="19:00:00" max="07:00:00" name="horaFinal"
+                                               class="form-control" required>
+                                        <div class="invalid-feedback">
+                                            La fecha final debe ser entre las 19h00 a las 07h00 y/o no debe estar
+                                            vacía.
+                                        </div>
+                                    </div>
+                                {{/when}}
+
                             </div>
 
                             <div class="col-md">
