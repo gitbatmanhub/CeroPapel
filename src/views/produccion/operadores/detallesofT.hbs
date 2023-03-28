@@ -62,12 +62,14 @@
 
 
                 </div>
+                <!--
                 <div class="row g-2 mb-3">
                     <div class="col-md">
                         <label for="idTurno" class="form-label">Total Horas Maquina</label>
                         <input name="fecha" type="text" value="" class="form-control" readonly>
                     </div>
                 </div>
+                -->
             {{/when}}
         </div>
     </div>
@@ -165,7 +167,8 @@
                                                class="form-control" required>
                                         <div class="invalid-feedback">
                                             La fecha inicial debe ser entre las 19h00 a las 07h00 y/o no debe estar
-                                            vacía.                                        </div>
+                                            vacía.
+                                        </div>
                                     </div>
                                     <div class="col-md">
 
@@ -236,25 +239,28 @@
                                     <label for="pesoKg">Peso Material</label>
                                     <input class="form-control" type="number" id="pesoKg" name="pesoKg" required>
                                     <div class="invalid-feedback">
-                                        Ingresa la hora inicial
+                                        Ingresa el peso correspondiente al material
                                     </div>
                                 </div>
                             </div>
                             <div class="row g-2 mb-3" style="align-items: flex-end">
+                                {{#when datosof.idTurno 'eq' 1 }}
                                 <div class="col-md">
                                     <label for="horaInicio">Inicio Trabajo</label>
-                                    <input class="form-control" type="time" id="horaInicio" name="horaInicio" required>
+                                    <input class="form-control" min="07:00:00" max="19:00:00" type="time" id="horaInicio" name="horaInicio" required>
                                     <div class="invalid-feedback">
-                                        Ingresa la hora incial
+                                        Ingresa la hora incial(La misma debe empezar min a las 07h00)
                                     </div>
                                 </div>
                                 <div class="col-md">
                                     <label for="horaFinal">Fin Trabajo</label>
-                                    <input class="form-control" type="time" id="pesoKg" name="horaFinal" required>
+                                    <input class="form-control" min="07:00:00" max="19:00:00" type="time" id="pesoKg" name="horaFinal" required>
                                     <div class="invalid-feedback">
-                                        Ingresa la hora final
+                                        Ingresa la hora final(La misma debe culminar max a las 19h00)
                                     </div>
                                 </div>
+                            {{/when}}
+
                             </div>
 
 

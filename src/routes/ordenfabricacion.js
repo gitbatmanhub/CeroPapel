@@ -4,6 +4,8 @@ const router = express.Router();
 const pool = require('../database');
 const {isLoggedIn, permissions} = require('../lib/auth');
 const {logger} = require("browser-sync/dist/logger");
+const {es} = require("timeago.js/lib/lang");
+const Console = require("console");
 
 //Rutas de admin
 
@@ -11,16 +13,7 @@ router.get('/agregarof', isLoggedIn, async (req, res) => {
     const userId = req.user.iduser;
     const maquinarias = await pool.query('select * from maquinaria');
     const material = await pool.query('select * from material');
-    console.log(userId);
-    let fecha = new Date();
-    let hora = fecha.getHours();
-    if (hora >= 7 && hora < 19) {
-        console.log("Es de día")
-    } else {
-        console.log("Es de noche")
-    }
 
-    //console.log(todasordenes);
     res.render('produccion/addordenfabricacion', {maquinarias, material})
 });
 
@@ -53,12 +46,27 @@ router.post('/agregarof', isLoggedIn, permissions, async (req, res) => {
 });
 
 
-router.get('/ordenesfabricacion', isLoggedIn, permissions, async (req, res) => {
+router.get('/ordenesfabricacion', isLoggedIn, async (req, res) => {
     const userId = req.user.iduser;
-    const datosof = await pool.query('select * from datosof where iduser=?', [userId]);
+    const datosof = await pool.query('select * from datosof where iduser=? and idStatus=1', [userId]);
     res.render('produccion/ordenesfabricacion', {datosof})
 
 });
+
+router.get('/ordenesfabricacionTerminadas', isLoggedIn, async (req, res) => {
+    const userId = req.user.iduser;
+    const datosofCerradas = await pool.query('select * from datosof where iduser=? and idStatus=2', [userId]);
+    res.render('produccion/operadores/ofterminadas', { datosofCerradas})
+
+});
+
+router.get('/ordenesfabricacioncreadas', isLoggedIn, async (req, res) => {
+    const userId = req.user.iduser;
+    const datosOfCreadas = await pool.query('select * from datosof where idStatus=1');
+    res.render('produccion/operadores/ofCreadas', { datosOfCreadas})
+
+});
+
 
 router.get('/tipoOperador', isLoggedIn, permissions, async (req, res) => {
     const operadores = await pool.query('select * from usuario where rolusuario=5;')
@@ -99,9 +107,11 @@ router.get('/detallesofoperador/:id', permissions, isLoggedIn, async (req, res) 
     const tipoPara = await pool.query('select * from tipoPara');
     const datosPara = await pool.query('select * from datosPara where idOrdenFabricacion=?', [ordenid]);
     const horasPara= await pool.query('select sec_to_time(sum(time_to_sec(horasPara))) as horasPara, idOrdenFabricacion from horasPara where idOrdenFabricacion=?', [ordenid])
-
     const horasOrden=await pool.query('select * from horasordenfabricacion where idOrdenFabricacion=?', [ordenid]);
     const horasOrdenT= await pool.query('select sec_to_time(sum(time_to_sec(horasOf))) as horasOrdenT, idOrdenFabricacion from horasOf where idOrdenFabricacion=?;', [ordenid]);
+
+
+    //console.log(horasMaquina);
     res.render('produccion/operadores/detallesofT', {datosof:datosof[0], tipoPara, datosPara, horasPara:horasPara[0], horasOrden: horasOrden[0], horasOrdenT: horasOrdenT[0]})
 
 });
