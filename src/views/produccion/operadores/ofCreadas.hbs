@@ -8,7 +8,7 @@
                 <h1 style="padding: 20px">Todas Ordenes Fabricación</h1>
 
 
-                <table id="table1" class="display">
+                <table id="table" class="display">
                     <thead>
                     <tr>
                         <th><h6>Id Orden</h6></th>
@@ -25,12 +25,10 @@
                     {{#each datosOfCreadas}}
 
                         <tr>
-                            <td class="">
-                                <div class="">
-                                    <div class="">
+                            <td class="idOrden">
+
                                         <p>{{idOrdenFabricacion}}</p>
-                                    </div>
-                                </div>
+
                             </td>
                             <td class="fullname">
                                 <p>{{nameTurno}}</p>
@@ -46,10 +44,14 @@
                             </td>
 
                             <td style="text-align: center">
+                                <div>
+                                <form action="/operadormaquina/{{idOrdenFabricacion}}" method="post">
+                                    <a  data-bs-toggle="modal" data-bs-target="#modalAcciones1OF" class="btn btn-primary"><i class="bi bi-info-circle"></i></a>
+                                    <button type="submit" class="btn btn-primary"><i class="bi bi-box-arrow-in-right"></i></button>
 
+                                </form>
 
-                                <button href="" data-bs-toggle="modal" data-bs-target="#modalAcciones1OF" class="btn btn-primary"><i class="bi bi-eye-fill"></i></button>
-
+                                </div>
                             </td>
                         </tr>
 
@@ -67,7 +69,7 @@
 </div>
 </div>
 
-{{#each datosOfCreadas }}
+
     <div class="modal fade" id="modalAcciones1OF" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
          tabindex="-1">
         <div class="modal-dialog modal-dialog-centered">
@@ -87,8 +89,9 @@
                         </lord-icon>
                         <div class="card-body">
                             <h5 class="card-title">Ingresar</h5>
-                            <p class="card-text">Al momento que le des a ingresar estás formando parte de esta orden</p>
-                            <a href="/orden/edit/" class="btn btn-secondary" id="editBtn">Editar</a>
+                            <p class="card-text">Al momento que le des a <i class="bi bi-box-arrow-in-right"></i> estás formando parte de esta orden</p>
+                            <a type="button" class="btn btn-primary" data-bs-dismiss="modal" aria-label="Close">Entendido</a>
+
                         </div>
                     </div>
 
@@ -99,19 +102,25 @@
         </div>
 
     </div>
-{{/each}}
+
 
 
 
 <script>
-    const table1 = document.getElementById('table1');
-    table1.addEventListener('click', (e)=>{
-        e.stopPropagation();
-        const id=e.target.parentElement.parentElement.children[0].textContent.trim();
-        console.log(id);
-        document.getElementById("viewBtn").href="/view/" + id;
-        document.getElementById("editBtn").href="/edit/" + id;
-        document.getElementById("deleteBtn").href="/delete/" + id;
 
+
+    window.addEventListener('load', function() {
+        /*const table1 = document.getElementById('table1');
+        table1.addEventListener('click', (e)=>{
+            e.stopPropagation();
+            const id=e.target.parentElement.parentElement.children[0].textContent.trim();
+            alert(id);
+            document.getElementById("ingresar").href="/operadormaquina/"+id;
+        });
+
+         */
     });
+
+
+
 </script>
