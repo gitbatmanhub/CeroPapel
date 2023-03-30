@@ -29,50 +29,76 @@
             <input name="fecha" type="text" value="{{datosof.fullname}}" class="form-control" readonly>
         </div>
 
-
-        <div class="container" style="text-align: center; padding-top:10px;">
-
-            {{#when datosof.idstatus 'eq' 1 }}
-
-                <button class="btn btn-primary" data-bs-target="#paras" data-bs-toggle="modal">Agregar Paras</button>
-                <!--<button class="btn btn-primary" data-bs-target="#materiales" data-bs-toggle="modal">Agregar Material
-                    Trabajado
-                </button>-->
-                <!--<button class="btn btn-primary" data-bs-target="#kgMaterial" data-bs-toggle="modal">Agregar Kg Material
-                </button>-->
-                <button class="btn btn-danger" data-bs-target="#kgMaterial" data-bs-toggle="modal">Cerrar Orden
-                </button>
-            {{else}}
-                <div class="row g-2 mb-3">
-                    <div class="col-md">
-                        <label for="horaInicio" class="form-label">Hora Inicio</label>
-                        <input name="horaInicio" id="horaInicio" type="text" value="{{horasOrden.horaInicio}}"
-                               class="form-control" readonly>
-                    </div>
-                    <div class="col-md">
-                        <label for="horaFinal" class="form-label">Hora Final</label>
-                        <input name="horaFinal" id="horaFinal" type="text" value="{{horasOrden.horaFinal}}"
-                               class="form-control" readonly>
-                    </div>
-                    <div class="col-md">
-                        <label for="horasOrdenT" class="form-label">Total Horas Trabajadas</label>
-                        <input name="horasOrdenT" id="horasOrdenT" type="text" value="{{horasOrdenT.horasOrdenT}}"
-                               class="form-control" readonly>
-                    </div>
-
-
-                </div>
-                <!--
-                <div class="row g-2 mb-3">
-                    <div class="col-md">
-                        <label for="idTurno" class="form-label">Total Horas Maquina</label>
-                        <input name="fecha" type="text" value="" class="form-control" readonly>
-                    </div>
-                </div>
-                -->
-            {{/when}}
-        </div>
     </div>
+    {{#if ayudantesOrden}}
+        <div class="row g-2 mb-3">
+            {{#each ayudantesOrden}}
+                <div class="col-md">
+                    <label for="idTurno" class="form-label">Ayudante</label>
+                    <input name="fecha" type="text" value="{{fullname}}" class="form-control" readonly>
+                </div>
+            {{/each}}
+
+
+
+        </div>
+    {{/if}}
+    <div class="container" style="text-align: center; padding-top:10px;">
+
+        {{#when datosof.idstatus 'eq' 1 }}
+            {{#when userOrden.idtipoOperador 'eq' 1 }}
+                {{#when userOrden.idTipoMarca 'eq' 1 }}
+                    <button class="btn btn-primary" data-bs-target="#paras" data-bs-toggle="modal">Agregar Paras
+                    </button>
+                    <!--<button class="btn btn-primary" data-bs-target="#materiales" data-bs-toggle="modal">Agregar Material
+                        Trabajado
+                    </button>-->
+                    <!--<button class="btn btn-primary" data-bs-target="#kgMaterial" data-bs-toggle="modal">Agregar Kg Material
+                    </button>-->
+                    <button class="btn btn-danger" data-bs-target="#kgMaterial" data-bs-toggle="modal">Cerrar Orden
+                    </button>
+
+                {{/when}}
+            {{else}}
+
+                <form action="/salirof/{{datosof.idOrdenFabricacion}}" method="post">
+                    <input type="hidden" value="{{userOrden.idtipoOperador}}" name="idtipoOperador">
+                    <input type="hidden" value="2" name="idTipoMarca">
+                    <button type="submit" class="btn btn-danger">Salir</button>
+                </form>
+            {{/when}}
+        {{else}}
+            <div class="row g-2 mb-3">
+                <div class="col-md">
+                    <label for="horaInicio" class="form-label">Hora Inicio</label>
+                    <input name="horaInicio" id="horaInicio" type="text" value="{{horasOrden.horaInicio}}"
+                           class="form-control" readonly>
+                </div>
+                <div class="col-md">
+                    <label for="horaFinal" class="form-label">Hora Final</label>
+                    <input name="horaFinal" id="horaFinal" type="text" value="{{horasOrden.horaFinal}}"
+                           class="form-control" readonly>
+                </div>
+                <div class="col-md">
+                    <label for="horasOrdenT" class="form-label">Total Horas Trabajadas</label>
+                    <input name="horasOrdenT" id="horasOrdenT" type="text" value="{{horasOrdenT.horasOrdenT}}"
+                           class="form-control" readonly>
+                </div>
+
+
+            </div>
+            <!--
+            <div class="row g-2 mb-3">
+                <div class="col-md">
+                    <label for="idTurno" class="form-label">Total Horas Maquina</label>
+                    <input name="fecha" type="text" value="" class="form-control" readonly>
+                </div>
+            </div>
+            -->
+        {{/when}}
+    </div>
+    </div>
+</div>
 
 
 </div>
@@ -245,24 +271,32 @@
                             </div>
                             <div class="row g-2 mb-3" style="align-items: flex-end">
                                 {{#when datosof.idTurno 'eq' 1 }}
-                                <div class="col-md">
-                                    <label for="horaInicio">Inicio Trabajo</label>
-                                    <input class="form-control" min="07:00:00" max="19:00:00" type="time" id="horaInicio" name="horaInicio" required>
-                                    <div class="invalid-feedback">
-                                        Ingresa la hora incial(La misma debe empezar min a las 07h00)
+                                    <div class="col-md">
+                                        <label for="horaInicio">Inicio Trabajo</label>
+                                        <input class="form-control" min="07:00:00" max="19:00:00" type="time"
+                                               id="horaInicio" name="horaInicio" required>
+                                        <div class="invalid-feedback">
+                                            Ingresa la hora incial(La misma debe empezar min a las 07h00)
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md">
-                                    <label for="horaFinal">Fin Trabajo</label>
-                                    <input class="form-control" min="07:00:00" max="19:00:00" type="time" id="pesoKg" name="horaFinal" required>
-                                    <div class="invalid-feedback">
-                                        Ingresa la hora final(La misma debe culminar max a las 19h00)
+                                    <div class="col-md">
+                                        <label for="horaFinal">Fin Trabajo</label>
+                                        <input class="form-control" min="07:00:00" max="19:00:00" type="time"
+                                               id="pesoKg" name="horaFinal" required>
+                                        <div class="invalid-feedback">
+                                            Ingresa la hora final(La misma debe culminar max a las 19h00)
+                                        </div>
                                     </div>
-                                </div>
-                            {{/when}}
+                                {{/when}}
 
                             </div>
+                            <input type="hidden" value="1" name="idtipoOperador">
+                            <input type="hidden" value="2" name="idTipoMarca">
+                            {{#each ayudantesOrden}}
+                                <input type="hidden" value="{{idUsuario}}" name="idUsuario">
+                                <input type="hidden" value="{{idtipoOperador}}" name="idtipoOperador">
 
+                            {{/each}}
 
                             <div class="form-group boton-send">
 
