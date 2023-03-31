@@ -136,7 +136,7 @@ router.post('/salirof/:id', isLoggedIn, async (req, res) => {
     }
     console.log(operador);
     await pool.query('insert into operador set ?;', [operador]);
-    res.redirect('/detallesofoperador/36');
+    res.redirect('/detallesofoperador/'+operador.idOrdenFabricacion);
 });
 
 
@@ -151,7 +151,7 @@ router.get('/detallesofoperador/:id', permissions, isLoggedIn, async (req, res) 
     const horasOrdenT = await pool.query('select sec_to_time(sum(time_to_sec(horasOf))) as horasOrdenT, idOrdenFabricacion from horasOf where idOrdenFabricacion=?;', [ordenid]);
     const userOrden = await pool.query('select idtipoOperador, idUsuario, idTipoMarca from operador where idOrdenFabricacion=? and idUsuario=? and idTipoMarca=?;', [ordenid, userId, 1]);
     const ayudantesOrden = await pool.query('select idUsuario, idtipoOperador, idTipoMarca, u.fullname from operador inner join usuario u on operador.idUsuario=u.iduser where idtipoOperador=2 and idOrdenFabricacion=? and idTipoMarca=1;', [ordenid]);
-    console.log(ayudantesOrden);
+    //console.log(ayudantesOrden);
 
     //console.log(horasMaquina);
     res.render('produccion/operadores/detallesofT', {
@@ -211,14 +211,11 @@ router.post('/cerrarof/:id', isLoggedIn, async (req, res) => {
         idtipoOperador,
         idTipoMarca,
     }
-    const ayudantes={
 
-    }
     await pool.query('insert into kgMaterial (kg, idOrdenFabricacion) values (?,?)', [pesoKg, ordenid]);
     await pool.query('insert into horasOrdenFabricacion(horaInicio, horaFinal, idOrdenFabricacion) values (?, ?, ?)', [horaInicio, horaFinal, ordenid]);
     await pool.query('insert into operador (idtipoOperador, idUsuario, idOrdenFabricacion, idTipoMarca) values ( ?, ?, ?, ?);', [idtipoOperador, userId, ordenid, idTipoMarca]);
     await pool.query('update ordenFabricacion set idstatus=2 where idOrdenFabricacion=?;', [ordenid]);
-
     res.redirect('/detallesofoperador/' + ordenid)
 });
 
