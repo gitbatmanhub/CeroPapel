@@ -44,28 +44,21 @@
         </div>
     {{/if}}
     <div class="container" style="text-align: center; padding-top:10px;">
-
         {{#when datosof.idstatus 'eq' 1 }}
             {{#when userOrden.idtipoOperador 'eq' 1 }}
-                {{#when userOrden.idTipoMarca 'eq' 1 }}
-                    <button class="btn btn-primary" data-bs-target="#paras" data-bs-toggle="modal">Agregar Paras</button>
-                    <!--<button class="btn btn-primary" data-bs-target="#materiales" data-bs-toggle="modal">Agregar Material
-                        Trabajado
-                    </button>-->
-                    <!--<button class="btn btn-primary" data-bs-target="#kgMaterial" data-bs-toggle="modal">Agregar Kg Material
-                    </button>-->
-                    <button class="btn btn-danger" data-bs-target="#kgMaterial" data-bs-toggle="modal">Cerrar Orden
-                    </button>
-
-                {{/when}}
+                <button class="btn btn-primary" data-bs-target="#paras" data-bs-toggle="modal">Agregar Paras</button>
+                <button class="btn btn-danger" data-bs-target="#kgMaterial" data-bs-toggle="modal">Cerrar Orden
+                </button>
             {{else}}
-
-                <form action="/salirof/{{datosof.idOrdenFabricacion}}" method="post">
-                    <input type="hidden" value="{{userOrden.idtipoOperador}}" name="idtipoOperador">
-                    <input type="hidden" value="2" name="idTipoMarca">
-                    <button type="submit" class="btn btn-danger">Salir</button>
-                </form>
+                {{#when userOrden.idTipoMarca 'eq' 1 }}
+                    <form action="/salirof/{{datosof.idOrdenFabricacion}}" method="post">
+                        <input type="hidden" value="{{userOrden.idtipoOperador}}" name="idtipoOperador">
+                        <input type="hidden" value="2" name="idTipoMarca">
+                        <button type="submit" class="btn btn-danger">Salir</button>
+                    </form>
+                {{/when}}
             {{/when}}
+
         {{else}}
             <div class="row g-2 mb-3">
                 <div class="col-md">
@@ -83,20 +76,10 @@
                     <input name="horasOrdenT" id="horasOrdenT" type="text" value="{{horasOrdenT.horasOrdenT}}"
                            class="form-control" readonly>
                 </div>
-
-
             </div>
-            <!--
-            <div class="row g-2 mb-3">
-                <div class="col-md">
-                    <label for="idTurno" class="form-label">Total Horas Maquina</label>
-                    <input name="fecha" type="text" value="" class="form-control" readonly>
-                </div>
-            </div>
-            -->
         {{/when}}
     </div>
-    </div>
+</div>
 </div>
 
 
@@ -262,7 +245,8 @@
                                 </div>
                                 <div class="col-md">
                                     <label for="pesoKg">Peso Material</label>
-                                    <input class="form-control" type="number" id="pesoKg" name="pesoKg" required>
+                                    <input class="form-control" autofocus="autofocus" type="number" id="pesoKg"
+                                           name="pesoKg" required>
                                     <div class="invalid-feedback">
                                         Ingresa el peso correspondiente al material
                                     </div>
@@ -291,11 +275,7 @@
                             </div>
                             <input type="hidden" value="1" name="idtipoOperador">
                             <input type="hidden" value="2" name="idTipoMarca">
-                            {{#each ayudantesOrden}}
-                                <input type="hidden" value="{{idUsuario}}" name="idUsuario">
-                                <input type="hidden" value="{{idtipoOperador}}" name="idtipoOperador">
 
-                            {{/each}}
 
                             <div class="form-group boton-send">
 

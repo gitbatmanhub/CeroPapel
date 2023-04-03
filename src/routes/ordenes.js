@@ -289,7 +289,6 @@ router.post('/tecnico/:id', isLoggedIn, permissions, async (req, res) => {
     for (let i = 0; i < exmaple.idTecnico.length; i++) {
         const idTecnico = exmaple.idTecnico[i];
         await pool.query('INSERT into orden_Trabajador (idOrden, idTecnico) VALUES (?, ?)', [idOrden, idTecnico]);
-        console.log("Aquí estoy",+idOrden, idTecnico)
     }
 
     await pool.query('INSERT into orden_Status (idStatus, idOrden, idUsuario) VALUES (?,?,?)', [idStatus, idOrden, userId]);
