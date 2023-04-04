@@ -96,7 +96,38 @@ router.post('/edittipoOperador/', isLoggedIn, permissions, async (req, res) => {
 
 
 router.get('/detallesof/:id', permissions, isLoggedIn, async (req, res) => {
-    res.render('produccion/detallesof')
+    const userId = req.user.iduser;
+    const ordenid = req.params.id;
+    const datosof = await pool.query('select * from datosof where idOrdenFabricacion=?', [ordenid]);
+    const tipoPara = await pool.query('select * from tipoPara');
+    const datosPara = await pool.query('select * from datosPara where idOrdenFabricacion=?', [ordenid]);
+    const horasPara = await pool.query('select sec_to_time(sum(time_to_sec(horasPara))) as horasPara, idOrdenFabricacion from horasPara where idOrdenFabricacion=?', [ordenid])
+    const horasOrden = await pool.query('select * from horasordenfabricacion where idOrdenFabricacion=?', [ordenid]);
+    const horasOrdenT = await pool.query('select sec_to_time(sum(time_to_sec(horasOf))) as horasOrdenT, idOrdenFabricacion from horasOf where idOrdenFabricacion=?;', [ordenid]);
+    const userOrden = await pool.query('select idtipoOperador, idUsuario, idTipoMarca from operador where idOrdenFabricacion=? and idUsuario=? ORDER BY idTipoMarca DESC LIMIT 1', [ordenid, userId]);
+    const ayudantesOrden = await pool.query('select idUsuario, idtipoOperador, idTipoMarca, u.fullname from operador inner join usuario u on operador.idUsuario=u.iduser where idtipoOperador=2 and idOrdenFabricacion=? and idTipoMarca=1;', [ordenid]);
+
+    const operadoresOrden = await pool.query('select idUsuario, idtipoOperador, idTipoMarca, idOrdenFabricacion, u.fullname from operador inner join usuario u on operador.idUsuario=u.iduser where idOrdenFabricacion=? and idTipoMarca=1;', [ordenid]);
+    console.log(operadoresOrden);
+
+
+
+
+    res.render('produccion/detallesof', {
+        datosof: datosof[0],
+        tipoPara,
+        datosPara,
+        horasPara: horasPara[0],
+        horasOrden: horasOrden[0],
+        horasOrdenT: horasOrdenT[0],
+        userOrden: userOrden[0],
+        ayudantesOrden,
+
+
+
+
+        operadoresOrden
+    })
 });
 
 
@@ -151,7 +182,7 @@ router.get('/detallesofoperador/:id', permissions, isLoggedIn, async (req, res) 
     const horasOrden = await pool.query('select * from horasordenfabricacion where idOrdenFabricacion=?', [ordenid]);
     const horasOrdenT = await pool.query('select sec_to_time(sum(time_to_sec(horasOf))) as horasOrdenT, idOrdenFabricacion from horasOf where idOrdenFabricacion=?;', [ordenid]);
     const userOrden = await pool.query('select idtipoOperador, idUsuario, idTipoMarca from operador where idOrdenFabricacion=? and idUsuario=? ORDER BY idTipoMarca DESC LIMIT 1', [ordenid, userId]);
-    console.log(userOrden);
+
     const ayudantesOrden = await pool.query('select idUsuario, idtipoOperador, idTipoMarca, u.fullname from operador inner join usuario u on operador.idUsuario=u.iduser where idtipoOperador=2 and idOrdenFabricacion=? and idTipoMarca=1;', [ordenid]);
     //console.log(ayudantesOrden);
 
