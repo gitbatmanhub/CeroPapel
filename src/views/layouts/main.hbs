@@ -22,6 +22,11 @@
     {{! Stilos plantilla Bootstrap}}
     <link rel="stylesheet" href="/css/main.css" />
 
+    <!-- Links para exportar a excel -->
+    <script src="https://unpkg.com/xlsx@0.16.9/dist/xlsx.full.min.js"></script>
+    <script src="https://unpkg.com/file-saverjs@latest/FileSaver.min.js"></script>
+    <script src="https://unpkg.com/tableexport@latest/dist/js/tableexport.min.js"></script>
+
 
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
@@ -68,26 +73,11 @@
 <script src="https://cdn.lordicon.com/fudrjiwc.js"></script>
 <script src="/js/list-orden.js"></script>
 
-<script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
 
-<script>
-    (() => {
-        'use strict'
 
-        // Fetch all the forms we want to apply custom Bootstrap validation styles to
-        const forms = document.querySelectorAll('.needs-validation')
 
-        // Loop over them and prevent submission
-        Array.from(forms).forEach(form => {
-            form.addEventListener('submit', event => {
-                if (!form.checkValidity()) {
-                    event.preventDefault()
-                    event.stopPropagation()
-                }
 
-                form.classList.add('was-validated')
-            }, false)
-        })
-    })()
-</script>
+
+
+
 </html>

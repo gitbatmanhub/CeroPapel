@@ -108,8 +108,11 @@ router.get('/detallesof/:id', permissions, isLoggedIn, async (req, res) => {
     const ayudantesOrden = await pool.query('select idUsuario, idtipoOperador, idTipoMarca, u.fullname from operador inner join usuario u on operador.idUsuario=u.iduser where idtipoOperador=2 and idOrdenFabricacion=? and idTipoMarca=1;', [ordenid]);
 
     const operadoresOrden = await pool.query('select idUsuario, idtipoOperador, idTipoMarca, idOrdenFabricacion, u.fullname from operador inner join usuario u on operador.idUsuario=u.iduser where idOrdenFabricacion=? and idTipoMarca=1;', [ordenid]);
-    console.log(operadoresOrden);
 
+    const dataOperadores= await pool.query('select * from dataOperadores where IdOrden=?', [ordenid]);
+    const dataOperadorPrincipal= await pool.query('select * from dataOperadores where IdOrden=? and IdTipoOperador=1 group by IDUsuario;', [ordenid])
+    const dataOperadorAyudante= await pool.query('select * from dataOperadores where IdOrden=? and IdTipoOperador=2 group by IDUsuario;', [ordenid])
+    console.log(dataOperadorAyudante)
 
 
 
@@ -122,11 +125,15 @@ router.get('/detallesof/:id', permissions, isLoggedIn, async (req, res) => {
         horasOrdenT: horasOrdenT[0],
         userOrden: userOrden[0],
         ayudantesOrden,
+        dataOperadores,
 
 
 
 
-        operadoresOrden
+        operadoresOrden,
+        dataOperadorPrincipal: dataOperadorPrincipal[0],
+        dataOperadorAyudantes: dataOperadorAyudante[0],
+        dataOperadorAyudante
     })
 });
 

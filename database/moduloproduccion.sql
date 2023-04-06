@@ -888,7 +888,7 @@ select idUsuario, idtipoOperador, idTipoMarca, u.fullname, idOrdenFabricacion fr
 alter table operador add column create_at timestamp default current_timestamp;
 
 select * from operador;
-#drop view dataOperadores;
+drop view dataOperadores;
 create view dataOperadores as
 select F.idOrdenFabricacion as IdOrden,
        o.idUsuario as IDUsuario,
@@ -897,13 +897,11 @@ select F.idOrdenFabricacion as IdOrden,
        h.horaInicio as HoraIncioOrden,
        h.horaFinal as HoraFinalOrden,
        hO.horasOf as HorasTrabajadas,
-       kM.kg as KgProcesador,
+       kM.kg as KgProcesados,
        t2.nameTurno as Turno,
        o.idtipoOperador as IdTipoOperador,
        m.nameMaquinaria as Maquinaria,
-       m2.nameMaterial as Material,
-       o.create_at as HoraMarcacion,
-       tm.nameTipoMarca as TipoMarcacion
+       m2.nameMaterial as Material
 from operador o
          inner join usuario u on o.idUsuario = u.iduser
          inner join tipoOperador t on o.idtipoOperador = t.idTipoOperador
@@ -916,6 +914,11 @@ from operador o
 inner join tipomarca tm on o.idTipoMarca=tm.idTipoMarca
 inner join horasOf hO on F.idOrdenFabricacion = hO.idOrdenFabricacion;
 
+
+select * from dataOperadores where IdOrden=62 and IdTipoOperador=1 group by IDUsuario;
+select * from dataOperadores where IdOrden=62 and IdTipoOperador=2 group by IDUsuario;
+
+select sec_to_time(sum(time_to_sec(horasPara))) as horasPara, idOrdenFabricacion from horasPara where idOrdenFabricacion=62;
 #create view horasOf as
 SELECT IF(
     hF.horaInicio <= hF.horaFinal,
@@ -956,17 +959,21 @@ select iduser, idTipoMarca, fullname, nameTipoMarca, idOrdenFabricacion, create_
     from HorasOperadores
     where idTipoMarca=1;
 
-
-
-
 select * from HorasOperadoresEntrada where idOrdenFabricacion=62;
+
+
 create view HorasOperadoresSalida as
 select iduser, idTipoMarca, fullname, nameTipoMarca, idOrdenFabricacion, create_at as HoraSalida
 from HorasOperadores
 where idTipoMarca=2;
 select * from HorasOperadoresSalida where idOrdenFabricacion=62;
-
-
+drop view horapre;
+create view horapre as;
+select o.idOrdenFabricacion, HOE.HoraEntrada, HOS.HoraSalida
+from operador o
+inner join HorasOperadoresEntrada HOE on HOE.idOrdenFabricacion=o.idOrdenFabricacion
+inner join HorasOperadoresSalida HOS on HOE.idOrdenFabricacion = HOS.idOrdenFabricacion;
+select * from horapre where idOrdenFabricacion=61;
 
 drop view TotalHorasOperadores;
 #create view TotalHorasOperadores as
@@ -993,5 +1000,59 @@ SELECT IF(
     ADDTIME(TIMEDIFF('24:00:00', THO.HoraEntrada), THO.HoraSalida)
 ) AS horasOf, idOrdenFabricacion, iduser from TotalHorasOperadores THO where THO.idOrdenFabricacion=62;
 select * from horasOf;
-
+select * from dataOperadores where IdOrden=62;
 select * from operador;
+select * from dataOperadores order by IdOrden;
+
+select *
+from operador;
+
+select F.idOrdenFabricacion as IdOrden,
+       o.idUsuario          as IDUsuario,
+       u.fullname           as NombreOperador,
+       t.nameTipoOperador   as TipoOperador,
+       h.horaInicio         as HoraIncioOrden,
+       h.horaFinal          as HoraFinalOrden,
+       hO.horasOf           as HorasTrabajadas,
+       kM.kg                as KgProcesados,
+       t2.nameTurno         as Turno,
+       o.idtipoOperador     as IdTipoOperador,
+       m.nameMaquinaria     as Maquinaria,
+       m2.nameMaterial      as Material,
+       o.create_at          as HoraMarcacion
+
+from operador o
+         inner join usuario u on o.idUsuario = u.iduser
+         inner join tipoOperador t on o.idtipoOperador = t.idTipoOperador
+         inner join horasordenfabricacion h on h.idOrdenFabricacion = o.idOrdenFabricacion
+         inner join ordenFabricacion F on o.idOrdenFabricacion = f.idOrdenFabricacion
+         inner join kgMaterial kM on F.idOrdenFabricacion = kM.idOrdenFabricacion
+         inner join turno t2 on F.idTurno = t2.idTurno
+         inner join maquinaria m on F.idMaquinaria = m.idMaquinaria
+         inner join material m2 on F.idMaterial = m2.idMaterial
+         inner join horasOf hO on F.idOrdenFabricacion = hO.idOrdenFabricacion
+         inner join horasPara h2 on F.idOrdenFabricacion = h2.idOrdenFabricacion;
+
+
+
+
+select F.idOrdenFabricacion,
+       u.fullname,
+       h.horaInicio,
+       h.horaFinal,
+       hO.horasOf,
+       kM.kg,
+       t2.nameTurno,
+       m.nameMaquinaria,
+       m2.nameMaterial,
+       o.idtipoOperador
+from operador o
+         inner join usuario u on o.idUsuario = u.iduser
+         inner join horasordenfabricacion h on h.idOrdenFabricacion = o.idOrdenFabricacion
+         inner join ordenFabricacion F on o.idOrdenFabricacion = f.idOrdenFabricacion
+         inner join kgMaterial kM on F.idOrdenFabricacion = kM.idOrdenFabricacion
+         inner join turno t2 on F.idTurno = t2.idTurno
+         inner join maquinaria m on F.idMaquinaria = m.idMaquinaria
+         inner join material m2 on F.idMaterial = m2.idMaterial
+         inner join horasOf hO on F.idOrdenFabricacion = hO.idOrdenFabricacion
+         inner join horasPara h2 on F.idOrdenFabricacion = h2.idOrdenFabricacion;

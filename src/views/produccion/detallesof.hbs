@@ -1,27 +1,61 @@
-<table class="table">
-    <thead>
-    <tr>
-        <th scope="col">#Orden</th>
-        <th scope="col">Name Operadores</th>
+<div class="tables-wrapper" style="display: ">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card-style mb-30">
+                <!--<h6 class="mb-10">Data Table</h6>-->
 
-    </tr>
-    </thead>
-    <tbody>
-    {{#each operadoresOrden}}
-        <tr>
-            <th>{{idOrdenFabricacion}}</th>
-        </tr>
-    {{/each}}
+                <h1 style="padding: 20px">Todas Ordenes Fabricación</h1>
 
-    <tr>
-        <th scope="row">2</th>
-        <td>Jacob</td>
-        <td>Thornton</td>
-        <td>@fat</td>
-    </tr>
 
-    </tbody>
-</table>
+                <table id="table" class="display tablaSi">
+                    <thead>
+                    <tr>
+                        <th scope="col"><h6>IdOrden</h6></th>
+                        <th scope="col"><h6>NombreOperador</h6></th>
+                        <th scope="col"><h6>TipoOperador</h6></th>
+                        <th scope="col"><h6>HoraIncioOrden</h6></th>
+                        <th scope="col"><h6>HoraFinalOrden</h6></th>
+                        <th scope="col"><h6>HorasTrabajadas</h6></th>
+                        <th scope="col"><h6>KgProcesados</h6></th>
+                        <th scope="col"><h6>Turno</h6></th>
+                        <th scope="col"><h6>Maquinaria</h6></th>
+                        <th scope="col"><h6>Material</h6></th>
+                        <th scope="col"><h6>Horas Para</h6></th>
+                        <!--<th scope="col"><h6>HoraMarcacion<h6></th>-->
+                    </tr>
+
+                    </thead>
+
+                    <tbody class=" list" id="tab">
+                    <tr>
+                        <td>{{dataOperadorPrincipal.IdOrden}}</td>
+                        <td>{{dataOperadorPrincipal.NombreOperador}}</td>
+                        <td>{{dataOperadorPrincipal.TipoOperador}}</td>
+                        <td>{{dataOperadorPrincipal.HoraIncioOrden}}</td>
+                        <td>{{dataOperadorPrincipal.HoraFinalOrden}}</td>
+                        <td>{{dataOperadorPrincipal.HorasTrabajadas}}</td>
+                        <td>{{dataOperadorPrincipal.KgProcesados}}</td>
+                        <td>{{dataOperadorPrincipal.Turno}}</td>
+                        <td>{{dataOperadorPrincipal.Maquinaria}}</td>
+                        <td>{{dataOperadorPrincipal.Material}}</td>
+                        <td>{{horasPara.horasPara}}</td>
+                    </tr>
+
+                    </tbody>
+                </table>
+
+                <!-- end table -->
+            </div>
+        </div>
+        <!-- end card -->
+    </div>
+    <!-- end col -->
+
+
+</div>
+</div>
+<button id="btnExportar" class="btn btn-success">Helou</button>
+
 
 <p>--------------------------------------------</p>
 <div class="tittleDetails">
@@ -318,9 +352,24 @@
     </div>
 </div>
 
-<style>
 
+<script>
+    const $btnExportar = document.querySelector("#btnExportar");
+    const $tabla = document.querySelector("#table");
 
-</style>
+    $btnExportar.addEventListener("click", function () {
+        let tableExport = new TableExport($tabla, {
+            exportButtons: true, // No queremos botones
+            filename: "Reporte de prueba", //Nombre del archivo de Excel
+            sheetname: "Reporte de prueba", //Título de la hoja
+        });
+        let datos = tableExport.getExportData();
+        let preferenciasDocumento = datos.tabla.csv;
+        tableExport.export2file(preferenciasDocumento.data, preferenciasDocumento.mimeType, preferenciasDocumento.filename, preferenciasDocumento.fileExtension, preferenciasDocumento.merges, preferenciasDocumento.RTL, preferenciasDocumento.sheetname);
 
+    });
 
+    const excel = document.getElementsByClassName('xlsx');
+    excel.className = "btn btn-success";
+
+</script>
