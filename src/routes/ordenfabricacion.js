@@ -109,10 +109,30 @@ router.get('/detallesof/:id', permissions, isLoggedIn, async (req, res) => {
 
     const operadoresOrden = await pool.query('select idUsuario, idtipoOperador, idTipoMarca, idOrdenFabricacion, u.fullname from operador inner join usuario u on operador.idUsuario=u.iduser where idOrdenFabricacion=? and idTipoMarca=1;', [ordenid]);
 
-    const dataOperadores= await pool.query('select * from dataOperadores where IdOrden=?', [ordenid]);
-    const dataOperadorPrincipal= await pool.query('select * from dataOperadores where IdOrden=? and IdTipoOperador=1 group by IDUsuario;', [ordenid])
-    const dataOperadorAyudante= await pool.query('select * from dataOperadores where IdOrden=? and IdTipoOperador=2 group by IDUsuario;', [ordenid])
-    console.log(dataOperadorAyudante)
+    const dataOperadores = await pool.query('select * from dataOperadores where IdOrden=?', [ordenid]);
+    const dataOperadorPrincipal = await pool.query('select * from dataOperadores where IdOrden=? and IdTipoOperador=1 group by IDUsuario;', [ordenid])
+    const dataOperadorAyudante = await pool.query('select * from dataOperadores where IdOrden=? and IdTipoOperador=2 group by IDUsuario;', [ordenid])
+    const HorasTrabajadasMaquina = dataOperadorPrincipal[0].HorasTrabajadas;
+    const HorasParas = horasPara[0].horasPara;
+    if(HorasTrabajadasMaquina>HorasParas){
+        var hora1 = (HorasTrabajadasMaquina).split(":"),
+            hora2 = (HorasParas).split(":"),
+            t1 = new Date(),
+            t2 = new Date();
+        t1.setHours(hora1[0], hora1[1], hora1[2]);
+        t2.setHours(hora2[0], hora2[1], hora2[2]);
+        t1.setHours(t1.getHours() - t2.getHours(), t1.getMinutes() - t2.getMinutes(), t1.getSeconds() - t2.getSeconds());
+        var horasymin= (t1.getHours() ? t1.getHours(): "") +  (t1.getMinutes() ? ":" + t1.getMinutes(): "");
+    }else {
+        var hora1 = (HorasTrabajadasMaquina).split(":"),
+            hora2 = (HorasParas).split(":"),
+            t1 = new Date(),
+            t2 = new Date();
+        t1.setHours(hora1[0], hora1[1], hora1[2]);
+        t2.setHours(hora2[0], hora2[1], hora2[2]);
+        t1.setHours(t2.getHours() - t1.getHours(), t2.getMinutes() - t1.getMinutes(), t2.getSeconds() - t1.getSeconds());
+        var horasymin= (t1.getHours() ? t1.getHours(): "") +  (t1.getMinutes() ? ":" + t1.getMinutes(): "");
+    }
 
 
 
@@ -128,12 +148,11 @@ router.get('/detallesof/:id', permissions, isLoggedIn, async (req, res) => {
         dataOperadores,
 
 
-
-
         operadoresOrden,
         dataOperadorPrincipal: dataOperadorPrincipal[0],
         dataOperadorAyudantes: dataOperadorAyudante[0],
-        dataOperadorAyudante
+        dataOperadorAyudante,
+        horasymin
     })
 });
 
@@ -175,7 +194,7 @@ router.post('/salirof/:id', isLoggedIn, async (req, res) => {
     }
     console.log(operador);
     await pool.query('insert into operador set ?;', [operador]);
-    res.redirect('/detallesofoperador/'+operador.idOrdenFabricacion);
+    res.redirect('/detallesofoperador/' + operador.idOrdenFabricacion);
 });
 
 
@@ -251,16 +270,17 @@ router.post('/cerrarof/:id', isLoggedIn, async (req, res) => {
     await pool.query('insert into operador (idtipoOperador, idUsuario, idOrdenFabricacion, idTipoMarca) values ( ?, ?, ?, ?);', [idtipoOperador, userId, ordenid, idTipoMarca]);
     await pool.query('update ordenFabricacion set idstatus=2 where idOrdenFabricacion=?;', [ordenid]);
 
-    const operadores= await pool.query('select idUsuario, idTipoMarca from operador where idOrdenFabricacion=? group by idUsuario;', [ordenid]);
+    const operadores = await pool.query('select idUsuario, idTipoMarca from operador where idOrdenFabricacion=? group by idUsuario;', [ordenid]);
     for (let i = 0; i < operadores.length; i++) {
         const idOperador = operadores[i].idUsuario;
         const previs = await pool.query('select idUsuario, idOrdenFabricacion, idTipoMarca from operador where idUsuario=? and idOrdenFabricacion=?', [idOperador, ordenid]);
-        if(previs.length>1){
+        if (previs.length > 1) {
             console.log('el operador con el id', +idOperador, "Ya se fue")
-        }else {
+        } else {
             console.log('el operador con el id', +idOperador, "Solo entró")
             await pool.query('insert into operador (idtipoOperador, idUsuario, idOrdenFabricacion, idTipoMarca)  values (?,?,?,?);', [2, idOperador, ordenid, 2]);
-        };
+        }
+        ;
     }
     //const operadoresSalieron= await pool.query('select idUsuario, idTipoMarca from operador where (idOrdenFabricacion=? and idTipoMarca=2) and idUsuario=?;',[ordenid, 11]);
     //console.log(operadoresSalieron);

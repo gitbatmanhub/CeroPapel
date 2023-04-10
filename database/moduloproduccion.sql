@@ -1056,3 +1056,5 @@ from operador o
          inner join material m2 on F.idMaterial = m2.idMaterial
          inner join horasOf hO on F.idOrdenFabricacion = hO.idOrdenFabricacion
          inner join horasPara h2 on F.idOrdenFabricacion = h2.idOrdenFabricacion;
+
+select * from dataOperadores where IdOrden=62 and IdTipoOperador=1 group by IDUsuario;

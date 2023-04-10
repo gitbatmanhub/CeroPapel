@@ -2,7 +2,6 @@
 $(document).ready(function () {
 
     $('#table1, #table2, #table3, #table').DataTable({
-        scrollY: '100vh',
         scrollCollapse: true,
         responsive: true,
         paging: true,
