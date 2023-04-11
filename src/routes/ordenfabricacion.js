@@ -105,7 +105,7 @@ router.get('/detallesof/:id', permissions, isLoggedIn, async (req, res) => {
     const horasOrden = await pool.query('select * from horasordenfabricacion where idOrdenFabricacion=?', [ordenid]);
     const horasOrdenT = await pool.query('select sec_to_time(sum(time_to_sec(horasOf))) as horasOrdenT, idOrdenFabricacion from horasOf where idOrdenFabricacion=?;', [ordenid]);
     const userOrden = await pool.query('select idtipoOperador, idUsuario, idTipoMarca from operador where idOrdenFabricacion=? and idUsuario=? ORDER BY idTipoMarca DESC LIMIT 1', [ordenid, userId]);
-    const ayudantesOrden = await pool.query('select idUsuario, idtipoOperador, idTipoMarca, u.fullname from operador inner join usuario u on operador.idUsuario=u.iduser where idtipoOperador=2 and idOrdenFabricacion=? and idTipoMarca=1;', [ordenid]);
+    const ayudantesOrden = await pool.query('select * from operadores where idOrdenFabricacion=? and idtipoOperador=2 group by iduser', [ordenid]);
 
     const operadoresOrden = await pool.query('select idUsuario, idtipoOperador, idTipoMarca, idOrdenFabricacion, u.fullname from operador inner join usuario u on operador.idUsuario=u.iduser where idOrdenFabricacion=? and idTipoMarca=1;', [ordenid]);
 
@@ -114,7 +114,6 @@ router.get('/detallesof/:id', permissions, isLoggedIn, async (req, res) => {
     const dataOperadorAyudante = await pool.query('select * from dataOperadores where IdOrden=? and IdTipoOperador=2 group by IDUsuario;', [ordenid])
     const HorasTrabajadasMaquina = dataOperadorPrincipal[0].HorasTrabajadas;
     const HorasParas = horasPara[0].horasPara;
-    if(HorasTrabajadasMaquina>HorasParas){
         var hora1 = (HorasTrabajadasMaquina).split(":"),
             hora2 = (HorasParas).split(":"),
             t1 = new Date(),
@@ -122,20 +121,8 @@ router.get('/detallesof/:id', permissions, isLoggedIn, async (req, res) => {
         t1.setHours(hora1[0], hora1[1], hora1[2]);
         t2.setHours(hora2[0], hora2[1], hora2[2]);
         t1.setHours(t1.getHours() - t2.getHours(), t1.getMinutes() - t2.getMinutes(), t1.getSeconds() - t2.getSeconds());
-        var horasymin= (t1.getHours() ? t1.getHours(): "") +  (t1.getMinutes() ? ":" + t1.getMinutes(): "");
-    }else {
-        var hora1 = (HorasTrabajadasMaquina).split(":"),
-            hora2 = (HorasParas).split(":"),
-            t1 = new Date(),
-            t2 = new Date();
-        t1.setHours(hora1[0], hora1[1], hora1[2]);
-        t2.setHours(hora2[0], hora2[1], hora2[2]);
-        t1.setHours(t2.getHours() - t1.getHours(), t2.getMinutes() - t1.getMinutes(), t2.getSeconds() - t1.getSeconds());
-        var horasymin= (t1.getHours() ? t1.getHours(): "") +  (t1.getMinutes() ? ":" + t1.getMinutes(): "");
-    }
-
-
-
+        const horasymin= (t1.getHours() ? t1.getHours(): "") +  (t1.getMinutes() ? ":" + t1.getMinutes(): "");
+    console.log(ayudantesOrden);
     res.render('produccion/detallesof', {
         datosof: datosof[0],
         tipoPara,

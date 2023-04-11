@@ -941,30 +941,43 @@ select * from horasOf;
 
 #drop view HorasOperadores;
 create view HorasOperadores as
-select u.iduser, o.idTipoMarca, u.fullname, tM.nameTipoMarca, o.idOrdenFabricacion, o.create_at
+select u.iduser, o.idTipoMarca, u.fullname, t2.nameTurno,m.nameMaquinaria, m2.nameMaterial ,tM.nameTipoMarca, t.nameTipoOperador ,o.idOrdenFabricacion, date_format(o.create_at, "%H:%i") as hora, o.idtipoOperador
 from operador o
 inner join usuario u on o.idUsuario=u.iduser
-inner join tipoMarca tM on tM.idTipoMarca=o.idTipoMarca;
+inner join tipoMarca tM on tM.idTipoMarca=o.idTipoMarca
+inner join tipoOperador t on o.idtipoOperador = t.idTipoOperador
+inner join ordenFabricacion F on o.idOrdenFabricacion = F.idOrdenFabricacion
+inner join maquinaria m on F.idMaquinaria = m.idMaquinaria
+inner join material m2 on F.idMaterial = m2.idMaterial
+inner join turno t2 on F.idTurno = t2.idTurno;
 
 
-select * from HorasOperadores where idTipoMarca=1 and idOrdenFabricacion=62;
+select * from HorasOperadores;
+select * from operador where idTipoMarca=1 and idOrdenFabricacion=62;
+select * from operador where idTipoMarca=2 and idOrdenFabricacion=62;
+
+select date_format(create_at, "%H:%i")from operador;
+select create_at from operador;
+
+
+select * from HorasOperadores where idOrdenFabricacion=65;
 select * from HorasOperadores where idTipoMarca=2 and idOrdenFabricacion=62;
 
 
 
-drop view HorasOperadoresEntrada;
+#drop view HorasOperadoresEntrada;
 select * from HorasOperadores;
 create view HorasOperadoresEntrada as
-select iduser, idTipoMarca, fullname, nameTipoMarca, idOrdenFabricacion, create_at as HoraEntrada
+select iduser, idTipoMarca, nameTurno,nameMaterial,nameMaquinaria, nameTipoOperador ,fullname, nameTipoMarca, idtipoOperador ,idOrdenFabricacion, hora as HoraEntrada
     from HorasOperadores
     where idTipoMarca=1;
+select * from HorasOperadores;
 
 select * from HorasOperadoresEntrada where idOrdenFabricacion=62;
 
-
+#drop view HorasOperadoresSalida;
 create view HorasOperadoresSalida as
-select iduser, idTipoMarca, fullname, nameTipoMarca, idOrdenFabricacion, create_at as HoraSalida
-from HorasOperadores
+select iduser, idTipoMarca,nameMaterial,nameTurno,nameMaquinaria,  nameTipoOperador, idtipoOperador ,fullname, nameTipoMarca, idOrdenFabricacion, hora as HoraSalida from HorasOperadores
 where idTipoMarca=2;
 select * from HorasOperadoresSalida where idOrdenFabricacion=62;
 drop view horapre;
@@ -1058,3 +1071,47 @@ from operador o
          inner join horasPara h2 on F.idOrdenFabricacion = h2.idOrdenFabricacion;
 
 select * from dataOperadores where IdOrden=62 and IdTipoOperador=1 group by IDUsuario;
+
+use bddnova;
+drop view operadoresData;
+create view operadoresData as;
+select operador.idUsuario, operador.idOrdenFabricacion, operador.idtipoOperador, nameTipoOperador ,operador.idTipoMarca, u.fullname, hoe.HoraEntrada, hos.HoraSalida
+from operador
+    inner join usuario u on operador.idUsuario=u.iduser
+inner join tipoOperador t on operador.idtipoOperador = t.idTipoOperador
+
+
+select * from operadoresData where idOrdenFabricacion=61;
+
+
+
+select * from horasordenfabricacion where idOrdenFabricacion=62 ;
+select * from HorasOperadoresEntrada where idOrdenFabricacion=65;
+select * from HorasOperadoresSalida where idOrdenFabricacion=65;
+drop view operadores;
+
+#drop view operadores;
+create view operadores as
+select HOE.iduser,HOE.idOrdenFabricacion,HOE.nameMaterial,HOE.nameTurno,HOE.nameMaquinaria,HOE.idtipoOperador, HOE.fullname, HOE.HoraEntrada, HOS.HoraSalida, HOE.nameTipoOperador
+from HorasOperadoresEntrada HOE
+inner join HorasOperadoresSalida HOS on HOE.idOrdenFabricacion = HOS.idOrdenFabricacion;
+
+select * from HorasOperadores where idOrdenFabricacion=59;
+select * from HorasOperadoresEntrada where idOrdenFabricacion=66 order by idtipoOperador;
+
+
+select * from operador where idOrdenFabricacion=67;
+select * from HorasOperadoresEntrada where idOrdenFabricacion=67 order by idtipoOperador;
+select * from HorasOperadoresSalida where idOrdenFabricacion=67 order by idtipoOperador;
+
+
+select *
+from
+    (select * from operadores where idOrdenFabricacion=67) as esto
+        group by iduser, HoraSalida, HoraEntrada;
+
+
+select distinct * from operadores where idOrdenFabricacion=67 and idtipoOperador=2 group by iduser;
+select distinct * from operadores where idOrdenFabricacion=67 and idtipoOperador=2 group by HoraSalida;
+
+select * from where HOS.idOrdenFabricacion=62 and HOS.idtipoOperador=2 group by HOE.iduser

@@ -45,6 +45,29 @@
                     </tr>
 
                     </tbody>
+                    <thead>
+
+
+                    </thead>
+{{#each ayudantesOrden}}
+                    <tbody class=" list" id="tab">
+                    <tr>
+                        <td>{{idOrdenFabricacion}}</td>
+                        <td>{{fullname}}</td>
+                        <td>{{nameTipoOperador}}</td>
+                        <td>{{HoraEntrada}}</td>
+                        <td>{{HoraSalida}}</td>
+                        <td class="horasTrabajadas">{{dataOperadorPrincipal.HorasTrabajadas}}</td><!--Este-->
+                        <td>{{dataOperadorPrincipal.KgProcesados}}Kg</td>
+                        <td>{{nameTurno}}</td>
+                        <td>{{nameMaquinaria}}</td>
+                        <td>{{nameMaterial}}</td>
+                        <td class="horasPara">{{horasPara.horasPara}}</td><!--Menos este-->
+                        <td class="HorasMaquina">{{horasymin}}</td>
+                    </tr>
+
+                    </tbody>
+{{/each}}
                 </table>
 
                 </div>      <!-- end table -->
@@ -54,6 +77,9 @@
     </div>
     <!-- end col -->
 
+
+ 14:42  14:47 Barros
+ 14:40  14:44 Usuario2
 
 </div>
 </div>
@@ -365,6 +391,7 @@
             exportButtons: true, // No queremos botones
             filename: "Reporte de prueba", //Nombre del archivo de Excel
             sheetname: "Reporte de prueba", //Título de la hoja
+            headers: true
         });
         let datos = tableExport.getExportData();
         let preferenciasDocumento = datos.tabla.csv;
