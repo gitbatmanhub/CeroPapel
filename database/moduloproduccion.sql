@@ -1113,5 +1113,58 @@ from
 
 select distinct * from operadores where idOrdenFabricacion=67 and idtipoOperador=2 group by iduser;
 select distinct * from operadores where idOrdenFabricacion=67 and idtipoOperador=2 group by HoraSalida;
+drop view previs;
+
+#drop view previs;
+create view previs as
+SELECT HoraEntrada, HoraSalida, HorasOperadoresSalida.idOrdenFabricacion, HorasOperadoresSalida.idTipoMarca, HorasOperadoresSalida.iduser, HorasOperadoresSalida.idtipoOperador
+FROM HorasOperadoresSalida, HorasOperadoresEntrada
+WHERE HorasOperadoresEntrada.idOrdenFabricacion=HorasOperadoresSalida.idOrdenFabricacion;
+
+select * from HorasOperadoresEntrada where iduser=12 and idOrdenFabricacion=67;
+select * from HorasOperadoresSalida where iduser=12 and idOrdenFabricacion=67;
+select * from HorasOperadores where iduser=10 and idOrdenFabricacion=67 order by idTipoMarca;
+select * from HorasOperadores ;
+
+
+select * from previs where idOrdenFabricacion=67 and idtipoOperador=2 group by iduser;
 
 select * from where HOS.idOrdenFabricacion=62 and HOS.idtipoOperador=2 group by HOE.iduser
+drop view previs;
+create view previs as;
+select HOE.iduser, HOE.HoraEntrada, H.HoraSalida
+from HorasOperadoresEntrada HOE
+inner join HorasOperadoresSalida H on HOE.iduser = H.iduser
+where HOE.idOrdenFabricacion in
+      (select h2.idOrdenFabricacion from HorasOperadoresSalida h2 where HOE.idOrdenFabricacion=67) group by H.fullname;
+
+select * from operador;
+select * from HorasOperadores;
+#Query que si vale
+drop view dataOperadoresHoras;
+create view dataOperadoresHoras as
+select distinct HOE.idOrdenFabricacion as IdOrden,
+                HOE.fullname as NombreOperador,
+                HOE.nameTipoOperador as TipoOperador,
+                HOE.HoraEntrada as HoraEntrada,
+                HOS.HoraSalida as HoraSalida,
+                HOE.nameTurno as Turno,
+                HOE.nameMaquinaria as Maquinaria,
+                HOE.nameMaterial as Material
+    from HorasOperadoresEntrada HOE, HorasOperadoresSalida HOS
+where HOE.iduser=HOS.iduser and HOE.idOrdenFabricacion=HOS.idOrdenFabricacion and HOE.idtipoOperador=2 ;
+
+select *, time_format(TIMEDIFF(HoraSalida, HoraEntrada), '%H:%i' ) as TiempoTrabajado from dataOperadoresHoras where IdOrden=67;
+
+select * from HorasOperadoresEntrada where idOrdenFabricacion=67;
+select * from HorasOperadoresSalida where idOrdenFabricacion=67;
+
+select distinct * from previs where idOrdenFabricacion=67 group by iduser;
+select * from operador;
+SELECT TIME_FORMAT(ADDTIME(HoraSalida, -HoraEntrada), '%H:%i') AS new_time FROM dataOperadoresHoras where IdOrden=67;
+
+SELECT TIMEDIFF(HoraEntrada, HoraSalida) as TiempoTrabajado, IdOrden, NombreOperador, TipoOperador, HoraEntrada, HoraSalida, Turno, Maquinaria, Material
+from dataOperadoresHoras where IdOrden=67;
+
+
+select * from dataOperadoresHoras where IdOrden=68;
