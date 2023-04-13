@@ -1,5 +1,5 @@
 module.exports = {
-
+//Saber si está logeado
     isLoggedIn(req, res, next) {
         // Aquí la data de entrada
         //console.log(req.user);
@@ -15,26 +15,44 @@ module.exports = {
 
         }
         return res.redirect('/profile');
-    },
+    }
+    //Permisos a ciertas personas por roles
+    ,
     permissions(req, res, next) {
-        const rolusuario=req.user.rolusuario;
-        if( rolusuario === 4 && rolusuario === 3){
+        const rolusuario = req.user.rolusuario;
+        if (rolusuario === 4 && rolusuario === 3) {
             return res.redirect('/');
 
-        }else {
+        } else {
             return next();
 
         }
-
-
-        /*
-        switch (req.user.idRol) {
-            case 5:
-                return next();
-            case 4:
-                return res.redirect('/');
+    },
+    operador(req, res, next) {
+        const rolusuario = req.user.rolusuario;
+        if (rolusuario ===5) {
+            return next();
+        } else {
+            return res.redirect('/');
         }
-
-         */
+    },
+    supervisorOperador(req, res, next){
+        const rolusuario = req.user.rolusuario;
+        if (rolusuario ===5) {
+            return next();
+        } else {
+            return res.redirect('/');
+        }
     }
+    ,
+    tecnico(req, res, next){
+        const rolusuario = req.user.rolusuario;
+        if (rolusuario ===4) {
+            return next();
+        } else {
+            return res.redirect('/');
+        }
+    }
+
+
 }

@@ -662,9 +662,9 @@ alter table horasParas rename column idOrdeFabricacion to idOrdenFabricacion;
 alter table horasParas add column create_at timestamp default current_timestamp;
 select * from horasParas;
 select * from datosof;
-
+drop view datosPara;
 create view datosPara as
-select hP.idHorasPara, hP.horaInicio, hP.horaFinal, hP.comentario, tP.nameTipoPara, hP.idOrdenFabricacion
+select hP.idHorasPara, hP.horaInicio, hP.horaFinal,TIMEDIFF( hP.horaFinal, hP.horaInicio) as TotalPara, hP.comentario, tP.nameTipoPara, hP.idOrdenFabricacion
 from horasParas hP
 inner join tipoPara tP on hP.idtipoPara = tP.idTipoPara;
 
@@ -1154,7 +1154,7 @@ select distinct HOE.idOrdenFabricacion as IdOrden,
     from HorasOperadoresEntrada HOE, HorasOperadoresSalida HOS
 where HOE.iduser=HOS.iduser and HOE.idOrdenFabricacion=HOS.idOrdenFabricacion and HOE.idtipoOperador=2 ;
 
-select *, time_format(TIMEDIFF(HoraSalida, HoraEntrada), '%H:%i' ) as TiempoTrabajado from dataOperadoresHoras where IdOrden=67;
+select *, time_format(TIMEDIFF(HoraSalida, HoraEntrada), '%H:%i' ) as TiempoTrabajado from dataOperadoresHoras where IdOrden=70;
 
 select * from HorasOperadoresEntrada where idOrdenFabricacion=67;
 select * from HorasOperadoresSalida where idOrdenFabricacion=67;
@@ -1167,4 +1167,28 @@ SELECT TIMEDIFF(HoraEntrada, HoraSalida) as TiempoTrabajado, IdOrden, NombreOper
 from dataOperadoresHoras where IdOrden=67;
 
 
-select * from dataOperadoresHoras where IdOrden=68;
+se
+
+select * from dataOperadoresHoras where IdOrden=70;
+
+
+select hp.idHorasPara, hp.idOrdenFabricacion, hp.horaInicio, hp.horaFinal,TIMEDIFF( hp.horaFinal, hp.horaInicio) as TotalPara ,tP.nameTipoPara, hp.comentario
+from horasParas hp
+inner join tipoPara tP on hp.idtipoPara= tP.idTipoPara
+where idOrdenFabricacion=68;
+
+
+select * from datosPara;
+
+select * from horasParas;
+
+select * from rolusuario;
+
+select iduser, fullname, rolusuario, r.nameRol
+from usuario
+inner join rolusuario r on usuario.rolusuario = r.idRol;
+
+select *
+from rolusuario;
+
+

@@ -1,74 +1,74 @@
-<div class="tables-wrapper" style="display: ">
+<div class="tables-wrapper">
     <div class="row">
         <div class="col-lg-12">
             <div class="card-style mb-30">
                 <!--<h6 class="mb-10">Data Table</h6>-->
-
-                <h1 style="padding: 20px">Todas Ordenes Fabricación</h1>
-
+                <div class="tittleDetails">
+                    <h1 style="padding: 20px">Reporte Orden de Fabricación #{{dataOperadorPrincipal.IdOrden}}</h1>
+                </div>
                 <div class="table-responsive">
 
-                <table id="table" class="table table-striped table-hover">
-                    <thead>
-                    <tr>
-                        <th scope="col"><h6>IdOrden</h6></th>
-                        <th scope="col"><h6>NombreOperador</h6></th>
-                        <th scope="col"><h6>TipoOperador</h6></th>
-                        <th scope="col"><h6>HoraIncioOrden</h6></th>
-                        <th scope="col"><h6>HoraFinalOrden</h6></th>
-                        <th scope="col"><h6>HorasTrabajadas</h6></th>
-                        <th scope="col"><h6>KgProcesados</h6></th>
-                        <th scope="col"><h6>Turno</h6></th>
-                        <th scope="col"><h6>Maquinaria</h6></th>
-                        <th scope="col"><h6>Material</h6></th>
-                        <th scope="col"><h6>Horas Para</h6></th>
-                        <th scope="col"><h6>Horas Maquina</h6></th>
-                        <!--<th scope="col"><h6>HoraMarcacion<h6></th>-->
-                    </tr>
+                    <table id="table" class="table table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col"><h6>IdOrden</h6></th>
+                            <th scope="col"><h6>NombreOperador</h6></th>
+                            <th scope="col"><h6>TipoOperador</h6></th>
+                            <th scope="col"><h6>HoraIncioOrden</h6></th>
+                            <th scope="col"><h6>HoraFinalOrden</h6></th>
+                            <th scope="col"><h6>HorasTrabajadas</h6></th>
+                            <th scope="col"><h6>KgProcesados</h6></th>
+                            <th scope="col"><h6>Turno</h6></th>
+                            <th scope="col"><h6>Maquinaria</h6></th>
+                            <th scope="col"><h6>Material</h6></th>
+                            <th scope="col"><h6>Horas Para</h6></th>
+                            <th scope="col"><h6>Horas Maquina</h6></th>
+                            <!--<th scope="col"><h6>HoraMarcacion<h6></th>-->
+                        </tr>
 
-                    </thead>
+                        </thead>
 
-                    <tbody class=" list" id="tab">
-                    <tr>
-                        <td>{{dataOperadorPrincipal.IdOrden}}</td>
-                        <td>{{dataOperadorPrincipal.NombreOperador}}</td>
-                        <td>{{dataOperadorPrincipal.TipoOperador}}</td>
-                        <td>{{dataOperadorPrincipal.HoraIncioOrden}}</td>
-                        <td>{{dataOperadorPrincipal.HoraFinalOrden}}</td>
-                        <td class="horasTrabajadas">{{dataOperadorPrincipal.HorasTrabajadas}}</td><!--Este-->
-                        <td>{{dataOperadorPrincipal.KgProcesados}}Kg</td>
-                        <td>{{dataOperadorPrincipal.Turno}}</td>
-                        <td>{{dataOperadorPrincipal.Maquinaria}}</td>
-                        <td>{{dataOperadorPrincipal.Material}}</td>
-                        <td class="horasPara">{{horasPara.horasPara}}</td><!--Menos este-->
-                        <td class="HorasMaquina">{{horasymin}}</td>
-                    </tr>
+                        <tbody class=" list" id="tab">
+                        <tr>
+                            <td>{{dataOperadorPrincipal.IdOrden}}</td>
+                            <td>{{dataOperadorPrincipal.NombreOperador}}</td>
+                            <td>{{dataOperadorPrincipal.TipoOperador}}</td>
+                            <td>{{dataOperadorPrincipal.HoraIncioOrden}}</td>
+                            <td>{{dataOperadorPrincipal.HoraFinalOrden}}</td>
+                            <td class="horasTrabajadas">{{dataOperadorPrincipal.HorasTrabajadas}}</td><!--Este-->
+                            <td>{{dataOperadorPrincipal.KgProcesados}}Kg</td>
+                            <td>{{dataOperadorPrincipal.Turno}}</td>
+                            <td>{{dataOperadorPrincipal.Maquinaria}}</td>
+                            <td>{{dataOperadorPrincipal.Material}}</td>
+                            <td class="horasPara">{{horasPara.horasPara}}</td><!--Menos este-->
+                            <td class="HorasMaquina">{{horasymin}}</td>
+                        </tr>
 
-                    </tbody>
-                    <thead>
+                        </tbody>
+                        <thead>
 
 
-                    </thead>
-{{#each ayudantesOrden}}
-                    <tbody class=" list" id="tab">
-                    <tr>
-                        <td>{{IdOrden}}</td>
-                        <td>{{NombreOperador}}</td>
-                        <td>{{TipoOperador}}</td>
-                        <td>{{HoraEntrada}}</td>
-                        <td>{{HoraSalida}}</td>
-                        <td class="">{{TiempoTrabajado}}</td><!--Este-->
-                        <td></td>
-                        <td>{{Turno}}</td>
-                        <td>{{Maquinaria}}</td>
-                        <td>{{Material}}</td>
-                        <td></td><!--Menos este-->
-                        <td></td>
-                    </tr>
+                        </thead>
+                        {{#each ayudantesOrden}}
+                            <tbody class=" list" id="tab">
+                            <tr>
+                                <td>{{IdOrden}}</td>
+                                <td>{{NombreOperador}}</td>
+                                <td>{{TipoOperador}}</td>
+                                <td>{{HoraEntrada}}</td>
+                                <td>{{HoraSalida}}</td>
+                                <td class="">{{TiempoTrabajado}}</td><!--Este-->
+                                <td></td>
+                                <td>{{Turno}}</td>
+                                <td>{{Maquinaria}}</td>
+                                <td>{{Material}}</td>
+                                <td></td><!--Menos este-->
+                                <td></td>
+                            </tr>
 
-                    </tbody>
-{{/each}}
-                </table>
+                            </tbody>
+                        {{/each}}
+                    </table>
 
                 </div>      <!-- end table -->
             </div>
@@ -76,316 +76,77 @@
         <!-- end card -->
     </div>
     <!-- end col -->
-    Usuario 2 Entrada 14:40
-    Usuario 2 Salida 14:47
-
-
 
 
 </div>
 </div>
-<button id="btnExportar" class="btn btn-success">Helou</button>
+<button id="btnExportar" class="btn btn-success">Descargar Reporte OF</button>
 
 
-<p>--------------------------------------------</p>
-<div class="tittleDetails">
-    <h1>Detalles de la Orden de Fabricación #{{datosof.idOrdenFabricacion}}</h1>
-</div>
 
-
-<div class="container">
-    <div class="row g-2 mb-3">
-
-        <div class="col-md">
-            <label for="Maquinaria" class="form-label">Maquinaria</label>
-            <input name="Maquinaria" type="text" value="{{datosof.nameMaquinaria}}" class="form-control" readonly>
-
-        </div>
-        <div class="col-md">
-            <label for="Material" class="form-label">Material</label>
-            <input name="Material" type="text" value="{{datosof.nameMaterial}}" class="form-control" readonly>
-        </div>
-
-
-    </div>
-    <div class="row g-2 mb-3">
-        <div class="col-md">
-            <label for="idTurno" class="form-label">Turno</label>
-            <input name="fecha" type="text" value="{{datosof.nameTurno}}" class="form-control" readonly>
-        </div>
-
-        <div class="col-md">
-            <label for="idOperador" class="form-label">Operador</label>
-            <input name="fecha" type="text" value="{{datosof.fullname}}" class="form-control" readonly>
-        </div>
-
-    </div>
-    {{#if ayudantesOrden}}
-        <div class="row g-2 mb-3">
-            {{#each ayudantesOrden}}
-                <div class="col-md">
-                    <label for="idTurno" class="form-label">Ayudante</label>
-                    <input name="fecha" type="text" value="{{fullname}}" class="form-control" readonly>
+<div class="tables-wrapper">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card-style mb-30">
+                <!--<h6 class="mb-10">Data Table</h6>-->
+                <div class="tittleDetails">
+                    <h1 style="padding: 20px">Reporte Paras Orden #{{dataOperadorPrincipal.IdOrden}}</h1>
                 </div>
-            {{/each}}
+                <div class="table-responsive">
 
+                    <table id="table2" class="table table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th scope="col"><h6>IdOrden</h6></th>
+                            <th scope="col"><h6>Tipo Para</h6></th>
+                            <th scope="col"><h6>HI Para</h6></th>
+                            <th scope="col"><h6>HF Para</h6></th>
+                            <th scope="col"><h6>Total Horas</h6></th>
+                            <th scope="col"><h6>Comentarios</h6></th>
 
+                        </tr>
 
-        </div>
-    {{/if}}
-    <div class="container" style="text-align: center; padding-top:10px;">
-        {{#when datosof.idstatus 'eq' 1 }}
-            {{#when userOrden.idtipoOperador 'eq' 1 }}
-                <button class="btn btn-primary" data-bs-target="#paras" data-bs-toggle="modal">Agregar Paras</button>
-                <button class="btn btn-danger" data-bs-target="#kgMaterial" data-bs-toggle="modal">Cerrar Orden
-                </button>
-            {{else}}
-                {{#when userOrden.idTipoMarca 'eq' 1 }}
-                    <form action="/salirof/{{datosof.idOrdenFabricacion}}" method="post">
-                        <input type="hidden" value="{{userOrden.idtipoOperador}}" name="idtipoOperador">
-                        <input type="hidden" value="2" name="idTipoMarca">
-                        <button type="submit" class="btn btn-danger">Salir</button>
-                    </form>
-                {{/when}}
-            {{/when}}
+                        </thead>
 
-        {{else}}
-            <div class="row g-2 mb-3">
-                <div class="col-md">
-                    <label for="horaInicio" class="form-label">Hora Inicio</label>
-                    <input name="horaInicio" id="horaInicio" type="text" value="{{horasOrden.horaInicio}}"
-                           class="form-control" readonly>
-                </div>
-                <div class="col-md">
-                    <label for="horaFinal" class="form-label">Hora Final</label>
-                    <input name="horaFinal" id="horaFinal" type="text" value="{{horasOrden.horaFinal}}"
-                           class="form-control" readonly>
-                </div>
-                <div class="col-md">
-                    <label for="horasOrdenT" class="form-label">Total Horas Trabajadas</label>
-                    <input name="horasOrdenT" id="horasOrdenT" type="text" value="{{horasOrdenT.horasOrdenT}}"
-                           class="form-control" readonly>
-                </div>
+                        {{#each datosPara}}
+                            <tbody class=" list" id="tab">
+                            <tr>
+                                <td>{{idOrdenFabricacion}}</td>
+                                <td>{{nameTipoPara}}</td>
+                                <td>{{horaInicio}}</td>
+                                <td>{{horaFinal}}</td>
+                                <td>{{TotalPara}}</td>
+                                <td>{{comentario}}</td>
+                            </tr>
+
+                            </tbody>
+                        {{/each}}
+                    </table>
+
+                </div>      <!-- end table -->
             </div>
-        {{/when}}
-    </div>
-</div>
-</div>
-
-
-</div>
-
-<div class="container text-center">
-    <div class="row align-items-start">
-        <div class="col">
-            <h3>Horas Para</h3>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th scope="col">Inicio</th>
-                    <th scope="col">Fin</th>
-                    <th scope="col">Motivo</th>
-                    <th scope="col">Comentario</th>
-                </tr>
-                </thead>
-                <tbody>
-                {{#each datosPara}}
-                    <tr>
-                        <td>{{horaInicio}}</td>
-                        <td>{{horaFinal}}</td>
-                        <td>{{nameTipoPara}}</td>
-                        <td>{{comentario}}</td>
-                    </tr>
-                {{/each}}
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td>Total Horas</td>
-                    <td>{{horasPara.horasPara}}</td>
-                </tr>
-
-                </tbody>
-            </table>
         </div>
-
-
+        <!-- end card -->
     </div>
-
-</div>
-
-
-<div class="modal fade" id="paras" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
-     tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Agregar Paras</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="card-body">
-                    <form action="/agregarPara" class="needs-validation" novalidate method="post" id="agregarPara"
-                          name="agregarof">
-                        <div class="container">
-                            <label for="idTipoPara" class="form-label">Motivo de Para</label>
-                            <select name="idTipoPara" class="form-select" id="idTipoPara" required>
-                                <option selected disabled value="">Selecciona el motivo de Para</option>
-                                {{#each tipoPara}}
-                                    <option value="{{idTipoPara}}" name="{{idTipoPara}}">{{nameTipoPara}}</option>
-                                {{/each}}
-                            </select>
-                            <div class="invalid-feedback">
-                                Selecciona la fecha para la orden de fabricación
-                            </div>
-                            <div class="row g-2 mb-3">
-                                {{#when datosof.idTurno 'eq' 1 }}
-                                    <div class="col-md">
-                                        <label for="horaInicio" class="form-label">Inicio de Paraaaaa</label>
-                                        <input type="time" min="07:00:00" max="19:00:00" value="" name="horaInicio"
-                                               class="form-control" required>
-                                        <div class="invalid-feedback">
-                                            La fecha inicial debe ser entre las 07h00 a las 19h00 y/o no debe estar
-                                            vacía.
-                                        </div>
-                                    </div>
-                                    <div class="col-md">
-
-                                        <label for="horaFinal" class="form-label">Fin de Para</label>
-                                        <input type="time" value="" min="07:00:00" max="19:00:00" name="horaFinal"
-                                               class="form-control" required>
-                                        <div class="invalid-feedback">
-                                            La fecha final debe ser entre las 07h00 a las 19h00 y/o no debe estar
-                                            vacía.
-                                        </div>
-                                    </div>
-                                {{else}}
-                                    <div class="col-md">
-                                        <label for="horaInicio" class="form-label">Inicio de Para</label>
-                                        <input type="time" value="" min="19:00:00" max="07:00:00" name="horaInicio"
-                                               class="form-control" required>
-                                        <div class="invalid-feedback">
-                                            La fecha inicial debe ser entre las 19h00 a las 07h00 y/o no debe estar
-                                            vacía.
-                                        </div>
-                                    </div>
-                                    <div class="col-md">
-
-                                        <label for="horaFinal" class="form-label">Fin de Para</label>
-                                        <input type="time" value="" min="19:00:00" max="07:00:00" name="horaFinal"
-                                               class="form-control" required>
-                                        <div class="invalid-feedback">
-                                            La fecha final debe ser entre las 19h00 a las 07h00 y/o no debe estar
-                                            vacía.
-                                        </div>
-                                    </div>
-                                {{/when}}
-
-                            </div>
-
-                            <div class="col-md">
-                                <label for="comentario">Comentario</label>
-                                <textarea class="form-control" name="comentario" id="comentario" cols="30"
-                                          rows="5" required></textarea>
-                                <div class="invalid-feedback">
-                                    Si no existen comentarios
-                                </div>
-                            </div>
-                            <div class="inputs-hidden">
-                                <textarea style="display: none" name="idOrdenFabricacion" id="" cols=""
-                                          rows="">{{datosof.idOrdenFabricacion}}</textarea>
-                            </div>
-                            <div class="form-group boton-send">
-                                <input type="submit" class="btn btn-success btn-block" id="">
-                            </div>
-                        </div>
-
-
-                    </form>
-                </div>
-            </div>
-
-        </div>
-    </div>
+    <!-- end col -->
 
 
 </div>
-<div class="modal fade" id="kgMaterial" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
-     tabindex="-1">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Agregar Cantidad en KG</h1>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <div class="card-body">
-                    <form action="/cerrarof/{{datosof.idOrdenFabricacion}}" class="needs-validation" novalidate
-                          method="post" id="agregarof"
-                          name="agregarof">
-                        <div class="container">
-                            <div class="row g-2 mb-3" style="align-items: flex-end">
-                                <div class="col-md">
-                                    <label for="idMaterial" class="form-label">Materiales</label>
-                                    <select name="idMaterial" class="form-select" id="idTipoPara" required>
-                                        <option selected
-                                                value="{{datosof.idMaterial}}">{{datosof.nameMaterial}}</option>
-
-                                    </select>
-
-                                </div>
-                                <div class="col-md">
-                                    <label for="pesoKg">Peso Material</label>
-                                    <input class="form-control" autofocus="autofocus" type="number" id="pesoKg"
-                                           name="pesoKg" required>
-                                    <div class="invalid-feedback">
-                                        Ingresa el peso correspondiente al material
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row g-2 mb-3" style="align-items: flex-end">
-                                {{#when datosof.idTurno 'eq' 1 }}
-                                    <div class="col-md">
-                                        <label for="horaInicio">Inicio Trabajo</label>
-                                        <input class="form-control" min="07:00:00" max="19:00:00" type="time"
-                                               id="horaInicio" name="horaInicio" required>
-                                        <div class="invalid-feedback">
-                                            Ingresa la hora incial(La misma debe empezar min a las 07h00)
-                                        </div>
-                                    </div>
-                                    <div class="col-md">
-                                        <label for="horaFinal">Fin Trabajo</label>
-                                        <input class="form-control" min="07:00:00" max="19:00:00" type="time"
-                                               id="pesoKg" name="horaFinal" required>
-                                        <div class="invalid-feedback">
-                                            Ingresa la hora final(La misma debe culminar max a las 19h00)
-                                        </div>
-                                    </div>
-                                {{/when}}
-
-                            </div>
-                            <input type="hidden" value="1" name="idtipoOperador">
-                            <input type="hidden" value="2" name="idTipoMarca">
-
-
-                            <div class="form-group boton-send">
-
-                                <input type="submit" class="btn btn-warning btn-block" id="" value="Agregar">
-                            </div>
-                        </div>
-
-
-                    </form>
-                </div>
-            </div>
-
-        </div>
-    </div>
 </div>
+<button id="btnExportar2" class="btn btn-success">Descargar Reporte Paras</button>
 
 
 <script>
+
+
+    document.getElementById('btnExportar2').addEventListener('click', function (){
+        const table2excel = new Table2Excel();
+        table2excel.export(document.getElementById('table2'));
+    })
+
     const $btnExportar = document.querySelector("#btnExportar");
     const $tabla = document.querySelector("#table");
+
 
     $btnExportar.addEventListener("click", function () {
         let tableExport = new TableExport($tabla, {
@@ -400,7 +161,6 @@
 
     });
 
-    const excel = document.getElementsByClassName('xlsx');
-    excel.className = "btn btn-success";
+
 
 </script>
