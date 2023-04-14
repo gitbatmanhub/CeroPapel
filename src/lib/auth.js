@@ -30,15 +30,15 @@ module.exports = {
     },
     operador(req, res, next) {
         const rolusuario = req.user.rolusuario;
-        if (rolusuario ===5 || rolusuario ===1) {
+        if (rolusuario ===5 || rolusuario ===1 || rolusuario===6) {
             return next();
         } else {
             return res.redirect('/');
         }
     },
-    supervisorOperador(req, res, next){
+    digitador(req, res, next){
         const rolusuario = req.user.rolusuario;
-        if (rolusuario ===5) {
+        if (rolusuario ===6 || rolusuario===1) {
             return next();
         } else {
             return res.redirect('/');

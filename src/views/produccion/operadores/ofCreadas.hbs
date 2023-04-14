@@ -1,78 +1,79 @@
+{{#when rolusuario 'eq' 5}}
+    <div class="tables-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card-style mb-30">
+                    <!--<h6 class="mb-10">Data Table</h6>-->
 
-<div class="tables-wrapper">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="card-style mb-30">
-                <!--<h6 class="mb-10">Data Table</h6>-->
-
-                <h1 style="padding: 20px">Todas Ordenes Fabricación Abiertas</h1>
+                    <h1 style="padding: 20px">Todas Ordenes Fabricación Abiertas</h1>
 
 
-                <table id="table" class="display">
-                    <thead>
-                    <tr>
-                        <th><h6>Id Orden</h6></th>
-                        <th><h6>Turno</h6></th>
-                        <th><h6>Maquinaria</h6></th>
-                        <th><h6>Material</h6></th>
-                        <th><h6>Responsable</h6></th>
-                        <th><h6>Estatus</h6></th>
-                        <th><h6 style="text-align: center">Acciones</h6></th>
-                    </tr>
-
-                    </thead>
-
-                    <tbody class="list" id="tab">
-                    {{#each datosOfCreadas}}
-
+                    <table id="table" class="display">
+                        <thead>
                         <tr>
-                            <td class="idOrden">
-
-                                        <p>{{idOrdenFabricacion}}</p>
-
-                            </td>
-                            <td class="fullname">
-                                <p>{{nameTurno}}</p>
-                            </td>
-                            <td class="area">
-                                <p>{{nameMaquinaria}}</p>
-                            </td>
-                            <td class="estado">
-                                <p>{{nameMaterial}}</p>
-                            </td>
-                            <td class="estado">
-                                <p>{{fullname}}</p>
-                            </td>
-                            <td class="estado">
-                                <p>{{nameStatus}}</p>
-                            </td>
-                            <td style="text-align: center">
-                                <div>
-                                <form action="/operadormaquina/{{idOrdenFabricacion}}" method="post">
-                                    <input type="hidden" value="2" name="idtipoOperador">
-                                    <input type="hidden" value="1" name="idTipoMarca">
-                                    <a  data-bs-toggle="modal" data-bs-target="#modalAcciones1OF" class="btn btn-primary"><i class="bi bi-info-circle"></i></a>
-                                    <button type="submit" class="btn btn-primary"><i class="bi bi-box-arrow-in-right"></i></button>
-
-                                </form>
-
-                                </div>
-                            </td>
+                            <th><h6>Id Orden</h6></th>
+                            <th><h6>Turno</h6></th>
+                            <th><h6>Maquinaria</h6></th>
+                            <th><h6>Material</h6></th>
+                            <th><h6>Responsable</h6></th>
+                            <th><h6>Estatus</h6></th>
+                            <th><h6 style="text-align: center">Acciones</h6></th>
                         </tr>
 
-                    {{/each}}
-                    </tbody>
-                </table>
-                <!-- end table -->
+                        </thead>
+
+                        <tbody class="list" id="tab">
+                        {{#each datosOfCreadas}}
+
+                            <tr>
+                                <td class="idOrden">
+
+                                    <p>{{idOrdenFabricacion}}</p>
+
+                                </td>
+                                <td class="fullname">
+                                    <p>{{nameTurno}}</p>
+                                </td>
+                                <td class="area">
+                                    <p>{{nameMaquinaria}}</p>
+                                </td>
+                                <td class="estado">
+                                    <p>{{nameMaterial}}</p>
+                                </td>
+                                <td class="estado">
+                                    <p>{{fullname}}</p>
+                                </td>
+                                <td class="estado">
+                                    <p>{{nameStatus}}</p>
+                                </td>
+
+                                <td style="text-align: center">
+                                    <div>
+                                        <form action="/operadormaquina/{{idOrdenFabricacion}}" method="post">
+                                            <input type="hidden" value="2" name="idtipoOperador">
+                                            <input type="hidden" value="1" name="idTipoMarca">
+                                            <a  data-bs-toggle="modal" data-bs-target="#modalAcciones1OF" class="btn btn-primary"><i class="bi bi-info-circle"></i></a>
+                                            <button type="submit" class="btn btn-primary"><i class="bi bi-box-arrow-in-right"></i></button>
+
+                                        </form>
+
+                                    </div>
+                                </td>
+                            </tr>
+
+                        {{/each}}
+                        </tbody>
+                    </table>
+                    <!-- end table -->
+                </div>
             </div>
+            <!-- end card -->
         </div>
-        <!-- end card -->
+        <!-- end col -->
+
+
     </div>
-    <!-- end col -->
-
-
-</div>
-</div>
+    </div>
 
 
     <div class="modal fade" id="modalAcciones1OF" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
@@ -107,25 +108,77 @@
         </div>
 
     </div>
+{{/when}}
+{{#when rolusuario 'eq' 1}}
+    <div class="tables-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card-style mb-30">
+                    <!--<h6 class="mb-10">Data Table</h6>-->
+
+                    <h1 style="padding: 20px">Todas Ordenes Fabricación Abiertas</h1>
 
 
+                    <table id="table" class="display">
+                        <thead>
+                        <tr>
+                            <th><h6>Id Orden</h6></th>
+                            <th><h6>Turno</h6></th>
+                            <th><h6>Maquinaria</h6></th>
+                            <th><h6>Material</h6></th>
+                            <th><h6>Responsable</h6></th>
+                            <th><h6>Estatus</h6></th>
+                            <th><h6 style="text-align: center">Acciones</h6></th>
+                        </tr>
+
+                        </thead>
+
+                        <tbody class="list" id="tab">
+                        {{#each datosOfCreadas}}
+
+                            <tr>
+                                <td class="idOrden">
+
+                                    <p>{{idOrdenFabricacion}}</p>
+
+                                </td>
+                                <td class="fullname">
+                                    <p>{{nameTurno}}</p>
+                                </td>
+                                <td class="area">
+                                    <p>{{nameMaquinaria}}</p>
+                                </td>
+                                <td class="estado">
+                                    <p>{{nameMaterial}}</p>
+                                </td>
+                                <td class="estado">
+                                    <p>{{fullname}}</p>
+                                </td>
+                                <td class="estado">
+                                    <p>{{nameStatus}}</p>
+                                </td>
+
+                                <td style="text-align: center">
+                                    <div>
+                                        <a class="btn btn-primary" href="detallesofoperador/{{idOrdenFabricacion}}"><i class="bi bi-eye-fill"></i></a>
+
+                                    </div>
+                                </td>
+                            </tr>
+
+                        {{/each}}
+                        </tbody>
+                    </table>
+                    <!-- end table -->
+                </div>
+            </div>
+            <!-- end card -->
+        </div>
+        <!-- end col -->
 
 
-<script>
+    </div>
+    </div>
 
 
-    window.addEventListener('load', function() {
-        /*const table1 = document.getElementById('table1');
-        table1.addEventListener('click', (e)=>{
-            e.stopPropagation();
-            const id=e.target.parentElement.parentElement.children[0].textContent.trim();
-            alert(id);
-            document.getElementById("ingresar").href="/operadormaquina/"+id;
-        });
-
-         */
-    });
-
-
-
-</script>
+{{/when}}

@@ -191,8 +191,7 @@ describe ordenFabricacion;
 describe operador;
 
 select * from rolusuario;
-insert into rolusuario (nameRol)
-values ("Operador");
+
 
 
 create table tipoOperador
@@ -1190,9 +1189,7 @@ inner join rolusuario r on u.rolusuario = r.idRol;
 
 select *
 from rolusuario;
-INSERT INTO rolusuario(nameRol)
-VALUES ("Digitador de producción"),
-       ("Supervisor de producción");
+
 
 
 select * from horasParas where idOrdenFabricacion=73;

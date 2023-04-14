@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const pool = require('../database');
-const {isLoggedIn, permissions, tecnico, operador, admin} = require('../lib/auth');
+const {isLoggedIn, permissions, tecnico, operador, admin, digitador} = require('../lib/auth');
 const {logger} = require("browser-sync/dist/logger");
 const {es, el} = require("timeago.js/lib/lang");
 const Console = require("console");
@@ -53,15 +53,30 @@ router.post('/agregarof', isLoggedIn, operador, async (req, res) => {
 
 router.get('/ordenesfabricacion', isLoggedIn, async (req, res) => {
     const userId = req.user.iduser;
-    const datosof = await pool.query('select * from datosof where iduser=? and idStatus=1', [userId]);
-    res.render('produccion/ordenesfabricacion', {datosof})
+    const rolusuario = req.user.rolusuario;
+    if (rolusuario==5){
+        const datosof = await pool.query('select * from datosof where iduser=? and idStatus=1', [userId]);
+        res.render('produccion/ordenesfabricacion', {datosof})
+    }else {
+        const datosof = await pool.query('select * from datosof where idStatus=1', [userId]);
+        res.render('produccion/ordenesfabricacion', {datosof})
+    }
+
+
 
 });
 
 router.get('/ordenesfabricacionTerminadas', isLoggedIn, operador, async (req, res) => {
     const userId = req.user.iduser;
-    const datosofCerradas = await pool.query('select * from datosof where iduser=? and idStatus=2', [userId]);
-    res.render('produccion/operadores/ofterminadas', {datosofCerradas})
+    const rolusuario = req.user.rolusuario;
+    if(rolusuario==5){
+        const datosofCerradas = await pool.query('select * from datosof where iduser=? and idStatus=2', [userId]);
+        res.render('produccion/operadores/ofterminadas', {datosofCerradas, rolusuario})
+    }else {
+        const datosofCerradas = await pool.query('select * from datosof where idStatus=2', [userId]);
+        res.render('produccion/operadores/ofterminadas', {datosofCerradas, rolusuario})
+    }
+
 
 });
 
@@ -69,7 +84,8 @@ router.get('/ordenesfabricacionabiertas', isLoggedIn, operador, async (req, res)
     const userId = req.user.iduser;
     const rolusuario = req.user.rolusuario;
     const datosOfCreadas = await pool.query('select * from datosof where idstatus=1;');
-    res.render('produccion/operadores/ofCreadas', {datosOfCreadas})
+    res.render('produccion/operadores/ofCreadas', {datosOfCreadas, rolusuario})
+    console.log(rolusuario);
 
 
 
@@ -81,9 +97,11 @@ router.get('/ordenesfabricacionabiertas', isLoggedIn, operador, async (req, res)
 
 
 
-router.get('/detallesof/:id', permissions, isLoggedIn,  async (req, res) => {
+router.get('/detallesof/:id', isLoggedIn, digitador,  async (req, res) => {
     const userId = req.user.iduser;
     const ordenid = req.params.id;
+    const rolusuario = req.user.rolusuario;
+
     const datosPara = await pool.query('select * from datosPara where idOrdenFabricacion=?', [ordenid]);
     const horasPara = await pool.query('select sec_to_time(sum(time_to_sec(horasPara))) as horasPara, idOrdenFabricacion from horasPara where idOrdenFabricacion=?', [ordenid])
     const ayudantesOrden = await pool.query('select *, time_format(TIMEDIFF(HoraSalida, HoraEntrada), "%H:%i") as TiempoTrabajado from dataOperadoresHoras where IdOrden=?;', [ordenid]);
@@ -115,7 +133,8 @@ router.get('/detallesof/:id', permissions, isLoggedIn,  async (req, res) => {
         dataOperadorPrincipal: dataOperadorPrincipal[0],
         dataOperadorAyudantes: dataOperadorAyudante[0],
         dataOperadorAyudante,
-        horasymin
+        horasymin,
+        rolusuario
     })
 });
 
