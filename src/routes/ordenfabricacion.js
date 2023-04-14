@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const pool = require('../database');
-const {isLoggedIn, permissions, tecnico, operador} = require('../lib/auth');
+const {isLoggedIn, permissions, tecnico, operador, admin} = require('../lib/auth');
 const {logger} = require("browser-sync/dist/logger");
 const {es, el} = require("timeago.js/lib/lang");
 const Console = require("console");
@@ -10,7 +10,8 @@ const {response} = require("express");
 
 //Rutas de admin
 
-router.get('/agregarof', isLoggedIn, operador ,async (req, res) => {
+router.get('/agregarof', isLoggedIn, operador, async (req, res) => {
+    console.log(req.user.rolusuario);
     const userId = req.user.iduser;
     const maquinarias = await pool.query('select * from maquinaria');
     const material = await pool.query('select * from material');
@@ -45,12 +46,12 @@ router.post('/agregarof', isLoggedIn, operador, async (req, res) => {
     console.log(idOrden);
     await pool.query('insert into operador (idtipoOperador, idUsuario, idOrdenFabricacion, idTipoMarca) values ( ?, ?, ?, ?);', [1, req.user.iduser, idOrden, 1]);
     //console.log(idOrden)
-    res.redirect('/ordenesfabricacion')
+    res.redirect('/detallesofoperador/'+idOrden)
 
 });
 
 
-router.get('/ordenesfabricacion', isLoggedIn, operador, async (req, res) => {
+router.get('/ordenesfabricacion', isLoggedIn, async (req, res) => {
     const userId = req.user.iduser;
     const datosof = await pool.query('select * from datosof where iduser=? and idStatus=1', [userId]);
     res.render('produccion/ordenesfabricacion', {datosof})
@@ -64,10 +65,14 @@ router.get('/ordenesfabricacionTerminadas', isLoggedIn, operador, async (req, re
 
 });
 
-router.get('/ordenesfabricacioncreadas', isLoggedIn, operador, async (req, res) => {
+router.get('/ordenesfabricacionabiertas', isLoggedIn, operador, async (req, res) => {
     const userId = req.user.iduser;
-    const datosOfCreadas = await pool.query('select * from datosof where idStatus=1');
+    const rolusuario = req.user.rolusuario;
+    const datosOfCreadas = await pool.query('select * from datosof where idstatus=1;');
     res.render('produccion/operadores/ofCreadas', {datosOfCreadas})
+
+
+
 
 });
 
@@ -76,7 +81,7 @@ router.get('/ordenesfabricacioncreadas', isLoggedIn, operador, async (req, res) 
 
 
 
-router.get('/detallesof/:id', permissions, isLoggedIn, async (req, res) => {
+router.get('/detallesof/:id', permissions, isLoggedIn,  async (req, res) => {
     const userId = req.user.iduser;
     const ordenid = req.params.id;
     const datosPara = await pool.query('select * from datosPara where idOrdenFabricacion=?', [ordenid]);

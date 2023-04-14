@@ -30,7 +30,7 @@ module.exports = {
     },
     operador(req, res, next) {
         const rolusuario = req.user.rolusuario;
-        if (rolusuario ===5) {
+        if (rolusuario ===5 || rolusuario ===1) {
             return next();
         } else {
             return res.redirect('/');
@@ -48,6 +48,14 @@ module.exports = {
     tecnico(req, res, next){
         const rolusuario = req.user.rolusuario;
         if (rolusuario ===4) {
+            return next();
+        } else {
+            return res.redirect('/');
+        }
+    },
+    admin(req, res, next){
+        const rolusuario = req.user.rolusuario;
+        if (rolusuario ===1) {
             return next();
         } else {
             return res.redirect('/');

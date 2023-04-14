@@ -1184,11 +1184,21 @@ select * from horasParas;
 
 select * from rolusuario;
 
-select iduser, fullname, rolusuario, r.nameRol
-from usuario
-inner join rolusuario r on usuario.rolusuario = r.idRol;
+select u.iduser, u.fullname, r.nameRol
+from usuario u
+inner join rolusuario r on u.rolusuario = r.idRol;
 
 select *
 from rolusuario;
+INSERT INTO rolusuario(nameRol)
+VALUES ("Digitador de producción"),
+       ("Supervisor de producción");
+
+
+select * from horasParas where idOrdenFabricacion=73;
+select * from datosof where idstatus=1;
+
+
+
 
 

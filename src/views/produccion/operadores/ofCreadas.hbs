@@ -5,7 +5,7 @@
             <div class="card-style mb-30">
                 <!--<h6 class="mb-10">Data Table</h6>-->
 
-                <h1 style="padding: 20px">Todas Ordenes Fabricación</h1>
+                <h1 style="padding: 20px">Todas Ordenes Fabricación Abiertas</h1>
 
 
                 <table id="table" class="display">
@@ -16,6 +16,7 @@
                         <th><h6>Maquinaria</h6></th>
                         <th><h6>Material</h6></th>
                         <th><h6>Responsable</h6></th>
+                        <th><h6>Estatus</h6></th>
                         <th><h6 style="text-align: center">Acciones</h6></th>
                     </tr>
 
@@ -42,7 +43,9 @@
                             <td class="estado">
                                 <p>{{fullname}}</p>
                             </td>
-
+                            <td class="estado">
+                                <p>{{nameStatus}}</p>
+                            </td>
                             <td style="text-align: center">
                                 <div>
                                 <form action="/operadormaquina/{{idOrdenFabricacion}}" method="post">

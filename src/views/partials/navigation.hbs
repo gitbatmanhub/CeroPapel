@@ -126,7 +126,8 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link collapsed" data-bs-target="#add-nav" data-bs-toggle="collapse" href="#">
-                        <i class="bi bi-node-plus-fill"></i><span>Agregar</span><i class="bi bi-chevron-down ms-auto"></i>
+                        <i class="bi bi-node-plus-fill"></i><span>Agregar</span><i
+                            class="bi bi-chevron-down ms-auto"></i>
                     </a>
                     <ul id="add-nav" class="nav-content collapse " data-bs-parent="#add-nav">
                         <li>
@@ -164,7 +165,8 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link collapsed" data-bs-target="#usersadmin" data-bs-toggle="collapse" href="#">
-                        <i class="bi bi-person-rolodex"></i><span>Usuarios</span><i class="bi bi-chevron-down ms-auto"></i>
+                        <i class="bi bi-person-rolodex"></i><span>Usuarios</span><i
+                            class="bi bi-chevron-down ms-auto"></i>
                     </a>
                     <ul id="usersadmin" class="nav-content collapse " data-bs-parent="#usersadmin">
                         <li>
@@ -188,23 +190,7 @@
                                 <i class="bi bi-circle"></i><span>Tipo Operador</span>
                             </a>
                         </li>
-                        <!--
-                        <li>
-                            <a href="/addProveedor">
-                                <i class="bi bi-circle"></i><span>Agregar Proveedor</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/addtecnico/">
-                                <i class="bi bi-circle"></i><span>Agregar Tecnico</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/addsuministros">
-                                <i class="bi bi-circle"></i><span>Agregar Rol</span>
-                            </a>
-                        </li>
-                        -->
+
 
                     </ul>
                 </li>
@@ -214,15 +200,24 @@
                             class="bi bi-chevron-down ms-auto"></i>
                     </a>
                     <ul id="a-nav" class="nav-content collapse " data-bs-parent="#ordenes-nav">
-
                         <li>
                             <a href="/agregarof">
-                                <i class="bi bi-circle"></i><span>Agregar OF´s</span>
+                                <i class="bi bi-circle"></i><span>Crear OF</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/ordenesfabricacioncreadas">
+                                <i class="bi bi-circle"></i><span>OF´s Creadas</span>
                             </a>
                         </li>
                         <li>
                             <a href="/ordenesfabricacion">
-                                <i class="bi bi-circle"></i><span>Ver OF´s</span>
+                                <i class="bi bi-circle"></i><span>OF´s Asignadas</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="/ordenesfabricacionTerminadas">
+                                <i class="bi bi-circle"></i><span>Mis OF´s Terminadas</span>
                             </a>
                         </li>
                         <!--
@@ -241,27 +236,14 @@
                 </li>
 
 
-
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="/salir">
                         <i class="bi bi-box-arrow-left"></i>
                         <span>Salir</span>
                     </a>
                 </li>
-<!--
-                <li class="nav-item">
-                    <a class="nav-link collapsed" href="pages-error-404.html">
-                        <i class="bi bi-dash-circle"></i>
-                        <span>Error 404</span>
-                    </a>
-                </li>
 
-                <li class="nav-item">
-                    <a class="nav-link collapsed" href="pages-blank.html">
-                        <i class="bi bi-file-earmark"></i>
-                        <span>Blank</span>
-                    </a>
-                </li> End Blank Page Nav -->
+                                </li>
 
             </ul>
 
@@ -339,7 +321,8 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link collapsed" data-bs-target="#add-nav" data-bs-toggle="collapse" href="#">
-                        <i class="bi bi-node-plus-fill"></i><span>Agregar</span><i class="bi bi-chevron-down ms-auto"></i>
+                        <i class="bi bi-node-plus-fill"></i><span>Agregar</span><i
+                            class="bi bi-chevron-down ms-auto"></i>
                     </a>
                     <ul id="add-nav" class="nav-content collapse " data-bs-parent="#add-nav">
                         <li>
@@ -464,7 +447,6 @@
                 </li>
 
 
-
             </ul>
 
         </aside><!-- End Sidebar-->
@@ -535,7 +517,7 @@
     {{/when}}
     <!-- Operador SideBar -->
     {{#when user.rolusuario 'eq' 5}}
-        <aside id="sidebar" class="sidebar"     >
+        <aside id="sidebar" class="sidebar">
 
             <ul class="sidebar-nav" id="sidebar-nav">
 
@@ -595,8 +577,8 @@
                             </a>
                         </li>
                         <li>
-                            <a href="/ordenesfabricacioncreadas">
-                                <i class="bi bi-circle"></i><span>OF´s Creadas</span>
+                            <a href="/ordenesfabricacionabiertas">
+                                <i class="bi bi-circle"></i><span>OF´s Abiertas</span>
                             </a>
                         </li>
                         <li>
