@@ -1199,3 +1199,5 @@ select * from datosof where idstatus=1;
 
 
 
+select count( distinct idOrdenFabricacion) from datosof where idstatus=1;
+select count(distinct idOrdenFabricacion) from datosof where iduser=? and idStatus=2;

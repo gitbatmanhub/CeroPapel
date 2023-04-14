@@ -22,6 +22,11 @@ router.get('/dashboard', isLoggedIn, async (req, res) => {
     const ordenesCerradas= await pool.query('select count(idOrdenTrabajo) as ordenesPorCerradas from ordenTrabajo where idStatus=7;')
     const ordenesExternas = await pool.query('select count(idOrdenTrabajo) as ordenesPorExternas  from ordenesStatus where idStatus=6;');
     const nrUsuarios= await pool.query('select count(iduser) as nrUsuarios from usuario;')
+    //Dashboard Produccion Operador
+    const nrOrdenesAbiertas = await pool.query('select count( distinct idOrdenFabricacion) as NrOrdenA from datosof where idstatus=1;')
+    const nrOrdenesAsignadas = await pool.query('select count(distinct idOrdenFabricacion) as NrOrdenAs from datosof where iduser=? and idStatus=1;', [idUsuario])
+    const nrOrdenesCerradas = await pool.query('select count(distinct idOrdenFabricacion) as NrOrdenCe from datosof where iduser=? and idStatus=2;', [idUsuario])
+
     res.render('ordenes/dashboard', {
         ordenesMias: ordenesMias[0],
         ordenesHoy: ordenesHoy[0],
@@ -33,7 +38,10 @@ router.get('/dashboard', isLoggedIn, async (req, res) => {
         ordenesCerradas: ordenesCerradas[0],
         ordenesExternas: ordenesExternas[0],
         rolusuario,
-        nrUsuarios: nrUsuarios[0]
+        nrUsuarios: nrUsuarios[0],
+        nrOrdenesAbiertas:nrOrdenesAbiertas[0],
+        nrOrdenesAsignadas: nrOrdenesAsignadas[0],
+        nrOrdenesCerradas: nrOrdenesCerradas[0]
     })
 })
 
@@ -533,7 +541,7 @@ router.post('/addarea', async (req, res) => {
     res.redirect('/addarea')
 
 })
-router.get('/addproducto', async (req, res) => {
+router.get('/addproducto', isLoggedIn, async (req, res) => {
     res.render('ordenes/liderMantenimiento/addRecursos/producto');
     //console.log(req.body);
 })
