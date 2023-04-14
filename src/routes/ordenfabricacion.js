@@ -51,14 +51,14 @@ router.post('/agregarof', isLoggedIn, operador, async (req, res) => {
 });
 
 
-router.get('/ordenesfabricacion', isLoggedIn, async (req, res) => {
+router.get('/ordenesfabricacion', isLoggedIn, operador, async (req, res) => {
     const userId = req.user.iduser;
     const rolusuario = req.user.rolusuario;
     if (rolusuario==5){
         const datosof = await pool.query('select * from datosof where iduser=? and idStatus=1', [userId]);
         res.render('produccion/ordenesfabricacion', {datosof})
     }else {
-        const datosof = await pool.query('select * from datosof where idStatus=1', [userId]);
+        const datosof = await pool.query('select * from datosof where idStatus=1');
         res.render('produccion/ordenesfabricacion', {datosof})
     }
 

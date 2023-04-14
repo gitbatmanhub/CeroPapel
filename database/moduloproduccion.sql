@@ -1201,3 +1201,11 @@ select * from datosof where idstatus=1;
 
 select count( distinct idOrdenFabricacion) from datosof where idstatus=1;
 select count(distinct idOrdenFabricacion) from datosof where iduser=? and idStatus=2;
+select count( distinct idOrdenFabricacion) as NrOrdenA from datosof where idstatus=1;
+select count(distinct idOrdenFabricacion) as NrOrdenAs from datosof where iduser=10 and idStatus=1;
+select * from ordenFabricacion;
+select *
+from operador o
+inner join ordenFabricacion on o.idOrdenFabricacion=ordenFabricacion.idOrdenFabricacion;
+select *
+from operador;
