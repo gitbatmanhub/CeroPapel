@@ -889,18 +889,19 @@ alter table operador add column create_at timestamp default current_timestamp;
 select * from operador;
 drop view dataOperadores;
 create view dataOperadores as
-select F.idOrdenFabricacion as IdOrden,
-       o.idUsuario as IDUsuario,
-       u.fullname as NombreOperador,
-       t.nameTipoOperador as TipoOperador,
-       h.horaInicio as HoraIncioOrden,
-       h.horaFinal as HoraFinalOrden,
-       hO.horasOf as HorasTrabajadas,
-       kM.kg as KgProcesados,
-       t2.nameTurno as Turno,
-       o.idtipoOperador as IdTipoOperador,
-       m.nameMaquinaria as Maquinaria,
-       m2.nameMaterial as Material
+select date_format(o.create_at, "%d/%m/%Y") as Fecha,
+       F.idOrdenFabricacion                 as IdOrden,
+       o.idUsuario                          as IDUsuario,
+       u.fullname                           as NombreOperador,
+       t.nameTipoOperador                   as TipoOperador,
+       h.horaInicio                         as HoraIncioOrden,
+       h.horaFinal                          as HoraFinalOrden,
+       hO.horasOf                           as HorasTrabajadas,
+       kM.kg                                as KgProcesados,
+       t2.nameTurno                         as Turno,
+       o.idtipoOperador                     as IdTipoOperador,
+       m.nameMaquinaria                     as Maquinaria,
+       m2.nameMaterial                      as Material
 from operador o
          inner join usuario u on o.idUsuario = u.iduser
          inner join tipoOperador t on o.idtipoOperador = t.idTipoOperador
@@ -910,9 +911,10 @@ from operador o
          inner join turno t2 on F.idTurno = t2.idTurno
          inner join maquinaria m on F.idMaquinaria = m.idMaquinaria
          inner join material m2 on F.idMaterial = m2.idMaterial
-inner join tipomarca tm on o.idTipoMarca=tm.idTipoMarca
-inner join horasOf hO on F.idOrdenFabricacion = hO.idOrdenFabricacion;
-
+         inner join tipomarca tm on o.idTipoMarca = tm.idTipoMarca
+         inner join horasOf hO on F.idOrdenFabricacion = hO.idOrdenFabricacion;
+select date_format(create_at, "%d/%m/%Y") from operador where idOrdenFabricacion=48;
+select * from operador;
 
 select * from dataOperadores where IdOrden=62 and IdTipoOperador=1 group by IDUsuario;
 select * from dataOperadores where IdOrden=62 and IdTipoOperador=2 group by IDUsuario;
@@ -1189,8 +1191,8 @@ inner join rolusuario r on u.rolusuario = r.idRol;
 
 select *
 from rolusuario;
-
-
+select * from dataOperadores where IdOrden=54 and IdTipoOperador=1 group by IDUsuario;
+select * from dataOperadores;
 
 select * from horasParas where idOrdenFabricacion=73;
 select * from datosof where idstatus=1;
@@ -1209,3 +1211,7 @@ from operador o
 inner join ordenFabricacion on o.idOrdenFabricacion=ordenFabricacion.idOrdenFabricacion;
 select *
 from operador;
+
+
+select * from dataOperadores;
+

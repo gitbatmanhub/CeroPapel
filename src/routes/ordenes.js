@@ -26,10 +26,7 @@ router.get('/dashboard', isLoggedIn, async (req, res) => {
     const nrOrdenesAbiertas = await pool.query('select count( distinct idOrdenFabricacion) as NrOrdenA from datosof where idstatus=1;')
     const nrOrdenesAsignadas = await pool.query('select count(distinct idOrdenFabricacion) as NrOrdenAs from datosof where iduser=? and idStatus=1;', [idUsuario])
     const nrOrdenesCerradas = await pool.query('select count(distinct idOrdenFabricacion) as NrOrdenCe from datosof where iduser=? and idStatus=2;', [idUsuario])
-    console.log(idUsuario);
-    console.log("Abiertas", nrOrdenesAbiertas[0])
-    console.log("Asignadas", nrOrdenesAsignadas[0])
-    console.log("Cerradas", nrOrdenesCerradas[0])
+
     res.render('ordenes/dashboard', {
         ordenesMias: ordenesMias[0],
         ordenesHoy: ordenesHoy[0],

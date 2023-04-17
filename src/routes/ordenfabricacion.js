@@ -11,7 +11,7 @@ const {response} = require("express");
 //Rutas de admin
 
 router.get('/agregarof', isLoggedIn, operador, async (req, res) => {
-    console.log(req.user.rolusuario);
+    //console.log(req.user.rolusuario);
     const userId = req.user.iduser;
     const maquinarias = await pool.query('select * from maquinaria');
     const material = await pool.query('select * from material');
@@ -43,7 +43,7 @@ router.post('/agregarof', isLoggedIn, operador, async (req, res) => {
     }
     const id = await pool.query('SELECT idOrdenFabricacion FROM ordenFabricacion where idUser=? and date_format(create_at, "%Y-%m-%d")=curdate() ORDER BY idOrdenFabricacion DESC LIMIT 1;', [req.user.iduser]);
     const idOrden = id[0].idOrdenFabricacion;
-    console.log(idOrden);
+    //console.log(idOrden);
     await pool.query('insert into operador (idtipoOperador, idUsuario, idOrdenFabricacion, idTipoMarca) values ( ?, ?, ?, ?);', [1, req.user.iduser, idOrden, 1]);
     //console.log(idOrden)
     res.redirect('/detallesofoperador/'+idOrden)
@@ -76,8 +76,6 @@ router.get('/ordenesfabricacionTerminadas', isLoggedIn, operador, async (req, re
         const datosofCerradas = await pool.query('select * from datosof where idStatus=2', [userId]);
         res.render('produccion/operadores/ofterminadas', {datosofCerradas, rolusuario})
     }
-
-
 });
 
 router.get('/ordenesfabricacionabiertas', isLoggedIn, operador, async (req, res) => {
@@ -85,7 +83,7 @@ router.get('/ordenesfabricacionabiertas', isLoggedIn, operador, async (req, res)
     const rolusuario = req.user.rolusuario;
     const datosOfCreadas = await pool.query('select * from datosof where idstatus=1;');
     res.render('produccion/operadores/ofCreadas', {datosOfCreadas, rolusuario})
-    console.log(rolusuario);
+    //console.log(rolusuario);
 
 
 
@@ -174,7 +172,7 @@ router.post('/salirof/:id', isLoggedIn, async (req, res) => {
         idtipoOperador,
         idTipoMarca,
     }
-    console.log(operador);
+    //console.log(operador);
     await pool.query('insert into operador set ?;', [operador]);
     res.redirect('/detallesofoperador/' + operador.idOrdenFabricacion);
 });
@@ -270,9 +268,5 @@ router.post('/cerrarof/:id', isLoggedIn, async (req, res) => {
 });
 
 
-router.post('/ayudanteof', isLoggedIn, async (req, res) => {
-    console.log(req.body)
-    res.redirect('/detallesof/')
-});
 
 module.exports = router;
