@@ -24,8 +24,9 @@ router.get('/dashboard', isLoggedIn, async (req, res) => {
     const nrUsuarios= await pool.query('select count(iduser) as nrUsuarios from usuario;')
     //Dashboard Produccion Operador
     const nrOrdenesAbiertas = await pool.query('select count( distinct idOrdenFabricacion) as NrOrdenA from datosof where idstatus=1;')
-    const nrOrdenesAsignadas = await pool.query('select count(distinct idOrdenFabricacion) as NrOrdenAs from datosof where iduser=? and idStatus=1;', [idUsuario])
-    const nrOrdenesCerradas = await pool.query('select count(distinct idOrdenFabricacion) as NrOrdenCe from datosof where iduser=? and idStatus=2;', [idUsuario])
+    const nrOrdenesCerradas = await pool.query('select count(distinct(IdOrden)) as NrOrdenCe from dataoperadores where IDUsuario=?;', [idUsuario])
+    //const nrOrdenesCerradas = await pool.query('select count(distinct(IdOrden)) as NrOrdenAs from dataoperadores where IDUsuario=?;', [idUsuario])
+    //const nrOrdenesCerradas = await pool.query('select count(distinct idOrdenFabricacion) as NrOrdenCe from datosof where iduser=? and idStatus=2;', [idUsuario])
 
     res.render('ordenes/dashboard', {
         ordenesMias: ordenesMias[0],
@@ -40,7 +41,7 @@ router.get('/dashboard', isLoggedIn, async (req, res) => {
         rolusuario,
         nrUsuarios: nrUsuarios[0],
         nrOrdenesAbiertas:nrOrdenesAbiertas[0],
-        nrOrdenesAsignadas: nrOrdenesAsignadas[0],
+        //nrOrdenesAsignadas: nrOrdenesAsignadas[0],
         nrOrdenesCerradas: nrOrdenesCerradas[0]
     })
 })

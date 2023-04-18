@@ -989,7 +989,6 @@ inner join HorasOperadoresEntrada HOE on HOE.idOrdenFabricacion=o.idOrdenFabrica
 inner join HorasOperadoresSalida HOS on HOE.idOrdenFabricacion = HOS.idOrdenFabricacion;
 select * from horapre where idOrdenFabricacion=61;
 
-drop view TotalHorasOperadores;
 #create view TotalHorasOperadores as
 select * from HorasOperadoresEntrada where idOrdenFabricacion=62;
 select * from HorasOperadoresSalida where idOrdenFabricacion=62;
@@ -1185,9 +1184,13 @@ select * from horasParas;
 
 select * from rolusuario;
 
-select u.iduser, u.fullname, r.nameRol
+select u.iduser, u.fullname, r.nameRol, r.idRol
 from usuario u
 inner join rolusuario r on u.rolusuario = r.idRol;
+
+
+select * from datosof where iduser=10 and idStatus=1 and idOrdenFabricacion=74;
+select * from datosof where idOrdenFabricacion=74;
 
 select *
 from rolusuario;
@@ -1215,3 +1218,40 @@ from operador;
 
 select * from dataOperadores;
 
+select * from datosof where iduser=10 and idstatus=2;
+select * from dataOperadores where IDUsuario=10 group by idOrden;
+select * from dataOperadores where IDUsuario=10 and TipoOperador="Ayudante" or TipoOperador="Principal";
+select count(idOrden) from  dataOperadores where IDUsuario=10 group by idOrden;
+select count(idOrden) as contador from  dataOperadores where IDUsuario=10 group by IdOrden;
+select count(distinct(IdOrden)) as constador from dataOperadores where IDUsuario=10;
+select * from dataoperadores;
+select * from dataOperadores;
+select count(distinct(IdOrden)) as NrOrdenCe from dataoperadores where IDUsuario=10;
+select * from ordenFabricacion where idUser=10 and idstatus=1;
+select * from ordenFabricacion where idUser=10;
+
+
+select * from ordenFabricacion where idUser=10;
+select * from datosof where iduser=10 and idStatus=1;
+SELECT * FROM datosof;
+SELECT * FROM ordenFabricacion ;
+SELECT * FROM dataOperadoresHoras group by IdOrden;
+select * from operadores where iduser=10;
+select * from operadorTipoMarca where idUsuario=10;
+select * from operadores;
+select * from tipooperador;
+
+
+
+
+select * from operador where idUsuario=10 and idTipoMarca=1 or idTipoMarca=2;
+drop view previs ;
+select fullname, nameMaterial, nameTurno, o.idtipoOperador, datosof.idOrdenFabricacion
+from datosof
+inner join operador o on datosof.idOrdenFabricacion = o.idOrdenFabricacion;
+select * from previs where idOrdenFabricacion=49;
+select * from HorasOperadores where iduser=10 and idOrdenFabricacion=63;
+select * from dataOperadoresHoras where IdOrden=63;
+select * from HorasOperadoresEntrada where iduser=10;
+select * from HorasOperadoresSalida where iduser=10;
+select * from horasss where iduser=10 and idOrdenFabricacion=63;

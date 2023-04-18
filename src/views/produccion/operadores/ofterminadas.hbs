@@ -12,10 +12,12 @@
                         <thead>
                         <tr>
                             <th><h6>Id Orden</h6></th>
+                            <th><h6>Fecha</h6></th>
                             <th><h6>Turno</h6></th>
                             <th><h6>Maquinaria</h6></th>
                             <th><h6>Material</h6></th>
-                            <th><h6>Status</h6></th>
+                            <th><h6>Rol Orden</h6></th>
+                            <th><h6>Kg Procesados</h6></th>
                             <th><h6 style="text-align: center">Acciones</h6></th>
                         </tr>
 
@@ -26,29 +28,31 @@
 
                             <tr>
                                 <td class="">
-                                    <div class="">
-                                        <div class="">
-                                            <p>{{idOrdenFabricacion}}</p>
-                                        </div>
-                                    </div>
+                                            <p>{{IdOrden}}</p>
+                                </td>
+                                <td class="">
+                                    <p>{{Fecha}}</p>
                                 </td>
                                 <td class="fullname">
-                                    <p>{{nameTurno}}</p>
+                                    <p>{{Turno}}</p>
                                 </td>
                                 <td class="area">
-                                    <p>{{nameMaquinaria}}</p>
+                                    <p>{{Maquinaria}}</p>
                                 </td>
                                 <td class="estado">
-                                    <p>{{nameMaterial}}</p>
+                                    <p>{{Material}}</p>
                                 </td>
                                 <td class="estado">
-                                    <p>{{nameStatus}}</p>
+                                    <p>{{TipoOperador}}</p>
+                                </td>
+                                <td class="estado">
+                                    <p>{{KgProcesados}}Kg</p>
                                 </td>
 
                                 <td style="text-align: center">
 
 
-                                    <a href="/detallesofoperador/{{idOrdenFabricacion}}" class="btn btn-primary"><i class="bi bi-eye-fill"></i></a>
+                                    <a id="viewBtn" href="/detallesofoperador/{{IdOrden}}" class="btn btn-primary"><i class="bi bi-eye-fill"></i></a>
 
                                 </td>
                             </tr>
@@ -142,14 +146,15 @@
 
 
 <script>
+    /*
     const table1 = document.getElementById('table1');
     table1.addEventListener('click', (e)=>{
         e.stopPropagation();
         const id=e.target.parentElement.parentElement.children[0].textContent.trim();
         console.log(id);
-        document.getElementById("viewBtn").href="/view/" + id;
-        document.getElementById("editBtn").href="/edit/" + id;
-        document.getElementById("deleteBtn").href="/delete/" + id;
+        document.getElementById("viewBtn").href="/detallesofoperador/" + id;
 
     });
+
+     */
 </script>

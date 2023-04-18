@@ -70,7 +70,7 @@ router.get('/ordenesfabricacionTerminadas', isLoggedIn, operador, async (req, re
     const userId = req.user.iduser;
     const rolusuario = req.user.rolusuario;
     if(rolusuario==5){
-        const datosofCerradas = await pool.query('select * from datosof where iduser=? and idStatus=2', [userId]);
+        const datosofCerradas = await pool.query('select * from dataOperadores where IDUsuario=? group by idOrden;', [userId]);
         res.render('produccion/operadores/ofterminadas', {datosofCerradas, rolusuario})
     }else {
         const datosofCerradas = await pool.query('select * from datosof where idStatus=2', [userId]);
