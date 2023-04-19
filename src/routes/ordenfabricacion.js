@@ -56,7 +56,13 @@ router.get('/ordenesfabricacion', isLoggedIn, operador, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     if (rolusuario==5){
         const datosof = await pool.query('select * from datosof where iduser=? and idStatus=1', [userId]);
-        res.render('produccion/ordenesfabricacion', {datosof})
+        const ordenesAsignadasOPeradores = await pool.query('select * from previs where iduser=? and idstatus=1;', [userId])
+        const preba= await pool.query('select * from dataOperadores where Fecha between DATE_FORMAT(NOW(), "%e/%m/%y") and DATE_FORMAT(curdate() -1, "%e/%m/%y");')
+        console.log(preba);
+        res.render('produccion/ordenesfabricacion', {
+            datosof,
+            ordenesAsignadasOPeradores
+        })
     }else {
         const datosof = await pool.query('select * from datosof where idStatus=1');
         res.render('produccion/ordenesfabricacion', {datosof})
@@ -136,6 +142,13 @@ router.get('/detallesof/:id', isLoggedIn, digitador,  async (req, res) => {
     })
 });
 
+
+router.get('/reportefechasoft', isLoggedIn, digitador, async (req, res)=>{
+    res.render('produccion/reportesfechas')
+})
+router.post('/fechasreporte', isLoggedIn, async (req, res)=>{
+    res.send("ok")
+})
 
 //A partir de aquí las rutas de los tecnicos
 

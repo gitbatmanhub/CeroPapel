@@ -6,7 +6,7 @@
                 <!--<h6 class="mb-10">Data Table</h6>-->
 
                 <h1 style="padding: 20px">Ordenes de Fabricación</h1>
-                <p >Aquí las ordenes de las que formas partes o las que abriste.</p>
+                <p >Aquí las ordenes de las que formas partes o las que abriste, puedes usar esta ventana para volver a la pantalla de la orden.</p>
 
 
                 <table id="table1" class="display">
@@ -23,7 +23,7 @@
                     </thead>
 
                     <tbody class="list" id="tab">
-                    {{#each datosof}}
+                    {{#each ordenesAsignadasOPeradores}}
 
                         <tr>
                             <td class="">
@@ -68,80 +68,7 @@
 </div>
 </div>
 
-{{#each todasordenes }}
-    <div class="modal fade" id="modalAcciones1OF" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
-         tabindex="-1">
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Acciones</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="card" style="width: 18rem;">
-
-                        <lord-icon
-                                src="https://cdn.lordicon.com/ofwpzftr.json"
-                                trigger="loop"
-                                delay="300"
-                                style="width:150px;height:150px; margin: 0 auto">
-                        </lord-icon>
-                        <div class="card-body">
-                            <h5 class="card-title">Ver</h5>
-                            <p class="card-text">Asegurate que los datos ingresados son correctos hechandole un ojo.</p>
-                            <a href="/orden/view/" class="btn btn-primary " id="viewBtn">Ver</a>
-                        </div>
-                    </div>
-                    <div class="card" style="width: 18rem;">
-                        <lord-icon
-                                src="https://cdn.lordicon.com/iiixgoqp.json"
-                                trigger="loop"
-                                delay="300"
-                                style="width:150px;height:150px; margin: 0 auto">
-                        </lord-icon>
-                        <div class="card-body">
-                            <h5 class="card-title">Editar</h5>
-                            <p class="card-text">¿Te equivocaste escribiendo un dato?. Editalo aquí!</p>
-                            <a href="/orden/edit/" class="btn btn-secondary" id="editBtn">Editar</a>
-                        </div>
-                    </div>
-                    <div class="card" style="width: 18rem;">
-                        <lord-icon
-                                src="https://cdn.lordicon.com/kfzfxczd.json"
-                                trigger="loop"
-                                delay="300"
-                                style="width:150px;height:150px; margin: 0 auto">
-                        </lord-icon>
-                        <div class="card-body">
-                            <h5 class="card-title">Eliminar</h5>
-                            <p class="card-text">Elimina la orden de manera instantanea y aquí no ha pasado nada!</p>
-                            <a href="/orden/delete/" class="btn btn-danger"
-                               id="deleteBtn">Eliminar</a>
-
-
-                        </div>
-
-                    </div>
-                </div>
-
-
-            </div>
-        </div>
-
-    </div>
-{{/each}}
 
 
 
-<script>
-    const table1 = document.getElementById('table1');
-    table1.addEventListener('click', (e)=>{
-        e.stopPropagation();
-        const id=e.target.parentElement.parentElement.children[0].textContent.trim();
-        console.log(id);
-        document.getElementById("viewBtn").href="/view/" + id;
-        document.getElementById("editBtn").href="/edit/" + id;
-        document.getElementById("deleteBtn").href="/delete/" + id;
 
-    });
-</script>
