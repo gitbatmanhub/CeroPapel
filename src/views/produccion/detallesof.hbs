@@ -59,8 +59,8 @@
                                 <td>{{IdOrden}}</td>
                                 <td>{{NombreOperador}}</td>
                                 <td>{{TipoOperador}}</td>
-                                <td>{{HoraEntrada}}</td>
-                                <td>{{HoraSalida}}</td>
+                                <td class="fecha1">{{HoraEntrada}}</td>
+                                <td class="fecha2">{{HoraSalida}}</td>
                                 <td class="">{{TiempoTrabajado}}</td><!--Este-->
                                 <td></td>
                                 <td>{{Turno}}</td>
@@ -165,6 +165,19 @@
 
     });
 
+    const fecha1= document.getElementsByClassName('fecha1')[0].innerHTML;
+    const fecha2= document.getElementsByClassName('fecha2')[0].innerHTML;
 
+    var fecha1Split = (fecha1).split(":");
+    var fecha2Split = (fecha2).split(":");
+    console.log(fecha1Split,fecha2Split);
+    t1 = new Date(),  t2 = new Date();
+    t1.setHours(fecha1Split[0], fecha1Split[1], fecha1Split[2]);
+    console.log(t1.getHours()+":"+ t1.getMinutes())
+    t2.setHours(fecha2Split[0], fecha2Split[1], fecha2Split[2]);
+    console.log((t2.getHours()+5)+":"+ t2.getMinutes())
+    var fecha2Seteada = (t2.getHours() ? t2.getHours() : "") + (t2.getMinutes() ? ":" + t2.getMinutes() : "")+ (t2.getSeconds() ? ":" + t2.getSeconds() : "");
 
 </script>
+
+

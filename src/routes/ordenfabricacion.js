@@ -108,10 +108,11 @@ router.get('/detallesof/:id', isLoggedIn, digitador,  async (req, res) => {
 
     const datosPara = await pool.query('select * from datosPara where idOrdenFabricacion=?', [ordenid]);
     const horasPara = await pool.query('select sec_to_time(sum(time_to_sec(horasPara))) as horasPara, idOrdenFabricacion from horasPara where idOrdenFabricacion=?', [ordenid])
-    const ayudantesOrden = await pool.query('select *, time_format(TIMEDIFF(HoraSalida, HoraEntrada), "%H:%i") as TiempoTrabajado from dataOperadoresHoras where IdOrden=?;', [ordenid]);
+    const ayudantesOrden = await pool.query('select *, time_format(TIMEDIFF(HoraSalida, HoraEntrada), "%H:%i:%s") as TiempoTrabajado from dataOperadoresHoras where IdOrden=?;', [ordenid]);
     const dataOperadorPrincipal = await pool.query('select * from dataOperadores where IdOrden=? and IdTipoOperador=1 group by IDUsuario;', [ordenid])
     const dataOperadorAyudante = await pool.query('select * from dataOperadores where IdOrden=? and IdTipoOperador=2 group by IDUsuario;', [ordenid])
     const HorasTrabajadasMaquina = dataOperadorPrincipal[0].HorasTrabajadas;
+
 
     let HorasParas = horasPara[0].horasPara;
     const hora1 = (HorasTrabajadasMaquina).split(":");
@@ -198,14 +199,11 @@ router.get('/detallesofoperador/:id', permissions, isLoggedIn, async (req, res) 
     const tipoPara = await pool.query('select * from tipoPara');
     const datosPara = await pool.query('select * from datosPara where idOrdenFabricacion=?', [ordenid]);
     const horasPara = await pool.query('select sec_to_time(sum(time_to_sec(horasPara))) as horasPara, idOrdenFabricacion from horasPara where idOrdenFabricacion=?', [ordenid])
-    const horasOrden = await pool.query('select * from horasordenfabricacion where idOrdenFabricacion=?', [ordenid]);
+    const horasOrden = await pool.query('select * from horasOrdenFabricacion where idOrdenFabricacion=?', [ordenid]);
     const horasOrdenT = await pool.query('select sec_to_time(sum(time_to_sec(horasOf))) as horasOrdenT, idOrdenFabricacion from horasOf where idOrdenFabricacion=?;', [ordenid]);
     const userOrden = await pool.query('select idtipoOperador, idUsuario, idTipoMarca from operador where idOrdenFabricacion=? and idUsuario=? ORDER BY idTipoMarca DESC LIMIT 1', [ordenid, userId]);
-
     const ayudantesOrden = await pool.query('select idUsuario, idtipoOperador, idTipoMarca, u.fullname from operador inner join usuario u on operador.idUsuario=u.iduser where idtipoOperador=2 and idOrdenFabricacion=? and idTipoMarca=1;', [ordenid]);
-    //console.log(ayudantesOrden);
 
-    //console.log(horasMaquina);
     res.render('produccion/operadores/detallesofT', {
         datosof: datosof[0],
         tipoPara,
@@ -242,7 +240,7 @@ router.post('/agregarPara', isLoggedIn, async (req, res) => {
      console.log("La diferencia es de: " + (h1.getHours() ? h1.getHours() + (h1.getHours() > 1 ? " horas" : " hora") : "") + (h1.getMinutes() ? ", " + h1.getMinutes() + (h1.getMinutes() > 1 ? " minutos" : " minuto") : ""));
 
      */
-    await pool.query('insert into horasParaS set ?', [horas_Para]);
+    await pool.query('insert into horasParas set ?', [horas_Para]);
     res.redirect('detallesofoperador/' + idOrdenFabricacion)
 });
 
@@ -280,6 +278,41 @@ router.post('/cerrarof/:id', isLoggedIn, async (req, res) => {
     res.redirect('/detallesofoperador/' + ordenid)
 });
 
+/*
 
+//Ruta del formulario
+router.get('/formularioInicial', async(req, res )=>{
+   res.render('/la_vista_que_renderiza_el_formulario ')
+});
+
+router.get('/formularioFinal/:id', async(req, res )=>{
+    const id = req.params; //Recojes el id de la orden que vienen en parametro de la url
+    //Pasas el id que recojiste en el params
+    const data = await pool.query('select * from nametable where id=?', [id])
+    res.render('/la_vista_que_renderiza_el_segundo_formulario ', {data})//Renderizas los datos del formulario
+});
+
+
+router.post('/formularioInicial', async(req, res )=>{
+    const {dato1, dato2, dato3}=req.body; //Recojo los datos
+    const data= {
+        dato1, dato2, dato3
+    } //destructuring para pasarlo al query
+    await pool.query('insert into name_tabla set ?', [data]); //Lo inserto en la bbdd
+    //Buscas el ultimo id de la tabla insertado y lo recuperas en una variable
+    const id = await pool.query('SELECT id_columna FROM name_table  ORDER BY idOrdenFabricacion DESC LIMIT 1;');
+    res.redirect('/formularioFinal/'+id); //Rediriges a la segunda vista enviando como parametro el id de el ultimo insert
+});
+
+router.post('/formularioFinal/:id', async(req, res )=>{
+    const id=req.params;
+    const {dato1, dato2, dato3}=req.body; //Recojo los datos
+    const data= {
+        dato1, dato2, dato3
+    } //destructuring para pasarlo al query
+    await pool.query('update name_tabla set ? where id', [data, id]); //Lo inserto en la bbdd valiudando que el id sea el correcto
+    res.redirect('/pantalla_succesfull'); //Rediriges a la vista mostrando que se hizo de manera correcta el insert o agradeciendo yo que se
+});
+ */
 
 module.exports = router;

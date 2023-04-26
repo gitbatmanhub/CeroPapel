@@ -170,13 +170,7 @@ values ("COMPACTADORA"),
        ("OPERACIONES"),
        ("PROYECTOS"),
        ("MONTACARGAS");
-select *
-from maquinaria;
 
-select *
-from ordenFabricacion;
-
-describe ordenFabricacion;
 
 alter table ordenFabricacion
     add constraint fk_idTurnoOf foreign key (idTurno) references turno (idTurno);
@@ -185,14 +179,7 @@ alter table ordenFabricacion
 insert into turno(nameTurno, horasTurno)
 VALUES ("Diurno", 12),
        ("Nocturno", 12);
-select *
-from turno;
-describe ordenFabricacion;
 
-describe operador;
-
-select *
-from rolusuario;
 
 
 
@@ -204,40 +191,25 @@ create table tipoOperador
 
 
 
-select *
-from operador;
 
 alter table operador
     add constraint fk_tipoOperador foreign key (idOperador) references tipoOperador (idTipoOperador);
 
-select *
-from tipoOperador;
 
 insert into tipoOperador (nameTipoOperador)
 values ("Principal");
-select *
-from tipoOperador;
+
 insert into tipoOperador (nameTipoOperador)
 values ("Ayudante");
-select *
-from tipoOperador;
-
-select *
-from usuario
-where rolusuario = 5;
-
-select *
-from operador;
 
 
+
+/*
 insert into operador (idtipoOperador, idUsuario)
 values (1, 11);
 
-select *
-from operador;
+ */
 
-delete
-from operador;
 
 update operador
 set idtipoOperador=2
@@ -246,19 +218,7 @@ where idUsuario = 11;
 select *
 from operador;
 
-select *
-from ordenFabricacion;
 
-select *
-from tipooperador;
-select *
-from operador;
-
-select u.fullname, t.nameTipoOperador, o.idOperador
-from operador o
-         inner join usuario u on o.idUsuario = u.iduser
-         inner join tipoOperador t on o.idtipoOperador = t.idTipoOperador
-where t.idTipoOperador = 1;
 
 
 create table statusOF
@@ -275,10 +235,7 @@ alter table ordenFabricacion
 insert into statusOF(nameStatus)
 values ("Abierta"),
        ("Cerrada");
-select *
-from statusOF;
-SELECT *
-FROM ordenFabricacion;
+
 
 
 #drop view ordenFabricacionTodosDatos;
@@ -580,8 +537,8 @@ from kg_material km
          inner join material m on m.idMaterial = km.idMaterial
 where idOrdenFabricacion = ?;
 
-drop view horasMaterial;
-create view horasMaterial as
+#drop view horasMaterial;
+create view horasMaterial as;
 SELECT IF(
                    kg.hInicioTM <= kg.hFinTM,
                    TIMEDIFF(kg.hFinTM, kg.hInicioTM),
@@ -634,9 +591,12 @@ drop table horas_Para;
 
 
 #drop view totalHorasPara;
+#Fail
 create view totalHorasMaterial as
 select sec_to_time(sum(time_to_sec(horas))) as horasMaterial, idOrdenFabricacion
 from horasMaterial;
+
+drop view totalHorasPara;
 create view totalHorasPara as
 select sec_to_time(sum(time_to_sec(horasPara))) as horasPara, idOrdenFabricacion
 from horasPara;
@@ -866,6 +826,8 @@ from ordenFabricacion o
 
 select *
 from operador;
+alter table operador
+    add column create_at timestamp default current_timestamp;
 /*Query para sacar los datos de los operadores para la orden*/
 select o.idOperador/*, o.idtipoOperador, o.idUsuario, o.idOrdenFabricacion,*/,
        o.create_at,
@@ -949,6 +911,7 @@ select *, if(idTipoMarca = 2, "1", "0") as tipoMarca
 from operador
 where idOrdenFabricacion = 39;
 drop view operadorTipoMarca;
+
 create view operadorTipoMarca as
 select *, if(idTipoMarca = 2, "2", "1") as tipoMarca
 from operador;
@@ -1182,8 +1145,7 @@ from operador
 where idOrdenFabricacion = 61
   and idTipoMarca = 1;
 
-alter table operador
-    add column create_at timestamp default current_timestamp;
+
 
 select *
 from operador;
@@ -1234,7 +1196,7 @@ group by IDUsuario;
 select sec_to_time(sum(time_to_sec(horasPara))) as horasPara, idOrdenFabricacion
 from horasPara
 where idOrdenFabricacion = 62;
-#create view horasOf as
+create view horasOf as
 SELECT IF(
                    hF.horaInicio <= hF.horaFinal,
                    TIMEDIFF(hF.horaFinal, hF.horaInicio),
@@ -1270,7 +1232,7 @@ select u.iduser,
        tM.nameTipoMarca,
        t.nameTipoOperador,
        o.idOrdenFabricacion,
-       date_format(o.create_at, "%H:%i") as hora,
+       date_format(o.create_at, "%H:%i:%s") as hora,
        o.idtipoOperador
 from operador o
          inner join usuario u on o.idUsuario = u.iduser
@@ -1928,3 +1890,26 @@ select FechaCompleta from dataOperadores;
 select Fecha from dataOperadores;
 select date(NOW());
 select * from dataOperadores where FechaCompleta=date(NOW());
+
+select * from previs;
+drop view previs;
+create view dataAsignadas as
+select ho.iduser             AS iduser,
+       ho.idTipoMarca        AS idTipoMarca,
+       ho.nameTurno          AS nameTurno,
+       ho.nameMaterial       AS nameMaterial,
+       ho.nameMaquinaria     AS nameMaquinaria,
+       ho.nameTipoOperador   AS nameTipoOperador,
+       ho.fullname           AS fullname,
+       ho.nameTipoMarca      AS nameTipoMarca,
+       ho.idtipoOperador     AS idtipoOperador,
+       ho.idOrdenFabricacion AS idOrdenFabricacion,
+       ho.HoraEntrada        AS HoraEntrada,
+       o.idStatus                     AS idstatus
+from (`bddnova`.`horasoperadoresentrada` `ho` join `bddnova`.`ordenfabricacion` `o`
+      on ((ho.idOrdenFabricacion = o.idOrdenFabricacion)));
+
+
+ SELECT @@global.time_zone;
+SELECT @@global.time_zone, @@session.time_zone;
+select * from usuario;
