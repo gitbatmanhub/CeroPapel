@@ -56,7 +56,7 @@ router.get('/ordenesfabricacion', isLoggedIn, operador, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     if (rolusuario==5){
         const datosof = await pool.query('select * from datosof where iduser=? and idStatus=1', [userId]);
-        const ordenesAsignadasOPeradores = await pool.query('select * from previs where iduser=? and idstatus=1;', [userId])
+        const ordenesAsignadasOPeradores = await pool.query('select * from dataAsignadas where iduser=? and idstatus=1;', [userId])
         const preba= await pool.query('select * from dataOperadores where Fecha between DATE_FORMAT(NOW(), "%e/%m/%y") and DATE_FORMAT(curdate() -1, "%e/%m/%y");')
         console.log(preba);
         res.render('produccion/ordenesfabricacion', {
@@ -128,8 +128,10 @@ router.get('/detallesof/:id', isLoggedIn, digitador,  async (req, res) => {
     t1.setHours(hora1[0], hora1[1], hora1[2]);
     t2.setHours(hora2[0], hora2[1], hora2[2]);
     t1.setHours(t1.getHours() - t2.getHours(), t1.getMinutes() - t2.getMinutes(), t1.getSeconds() - t2.getSeconds());
-    var horasymin = (t1.getHours() ? t1.getHours() : "") + (t1.getMinutes() ? ":" + t1.getMinutes() : "");
+    var horasymin = t1.getHours()+":"+t1.getMinutes()+":"+t1.getSeconds();
 
+
+    console.log(horasymin);
 
     res.render('produccion/detallesof', {
         datosPara,

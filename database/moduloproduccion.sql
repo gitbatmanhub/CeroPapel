@@ -1892,7 +1892,7 @@ select date(NOW());
 select * from dataOperadores where FechaCompleta=date(NOW());
 
 select * from previs;
-drop view previs;
+drop view dataAsignadas;
 create view dataAsignadas as
 select ho.iduser             AS iduser,
        ho.idTipoMarca        AS idTipoMarca,
@@ -1905,11 +1905,18 @@ select ho.iduser             AS iduser,
        ho.idtipoOperador     AS idtipoOperador,
        ho.idOrdenFabricacion AS idOrdenFabricacion,
        ho.HoraEntrada        AS HoraEntrada,
-       o.idStatus                     AS idstatus
-from (`bddnova`.`horasoperadoresentrada` `ho` join `bddnova`.`ordenfabricacion` `o`
-      on ((ho.idOrdenFabricacion = o.idOrdenFabricacion)));
+       o.idStatus                     AS idstatus,
+       sF.nameStatus
 
+from (`bddnova`.`horasoperadoresentrada` `ho` join `bddnova`.`ordenfabricacion` `o`
+      on ((ho.idOrdenFabricacion = o.idOrdenFabricacion)))
+inner join statusof sF on o.idstatus=sF.idStatus ;
+select * from statusof;
 
  SELECT @@global.time_zone;
 SELECT @@global.time_zone, @@session.time_zone;
 select * from usuario;
+
+select * from dataAsignadas where iduser=10 and idstatus=1;
+
+select * from dataOperadores;
