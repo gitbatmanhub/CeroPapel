@@ -42,7 +42,7 @@
                             <td>{{dataOperadorPrincipal.Turno}}</td>
                             <td>{{dataOperadorPrincipal.Maquinaria}}</td>
                             <td>{{dataOperadorPrincipal.Material}}</td>
-                            <td class="horasPara">{{horasPara.horasPara}}</td><!--Menos este-->
+                            <td class="horasPara" >{{horasPara.horasPara}}</td><!--Menos este-->
                             <td class="HorasMaquina">{{horasymin}}</td>
                             <td>{{dataOperadorPrincipal.Fecha}}</td>
 
@@ -167,6 +167,7 @@
 
     //Sacar la cantidad de ayudantes y numero de veces a repetir el bucle
     var Fechas1 = document.querySelectorAll("#tab > tr > td.fecha1");
+    //console.log(Fechas1);
     var FechasArray1= Array.prototype.slice.call(Fechas1);
     //console.log(FechasArray1.length);
     for (i=0 ; i<FechasArray1.length; i++){
@@ -178,7 +179,7 @@
         var hora1= t1.getTime();
         Fecha1=new Date(hora1-18000000);
         const FechaD1= Fecha1.getHours()+":"+Fecha1.getMinutes()+":"+Fecha1.getSeconds();
-        console.log(FechaD1);
+        //console.log(FechaD1);
         document.getElementsByClassName('fecha1')[i].innerHTML=FechaD1;
     }
     var Fechas2 = document.querySelectorAll("#tab > tr > td.fecha2");
@@ -187,17 +188,40 @@
         var date2= FechasArray2[j].innerHTML;
         //console.log(previs);
         var fechaSplit2 = (date2).split(":");
-        console.log(fechaSplit2);
+        //console.log(fechaSplit2);
         t2 = new Date();
         t2.setHours(fechaSplit2[0], fechaSplit2[1], fechaSplit2[2]);
         var hora2= t2.getTime();
         Fecha2=new Date(hora2-18000000);
         const FechaD2= Fecha2.getHours()+":"+Fecha2.getMinutes()+":"+Fecha2.getSeconds();
-        console.log(FechaD2);
         document.getElementsByClassName('fecha2')[j].innerHTML=FechaD2;
     }
 
+    //const FechaD2= Fecha2.getHours() ? Fecha2.getHours() : "") + (Fecha2.getMinutes() ? ":" + Fecha2.getMinutes() : "";
 
+
+    const HorasPara= document.getElementsByClassName('horasPara')[0];
+    console.log(HorasPara.innerHTML.length)
+    if(HorasPara.innerHTML.length<1){
+        document.getElementsByClassName('horasPara')[0].innerHTML="00:00";
+    }
+
+    /*
+    for (i=0 ; i<FechasArray1.length; i++) {
+        var date1= FechasArray1[i].innerHTML;
+        var date2= FechasArray2[i].innerHTML;
+        var fechaSplit1 = (date1).split(":");
+        var fechaSplit2 = (date2).split(":");
+        t1=new Date();
+        t2=new Date();
+        t1.setHours(fechaSplit1[0], fechaSplit1[1], fechaSplit1[2]);
+        t2.setHours(fechaSplit2[0], fechaSplit2[1], fechaSplit2[2]);
+
+
+
+    }
+
+     */
 
 </script>
 

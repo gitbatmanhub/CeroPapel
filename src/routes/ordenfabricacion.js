@@ -108,7 +108,7 @@ router.get('/detallesof/:id', isLoggedIn, digitador,  async (req, res) => {
 
     const datosPara = await pool.query('select * from datosPara where idOrdenFabricacion=?', [ordenid]);
     const horasPara = await pool.query('select sec_to_time(sum(time_to_sec(horasPara))) as horasPara, idOrdenFabricacion from horasPara where idOrdenFabricacion=?', [ordenid])
-    const ayudantesOrden = await pool.query('select *, time_format(TIMEDIFF(HoraSalida, HoraEntrada), "%H:%i:%s") as TiempoTrabajado from dataOperadoresHoras where IdOrden=?;', [ordenid]);
+    const ayudantesOrden = await pool.query("SELECT IF(dOH.HoraEntrada <= dOH.HoraSalida, TIME_FORMAT(TIMEDIFF(dOH.HoraSalida, dOH.HoraEntrada), '%H:%i:%s'), TIME_FORMAT(ADDTIME(TIMEDIFF('24:00:00', dOH.HoraEntrada), dOH.HoraSalida), '%H:%i:%s')) AS TiempoTrabajado, dOH.* FROM dataOperadoresHoras dOH WHERE IdOrden = ?;", [ordenid]);
     const dataOperadorPrincipal = await pool.query('select * from dataOperadores where IdOrden=? and IdTipoOperador=1 group by IDUsuario;', [ordenid])
     const dataOperadorAyudante = await pool.query('select * from dataOperadores where IdOrden=? and IdTipoOperador=2 group by IDUsuario;', [ordenid])
     const HorasTrabajadasMaquina = dataOperadorPrincipal[0].HorasTrabajadas;
@@ -118,10 +118,9 @@ router.get('/detallesof/:id', isLoggedIn, digitador,  async (req, res) => {
     const hora1 = (HorasTrabajadasMaquina).split(":");
     if(HorasParas===null){
         var hora2 = ("00:00:00").split(":");
-        console.log(hora2);
+        //console.log(hora2);
     }else {
         var hora2 = (HorasParas).split(":");
-
     }
     t1 = new Date(),
     t2 = new Date();
@@ -130,8 +129,6 @@ router.get('/detallesof/:id', isLoggedIn, digitador,  async (req, res) => {
     t1.setHours(t1.getHours() - t2.getHours(), t1.getMinutes() - t2.getMinutes(), t1.getSeconds() - t2.getSeconds());
     var horasymin = t1.getHours()+":"+t1.getMinutes()+":"+t1.getSeconds();
 
-
-    console.log(horasymin);
 
     res.render('produccion/detallesof', {
         datosPara,
