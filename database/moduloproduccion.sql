@@ -1960,9 +1960,6 @@ SELECT IF(dOH.HoraEntrada <= dOH.HoraSalida, TIME_FORMAT(TIMEDIFF(dOH.HoraSalida
 SELECT IF(dOH.HoraEntrada <= dOH.HoraSalida, TIME_FORMAT(TIMEDIFF(dOH.HoraSalida, dOH.HoraEntrada), "%H:%i:%s" ), ADDTIME(TIMEDIFF('24:00:00', dOH.HoraEntrada), dOH.HoraSalida)) AS TiempoTrabajado , dOH.* from dataOperadoresHoras dOH where IdOrden=77;
 SELECT IF(dOH.HoraEntrada <= dOH.HoraSalida, TIME_FORMAT(TIMEDIFF(dOH.HoraSalida, dOH.HoraEntrada), '%H:%i:%s'), TIME_FORMAT(ADDTIME(TIMEDIFF('24:00:00', dOH.HoraEntrada), dOH.HoraSalida), '%H:%i:%s')) AS TiempoTrabajado, dOH.* FROM dataOperadoresHoras dOH WHERE IdOrden = 77;
 
-11:07:30 - 05:00:00 = 06:07:30
-11:11:18 - 05:00:00 = 06:11:18
-
 SELECT IF(dOH.HoraEntrada <= dOH.HoraSalida, TIME_FORMAT(TIMEDIFF(dOH.HoraSalida, dOH.HoraEntrada), '%H:%i:%s'), TIME_FORMAT(ADDTIME(TIMEDIFF('24:00:00', dOH.HoraEntrada), dOH.HoraSalida), '%H:%i:%s')) AS TiempoTrabajado, time_format(dOH.HoraEntrada, '%H:%i:%s') as HoraEntradaF, TIME_FORMAT(dOH.HoraSalida ,'%H:%i:%s' )as HoraSalidaF, dOH.* FROM dataOperadoresHoras dOH WHERE IdOrden = 77;
 
 

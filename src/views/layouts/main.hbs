@@ -93,6 +93,20 @@
             }, false)
         })
     })()
+
+    document.addEventListener("keydown", function(event) {
+        const sidebar= document.getElementById("sidebar")
+        if (event.ctrlKey && event.key === "p") {
+            sidebar.style='visibility:hidden'
+            setTimeout(function(){
+                sidebar.removeAttribute('style')
+            }, 1000);
+        }
+
+    });
+
+
+
 </script>
 
 
