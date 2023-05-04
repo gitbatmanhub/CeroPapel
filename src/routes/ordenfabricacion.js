@@ -237,7 +237,6 @@ router.post('/agregarPara', isLoggedIn, async (req, res) => {
      h2.setHours(horaFinals[0], horaFinals[1]);
      h1.setHours(h1.getHours()-h2.getHours(), h1.getMinutes()-h2.getMinutes());
      console.log("La diferencia es de: " + (h1.getHours() ? h1.getHours() + (h1.getHours() > 1 ? " horas" : " hora") : "") + (h1.getMinutes() ? ", " + h1.getMinutes() + (h1.getMinutes() > 1 ? " minutos" : " minuto") : ""));
-
      */
     await pool.query('insert into horasParas set ?', [horas_Para]);
     res.redirect('detallesofoperador/' + idOrdenFabricacion)
@@ -276,42 +275,4 @@ router.post('/cerrarof/:id', isLoggedIn, async (req, res) => {
     //console.log(operadoresSalieron);
     res.redirect('/detallesofoperador/' + ordenid)
 });
-
-/*
-
-//Ruta del formulario
-router.get('/formularioInicial', async(req, res )=>{
-   res.render('/la_vista_que_renderiza_el_formulario ')
-});
-
-router.get('/formularioFinal/:id', async(req, res )=>{
-    const id = req.params; //Recojes el id de la orden que vienen en parametro de la url
-    //Pasas el id que recojiste en el params
-    const data = await pool.query('select * from nametable where id=?', [id])
-    res.render('/la_vista_que_renderiza_el_segundo_formulario ', {data})//Renderizas los datos del formulario
-});
-
-
-router.post('/formularioInicial', async(req, res )=>{
-    const {dato1, dato2, dato3}=req.body; //Recojo los datos
-    const data= {
-        dato1, dato2, dato3
-    } //destructuring para pasarlo al query
-    await pool.query('insert into name_tabla set ?', [data]); //Lo inserto en la bbdd
-    //Buscas el ultimo id de la tabla insertado y lo recuperas en una variable
-    const id = await pool.query('SELECT id_columna FROM name_table  ORDER BY idOrdenFabricacion DESC LIMIT 1;');
-    res.redirect('/formularioFinal/'+id); //Rediriges a la segunda vista enviando como parametro el id de el ultimo insert
-});
-
-router.post('/formularioFinal/:id', async(req, res )=>{
-    const id=req.params;
-    const {dato1, dato2, dato3}=req.body; //Recojo los datos
-    const data= {
-        dato1, dato2, dato3
-    } //destructuring para pasarlo al query
-    await pool.query('update name_tabla set ? where id', [data, id]); //Lo inserto en la bbdd valiudando que el id sea el correcto
-    res.redirect('/pantalla_succesfull'); //Rediriges a la vista mostrando que se hizo de manera correcta el insert o agradeciendo yo que se
-});
- */
-
 module.exports = router;
