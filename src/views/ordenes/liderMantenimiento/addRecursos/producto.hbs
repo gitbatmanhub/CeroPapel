@@ -2,23 +2,66 @@
     <div class="container">
         <h2>Agregar Producto</h2>
     </div>
-    <form action="/addproducto" method="post" id="" name="">
-        <div class="row g-2">
-            <div class="col-md">
-                <div class="form-floating mb-3">
-                    <input type="text" class="form-control" name="nameProducto" id="floatingInput" placeholder="Ingresa el nombre del área">
-                    <label for="floatingInput">Nombre del Producto</label>
+    <form action="/addproducto" class="needs-validation" novalidate method="post" id="" name="">
+        <div class="container">
+            <div class="row g-2">
+                <div class="col-md">
+                    <div class="">
+                        <label>Código del Producto</label>
+                        <input autocomplete="off" minlength="7" maxlength="10" type="text" class="form-control"
+                               name="codigo" required placeholder="LLY22577">
+                        <div class="invalid-feedback">
+                            Por favor proporciona un codigo de producto
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="">
+                        <label>Nombre del Producto</label>
+                        <input autocomplete="off" minlength="2" maxlength="100" type="text" class="form-control"
+                               name="nameProducto" required placeholder="Nombre Producto">
+                        <div class="invalid-feedback">
+                            Por favor proporciona un codigo de producto
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="form-floating col-md mb-3">
-                <input id="descripcionAO" type="text" class="form-control" name="descripcionProducto"
-                       required placeholder="Descripción" value="" >
-                <label for="floatingInput">Descripción</label>
+        </div>
+        <div class="container" style="padding-top: 10px">
+            <div class="row g-2">
+                <div class="col-md">
+                    <label for="estadoMaquina" class="form-label">Unidad Material</label>
+                    <select name="unidad" class="form-select" id="" required>
+                        <option selected disabled value="">Escoge la Unidad</option>
+                        <option value="GL">GL (Galones)</option>
+                        <option value="KG">KG (Kilogramos)</option>
+                        <option value="LT">LT (Litros)</option>
+                        <option value="MT">MT (Metros)</option>
+                        <option value="UN">UN (Unidad)</option>
+                    </select>
+                    <div class="invalid-feedback">
+                        Selecciona una Unidad
+                    </div>
+                </div>
+                <div class="col-md">
+                    <div class="">
+                        <label>Cantidad del Producto</label>
+                        <input autocomplete="off" type="number" class="form-control" name="saldo" required
+                               placeholder="Cantidad Producto">
+                        <div class="invalid-feedback">
+                            Por favor proporciona una cantidad
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md" style="padding-top: 10px">
+                <div class="">
+                    <label>Descripción/Detalles del Producto (opcional)</label>
+                    <textarea name="DetallesProducto" id="" cols="30" rows="2" class="form-control"></textarea>
+                </div>
             </div>
         </div>
-
-
-        <div class="form-group boton-send">
+        <div class="form-group boton-send container" style="padding-top: 10px">
             <input type="submit" class="btn btn-success btn-block" id="">
         </div>
 
@@ -30,11 +73,148 @@
 
 </div>
 
+<div class="container">
+    <div class="tables-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="card-style mb-30">
+                    <h1 style="padding: 20px">Productos</h1>
+                    <table id="table1" class="display">
+                        <thead>
+                        <tr>
+                            <th><h6>Id Producto</h6></th>
+                            <th><h6>Nombre Producto</h6></th>
+                            <th><h6>Código</h6></th>
+                            <th><h6>Unidad</h6></th>
+                            <th><h6>Stock</h6></th>
+                            <th><h6 style="text-align: center">Acciones</h6></th>
+                        </tr>
+
+                        </thead>
+
+                        <tbody class="list" id="tab">
+
+                        {{#each productos}}
+
+                            <tr>
+
+                                <td class="">
+                                    <p>{{idProducto}}</p>
+                                </td>
+
+
+                                <td class="area">
+                                    <p>{{nameProducto}}</p>
+                                </td>
+                                <td class="area">
+                                    <p>{{codigo}}</p>
+                                </td>
+
+                                <td class="prioridad">
+                                    <p>{{unidad}}</p>
+                                </td>
+                                <td class="prioridad">
+                                    <p>{{saldo}}</p>
+                                </td>
+                                <td style="text-align: center">
+
+                                    <button class="btn btn-primary" data-bs-target="#modalAcciones1"
+                                            data-bs-toggle="modal">Actualizar
+                                    </button>
+
+
+                                </td>
+                            </tr>
+                        {{/each}}
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+
+<div class="modal fade" id="modalAcciones1" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+     tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Acciones</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card" style="width: 18rem;">
+
+                    <lord-icon
+                            src="https://cdn.lordicon.com/ofwpzftr.json"
+                            trigger="loop"
+                            delay="300"
+                            style="width:150px;height:150px; margin: 0 auto">
+                    </lord-icon>
+                    <div class="card-body">
+                        <h5 class="card-title">Ver</h5>
+                        <p class="card-text">Asegurate que los datos ingresados son correctos hechandole un ojo.</p>
+                        <a href="/orden/view/" class="btn btn-primary " id="viewBtn">Ver</a>
+                    </div>
+                </div>
+                <div class="card" style="width: 18rem;">
+                    <lord-icon
+                            src="https://cdn.lordicon.com/iiixgoqp.json"
+                            trigger="loop"
+                            delay="300"
+                            style="width:150px;height:150px; margin: 0 auto">
+                    </lord-icon>
+                    <div class="card-body">
+                        <h5 class="card-title">Editar</h5>
+                        <p class="card-text">¿Te equivocaste escribiendo un dato?. Editalo aquí!</p>
+                        <a href="/orden/edit/" class="btn btn-secondary" id="editBtn">Editar</a>
+                    </div>
+                </div>
+                <div class="card" style="width: 18rem;">
+                    <lord-icon
+                            src="https://cdn.lordicon.com/kfzfxczd.json"
+                            trigger="loop"
+                            delay="300"
+                            style="width:150px;height:150px; margin: 0 auto">
+                    </lord-icon>
+                    <div class="card-body">
+                        <h5 class="card-title">Eliminar</h5>
+                        <p class="card-text">Elimina la orden de manera instantanea y aquí no ha pasado nada!</p>
+                        <a href="/orden/delete/" class="btn btn-danger"
+                           id="deleteBtn">Eliminar</a>
+
+
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+
+</div>
+
+
+
 
 <script>
+        const table1 = document.getElementById('table1');
+        table1.addEventListener('click', (e)=>{
+        e.stopPropagation();
+        const id=e.target.parentElement.parentElement.children[0].textContent.trim();
+        console.log(id);
+        document.getElementById("viewBtn").href="/view/" + id;
+        document.getElementById("editBtn").href="/edit/" + id;
+        document.getElementById("deleteBtn").href="/delete/" + id;
 
-
+    });
 </script>
+
 
 
 

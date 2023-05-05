@@ -3,6 +3,7 @@ const router = express.Router();
 
 const pool = require('../database');
 const {isLoggedIn, permissions} = require('../lib/auth');
+const {el} = require("timeago.js/lib/lang");
 
 
 //=======================================================Home
@@ -543,21 +544,29 @@ router.post('/addarea', async (req, res) => {
 
 })
 router.get('/addproducto', isLoggedIn, async (req, res) => {
-    res.render('ordenes/liderMantenimiento/addRecursos/producto');
+    const productos = await pool.query('select * from producto');
+    res.render('ordenes/liderMantenimiento/addRecursos/producto', {productos});
     //console.log(req.body);
 })
 router.post('/addproducto', async (req, res) => {
-    const {nameProducto, descripcionProducto} = req.body;
+    const {codigo, nameProducto, unidad,saldo, DetallesProducto} = req.body;
+    const codigoValidar= req.body.codigo;
+    const validarCodigo= await pool.query('select idProducto from producto where codigo=?;', [codigoValidar]);
+    if (validarCodigo.length>0){
+        const idProducto= validarCodigo[0].idProducto;
+        req.flash('error', 'Item ya existe, buscalo con el id '+idProducto);
+    }else {
     const dataProducto = {
-        nameProducto: nameProducto.replace(/\b\w/g, function (l) {
-            return l.toUpperCase()
-        }),
-        DetallesProducto: descripcionProducto.replace(/\b\w/g, function (l) {
-            return l.toUpperCase()
-        })
+        codigo: codigo.toUpperCase(),
+        nameProducto: nameProducto.toUpperCase(),
+        unidad,
+        saldo,
+        DetallesProducto: DetallesProducto.toUpperCase()
+
     }
-    await pool.query('insert into producto set ?', [dataProducto]);
-    req.flash('success', 'Item agregado correctamente');
+        req.flash('success', 'Item agregado correctamente');
+        await pool.query('insert into producto set ?', [dataProducto]);
+    }
     res.redirect('/addproducto')
 
 })
@@ -679,6 +688,5 @@ router.post('/edituser', isLoggedIn, async (req, res)=>{
     await pool.query('update usuario set ? where iduser=?', [dataUser, iduser]);
     res.redirect('/profile')
 });
-
 
 module.exports = router;

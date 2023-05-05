@@ -64,6 +64,7 @@ app.use(require('./routes/'));
 app.use(require('./routes/authentication'));
 app.use('/', require('./routes/ordenes'));
 app.use('/', require('./routes/ordenfabricacion'));
+app.use('/', require('./routes/bodegas'));
 
 
 //Public
