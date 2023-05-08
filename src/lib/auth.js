@@ -63,7 +63,7 @@ module.exports = {
     },
     coordinadorCompras(req, res, next){
         const rolusuario = req.user.rolusuario;
-        if (rolusuario ===8) {
+        if (rolusuario ===8 || rolusuario===1) {
             return next();
         } else {
             return res.redirect('/');

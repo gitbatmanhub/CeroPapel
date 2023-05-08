@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const pool = require('../database');
-const {isLoggedIn, permissions} = require('../lib/auth');
+const {isLoggedIn, permissions, coordinadorCompras} = require('../lib/auth');
 const {el} = require("timeago.js/lib/lang");
 
 
@@ -201,14 +201,14 @@ router.get('/details/:id', permissions, isLoggedIn, async (req, res) => {
     //console.log(req.params);
     const idOrden = req.params.id;
     //console.log(idOrden)
-    const everDatos = await pool.query('select * from TodosDatos where idOrdenTrabajo=?', [idOrden]);
+    const everDatos = await pool.query('select *, date_format(HoradeCreacion, "%Y-%m-%d %H:%i:%S") as SoloFecha from TodosDatos where idOrdenTrabajo=?', [idOrden]);
     const tecnicosOrden = await pool.query('select * from tecnicosOrden where idOrdenTrabajo = ? group by iduser;', [idOrden]);
-    const statuS = await pool.query('select * from ordenStatusDetails where idOrden=? group by AvanceStatus;', [idOrden])
+    const statuS = await pool.query('select *, date_format(create_at, "%Y-%m-%d %H:%i:%S") as soloHora  from ordenStatusDetails where idOrden=? group by AvanceStatus;', [idOrden])
     const comentarios = await pool.query('select * from comentariosOrdenUser where idOrden=?;', [idOrden])
     const suministro = await pool.query('select * from productosOrdenes where idOrden=?;', [idOrden])
     const tecnicosOrdenExterna = await pool.query('select * from tecnicosOrdenExterna where idOrdenTrabajo=?;', [idOrden])
     const proveedor = await pool.query('select * from proveedorNombreOrden where idOrdenTrabajo=?;', [idOrden])
-    const fechasOrden = await pool.query('select * from fechas_orden where idOrden=?;', [idOrden])
+    const fechasOrden = await pool.query('select *, date_format(fechaInicio, "%Y-%m-%d %H:%i:%S") as SoloFechaInicio, date_format(fechaFinal, "%Y-%m-%d %H:%i:%S") as SoloFechaFinal from fechas_orden where idOrden=?;', [idOrden])
     console.log(tecnicosOrdenExterna);
     res.render('ordenes/liderMantenimiento/details', {
         datos: everDatos[0],
@@ -543,12 +543,12 @@ router.post('/addarea', async (req, res) => {
     res.redirect('/addarea')
 
 })
-router.get('/addproducto', isLoggedIn, async (req, res) => {
+router.get('/addproducto', isLoggedIn, coordinadorCompras, async (req, res) => {
     const productos = await pool.query('select * from producto');
     res.render('ordenes/liderMantenimiento/addRecursos/producto', {productos});
     //console.log(req.body);
 })
-router.post('/addproducto', async (req, res) => {
+router.post('/addproducto', coordinadorCompras, async (req, res) => {
     const {codigo, nameProducto, unidad,saldo, DetallesProducto} = req.body;
     const codigoValidar= req.body.codigo;
     const validarCodigo= await pool.query('select idProducto from producto where codigo=?;', [codigoValidar]);
@@ -564,7 +564,7 @@ router.post('/addproducto', async (req, res) => {
         DetallesProducto: DetallesProducto.toUpperCase()
 
     }
-        req.flash('success', 'Item agregado correctamente');
+        req.flash('success', 'Item agregado correctamente con el coddigo '+ codigo );
         await pool.query('insert into producto set ?', [dataProducto]);
     }
     res.redirect('/addproducto')
@@ -593,23 +593,10 @@ router.get('/addsuministros', async (req, res) => {
 })
 
 router.post('/addsuministros/:id', async (req, res) => {
-    //const {nameSuministros} = req.body;
     const idOrden = req.params.id;
     const idUser = ([req.user.iduser][0]);
-    const objo = Object.assign({}, req.body);
-    const exmaple = {producto, cantidad} = objo;
-
-    if (exmaple.producto.length<2){
-        await pool.query('INSERT into orden_Producto (idOrden, idUser, idProducto, cantidad) VALUES (?,?,?,?)', [idOrden, idUser, producto,cantidad ]);
-    }else {
-
-        for (let i = 0; i < exmaple.producto.length; i++) {
-            const idProducto = exmaple.producto[i];
-            const cantidad = exmaple.cantidad[i];
-            await pool.query('INSERT into orden_Producto (idOrden, idUser, idProducto, cantidad) VALUES (?,?,?,?)', [idOrden, idUser, idProducto,cantidad ]);
-
-        }
-    }
+    const exmaple = {producto, cantidad}=req.body;
+    await pool.query('INSERT INTO orden_Producto (idOrden, idUser, idProducto, cantidad) VALUES (?,?,?,?)', [idOrden, idUser, producto,cantidad ]);
     req.flash('success', 'Item agregado correctamente a la orden '+ req.params.id);
     res.redirect('/suministro/'+idOrden)
 

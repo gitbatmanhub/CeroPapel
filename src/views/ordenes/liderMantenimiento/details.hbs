@@ -32,7 +32,7 @@
             <td><b>Estado Orden: </b>{{ datos.Status}} </td>
             <td><b>Prioridad: </b>{{ datos.Prioridad}} </td>
             <td><b>Creador: </b>{{ datos.Creador}} </td>
-            <td colspan="2"><b>Fecha y hora de creación: </b>{{datos.HoradeCreacion}}</td>
+            <td colspan="2"><b>Fecha y hora de creación: </b>{{datos.SoloFecha}}</td>
             <td></td>
 
         </tr>
@@ -47,7 +47,7 @@
             <tr>
                 <td><b>Responsable: </b>{{NameAcepto}} </td>
                 <td><b>Estado: </b>{{ Estado}} </td>
-                <td colspan="2"><b>Fecha y Hora: </b>{{ create_at}} </td>
+                <td colspan="2"><b>Fecha y Hora: </b>{{soloHora}} </td>
             </tr>
         {{/each}}
         <tr>
@@ -82,8 +82,8 @@
                 <tr class="table-group-divider"></tr>
 
                 <tr>
-                    <td colspan="2"><b>Fecha Inicio: </b> {{fechaInicio}}</td>
-                    <td colspan="2"><b>Fecha Final: </b>{{fechaFinal}}</td>
+                    <td colspan="2"><b>Fecha Inicio: </b> {{SoloFechaInicio}}</td>
+                    <td colspan="2"><b>Fecha Final: </b>{{SoloFechaFinal}}</td>
                 </tr>
             {{/each}}
 
@@ -137,6 +137,16 @@
             <td style="text-align: center" colspan="4"><b>Suministros</b></td>
         </tr>
         <tr class="table-group-divider"></tr>
+        {{#when datos.idStatus 'eq' 7 }}
+            <td>
+                <a href="/suministro/{{datos.idOrdenTrabajo}} " class="btn btn-primary disabled">Agregar</a></td>
+            </td>
+        {{else}}
+            <a  href="/suministro/{{datos.idOrdenTrabajo}} " class="btn btn-primary">Agregar</a></td>
+
+        {{/when}}
+
+<!--
         {{#if suministro}}
             <tr>
             {{#each suministro}}
@@ -150,10 +160,11 @@
             </tr>
         {{else}}
             <tr>
-                <td style="text-align: center" colspan="4">Aún no se agregan suministros a esta orden <br><a
-                        href="/suministro/{{datos.idOrdenTrabajo}} " class="btn btn-primary">Agregar</a></td>
+                <td style="text-align: center" colspan="4">Aún no se agregan suministros a esta orden <br>
+                    <a href="/suministro/{{datos.idOrdenTrabajo}} " class="btn btn-primary">Agregar</a></td>
             </tr>
         {{/if}}
+        -->
         <tr>
             {{#when datos.idStatus 'eq' 5 }}
                 <td>

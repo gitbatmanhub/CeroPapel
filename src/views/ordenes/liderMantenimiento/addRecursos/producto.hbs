@@ -62,7 +62,8 @@
             </div>
         </div>
         <div class="form-group boton-send container" style="padding-top: 10px">
-            <input type="submit" class="btn btn-success btn-block" id="">
+            <input type="submit" class="btn btn-success btn-block" id="" value="Enviar">
+            <a class="btn btn-secondary" href="">Agregar Producto a Orden</a>
         </div>
 
 
@@ -87,7 +88,7 @@
                             <th><h6>Código</h6></th>
                             <th><h6>Unidad</h6></th>
                             <th><h6>Stock</h6></th>
-                            <th><h6 style="text-align: center">Acciones</h6></th>
+                            <!--<th><h6 style="text-align: center">Acciones</h6></th>-->
                         </tr>
 
                         </thead>
@@ -116,14 +117,14 @@
                                 <td class="prioridad">
                                     <p>{{saldo}}</p>
                                 </td>
+                                <!--
                                 <td style="text-align: center">
 
                                     <button class="btn btn-primary" data-bs-target="#modalAcciones1"
                                             data-bs-toggle="modal">Actualizar
                                     </button>
-
-
                                 </td>
+                                -->
                             </tr>
                         {{/each}}
                         </tbody>
