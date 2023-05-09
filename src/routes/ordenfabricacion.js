@@ -5,7 +5,7 @@ const pool = require('../database');
 const {isLoggedIn, permissions, tecnico, operador, admin, digitador} = require('../lib/auth');
 const {logger} = require("browser-sync/dist/logger");
 const {es, el} = require("timeago.js/lib/lang");
-const Console = require("console");
+//const Console = require("console");
 const {response} = require("express");
 
 //Rutas de admin
@@ -163,7 +163,7 @@ router.post('/operadormaquina/:id', isLoggedIn, async (req, res) => {
         idtipoOperador,
         idTipoMarca,
     }
-    const personaOrden = await pool.query('select * from operador where idUsuario=? and idOrdenFabricacion=?', [userId, idOrdenFabricacion.id]);
+    /*const personaOrden = await pool.query('select * from operador where idUsuario=? and idOrdenFabricacion=?', [userId, idOrdenFabricacion.id]);
     if (personaOrden.length > 0) {
         req.flash('success', 'Esta persona ya existe en esta orden');
         res.redirect('/detallesofoperador/' + idOrdenFabricacion.id);
@@ -172,6 +172,10 @@ router.post('/operadormaquina/:id', isLoggedIn, async (req, res) => {
         req.flash('success', 'Operador Asignado con exito');
         res.redirect('/detallesofoperador/' + idOrdenFabricacion.id);
     }
+
+     */
+    await pool.query('insert into operador set ?;', [operador]);
+    res.redirect('/detallesofoperador/' + idOrdenFabricacion.id);
 
 });
 
@@ -200,7 +204,7 @@ router.get('/detallesofoperador/:id', permissions, isLoggedIn, async (req, res) 
     const horasPara = await pool.query('select sec_to_time(sum(time_to_sec(horasPara))) as horasPara, idOrdenFabricacion from horasPara where idOrdenFabricacion=?', [ordenid])
     const horasOrden = await pool.query('select * from horasOrdenFabricacion where idOrdenFabricacion=?', [ordenid]);
     const horasOrdenT = await pool.query('select sec_to_time(sum(time_to_sec(horasOf))) as horasOrdenT, idOrdenFabricacion from horasOf where idOrdenFabricacion=?;', [ordenid]);
-    const userOrden = await pool.query('select idtipoOperador, idUsuario, idTipoMarca from operador where idOrdenFabricacion=? and idUsuario=? ORDER BY idTipoMarca DESC LIMIT 1', [ordenid, userId]);
+    const userOrden = await pool.query('select * from operador where idOrdenFabricacion=? and idUsuario=? order by create_at desc limit 1;', [ordenid, userId]);
     const ayudantesOrden = await pool.query('select idUsuario, idtipoOperador, idTipoMarca, u.fullname from operador inner join usuario u on operador.idUsuario=u.iduser where idtipoOperador=2 and idOrdenFabricacion=? and idTipoMarca=1;', [ordenid]);
 
     res.render('produccion/operadores/detallesofT', {
