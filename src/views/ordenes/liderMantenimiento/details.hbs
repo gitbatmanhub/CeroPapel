@@ -4,13 +4,7 @@
 <div class="table-responsive">
     <table class="table">
         <thead>
-        <tr>
-            <!--
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
-            -->
-        </tr>
+
         </thead>
         <tbody>
         <tr>
@@ -22,9 +16,7 @@
             <td><b>Area: </b>{{ datos.nameArea}} </td>
             <td><b>Maquina: </b>{{ datos.nameMaquina}} </td>
             <td><b>Estado: </b>{{ datos.EstadoMaquina}} </td>
-
         </tr>
-
         <tr>
             <td colspan="4"><b>Descripción:</b> {{datos.descripcion}}</td>
         </tr>
@@ -34,7 +26,6 @@
             <td><b>Creador: </b>{{ datos.Creador}} </td>
             <td colspan="2"><b>Fecha y hora de creación: </b>{{datos.SoloFecha}}</td>
             <td></td>
-
         </tr>
 
         <tr>
@@ -136,35 +127,33 @@
         <tr>
             <td style="text-align: center" colspan="4"><b>Suministros</b></td>
         </tr>
-        <tr class="table-group-divider"></tr>
-        {{#when datos.idStatus 'eq' 7 }}
-            <td>
-                <a href="/suministro/{{datos.idOrdenTrabajo}} " class="btn btn-primary disabled">Agregar</a></td>
-            </td>
-        {{else}}
-            <a  href="/suministro/{{datos.idOrdenTrabajo}} " class="btn btn-primary">Agregar</a></td>
+        <tr class="table-group-divider">
+            <!--
+            {{#when datos.idStatus 'eq' 7 }}
+                <td>
+                    <a href="/suministro/{{datos.idOrdenTrabajo}} " class="btn btn-primary disabled">Agregar</a></td>
+                </td>
+            {{else}}
+                <a  href="/suministro/{{datos.idOrdenTrabajo}} " class="btn btn-primary">Agregar</a></td>
 
-        {{/when}}
-
-<!--
-        {{#if suministro}}
+            {{/when}}
+            -->
+        </tr>
+        <div>
+        {{#each suministro}}
             <tr>
-            {{#each suministro}}
-                <tr>
-                    <td colspan="2"><b>Responsable: </b>{{fullname}}</td>
-                    <td><b>Cantidad: </b>{{cantidad}}</td>
+                <td colspan="2"><b>Responsable: </b>{{fullname}}</td>
+                <td><b>Cantidad: </b>{{cantidad}}</td>
 
-                    <td colspan="2"><b>Nombre Producto: </b>{{ nameProducto}}</td>
-                </tr>
-            {{/each}}
+                <td colspan="2"><b>Nombre Producto: </b>{{ nameProducto}}</td>
+
             </tr>
-        {{else}}
-            <tr>
-                <td style="text-align: center" colspan="4">Aún no se agregan suministros a esta orden <br>
-                    <a href="/suministro/{{datos.idOrdenTrabajo}} " class="btn btn-primary">Agregar</a></td>
-            </tr>
-        {{/if}}
-        -->
+
+        {{/each}}
+
+
+        </div>
+
         <tr>
             {{#when datos.idStatus 'eq' 5 }}
                 <td>

@@ -266,13 +266,32 @@ router.post('/probe/', isLoggedIn, async (req, res) => {
 });
 
 
-router.get('/suministro/:id', isLoggedIn, permissions, async (req, res) => {
+router.get('/suministro/:id', isLoggedIn, permissions, coordinadorCompras, async (req, res) => {
     const idOrden = req.params.id;
+    const idRol = ([req.user.rolusuario][0]);
+    //console.log(idRol);
     const ordenes = await pool.query('select * from ordenTrabajo where idOrdenTrabajo=?;', [idOrden]);
     const suministros = await pool.query('select * from producto;')
-    const productosOrdenes = await pool.query('select * from productosOrdenes where idOrden=?;', [idOrden])
-    res.render('ordenes/liderMantenimiento/assign/suministros', {ordenes, suministros, productosOrdenes});
+    const productosOrdenes = await pool.query('select * from productosOrdenes where idOrden=? order by idProducto;', [idOrden])
+    /*console.log(productosOrdenes.length);
+    console.log("////////////////////")
+    for (let i = 0; i < productosOrdenes.length; i++) {
+        const idProducto= productosOrdenes[i].idProducto;
+        const saldo = await pool.query("SELECT saldo, idProducto FROM producto WHERE idProducto=? order by idProducto;;", [idProducto]);
+    }
+
+     */
+    res.render('ordenes/liderMantenimiento/assign/suministros', {ordenes, suministros,productosOrdenes, idRol});
 });
+router.post('/addsuministros/:id', async (req, res) => {
+    const idOrden = req.params.id;
+    const idUser = ([req.user.iduser][0]);
+    const exmaple = {producto, cantidad}=req.body;
+    await pool.query('INSERT INTO orden_Producto (idOrden, idUser, idProducto, cantidad) VALUES (?,?,?,?)', [idOrden, idUser, producto,cantidad ]);
+    req.flash('success', 'Item agregado correctamente a la orden '+ req.params.id);
+    res.redirect('/suministro/'+idOrden)
+
+})
 
 router.get('/tecnico/:id', isLoggedIn, permissions, async (req, res) => {
     //console.log([req.user.iduser][0]);
@@ -587,20 +606,9 @@ router.post('/addProveedor', async (req, res) => {
     res.redirect('/addProveedor')
 })
 
-router.get('/addsuministros', async (req, res) => {
-    res.render('/liderMantenimiento/addRecursos/suministros');
-    //console.log(req.body);
-})
 
-router.post('/addsuministros/:id', async (req, res) => {
-    const idOrden = req.params.id;
-    const idUser = ([req.user.iduser][0]);
-    const exmaple = {producto, cantidad}=req.body;
-    await pool.query('INSERT INTO orden_Producto (idOrden, idUser, idProducto, cantidad) VALUES (?,?,?,?)', [idOrden, idUser, producto,cantidad ]);
-    req.flash('success', 'Item agregado correctamente a la orden '+ req.params.id);
-    res.redirect('/suministro/'+idOrden)
 
-})
+
 
 router.post('/deleteItem/:id', isLoggedIn, permissions, async (req, res) => {
     const {id}= req.params;
