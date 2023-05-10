@@ -90,15 +90,7 @@ router.get('/ordenesfabricacionabiertas', isLoggedIn, operador, async (req, res)
     const datosOfCreadas = await pool.query('select * from datosof where idstatus=1;');
     res.render('produccion/operadores/ofCreadas', {datosOfCreadas, rolusuario})
     //console.log(rolusuario);
-
-
-
-
 });
-
-
-
-
 
 
 router.get('/detallesof/:id', isLoggedIn, digitador,  async (req, res) => {
@@ -123,7 +115,7 @@ router.get('/detallesof/:id', isLoggedIn, digitador,  async (req, res) => {
         var hora2 = (HorasParas).split(":");
     }
     t1 = new Date(),
-    t2 = new Date();
+        t2 = new Date();
     t1.setHours(hora1[0], hora1[1], hora1[2]);
     t2.setHours(hora2[0], hora2[1], hora2[2]);
     t1.setHours(t1.getHours() - t2.getHours(), t1.getMinutes() - t2.getMinutes(), t1.getSeconds() - t2.getSeconds());
