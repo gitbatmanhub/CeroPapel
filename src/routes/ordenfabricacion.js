@@ -97,6 +97,7 @@ router.get('/detallesof/:id', isLoggedIn, digitador,  async (req, res) => {
     //const userId = req.user.iduser;
     const ordenid = req.params.id;
     const rolusuario = req.user.rolusuario;
+    const idUser= req.user.iduser;
 
     const datosPara = await pool.query('select * from datosPara where idOrdenFabricacion=?', [ordenid]);
     const horasPara = await pool.query('select sec_to_time(sum(time_to_sec(horasPara))) as horasPara, idOrdenFabricacion from horasPara where idOrdenFabricacion=?', [ordenid])
@@ -104,8 +105,19 @@ router.get('/detallesof/:id', isLoggedIn, digitador,  async (req, res) => {
     const dataOperadorPrincipal = await pool.query('select * from dataOperadores where IdOrden=? and IdTipoOperador=1 group by IDUsuario;', [ordenid])
     const dataOperadorAyudante = await pool.query('select * from dataOperadores where IdOrden=? and IdTipoOperador=2 group by IDUsuario;', [ordenid])
     const HorasTrabajadasMaquina = dataOperadorPrincipal[0].HorasTrabajadas;
+    //console.log(ayudantesOrden.length);
+    for (let i = 0; i < ayudantesOrden.length; i++) {
+        const idUsers = ayudantesOrden[i].iduser;
+        //console.log(idUsers);
+        var HorasEntrada= await pool.query('select * from HorasOperadoresEntrada where idOrdenFabricacion=? and idtipoOperador=2 and iduser=? order by HoraEntrada;', [ordenid, idUsers])
+        const HorasSalida= await pool.query('select * from HorasOperadoresSalida where idOrdenFabricacion=? and idtipoOperador=2 and iduser=? order by HoraSalida;', [ordenid, idUsers])
+        console.log(HorasEntrada[0])
 
-
+        //const previs = await pool.query('select idUsuario, idOrdenFabricacion, idTipoMarca from operador where idUsuario=? and idOrdenFabricacion=?', [idOperador, ordenid]);
+        //console.log(idOperador);
+        //const horasEntrada= await pool.query('select * from HorasOperadoresSalida where idOrdenFabricacion=? and idtipoOperador=2 and iduser=? order by HoraSalida;',[ordenid, idUser] )
+    }    //const horasEntrada= await pool.query('select * from HorasOperadoresEntrada where idOrdenFabricacion=? and idtipoOperador=2 and iduser=? order by HoraEntrada;', [ordenid, idUser])
+    //console.log(horasEntrada);
     let HorasParas = horasPara[0].horasPara;
     const hora1 = (HorasTrabajadasMaquina).split(":");
     if(HorasParas===null){
@@ -130,7 +142,11 @@ router.get('/detallesof/:id', isLoggedIn, digitador,  async (req, res) => {
         dataOperadorAyudantes: dataOperadorAyudante[0],
         dataOperadorAyudante,
         horasymin,
-        rolusuario
+        rolusuario,
+        HorasEntrada:HorasEntrada[0]
+
+
+        //horasEntrada
     })
 });
 
@@ -155,19 +171,29 @@ router.post('/operadormaquina/:id', isLoggedIn, async (req, res) => {
         idtipoOperador,
         idTipoMarca,
     }
-    /*const personaOrden = await pool.query('select * from operador where idUsuario=? and idOrdenFabricacion=?', [userId, idOrdenFabricacion.id]);
-    if (personaOrden.length > 0) {
-        req.flash('success', 'Esta persona ya existe en esta orden');
-        res.redirect('/detallesofoperador/' + idOrdenFabricacion.id);
-    } else {
-        await pool.query('insert into operador set ?;', [operador]);
-        req.flash('success', 'Operador Asignado con exito');
-        res.redirect('/detallesofoperador/' + idOrdenFabricacion.id);
-    }
+    //console.log(operador);
 
-     */
-    await pool.query('insert into operador set ?;', [operador]);
-    res.redirect('/detallesofoperador/' + idOrdenFabricacion.id);
+          await pool.query('insert into operador set ?;', [operador]);
+          await pool.query('insert into horasEntradaOF set idUsuario=?, idTipoOperador=?, idOrden=?;', [userId, idtipoOperador, idOrdenFabricacion.id]);
+       res.redirect('/detallesofoperador/' + idOrdenFabricacion.id);
+       /*
+       const personaOrden = await pool.query('select * from operador where idUsuario=? and idOrdenFabricacion=?', [userId, idOrdenFabricacion.id]);
+       if (personaOrden.length > 0) {
+           req.flash('success', 'Esta persona ya existe en esta orden');
+           res.redirect('/detallesofoperador/' + idOrdenFabricacion.id);
+       } else {
+           await pool.query('insert into operador set ?;', [operador]);
+
+           req.flash('success', 'Operador Asignado con exito');
+           res.redirect('/detallesofoperador/' + idOrdenFabricacion.id);
+       }
+
+
+
+
+        */
+
+
 
 });
 
@@ -182,7 +208,13 @@ router.post('/salirof/:id', isLoggedIn, async (req, res) => {
         idTipoMarca,
     }
     //console.log(operador);
+    //console.log(idOrdenFabricacion);
     await pool.query('insert into operador set ?;', [operador]);
+    const idPrevio = await pool.query('select idHoraEntradaOf from horasEntradaOF where idOrden=? and idUsuario=? order by create_at desc limit 1;', [idOrdenFabricacion.id, userId]);
+    console.log(idPrevio[0].idHoraEntradaOf);
+    await pool.query('insert into horasSalidaOF set idUsuario=?, idTipoOperador=?, idOrden=?,idHoraEntrada=? ;', [userId, idtipoOperador, idOrdenFabricacion.id, idPrevio[0].idHoraEntradaOf]);
+    //await pool.query('insert into horasSalidaOF set idUsuario=?, idTipoOperador=?, idOrden=?;', [userId, idtipoOperador, idOrdenFabricacion.id]);
+
     res.redirect('/detallesofoperador/' + operador.idOrdenFabricacion);
 });
 
@@ -197,7 +229,7 @@ router.get('/detallesofoperador/:id', permissions, isLoggedIn, async (req, res) 
     const horasOrden = await pool.query('select * from horasOrdenFabricacion where idOrdenFabricacion=?', [ordenid]);
     const horasOrdenT = await pool.query('select sec_to_time(sum(time_to_sec(horasOf))) as horasOrdenT, idOrdenFabricacion from horasOf where idOrdenFabricacion=?;', [ordenid]);
     const userOrden = await pool.query('select * from operador where idOrdenFabricacion=? and idUsuario=? order by create_at desc limit 1;', [ordenid, userId]);
-    const ayudantesOrden = await pool.query('select idUsuario, idtipoOperador, idTipoMarca, u.fullname from operador inner join usuario u on operador.idUsuario=u.iduser where idtipoOperador=2 and idOrdenFabricacion=? and idTipoMarca=1;', [ordenid]);
+    const ayudantesOrden = await pool.query('select idUsuario, idtipoOperador, idTipoMarca, u.fullname from operador inner join usuario u on operador.idUsuario=u.iduser where idtipoOperador=2 and idOrdenFabricacion=? and idTipoMarca=1 group by idUsuario;', [ordenid]);
 
     res.render('produccion/operadores/detallesofT', {
         datosof: datosof[0],
