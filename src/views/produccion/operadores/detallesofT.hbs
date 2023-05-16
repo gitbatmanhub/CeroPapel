@@ -1,5 +1,6 @@
 <div class="tittleDetails">
     <h1>Detalles de la Orden de Fabricación #{{datosof.idOrdenFabricacion}}</h1>
+
 </div>
 
 
@@ -19,6 +20,10 @@
 
     </div>
     <div class="row g-2 mb-3">
+        <div class="col-md">
+            <label for="idTurno" class="form-label">Fecha</label>
+            <input name="fecha" type="text" value="{{datosof.Fecha}}" class="form-control" readonly>
+        </div>
         <div class="col-md">
             <label for="idTurno" class="form-label">Turno</label>
             <input name="fecha" type="text" value="{{datosof.nameTurno}}" class="form-control" readonly>
@@ -85,6 +90,40 @@
 
 </div>
 
+<div class="container text-center">
+    <div class="row align-items-start">
+        <div class="col">
+            <h3>Horas Trabajadas</h3>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Inicio(Entrada)</th>
+                    <th scope="col">Fin(Salida)</th>
+                    <th scope="col">Tiempo Trabajado</th>
+                </tr>
+                </thead>
+                <tbody>
+                {{#each HorasOperadoresOf}}
+                    <tr>
+                        <td>{{HoraEntrada}}</td>
+                        <td>{{HoraSalida}}</td>
+                        <td>{{TiempoTrabajado}}</td>
+                    </tr>
+                {{/each}}
+                <tr>
+                    <td></td>
+                    <td>Total Horas</td>
+                    <td>{{tiempoOperador}}</td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+
+</div>
 <div class="container text-center">
     <div class="row align-items-start">
         <div class="col">
@@ -292,13 +331,6 @@
     </div>
 </div>
 
-<style>
 
 
-</style>
 
-
-<script>
-    // Example starter JavaScript for disabling form submissions if there are invalid fields
-
-</script>

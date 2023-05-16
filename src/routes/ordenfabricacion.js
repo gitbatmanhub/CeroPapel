@@ -230,7 +230,9 @@ router.get('/detallesofoperador/:id', permissions, isLoggedIn, async (req, res) 
     const horasOrdenT = await pool.query('select sec_to_time(sum(time_to_sec(horasOf))) as horasOrdenT, idOrdenFabricacion from horasOf where idOrdenFabricacion=?;', [ordenid]);
     const userOrden = await pool.query('select * from operador where idOrdenFabricacion=? and idUsuario=? order by create_at desc limit 1;', [ordenid, userId]);
     const ayudantesOrden = await pool.query('select idUsuario, idtipoOperador, idTipoMarca, u.fullname from operador inner join usuario u on operador.idUsuario=u.iduser where idtipoOperador=2 and idOrdenFabricacion=? and idTipoMarca=1 group by idUsuario;', [ordenid]);
-
+    const HorasOperadoresOf= await pool.query("select * from horasOperadoresCalcular where idOrden=? and idUsuario=? ;", [ordenid,userId]);
+    const tiempoOperador= await pool.query("select sec_to_time(sum(time_to_sec(TiempoTrabajado))) as Hora from horasOperadoresCalcular where idUsuario=? and idOrden=?;", [userId, ordenid])
+    //console.log(tiempoOperador[0].Hora);
     res.render('produccion/operadores/detallesofT', {
         datosof: datosof[0],
         tipoPara,
@@ -239,7 +241,9 @@ router.get('/detallesofoperador/:id', permissions, isLoggedIn, async (req, res) 
         horasOrden: horasOrden[0],
         horasOrdenT: horasOrdenT[0],
         userOrden: userOrden[0],
-        ayudantesOrden
+        ayudantesOrden,
+        HorasOperadoresOf,
+        tiempoOperador: tiempoOperador[0].Hora
 
     })
 
