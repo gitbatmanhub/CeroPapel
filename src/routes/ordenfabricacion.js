@@ -3,6 +3,7 @@ const router = express.Router();
 
 const pool = require('../database');
 const {isLoggedIn, permissions, operador, digitador} = require('../lib/auth');
+const constants = require("constants");
 //const {logger} = require("browser-sync/dist/logger");
 //const {es, el} = require("timeago.js/lib/lang");
 //const Console = require("console");
@@ -98,26 +99,25 @@ router.get('/detallesof/:id', isLoggedIn, digitador,  async (req, res) => {
     const ordenid = req.params.id;
     const rolusuario = req.user.rolusuario;
     const idUser= req.user.iduser;
-
+    const datosHorasOperadores= await pool.query('select * from horasOperadoresCalcular where idOrden=?;', [ordenid]);
     const datosPara = await pool.query('select * from datosPara where idOrdenFabricacion=?', [ordenid]);
     const horasPara = await pool.query('select sec_to_time(sum(time_to_sec(horasPara))) as horasPara, idOrdenFabricacion from horasPara where idOrdenFabricacion=?', [ordenid])
-    const ayudantesOrden = await pool.query("SELECT IF(dOH.HoraEntrada <= dOH.HoraSalida, TIME_FORMAT(TIMEDIFF(dOH.HoraSalida, dOH.HoraEntrada), '%H:%i:%s'), TIME_FORMAT(ADDTIME(TIMEDIFF('24:00:00', dOH.HoraEntrada), dOH.HoraSalida), '%H:%i:%s')) AS TiempoTrabajado, dOH.* FROM dataOperadoresHoras dOH WHERE IdOrden = ?;", [ordenid]);
+    const ayudantesOrden = await pool.query("select * from horasOperadoresCalcular where idOrden=? group by idUsuario;", [ordenid]);
+    const datosAyudantes=[];
+    for (const ayudante of ayudantesOrden){
+        const idUsuario= ayudante.idUsuario;
+        const idOrden= ayudante.idOrden;
+        const resultadoSumaHoras= await pool.query('SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(TiempoTrabajado))) AS Hora FROM horasOperadoresCalcular WHERE idUsuario=? AND idOrden=?', [idUsuario, idOrden]);
+        const horasTotales=resultadoSumaHoras[0].Hora;
+        datosAyudantes.push({idUsuario, idOrden, horasTotales});
+   }
     const dataOperadorPrincipal = await pool.query('select * from dataOperadores where IdOrden=? and IdTipoOperador=1 group by IDUsuario;', [ordenid])
     const dataOperadorAyudante = await pool.query('select * from dataOperadores where IdOrden=? and IdTipoOperador=2 group by IDUsuario;', [ordenid])
     const HorasTrabajadasMaquina = dataOperadorPrincipal[0].HorasTrabajadas;
-    //console.log(ayudantesOrden.length);
-    for (let i = 0; i < ayudantesOrden.length; i++) {
-        const idUsers = ayudantesOrden[i].iduser;
-        //console.log(idUsers);
-        var HorasEntrada= await pool.query('select * from HorasOperadoresEntrada where idOrdenFabricacion=? and idtipoOperador=2 and iduser=? order by HoraEntrada;', [ordenid, idUsers])
-        const HorasSalida= await pool.query('select * from HorasOperadoresSalida where idOrdenFabricacion=? and idtipoOperador=2 and iduser=? order by HoraSalida;', [ordenid, idUsers])
-        console.log(HorasEntrada[0])
 
-        //const previs = await pool.query('select idUsuario, idOrdenFabricacion, idTipoMarca from operador where idUsuario=? and idOrdenFabricacion=?', [idOperador, ordenid]);
-        //console.log(idOperador);
-        //const horasEntrada= await pool.query('select * from HorasOperadoresSalida where idOrdenFabricacion=? and idtipoOperador=2 and iduser=? order by HoraSalida;',[ordenid, idUser] )
-    }    //const horasEntrada= await pool.query('select * from HorasOperadoresEntrada where idOrdenFabricacion=? and idtipoOperador=2 and iduser=? order by HoraEntrada;', [ordenid, idUser])
-    //console.log(horasEntrada);
+
+
+
     let HorasParas = horasPara[0].horasPara;
     const hora1 = (HorasTrabajadasMaquina).split(":");
     if(HorasParas===null){
@@ -127,12 +127,11 @@ router.get('/detallesof/:id', isLoggedIn, digitador,  async (req, res) => {
         var hora2 = (HorasParas).split(":");
     }
     t1 = new Date(),
-        t2 = new Date();
+    t2 = new Date();
     t1.setHours(hora1[0], hora1[1], hora1[2]);
     t2.setHours(hora2[0], hora2[1], hora2[2]);
     t1.setHours(t1.getHours() - t2.getHours(), t1.getMinutes() - t2.getMinutes(), t1.getSeconds() - t2.getSeconds());
     var horasymin = t1.getHours()+":"+t1.getMinutes()+":"+t1.getSeconds();
-
 
     res.render('produccion/detallesof', {
         datosPara,
@@ -143,11 +142,14 @@ router.get('/detallesof/:id', isLoggedIn, digitador,  async (req, res) => {
         dataOperadorAyudante,
         horasymin,
         rolusuario,
-        HorasEntrada:HorasEntrada[0]
+        //HorasEntrada:HorasEntrada[0],
+        datosHorasOperadores,
+        datosAyudantes
 
 
         //horasEntrada
     })
+    console.log(horasPara);
 });
 
 

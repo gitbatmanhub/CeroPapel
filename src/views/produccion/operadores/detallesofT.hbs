@@ -131,23 +131,27 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th scope="col">Inicio</th>
-                    <th scope="col">Fin</th>
+
                     <th scope="col">Motivo</th>
                     <th scope="col">Comentario</th>
+                    <th scope="col">Inicio</th>
+                    <th scope="col">Fin</th>
                 </tr>
                 </thead>
                 <tbody>
                 {{#each datosPara}}
                     <tr>
-                        <td>{{horaInicio}}</td>
-                        <td>{{horaFinal}}</td>
+
                         <td>{{nameTipoPara}}</td>
                         <td>{{comentario}}</td>
+                        <td>{{horaInicio}}</td>
+                        <td>{{horaFinal}}</td>
                     </tr>
                 {{/each}}
                 <tr>
                     <td></td>
+
+
                     <td></td>
                     <td>Total Horas</td>
                     <td>{{horasPara.horasPara}}</td>
@@ -161,6 +165,7 @@
     </div>
 
 </div>
+
 
 
 <div class="modal fade" id="paras" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
