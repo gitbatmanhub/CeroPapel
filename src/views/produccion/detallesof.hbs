@@ -57,15 +57,15 @@
 
 
                         </thead>
-                        {{#each ayudantesOrden}}
-                            <tbody class=" list" id={{idUsuario}}>
-                            <tr>
+                        {{#each datosAyudantes}}
+                            <tbody class=" list" >
+                            <tr id={{idUsuario}}>
                                 <td>{{idOrden}}</td>
                                 <td>{{fullname}}</td>
                                 <td>{{nameTipoOperador}}</td>
                                 <td class="fecha1">{{HoraEntrada}}</td>
                                 <td class="fecha2">{{HoraSalida}}</td>
-                                <td class="">{{TiempoTrabajado}}</td><!--Este-->
+                                <td class="">{{horasTotales}}</td><!--Este-->
                                 <td></td>
                                 <td>{{nameTurno}}</td>
                                 <td>{{nameMaquinaria}}</td>
@@ -146,16 +146,16 @@
         </div>
         <!-- end card -->
     </div>
-    <!-- end col -->
+    <!-- end col
 <div style="display: ">
 {{#each datosAyudantes}}
     <p id="usuario">{{idUsuario}}</p>
-    <p id="">{{idOrden}}</p>
-    <p id="">{{horasTotales}}</p>
+    <p id="idOrden">{{idOrden}}</p>
+    <p id="horasTotales">{{horasTotales}}</p>
 {{/each}}
 </div>
 
-
+-->
 </div>
 </div>
 <button id="btnExportar2" class="btn btn-success">Descargar Reporte Paras</button>
