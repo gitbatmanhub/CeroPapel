@@ -3,8 +3,9 @@ const router = express.Router();
 
 const pool = require('../database');
 const {isLoggedIn, permissions, operador, digitador} = require('../lib/auth');
-const constants = require("constants");
-const {el} = require("timeago.js/lib/lang");
+//const constants = require("constants");
+//const {el} = require("timeago.js/lib/lang");
+//const {NEWDATE} = require("mysql/lib/protocol/constants/types");
 //const {logger} = require("browser-sync/dist/logger");
 //const {es, el} = require("timeago.js/lib/lang");
 //const Console = require("console");
@@ -58,7 +59,7 @@ router.get('/ordenesfabricacion', isLoggedIn, operador, async (req, res) => {
     const rolusuario = req.user.rolusuario;
     if (rolusuario===5){
         const datosof = await pool.query('select * from datosof where iduser=? and idStatus=1', [userId]);
-        const ordenesAsignadasOPeradores = await pool.query('select * from dataAsignadas where iduser=? and idstatus=1;', [userId])
+        const ordenesAsignadasOPeradores = await pool.query('select * from dataAsignadas where iduser=? and idstatus=1 group by idOrdenFabricacion;', [userId])
         const preba= await pool.query('select * from dataOperadores where Fecha between DATE_FORMAT(NOW(), "%e/%m/%y") and DATE_FORMAT(curdate() -1, "%e/%m/%y");')
         console.log(preba);
         res.render('produccion/ordenesfabricacion', {
@@ -103,7 +104,7 @@ router.get('/detallesof/:id', isLoggedIn, digitador,  async (req, res) => {
     const datosHorasOperadores= await pool.query('select * from horasOperadoresCalcular where idOrden=?;', [ordenid]);
     const datosPara = await pool.query('select * from datosPara where idOrdenFabricacion=?', [ordenid]);
     const horasPara = await pool.query('select sec_to_time(sum(time_to_sec(horasPara))) as horasPara, idOrdenFabricacion from horasPara where idOrdenFabricacion=?', [ordenid])
-    const ayudantesOrden = await pool.query("select * from horasOperadoresCalcular where idOrden=? group by idUsuario;", [ordenid]);
+    const ayudantesOrden = await pool.query("select * from horasOperadoresCalcular where idOrden=? and idTipoOperador=2 group by idUsuario;", [ordenid]);
     //console.log(ayudantesOrden)
     const datosAyudantes=[];
     for (const ayudante of ayudantesOrden){
@@ -304,6 +305,35 @@ router.post('/cerrarof/:id', isLoggedIn, async (req, res) => {
             await pool.query('insert into horasSalidaOF set idUsuario=?, idTipoOperador=?, idOrden=?,idHoraEntrada=? ;', [idOperador, 2, ordenid, idHoraEntrada[0].id]);
         }
     }
+    //const HoraFinal= horaFinal;
+    await pool.query('insert into horasEntradaOF set idUsuario=?, idTipoOperador=?, idOrden=?;', [userId, 1, ordenid]);
+    const idHoraEntrada = await pool.query('select idHoraEntradaOf as id from horasEntradaOF where idOrden=? and idUsuario=? and idtipoOperador=1 order by create_at desc limit 1;', [ordenid, userId]);
+    console.log(idHoraEntrada[0].id);
+    await pool.query('insert into horasSalidaOF set idUsuario=?, idTipoOperador=?, idOrden=?,idHoraEntrada=? ;', [userId, 1, ordenid, idHoraEntrada[0].id]);
     res.redirect('/detallesofoperador/' + ordenid)
 });
+
+router.post('/buscarData', isLoggedIn, digitador, async(req, res)=>{
+    //console.log(req.body);
+    const {fecha1, fecha2}=req.body;
+    //console.log(fecha1, fecha2);
+    const reportePrincipal= await pool.query('select * from dataOperadores where FechaCompleta between ? and ? group by IdOrden;', [fecha1, fecha2]);
+    const reporteAyudantes= await pool.query('select Fecha, idOrden, idUsuario, fullname, nameTipoOperador, HoraEntrada, HoraSalida, TiempoTrabajado, nameTurno, nameMaquinaria, nameMaterial, HoraCompleta from horasOperadoresCalcular where HoraCompleta between ? and ? and idTipoOperador=2;', [fecha1, fecha2]);
+    const reporteParas= await pool.query('select * from datosPara where FechaCompleta between ? and ?;',[fecha1, fecha2]);
+    const idParas= await pool.query('select idOrdenFabricacion from datosPara where FechaCompleta between ? and ? group by idOrdenFabricacion;', [fecha1, fecha2]);
+    const reporteParass = [];
+
+    for (let i = 0; i < idParas.length; i++) {
+        const idOrden = idParas[i].idOrdenFabricacion;
+        const horasParas = await pool.query('SELECT sec_to_time(sum(time_to_sec(horasPara))) as horasPara, idOrdenFabricacion FROM horasPara WHERE idOrdenFabricacion=?;', [idOrden]);
+        reporteParass.push(horasParas[0]);
+    }
+    //console.log(reporteParass);
+
+    //console.log(esteban.length);
+    res.render('produccion/reportesfechas', {reportePrincipal, reporteAyudantes,reporteParas, reporteParass})
+    //console.log(reporteParass)
+} )
+
+
 module.exports = router;
