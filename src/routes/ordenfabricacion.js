@@ -235,6 +235,7 @@ router.post('/salirof/:id', isLoggedIn, async (req, res) => {
     const idPrevio = await pool.query('select idHoraEntradaOf from horasEntradaOF where idOrden=? and idUsuario=? order by create_at desc limit 1;', [idOrdenFabricacion.id, userId]);
     console.log(idPrevio[0].idHoraEntradaOf);
     await pool.query('insert into horasSalidaOF set idUsuario=?, idTipoOperador=?, idOrden=?,idHoraEntrada=? ;', [userId, idtipoOperador, idOrdenFabricacion.id, idPrevio[0].idHoraEntradaOf]);
+
     //await pool.query('insert into horasSalidaOF set idUsuario=?, idTipoOperador=?, idOrden=?;', [userId, idtipoOperador, idOrdenFabricacion.id]);
 
     res.redirect('/detallesofoperador/' + operador.idOrdenFabricacion);
@@ -295,14 +296,16 @@ router.post('/cerrarof/:id', isLoggedIn, async (req, res) => {
     await pool.query('insert into operador (idtipoOperador, idUsuario, idOrdenFabricacion, idTipoMarca) values ( ?, ?, ?, ?);', [idtipoOperador, userId, ordenid, idTipoMarca]);
     await pool.query('update ordenFabricacion set idstatus=2 where idOrdenFabricacion=?;', [ordenid]);
     const operadores = await pool.query('select idUsuario, idTipoMarca from operador where idOrdenFabricacion=? and idtipoOperador=2 group by idUsuario;', [ordenid]);
+    console.log(operadores.length)
     for (let i = 0; i < operadores.length; i++) {
         const idOperador = operadores[i].idUsuario;
         const previs = await pool.query('select idUsuario, idOrdenFabricacion, idTipoMarca from operador where idUsuario=? and idOrdenFabricacion=?', [idOperador, ordenid]);
-        if (previs.length > 1) {
-        } else {
+        if (previs.length >= 1) {
             await pool.query('insert into operador (idtipoOperador, idUsuario, idOrdenFabricacion, idTipoMarca)  values (?,?,?,?);', [2, idOperador, ordenid, 2]);
             const idHoraEntrada = await pool.query('select idHoraEntradaOf as id from horasEntradaOF where idOrden=? and idUsuario=? and idtipoOperador=2 order by create_at desc limit 1;', [ordenid, idOperador]);
             await pool.query('insert into horasSalidaOF set idUsuario=?, idTipoOperador=?, idOrden=?,idHoraEntrada=? ;', [idOperador, 2, ordenid, idHoraEntrada[0].id]);
+        } else {
+
         }
     }
     //const HoraFinal= horaFinal;
