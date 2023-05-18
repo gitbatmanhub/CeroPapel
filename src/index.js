@@ -67,6 +67,9 @@ app.use('/', require('./routes/ordenfabricacion'));
 app.use('/', require('./routes/bodegas'));
 
 
+
+
+
 //Public
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -77,4 +80,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //Starting the server
 app.listen(app.get('port'), ()=>{
     console.log('Server on port', app.get('port'));
+});
+app.use(function(req, res, next) {
+    res.status(404).redirect('/'); // Redirige a la página de error404
 });
