@@ -192,7 +192,6 @@ router.post('/operadormaquina/:id', isLoggedIn, async (req, res) => {
         idtipoOperador,
         idTipoMarca,
     }
-
     const prueba1 = await pool.query('select idHoraEntradaOf as idPrevio from horasEntradaOF where idOrden=? and idUsuario=? ORDER BY idHoraEntradaOf DESC LIMIT 1;', [idOrdenFabricacion, userId]);
     if(prueba1.length>0){
         //console.log("Si hay")
@@ -295,23 +294,37 @@ router.post('/cerrarof/:id', isLoggedIn, async (req, res) => {
     await pool.query('insert into horasOrdenFabricacion(horaInicio, horaFinal, idOrdenFabricacion) values (?, ?, ?)', [horaInicio, horaFinal, ordenid]);
     await pool.query('insert into operador (idtipoOperador, idUsuario, idOrdenFabricacion, idTipoMarca) values ( ?, ?, ?, ?);', [idtipoOperador, userId, ordenid, idTipoMarca]);
     await pool.query('update ordenFabricacion set idstatus=2 where idOrdenFabricacion=?;', [ordenid]);
-    const operadores = await pool.query('select idUsuario, idTipoMarca from operador where idOrdenFabricacion=? and idtipoOperador=2 group by idUsuario;', [ordenid]);
-    console.log(operadores.length)
+    const operadores = await pool.query('select idUsuario from operador where idOrdenFabricacion=? and idtipoOperador=2 group by idUsuario;', [ordenid]);
+    //console.log(operadores);
+
     for (let i = 0; i < operadores.length; i++) {
         const idOperador = operadores[i].idUsuario;
-        const previs = await pool.query('select idUsuario, idOrdenFabricacion, idTipoMarca from operador where idUsuario=? and idOrdenFabricacion=?', [idOperador, ordenid]);
-        if (previs.length >= 1) {
-            await pool.query('insert into operador (idtipoOperador, idUsuario, idOrdenFabricacion, idTipoMarca)  values (?,?,?,?);', [2, idOperador, ordenid, 2]);
-            const idHoraEntrada = await pool.query('select idHoraEntradaOf as id from horasEntradaOF where idOrden=? and idUsuario=? and idtipoOperador=2 order by create_at desc limit 1;', [ordenid, idOperador]);
-            await pool.query('insert into horasSalidaOF set idUsuario=?, idTipoOperador=?, idOrden=?,idHoraEntrada=? ;', [idOperador, 2, ordenid, idHoraEntrada[0].id]);
+        //console.log(idOperador);
+        const prueba1 = await pool.query('select idHoraEntradaOf as idPrevio from horasEntradaOF where idOrden=? and idUsuario=? ORDER BY idHoraEntradaOf DESC LIMIT 1;', [ordenid, idOperador]);
+        //console.log(prueba1[0].idPrevio);
+        console.log("La persona con el id: "+ idOperador+ "tiene "+ prueba1.length);
+        if(prueba1.length>0){
+            var idPrevio= prueba1[0].idPrevio;
+        }else {
+            var idPrevio=0;
+        }
+        const prueba2 = await pool.query('select * from horasSalidaOF where idHoraEntrada=? ;', [idPrevio]);
+        console.log("La persona con el id: "+ idOperador+ "tiene "+ prueba2.length);
+        if (prueba1.length===1 && prueba2.length ===0 ){
+            console.log("El operador con el id "+idOperador+ " Solo entró y tiene como id previo" + idPrevio);
+            console.log(idPrevio);
+            await pool.query('insert into horasSalidaOF set idUsuario=?, idTipoOperador=?, idOrden=?,idHoraEntrada=? ;', [idOperador, 2, ordenid, idPrevio]);
+        }else if(prueba1.length===1 && prueba2.length===1) {
+            console.log("El operador con el id: "+idOperador+" entró y salió");
         } else {
-
+            console.log("Aquí no pasa nada");
         }
     }
+
     //const HoraFinal= horaFinal;
     await pool.query('insert into horasEntradaOF set idUsuario=?, idTipoOperador=?, idOrden=?;', [userId, 1, ordenid]);
     const idHoraEntrada = await pool.query('select idHoraEntradaOf as id from horasEntradaOF where idOrden=? and idUsuario=? and idtipoOperador=1 order by create_at desc limit 1;', [ordenid, userId]);
-    console.log(idHoraEntrada[0].id);
+    //console.log(idHoraEntrada[0].id);
     await pool.query('insert into horasSalidaOF set idUsuario=?, idTipoOperador=?, idOrden=?,idHoraEntrada=? ;', [userId, 1, ordenid, idHoraEntrada[0].id]);
     res.redirect('/detallesofoperador/' + ordenid)
 });
