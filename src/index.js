@@ -52,7 +52,6 @@ app.use((req, res, next) => {
     app.locals.message =req.flash('message');
     app.locals.error =req.flash('error');
     app.locals.user = req.user;
-
     next();
 });
 
@@ -65,8 +64,6 @@ app.use(require('./routes/authentication'));
 app.use('/', require('./routes/ordenes'));
 app.use('/', require('./routes/ordenfabricacion'));
 app.use('/', require('./routes/bodegas'));
-
-
 
 
 

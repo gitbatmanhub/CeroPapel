@@ -13,6 +13,9 @@ const {isLoggedIn, permissions, operador, digitador} = require('../lib/auth');
 
 //Rutas de admin
 
+
+
+
 router.get('/agregarof', isLoggedIn, operador, async (req, res) => {
     //console.log(req.user.rolusuario);
     //const userId = req.user.iduser;
@@ -330,9 +333,10 @@ router.post('/cerrarof/:id', isLoggedIn, async (req, res) => {
 });
 
 router.post('/buscarData', isLoggedIn, digitador, async(req, res)=>{
+    await pool.query("SET time_zone = '-05:00'");
     //console.log(req.body);
     const {fecha1, fecha2}=req.body;
-    //console.log(fecha1, fecha2);
+    console.log(fecha1, fecha2);
     const reportePrincipal= await pool.query('select * from dataOperadores where FechaCompleta between ? and ? group by IdOrden;', [fecha1, fecha2]);
     const reporteAyudantes= await pool.query('select Fecha, idOrden, idUsuario, fullname, nameTipoOperador, HoraEntrada, HoraSalida, TiempoTrabajado, nameTurno, nameMaquinaria, nameMaterial, HoraCompleta from horasOperadoresCalcular where HoraCompleta between ? and ? and idTipoOperador=2;', [fecha1, fecha2]);
     const reporteParas= await pool.query('select * from datosPara where FechaCompleta between ? and ?;',[fecha1, fecha2]);
