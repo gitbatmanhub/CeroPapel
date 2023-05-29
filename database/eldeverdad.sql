@@ -3072,3 +3072,122 @@ select hP.idHorasPara,
        create_at as FechaCompleta
 from horasParas hP
          inner join tipoPara tP on hP.idtipoPara = tP.idTipoPara;
+
+
+#Eliminar Orden
+select * from horasEntradaOF;
+delete from horasSalidaOF ;
+delete from horasEntradaOF ;
+delete from kgMaterial ;
+delete from operador ;
+delete from horasPara;
+delete from horasOrdenFabricacion;
+delete from ordenFabricacion ;
+
+
+
+
+drop view dataOperadores;
+create view dataOperadores as
+select date_format(F.create_at, "%d/%m/%Y") as Fecha,
+       F.create_at                            as FechaCompleta,
+       F.idOrdenFabricacion                 as IdOrden,
+       o.idUsuario                          as IDUsuario,
+       u.fullname                           as NombreOperador,
+       t.nameTipoOperador                   as TipoOperador,
+       h.horaInicio                         as HoraIncioOrden,
+       h.horaFinal                          as HoraFinalOrden,
+       hO.horasOf                           as HorasTrabajadas,
+       kM.kg                                as KgProcesados,
+       t2.nameTurno                         as Turno,
+       o.idtipoOperador                     as IdTipoOperador,
+       m.nameMaquinaria                     as Maquinaria,
+       m2.nameMaterial                      as Material
+from operador o
+         inner join usuario u on o.idUsuario = u.iduser
+         inner join tipoOperador t on o.idtipoOperador = t.idTipoOperador
+         inner join horasOrdenFabricacion h on h.idOrdenFabricacion = o.idOrdenFabricacion
+         inner join ordenFabricacion F on o.idOrdenFabricacion = F.idOrdenFabricacion
+         inner join kgMaterial kM on F.idOrdenFabricacion = kM.idOrdenFabricacion
+         inner join turno t2 on F.idTurno = t2.idTurno
+         inner join maquinaria m on F.idMaquinaria = m.idMaquinaria
+         inner join material m2 on F.idMaterial = m2.idMaterial
+         inner join tipoMarca tm on o.idTipoMarca = tm.idTipoMarca
+         inner join horasOf hO on F.idOrdenFabricacion = hO.idOrdenFabricacion;
+
+
+select  * from horasOrdenFabricacion;
+
+
+
+
+
+
+
+
+/* ------------------------------------------- */
+drop view HorasOperadoresOf;
+create view HorasOperadoresOf as
+select heO.create_at as HoraEntrada,
+       hsO.create_at as HoraSalida,
+       hsO.idUsuario,
+       hsO.idOrden,
+       u.fullname,
+       m.nameMaquinaria,
+       m2.nameMaterial,
+       t.nameTurno,
+       t2.nameTipoOperador,
+       heO.idTipoOperador,
+       o.create_at as Fecha
+from horasEntradaOF heO
+         inner join horasSalidaOF hsO on heO.idHoraEntradaOf = hsO.idHoraEntrada
+         inner join usuario u on u.iduser=heO.idUsuario
+         inner join ordenFabricacion o on o.idOrdenFabricacion = heO.idOrden
+         inner join maquinaria m on o.idMaquinaria = m.idMaquinaria
+         inner join material m2 on m2.idMaterial=o.idMaterial
+         inner join turno t on o.idTurno = t.idTurno
+         inner join tipoOperador t2 on heO.idTipoOperador = t2.idTipoOperador;
+
+
+drop view horasOperadoresCalcular;
+create view horasOperadoresCalcular as
+SELECT IF(HOO.HoraEntrada <= HOO.HoraSalida,
+          TIME_FORMAT(TIMEDIFF(HOO.HoraSalida, HOO.HoraEntrada), '%H:%i:%s'),
+          TIME_FORMAT(ADDTIME(TIMEDIFF('24:00:00', HOO.HoraEntrada), HOO.HoraSalida), '%H:%i:%s')) AS TiempoTrabajado,
+       TIME_FORMAT(HoraEntrada, '%H:%i:%s') as HoraEntrada,
+       time_format(HoraSalida, '%H:%i:%s') as HoraSalida,
+       date_format(Fecha, "%d/%m/%Y") as Fecha,
+       HoraEntrada as HoraCompleta,
+       idUsuario,
+       fullname,
+       idOrden,
+       nameMaquinaria,
+       nameMaterial,
+       nameTurno,
+       nameTipoOperador,
+       idTipoOperador
+FROM HorasOperadoresOf HOO;
+
+
+
+drop view datosPara;
+create view datosPara as
+select hP.idHorasPara,
+       hP.horaInicio,
+       hP.horaFinal,
+       TIMEDIFF(hP.horaFinal, hP.horaInicio) as TotalPara,
+       hP.comentario,
+       tP.nameTipoPara,
+       hP.idOrdenFabricacion,
+       o.create_at as FechaCompleta
+from horasParas hP
+         inner join tipoPara tP on hP.idtipoPara = tP.idTipoPara
+         inner join ordenfabricacion o on o.idOrdenFabricacion= hp.idOrdenFabricacion;
+
+
+
+select * from horasParas;
+select * from ordenfabricacion;
+select * from horasParas hp
+inner join ordenfabricacion o on o.idOrdenFabricacion= hp.idOrdenFabricacion;
+select * from material;

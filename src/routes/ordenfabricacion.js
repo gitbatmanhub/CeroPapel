@@ -26,6 +26,7 @@ router.get('/agregarof', isLoggedIn, operador, async (req, res) => {
 });
 
 router.post('/agregarof', isLoggedIn, operador, async (req, res) => {
+
     const {idMaquinaria, idMaterial} = req.body;
     let fecha = new Date();
     let hora = fecha.getHours();
@@ -36,6 +37,7 @@ router.post('/agregarof', isLoggedIn, operador, async (req, res) => {
             idUser: req.user.iduser,
             idTurno: 1
         }
+        await pool.query("SET time_zone = '-05:00'");
         await pool.query('INSERT INTO ordenFabricacion set ? ', [ordenfabricacion]);
     } else {
         const ordenfabricacion = {
@@ -44,12 +46,14 @@ router.post('/agregarof', isLoggedIn, operador, async (req, res) => {
             idUser: req.user.iduser,
             idTurno: 2
         }
+        await pool.query("SET time_zone = '-05:00'");
         await pool.query('INSERT INTO ordenFabricacion set ?', [ordenfabricacion]);
         req.flash('success', 'Orden de fabricacion agregada correctamente');
     }
     const id = await pool.query('SELECT idOrdenFabricacion FROM ordenFabricacion where idUser=? and date_format(create_at, "%Y-%m-%d")=curdate() ORDER BY idOrdenFabricacion DESC LIMIT 1;', [req.user.iduser]);
     const idOrden = id[0].idOrdenFabricacion;
     //console.log(idOrden);
+    await pool.query("SET time_zone = '-05:00'");
     await pool.query('insert into operador (idtipoOperador, idUsuario, idOrdenFabricacion, idTipoMarca) values ( ?, ?, ?, ?);', [1, req.user.iduser, idOrden, 1]);
     //console.log(idOrden)
     res.redirect('/detallesofoperador/'+idOrden)
