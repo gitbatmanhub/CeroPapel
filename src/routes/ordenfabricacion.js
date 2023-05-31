@@ -262,6 +262,7 @@ router.get('/detallesofoperador/:id',  isLoggedIn, permissions,async (req, res) 
     const HorasOperadoresOf= await pool.query("select * from horasOperadoresCalcular where idOrden=? and idUsuario=? ;", [ordenid,userId]);
     const tiempoOperador= await pool.query("select sec_to_time(sum(time_to_sec(TiempoTrabajado))) as Hora from horasOperadoresCalcular where idUsuario=? and idOrden=?;", [userId, ordenid])
     //console.log(tiempoOperador[0].Hora);
+    console.log(datosof);
     res.render('produccion/operadores/detallesofT', {
         datosof: datosof[0],
         tipoPara,

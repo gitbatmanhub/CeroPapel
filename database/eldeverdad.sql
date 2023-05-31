@@ -3191,3 +3191,28 @@ select * from ordenfabricacion;
 select * from horasParas hp
 inner join ordenfabricacion o on o.idOrdenFabricacion= hp.idOrdenFabricacion;
 select * from material;
+
+
+drop view datosof;
+create view datosof as
+select o.idOrdenFabricacion,
+       date_format(o.create_at, "%d/%m/%Y") as Fecha,
+       o.create_at as fechaCompleta,
+       o.iduser,
+       o.idTurno,
+       o.idstatus,
+       o.idMaterial,
+       u.fullname,
+       m.nameMaquinaria,
+       m2.nameMaterial,
+       t.nameTurno,
+       sF.nameStatus,
+       m.idMaquinaria
+from ordenFabricacion o
+         inner join maquinaria m on o.idMaquinaria = m.idMaquinaria
+         inner join material m2 on o.idMaterial = m2.idMaterial
+         inner join turno t on o.idTurno = t.idTurno
+         inner join statusOF sF on o.idStatus = sF.idStatus
+         inner join usuario u on o.idUser = u.iduser;
+
+
