@@ -16,13 +16,15 @@ pool.getConnection((err, connection)=>{
     }
    if(connection) connection.release();
     console.log('DATABASE CONNECTED');
-    connection.query("SET time_zone = '-05:00'", (err) => {
+    /*connection.query("SET time_zone = '-05:00'", (err) => {
         if (err) {
             console.error('Error al establecer la zona horaria:', err);
         } else {
             console.log('Zona horaria establecida correctamente');
         }
     });
+
+     */
     return;
 
 });

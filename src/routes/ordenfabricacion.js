@@ -17,13 +17,11 @@ const {isLoggedIn, permissions, operador, digitador} = require('../lib/auth');
 
 
 router.get('/agregarof', isLoggedIn, operador, async (req, res) => {
-    //console.log(req.user.rolusuario);
-    //const userId = req.user.iduser;
     const maquinarias = await pool.query('select * from maquinaria');
     const material = await pool.query('select * from material');
-
     res.render('produccion/addordenfabricacion', {maquinarias, material})
 });
+
 
 router.post('/agregarof', isLoggedIn, operador, async (req, res) => {
 
@@ -60,7 +58,41 @@ router.post('/agregarof', isLoggedIn, operador, async (req, res) => {
 
 });
 
+/*
+router.post('/agregarof', isLoggedIn, operador, async (req, res) => {
+    try {
+        const { idMaquinaria, idMaterial } = req.body;
+        const fecha = new Date();
+        const hora = fecha.getHours();
+        const idTurno = (hora >= 7 && hora < 19) ? 1 : 2;
 
+        const ordenFabricacion = {
+            idMaquinaria,
+            idMaterial,
+            idUser: req.user.iduser,
+            idTurno
+        };
+
+        await pool.query("SET time_zone = '-05:00'");
+        await pool.query('INSERT INTO ordenFabricacion SET ?', [ordenFabricacion]);
+
+        const id = await pool.query('SELECT idOrdenFabricacion FROM ordenFabricacion WHERE idUser = ? AND DATE_FORMAT(create_at, "%Y-%m-%d") = CURDATE() ORDER BY idOrdenFabricacion DESC LIMIT 1', [req.user.iduser]);
+        const idOrden = id[0].idOrdenFabricacion;
+
+        await pool.query("SET time_zone = '-05:00'");
+        await pool.query('INSERT INTO operador (idtipoOperador, idUsuario, idOrdenFabricacion, idTipoMarca) VALUES (?, ?, ?, ?)', [1, req.user.iduser, idOrden, 1]);
+
+        res.redirect('/detallesofoperador/' + idOrden);
+    } catch (error) {
+        console.error(error);
+        req.flash('error', 'Ocurrió un error al agregar la orden de fabricación');
+        res.redirect('/agregarof');
+    }
+});
+
+
+
+ */
 router.get('/ordenesfabricacion', isLoggedIn, operador, async (req, res) => {
     const userId = req.user.iduser;
     const rolusuario = req.user.rolusuario;
@@ -337,6 +369,7 @@ router.post('/cerrarof/:id', isLoggedIn, async (req, res) => {
     res.redirect('/detallesofoperador/' + ordenid)
 });
 
+
 router.post('/buscarData', isLoggedIn, digitador, async(req, res)=>{
     await pool.query("SET time_zone = '-05:00'");
     //console.log(req.body);
@@ -359,6 +392,38 @@ router.post('/buscarData', isLoggedIn, digitador, async(req, res)=>{
     res.render('produccion/reportesfechas', {reportePrincipal, reporteAyudantes,reporteParas, reporteParass})
     //console.log(reporteParass)
 } )
+
+/* router.post('/buscarData', isLoggedIn, digitador, async (req, res) => {
+    try {
+        const { fecha1, fecha2 } = req.body;
+        await pool.query("SET time_zone = '-05:00'");
+
+        const [
+            reportePrincipal,
+            reporteAyudantes,
+            reporteParas,
+            idParas
+        ] = await Promise.all([
+            pool.query('SELECT * FROM dataOperadores WHERE FechaCompleta BETWEEN ? AND ? GROUP BY IdOrden;', [fecha1, fecha2]),
+            pool.query('SELECT Fecha, idOrden, idUsuario, fullname, nameTipoOperador, HoraEntrada, HoraSalida, TiempoTrabajado, nameTurno, nameMaquinaria, nameMaterial, HoraCompleta FROM horasOperadoresCalcular WHERE HoraCompleta BETWEEN ? AND ? AND idTipoOperador = 2;', [fecha1, fecha2]),
+            pool.query('SELECT * FROM datosPara WHERE FechaCompleta BETWEEN ? AND ?;', [fecha1, fecha2]),
+            pool.query('SELECT idOrdenFabricacion FROM datosPara WHERE FechaCompleta BETWEEN ? AND ? GROUP BY idOrdenFabricacion;', [fecha1, fecha2])
+        ]);
+
+        const reporteParass = await Promise.all(idParas.map(async (idPara) => {
+            const { idOrdenFabricacion } = idPara;
+            const [horasParas] = await pool.query('SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(horasPara))) AS horasPara, idOrdenFabricacion FROM horasPara WHERE idOrdenFabricacion = ?;', [idOrdenFabricacion]);
+            return horasParas;
+        }));
+
+        res.render('produccion/reportesfechas', { reportePrincipal, reporteAyudantes, reporteParas, reporteParass });
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Error en el servidor');
+    }
+});
+
+ */
 
 
 module.exports = router;

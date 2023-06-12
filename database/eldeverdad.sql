@@ -3075,14 +3075,14 @@ from horasParas hP
 
 
 #Eliminar Orden
-select * from horasEntradaOF;
-delete from horasSalidaOF ;
-delete from horasEntradaOF ;
-delete from kgMaterial ;
-delete from operador ;
-delete from horasPara;
-delete from horasOrdenFabricacion;
-delete from ordenFabricacion ;
+select * from horasEntradaOF where idOrdenFabricacion= ?;
+delete from horasSalidaOF where idOrdenFabricacion= ?;
+delete from horasEntradaOF where idOrdenFabricacion= ?;
+delete from kgMaterial where idOrdenFabricacion= ?;
+delete from operador where idOrdenFabricacion= ?;
+delete from horasPara where idOrdenFabricacion= ?;
+delete from horasOrdenFabricacion where idOrdenFabricacion= ?;
+delete from ordenFabricacion where idOrdenFabricacion= ?;
 
 
 
