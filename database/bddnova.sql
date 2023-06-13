@@ -907,3 +907,6 @@ select * from TodosDatos;
 
 select * from status;
 select * from tecnicosOrdenExterna;
+select * from usuario;
+
+select * from producto;

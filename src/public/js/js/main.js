@@ -200,3 +200,37 @@ const horaInicio= document.getElementById('horaInicio').value;
 console.log(horaInicio);
 
  */
+
+
+//Petición fetch para saber si existe el codigo en la BBDD
+
+document.getElementById('codigo').addEventListener('input', function (){
+    let codigo= this.value;
+    fetch('/verificar-codigo',{
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({codigo:codigo})
+    })
+        .then(response=>response.json())
+        .then(data=>{
+            console.log(data)
+            if (data.existe) {
+                // El código existe en la base de datos
+                document.getElementById('codigo').classList.remove('is-valid');
+                document.getElementById('codigo').classList.add('is-invalid');
+                document.getElementById('invalid-feedback').textContent = 'El código ya existe en la base de datos';
+                document.getElementById('sendCodigoPorducto').classList.add('disabled')
+            } else {
+                // El código no existe
+                document.getElementById('codigo').classList.remove('is-invalid');
+                document.getElementById('codigo').classList.add('is-valid');
+                document.getElementById('sendCodigoPorducto').classList.remove('disabled')
+                //document.getElementById('valid-feedback').textContent = 'El código es correcto';
+            }
+        })
+        .catch(error=>{
+            console.error("Error")
+        })
+})

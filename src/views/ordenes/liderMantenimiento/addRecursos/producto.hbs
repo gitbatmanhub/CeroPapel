@@ -8,10 +8,12 @@
                 <div class="col-md">
                     <div class="">
                         <label>Código del Producto</label>
-                        <input autocomplete="off" minlength="7" maxlength="10" type="text" class="form-control"
-                               name="codigo" required placeholder="LLY22577">
-                        <div class="invalid-feedback">
-                            Por favor proporciona un codigo de producto
+                        <input autocomplete="off" minlength="7" maxlength="12"  type="text" class="form-control"
+                               name="codigo" id="codigo" required placeholder="LLY22577">
+                        <div class="invalid-feedback" id="invalid-feedback">
+
+                        </div>
+                        <div class="valid-feedback" id="valid-feedback">
                         </div>
                     </div>
                 </div>
@@ -62,7 +64,7 @@
             </div>
         </div>
         <div class="form-group boton-send container" style="padding-top: 10px">
-            <input type="submit" class="btn btn-success btn-block" id="" value="Enviar">
+            <input type="submit" class="btn btn-success btn-block" id="sendCodigoPorducto" value="Enviar">
             <a class="btn btn-secondary" href="">Agregar Producto a Orden</a>
         </div>
 
@@ -203,19 +205,9 @@
 
 
 
+
+
+
 <script>
-        const table1 = document.getElementById('table1');
-        table1.addEventListener('click', (e)=>{
-        e.stopPropagation();
-        const id=e.target.parentElement.parentElement.children[0].textContent.trim();
-        console.log(id);
-        document.getElementById("viewBtn").href="/view/" + id;
-        document.getElementById("editBtn").href="/edit/" + id;
-        document.getElementById("deleteBtn").href="/delete/" + id;
 
-    });
 </script>
-
-
-
-

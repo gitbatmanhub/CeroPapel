@@ -562,33 +562,7 @@ router.post('/addarea', async (req, res) => {
     res.redirect('/addarea')
 
 })
-router.get('/addproducto', isLoggedIn, coordinadorCompras, async (req, res) => {
-    const productos = await pool.query('select * from producto');
-    res.render('ordenes/liderMantenimiento/addRecursos/producto', {productos});
-    //console.log(req.body);
-})
-router.post('/addproducto', coordinadorCompras, async (req, res) => {
-    const {codigo, nameProducto, unidad,saldo, DetallesProducto} = req.body;
-    const codigoValidar= req.body.codigo;
-    const validarCodigo= await pool.query('select idProducto from producto where codigo=?;', [codigoValidar]);
-    if (validarCodigo.length>0){
-        const idProducto= validarCodigo[0].idProducto;
-        req.flash('error', 'Item ya existe, buscalo con el id '+idProducto);
-    }else {
-    const dataProducto = {
-        codigo: codigo.toUpperCase(),
-        nameProducto: nameProducto.toUpperCase(),
-        unidad,
-        saldo,
-        DetallesProducto: DetallesProducto.toUpperCase()
 
-    }
-        req.flash('success', 'Item agregado correctamente con el coddigo '+ codigo );
-        await pool.query('insert into producto set ?', [dataProducto]);
-    }
-    res.redirect('/addproducto')
-
-})
 
 router.get('/addProveedor', async (req, res) => {
     res.render('ordenes/liderMantenimiento/addRecursos/proveedor');
