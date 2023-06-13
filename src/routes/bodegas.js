@@ -3,9 +3,7 @@ const router = express.Router();
 
 const pool = require('../database');
 const {isLoggedIn, permissions, coordinadorCompras} = require('../lib/auth');
-const {addCwdToWatchOptions} = require("browser-sync/dist/cli/transforms/addCwdToWatchOptions");
-const {connect} = require("browser-sync/dist/utils");
-const {errors} = require("browser-sync/dist/config");
+
 
 
 
@@ -27,23 +25,23 @@ router.get('/addproducto', isLoggedIn, coordinadorCompras, async (req, res) => {
 })
 router.post('/addproducto', coordinadorCompras, async (req, res) => {
     const {codigo, nameProducto, unidad,saldo, DetallesProducto} = req.body;
-    const codigoValidar= req.body.codigo;
-    const validarCodigo= await pool.query('select idProducto from producto where codigo=?;', [codigoValidar]);
-    if (validarCodigo.length>0){
-        const idProducto= validarCodigo[0].idProducto;
-        req.flash('error', 'Item ya existe, buscalo con el id '+idProducto);
-    }else {
-        const dataProducto = {
-            codigo: codigo.toUpperCase(),
-            nameProducto: nameProducto.toUpperCase(),
-            unidad,
-            saldo,
-            DetallesProducto: DetallesProducto.toUpperCase()
+    //const codigoValidar= req.body.codigo;
+    //const validarCodigo= await pool.query('select idProducto from producto where codigo=?;', [codigoValidar]);
+    const dataProducto = {
+        codigo: codigo.toUpperCase(),
+        nameProducto: nameProducto.toUpperCase(),
+        unidad,
+        saldo,
+        DetallesProducto: DetallesProducto.toUpperCase()
 
-        }
-        req.flash('success', 'Item agregado correctamente con el coddigo '+ codigo );
-        await pool.query('insert into producto set ?', [dataProducto]);
     }
+    req.flash('success', 'Item agregado correctamente con el codigo '+ codigo );
+    await pool.query('insert into producto set ?', [dataProducto]);
+    const accion={
+        idAcciones:1,
+        idUsuario:req.user.iduser
+    }
+
     res.redirect('/addproducto')
 
 })

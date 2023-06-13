@@ -3216,3 +3216,35 @@ from ordenFabricacion o
          inner join usuario u on o.idUser = u.iduser;
 
 
+
+
+/*
+Cambios a partir de aquí modulo de bodega
+ */
+
+
+
+create table acciones (
+    idAcciones int not null primary key auto_increment,
+    nameAccion varchar(10)
+);
+insert into acciones(nameAccion)
+values ("Insertar"),
+       ("Actualizar"),
+       ("Eliminar");
+select * from acciones;
+
+create table accionesBodega(
+    idAccionesBodega int not null primary key auto_increment,
+    idAcciones int not null,
+    idProducto int not null,
+    idUser int not null,
+    create_at      timestamp default current_timestamp
+);
+
+alter table accionesBodega add constraint fk_idAccionesBodega foreign key (idAcciones) references acciones (idAcciones) ON UPDATE CASCADE;
+alter table accionesBodega add constraint fk_idUsuarioBodega foreign key (idUser) references usuario (iduser) ON UPDATE CASCADE;
+alter table accionesBodega add constraint fk_idproductoBodega foreign key (idProducto) references producto (idProducto) ON UPDATE CASCADE;
+alter table producto modify codigo varchar(15) not null;
+select * from  accionesBodega;
+select * from acciones;

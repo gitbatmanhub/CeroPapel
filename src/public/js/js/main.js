@@ -215,7 +215,7 @@ document.getElementById('codigo').addEventListener('input', function (){
     })
         .then(response=>response.json())
         .then(data=>{
-            console.log(data)
+            //console.log(data)
             if (data.existe) {
                 // El código existe en la base de datos
                 document.getElementById('codigo').classList.remove('is-valid');
