@@ -234,3 +234,46 @@ document.getElementById('codigo').addEventListener('input', function (){
             console.error("Error")
         })
 })
+
+
+const botones = document.querySelectorAll('.codigoProducto');
+//console.log(botones);
+botones.forEach(function (boton) {
+    boton.addEventListener('click', function () {
+        let idProducto = this.getAttribute('id');
+        console.log(idProducto);
+        fetch('/datos-producto', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({idProducto: idProducto})
+        })
+            .then(response => response.json())
+            .then(data => {
+                let DATA= data.producto;
+                //console.log(DATA);
+                const {idProducto, nameProducto, codigo, saldo, unidad, DetallesProducto}=DATA;
+                const dataProducto={
+                    idProducto: DATA.idProducto,
+                    nameProducto: DATA.nameProducto,
+                    codigo: DATA.codigo,
+                    saldo: DATA.saldo,
+                    unidad: DATA.unidad,
+                    DetallesProducto: DATA.DetallesProducto
+                }
+                console.log(dataProducto);
+                document.getElementById('exampleModalLabel').textContent=nameProducto;
+                document.getElementById('idProducto').value=idProducto;
+                document.getElementById('codigoProducto').value=codigo;
+                document.getElementById('saldo').value=saldo;
+                document.getElementById('unidad').value=unidad;
+                document.getElementById('detalles').value=DetallesProducto;
+            })
+            .catch(error => {
+                console.error("Error")
+            })
+    })
+})
+
+

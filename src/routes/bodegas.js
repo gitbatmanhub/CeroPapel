@@ -50,7 +50,7 @@ router.post('/addproducto', coordinadorCompras, async (req, res) => {
 
 router.post('/verificar-codigo',isLoggedIn, async (req, res)=>{
     const codigo= req.body.codigo;
-    console.log(req.body)
+    //console.log(req.body)
     console.log(codigo)
     const verificarCodigo=  pool.query('select count(*) as vf from producto where codigo=?', [codigo], (error, results)=>{
         if(error){
@@ -66,7 +66,23 @@ router.post('/verificar-codigo',isLoggedIn, async (req, res)=>{
     //connection.query(verificarCodigo, [codigo], (error, results)=> {
 
 
-
+router.post('/datos-producto',isLoggedIn, async (req, res)=>{
+    const idProducto= req.body.idProducto;
+    //console.log(req.body)
+    console.log(idProducto)
+    try {
+        const producto = await pool.query('SELECT * FROM producto WHERE idProducto = ?', [idProducto]);
+        //console.log(producto);
+        if (producto.length > 0) {
+            res.json({producto: producto[0] });
+        } else {
+            res.json({producto: null });
+        }
+    } catch (error) {
+        console.error('Error al consultar la base de datos', error);
+        res.status(500).json({ error: 'Error al consultar la base de datos' });
+    }
+});
 
 
 module.exports = router;
