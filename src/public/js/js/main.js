@@ -262,7 +262,7 @@ botones.forEach(function (boton) {
                     unidad: DATA.unidad,
                     DetallesProducto: DATA.DetallesProducto
                 }
-                console.log(dataProducto);
+                //console.log(dataProducto);
                 document.getElementById('exampleModalLabel').textContent=nameProducto;
                 document.getElementById('idProducto').value=idProducto;
                 document.getElementById('codigoProducto').value=codigo;

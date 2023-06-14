@@ -51,7 +51,7 @@ router.post('/addproducto', coordinadorCompras, async (req, res) => {
 router.post('/verificar-codigo',isLoggedIn, async (req, res)=>{
     const codigo= req.body.codigo;
     //console.log(req.body)
-    console.log(codigo)
+    //console.log(codigo)
     const verificarCodigo=  pool.query('select count(*) as vf from producto where codigo=?', [codigo], (error, results)=>{
         if(error){
             console.log("Error al consultar la base de datos", error);
@@ -69,7 +69,7 @@ router.post('/verificar-codigo',isLoggedIn, async (req, res)=>{
 router.post('/datos-producto',isLoggedIn, async (req, res)=>{
     const idProducto= req.body.idProducto;
     //console.log(req.body)
-    console.log(idProducto)
+    //console.log(idProducto)
     try {
         const producto = await pool.query('SELECT * FROM producto WHERE idProducto = ?', [idProducto]);
         //console.log(producto);
@@ -83,6 +83,20 @@ router.post('/datos-producto',isLoggedIn, async (req, res)=>{
         res.status(500).json({ error: 'Error al consultar la base de datos' });
     }
 });
+
+
+router.post('/update-producto', isLoggedIn, async (req, res)=>{
+    console.log(req.body);
+    const {saldo, idProducto}= req.body;
+    const dataUpdate ={
+      saldo,
+      idProducto
+    };
+    await pool.query('update producto set saldo=? where idProducto=?;', [saldo, idProducto]);
+    req.flash('success', 'Producto actualizado correctamente');
+    res.redirect('/addproducto');
+})
+
 
 
 module.exports = router;
