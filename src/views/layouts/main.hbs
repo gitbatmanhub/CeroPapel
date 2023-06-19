@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <title>Novared</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <link rel="icon"  href="/img/logotipo.png">
+    <link rel="icon" href="/img/logotipo.png">
     {{!Google Fonts}}
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap" rel="stylesheet">
     {{!Bootstrap}}
@@ -16,38 +16,42 @@
     <link rel="stylesheet" href="/css/ingresar.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css">
     {{! Stilos plantilla Bootstrap}}
-    <link rel="stylesheet" href="/css/main.css" />
+    <link rel="stylesheet" href="/css/main.css"/>
     <script src="https://unpkg.com/xlsx@0.16.9/dist/xlsx.full.min.js"></script>
     <script src="https://unpkg.com/file-saverjs@latest/FileSaver.min.js"></script>
     <script src="https://unpkg.com/tableexport@latest/dist/js/tableexport.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <!-- Datatables -->
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.13.1/css/jquery.dataTables.css">
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8"
+            src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.js"></script>
 </head>
 <body class="toggle-sidebar">
 {{> navigation}}
 <!--<div id="particles-js"></div>-->
 <main id="main" class="main">
-{{> mensajes}}
+    {{> mensajes}}
 
-{{{body}}}
+    {{{body}}}
 </main>
 </body>
 {{!-- Scripts--}}
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"
         integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3"
         crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js" integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js"
+        integrity="sha384-7VPbUDkoPSGFnVtYi0QogXtr74QeVeeIs99Qfg5YCF+TidwNdjvaKZX19NZ/e6oz"
+        crossorigin="anonymous"></script>
 <script src="/js/js/main.js"></script>
 <script src="/js/js/moment.min.js"></script>
 <script src="https://cdn.lordicon.com/fudrjiwc.js"></script>
 <script src="/js/list-orden.js"></script>
-<script src="/js/table2excel/table2excel.js"></script>
+<!--<script src="/js/table2excel/table2excel.js"></script>-->
 <!-- Enlace a la biblioteca SheetJS -->
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.17.4/dist/xlsx.core.min.js"></script>
 <!-- Enlace a la biblioteca FileSaver.js -->
 <script src="https://cdn.jsdelivr.net/npm/file-saver@2.0.5/dist/FileSaver.min.js"></script>
+
 <script>
     (() => {
         'use strict'
@@ -64,11 +68,11 @@
             }, false)
         })
     })()
-    document.addEventListener("keydown", function(event) {
-        const sidebar= document.getElementById("sidebar")
+    document.addEventListener("keydown", function (event) {
+        const sidebar = document.getElementById("sidebar")
         if (event.ctrlKey && event.key === "p") {
-            sidebar.style='visibility:hidden'
-            setTimeout(function(){
+            sidebar.style = 'visibility:hidden'
+            setTimeout(function () {
                 sidebar.removeAttribute('style')
             }, 1000);
         }

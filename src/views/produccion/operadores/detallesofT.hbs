@@ -8,8 +8,16 @@
     <div class="row g-2 mb-3">
 
         <div class="col-md">
+            <label for="Maquinaria" class="form-label">Proceso</label>
+            <input id="{{datosof.idProceso}}" name="proceso" type="text" value="{{datosof.nameProceso}}"
+                   class="form-control" readonly>
+
+        </div>
+
+        <div class="col-md">
             <label for="Maquinaria" class="form-label">Maquinaria</label>
-            <input id="{{datosof.idMaquinaria}}" name="Maquinaria" type="text" value="{{datosof.nameMaquinaria}}" class="form-control" readonly>
+            <input id="{{datosof.idMaquinaria}}" name="Maquinaria" type="text" value="{{datosof.nameMaquinaria}}"
+                   class="form-control" readonly>
 
         </div>
         <div class="col-md">
@@ -51,9 +59,14 @@
     <div class="container" style="text-align: center; padding-top:10px;">
         {{#when datosof.idstatus 'eq' 1 }}
             {{#when userOrden.idtipoOperador 'eq' 1 }}
-                <button class="btn btn-primary" data-bs-target="#paras" data-bs-toggle="modal">Agregar Paras</button>
-                <button class="btn btn-danger" data-bs-target="#kgMaterial" data-bs-toggle="modal">Cerrar Orden
+                <button class="btn btn-success" id="eeee" data-bs-target="#entrada" data-bs-toggle="modal">Agregar Entrada
                 </button>
+                <button class="btn btn-secondary" data-bs-target="#salida" data-bs-toggle="modal">Agregar Salida/Tula
+                </button>
+                <button class="btn btn-primary" data-bs-target="#devolucion" data-bs-toggle="modal">Agregar Devolución
+                </button>
+                <button class="btn btn-primary" data-bs-target="#paras" data-bs-toggle="modal">Agregar Paras</button>
+                <button class="btn btn-danger" data-bs-target="#kgMaterial" data-bs-toggle="modal">Cerrar Orden</button>
             {{else}}
                 {{#when userOrden.idTipoMarca 'eq' 1 }}
                     <form action="/salirof/{{datosof.idOrdenFabricacion}}" method="post">
@@ -90,42 +103,41 @@
 
 </div>
 {{#when userOrden.idtipoOperador 'eq' 2 }}
-<div class="container text-center">
-    <div class="row align-items-start">
-        <div class="col">
-            <h3>Horas Trabajadas</h3>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th scope="col">Inicio(Entrada)</th>
-                    <th scope="col">Fin(Salida)</th>
-                    <th scope="col">Tiempo Trabajado</th>
-                </tr>
-                </thead>
-                <tbody>
-                {{#each HorasOperadoresOf}}
+    <div class="container text-center">
+        <div class="row align-items-start">
+            <div class="col">
+                <h3>Horas Trabajadas</h3>
+                <table class="table">
+                    <thead>
                     <tr>
-                        <td>{{HoraEntrada}}</td>
-                        <td>{{HoraSalida}}</td>
-                        <td>{{TiempoTrabajado}}</td>
+                        <th scope="col">Inicio(Entrada)</th>
+                        <th scope="col">Fin(Salida)</th>
+                        <th scope="col">Tiempo Trabajado</th>
                     </tr>
-                {{/each}}
-                <tr>
-                    <td></td>
-                    <td>Total Horas</td>
-                    <td>{{tiempoOperador}}</td>
-                </tr>
+                    </thead>
+                    <tbody>
+                    {{#each HorasOperadoresOf}}
+                        <tr>
+                            <td>{{HoraEntrada}}</td>
+                            <td>{{HoraSalida}}</td>
+                            <td>{{TiempoTrabajado}}</td>
+                        </tr>
+                    {{/each}}
+                    <tr>
+                        <td></td>
+                        <td>Total Horas</td>
+                        <td>{{tiempoOperador}}</td>
+                    </tr>
 
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
+
+
         </div>
 
-
     </div>
-
-</div>
-{{/when}}
-<br>
+{{/when}}<br>
 <div class="container text-center">
     <div class="row align-items-start">
         <div class="col">
@@ -170,7 +182,250 @@
 </div>
 
 
+<div class="modal fade" id="entrada" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+     tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Agregar Entrada</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body">
+                    <form action="/agregarPara" class="needs-validation" novalidate method="post" id=""
+                          name="agregarof">
+                        <div class="container ">
+                            <div class="row ">
+                                <div class="col">
+                                    <label for="idTipoPara" class="form-label">Tipo Entrada</label>
+                                    <select name="idTipoEntrada" class="form-select" id="myselect" required>
+                                        <option selected disabled value="">Selecciona el tipo de Entrada</option>
+                                        {{#each tipoMaterial}}
+                                            <option value="{{idTipoMaterial}}"
+                                                    name="{{idTipoMaterial}}">{{nameMaterial}}</option>
+                                        {{/each}}
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        Selecciona el tipo de Entrada
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row ">
+                                <div class="col">
+                                    <label for="peso" name="peso" class="form-label">Peso</label>
+                                    <input id="peso" class="form-control" type="text" value="" readonly>
+                                </div>
+                                <div class="col">
+                                        <label for="idReferencial" name="idReferencial" class="form-label">Id Referencial</label>
+                                        <input class="form-control" name="idReferencial" type="text" value="" id="idReferencial" readonly>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                        <label for="color" name="color" class="form-label">Color</label>
+                                        <input id="color" name="color" class="form-control" type="text" value="" readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
 
+        </div>
+    </div>
+
+
+</div>
+<div class="modal fade" id="salida" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+     tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Agregar Paras</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body">
+                    <form action="/agregarPara" class="needs-validation" novalidate method="post" id="agregarPara"
+                          name="agregarof">
+                        <div class="container">
+                            <label for="idTipoPara" class="form-label">Motivo de Para</label>
+                            <select name="idTipoPara" class="form-select" id="idTipoPara" required>
+                                <option selected disabled value="">Selecciona el motivo de Para</option>
+                                {{#each tipoPara}}
+                                    <option value="{{idTipoPara}}" name="{{idTipoPara}}">{{nameTipoPara}}</option>
+                                {{/each}}
+                            </select>
+                            <div class="invalid-feedback">
+                                Selecciona la fecha para la orden de fabricación
+                            </div>
+                            <div class="row g-2 mb-3">
+                                {{#when datosof.idTurno 'eq' 1 }}
+                                    <div class="col-md">
+                                        <label for="horaInicio" class="form-label">Inicio de Paraaaaa</label>
+                                        <input type="time" min="07:00:00" max="19:00:00" value="" name="horaInicio"
+                                               class="form-control" required>
+                                        <div class="invalid-feedback">
+                                            La fecha inicial debe ser entre las 07h00 a las 19h00 y/o no debe estar
+                                            vacía.
+                                        </div>
+                                    </div>
+                                    <div class="col-md">
+
+                                        <label for="horaFinal" class="form-label">Fin de Para</label>
+                                        <input type="time" value="" min="07:00:00" max="19:00:00" name="horaFinal"
+                                               class="form-control" required>
+                                        <div class="invalid-feedback">
+                                            La fecha final debe ser entre las 07h00 a las 19h00 y/o no debe estar
+                                            vacía.
+                                        </div>
+                                    </div>
+                                {{else}}
+                                    <div class="col-md">
+                                        <label for="horaInicio" class="form-label">Inicio de Para</label>
+                                        <input type="time" value="" min="19:00:00" max="07:00:00" name="horaInicio"
+                                               class="form-control" required>
+                                        <div class="invalid-feedback">
+                                            La fecha inicial debe ser entre las 19h00 a las 07h00 y/o no debe estar
+                                            vacía.
+                                        </div>
+                                    </div>
+                                    <div class="col-md">
+
+                                        <label for="horaFinal" class="form-label">Fin de Para</label>
+                                        <input type="time" value="" min="19:00:00" max="07:00:00" name="horaFinal"
+                                               class="form-control" required>
+                                        <div class="invalid-feedback">
+                                            La fecha final debe ser entre las 19h00 a las 07h00 y/o no debe estar
+                                            vacía.
+                                        </div>
+                                    </div>
+                                {{/when}}
+
+                            </div>
+
+                            <div class="col-md">
+                                <label for="comentario">Comentario</label>
+                                <textarea class="form-control" name="comentario" id="comentario" cols="30"
+                                          rows="5"></textarea>
+                                <div class="invalid-feedback">
+                                    Si no existen comentarios
+                                </div>
+                            </div>
+                            <div class="inputs-hidden">
+                                <textarea style="display: none" name="idOrdenFabricacion" id="" cols=""
+                                          rows="">{{datosof.idOrdenFabricacion}}</textarea>
+                            </div>
+                            <div class="form-group boton-send">
+                                <input type="submit" class="btn btn-success btn-block" id="">
+                            </div>
+                        </div>
+
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
+<div class="modal fade" id="devolucion" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+     tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Agregar Paras</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body">
+                    <form action="/agregarPara" class="needs-validation" novalidate method="post" id="agregarPara"
+                          name="agregarof">
+                        <div class="container">
+                            <label for="idTipoPara" class="form-label">Motivo de Para</label>
+                            <select name="idTipoPara" class="form-select" id="idTipoPara" required>
+                                <option selected disabled value="">Selecciona el motivo de Para</option>
+                                {{#each tipoPara}}
+                                    <option value="{{idTipoPara}}" name="{{idTipoPara}}">{{nameTipoPara}}</option>
+                                {{/each}}
+                            </select>
+                            <div class="invalid-feedback">
+                                Selecciona la fecha para la orden de fabricación
+                            </div>
+                            <div class="row g-2 mb-3">
+                                {{#when datosof.idTurno 'eq' 1 }}
+                                    <div class="col-md">
+                                        <label for="horaInicio" class="form-label">Inicio de Paraaaaa</label>
+                                        <input type="time" min="07:00:00" max="19:00:00" value="" name="horaInicio"
+                                               class="form-control" required>
+                                        <div class="invalid-feedback">
+                                            La fecha inicial debe ser entre las 07h00 a las 19h00 y/o no debe estar
+                                            vacía.
+                                        </div>
+                                    </div>
+                                    <div class="col-md">
+
+                                        <label for="horaFinal" class="form-label">Fin de Para</label>
+                                        <input type="time" value="" min="07:00:00" max="19:00:00" name="horaFinal"
+                                               class="form-control" required>
+                                        <div class="invalid-feedback">
+                                            La fecha final debe ser entre las 07h00 a las 19h00 y/o no debe estar
+                                            vacía.
+                                        </div>
+                                    </div>
+                                {{else}}
+                                    <div class="col-md">
+                                        <label for="horaInicio" class="form-label">Inicio de Para</label>
+                                        <input type="time" value="" min="19:00:00" max="07:00:00" name="horaInicio"
+                                               class="form-control" required>
+                                        <div class="invalid-feedback">
+                                            La fecha inicial debe ser entre las 19h00 a las 07h00 y/o no debe estar
+                                            vacía.
+                                        </div>
+                                    </div>
+                                    <div class="col-md">
+
+                                        <label for="horaFinal" class="form-label">Fin de Para</label>
+                                        <input type="time" value="" min="19:00:00" max="07:00:00" name="horaFinal"
+                                               class="form-control" required>
+                                        <div class="invalid-feedback">
+                                            La fecha final debe ser entre las 19h00 a las 07h00 y/o no debe estar
+                                            vacía.
+                                        </div>
+                                    </div>
+                                {{/when}}
+
+                            </div>
+
+                            <div class="col-md">
+                                <label for="comentario">Comentario</label>
+                                <textarea class="form-control" name="comentario" id="comentario" cols="30"
+                                          rows="5"></textarea>
+                                <div class="invalid-feedback">
+                                    Si no existen comentarios
+                                </div>
+                            </div>
+                            <div class="inputs-hidden">
+                                <textarea style="display: none" name="idOrdenFabricacion" id="" cols=""
+                                          rows="">{{datosof.idOrdenFabricacion}}</textarea>
+                            </div>
+                            <div class="form-group boton-send">
+                                <input type="submit" class="btn btn-success btn-block" id="">
+                            </div>
+                        </div>
+
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
 <div class="modal fade" id="paras" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
      tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
@@ -242,7 +497,7 @@
                             <div class="col-md">
                                 <label for="comentario">Comentario</label>
                                 <textarea class="form-control" name="comentario" id="comentario" cols="30"
-                                          rows="5" ></textarea>
+                                          rows="5"></textarea>
                                 <div class="invalid-feedback">
                                     Si no existen comentarios
                                 </div>
@@ -293,29 +548,29 @@
                                 <div class="col-md">
                                     <label for="pesoKg">Peso Material</label>
                                     <input class="form-control" autofocus="autofocus" type="number" id="pesoKg"
-                                           name="pesoKg" required >
+                                           name="pesoKg" required>
                                     <div class="invalid-feedback">
                                         Ingresa el peso correspondiente al material
                                     </div>
                                 </div>
                             </div>
                             <div class="row g-2 mb-3" style="align-items: flex-end">
-                                    <div class="col-md">
-                                        <label for="horaInicio">Inicio Trabajo</label>
-                                        <input class="form-control" min="07:00:00" max="19:00:00" type="time"
-                                               id="horaInicio" name="horaInicio" required>
-                                        <div class="invalid-feedback">
-                                            Ingresa la hora incial(La misma debe empezar min a las 07h00)
-                                        </div>
+                                <div class="col-md">
+                                    <label for="horaInicio">Inicio Trabajo</label>
+                                    <input class="form-control" min="07:00:00" max="19:00:00" type="time"
+                                           id="horaInicio" name="horaInicio" required>
+                                    <div class="invalid-feedback">
+                                        Ingresa la hora incial(La misma debe empezar min a las 07h00)
                                     </div>
-                                    <div class="col-md">
-                                        <label for="horaFinal">Fin Trabajo</label>
-                                        <input class="form-control" min="07:00:00" max="19:00:00" type="time"
-                                               id="pesoKg" name="horaFinal" required>
-                                        <div class="invalid-feedback">
-                                            Ingresa la hora final(La misma debe culminar max a las 19h00)
-                                        </div>
+                                </div>
+                                <div class="col-md">
+                                    <label for="horaFinal">Fin Trabajo</label>
+                                    <input class="form-control" min="07:00:00" max="19:00:00" type="time"
+                                           id="pesoKg" name="horaFinal" required>
+                                    <div class="invalid-feedback">
+                                        Ingresa la hora final(La misma debe culminar max a las 19h00)
                                     </div>
+                                </div>
 
                             </div>
                             <input type="hidden" value="1" name="idtipoOperador">
@@ -338,7 +593,6 @@
 </div>
 
 
+<script>
 
-
-
-
+</script>

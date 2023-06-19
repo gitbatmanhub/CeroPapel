@@ -19,13 +19,14 @@ const {isLoggedIn, permissions, operador, digitador} = require('../lib/auth');
 router.get('/agregarof', isLoggedIn, operador, async (req, res) => {
     const maquinarias = await pool.query('select * from maquinaria');
     const material = await pool.query('select * from material');
-    res.render('produccion/addordenfabricacion', {maquinarias, material})
+    const proceso = await pool.query('select * from proceso');
+    res.render('produccion/addordenfabricacion', {maquinarias, material, proceso})
 });
 
 
 router.post('/agregarof', isLoggedIn, operador, async (req, res) => {
 
-    const {idMaquinaria, idMaterial} = req.body;
+    const {idMaquinaria, idMaterial, idProceso} = req.body;
     let fecha = new Date();
     let hora = fecha.getHours();
     if (hora >= 7 && hora < 19) {
@@ -33,7 +34,8 @@ router.post('/agregarof', isLoggedIn, operador, async (req, res) => {
             idMaquinaria,
             idMaterial,
             idUser: req.user.iduser,
-            idTurno: 1
+            idTurno: 1,
+            idProceso
         }
         await pool.query("SET time_zone = '-05:00'");
         await pool.query('INSERT INTO ordenFabricacion set ? ', [ordenfabricacion]);
@@ -42,7 +44,8 @@ router.post('/agregarof', isLoggedIn, operador, async (req, res) => {
             idMaquinaria,
             idMaterial,
             idUser: req.user.iduser,
-            idTurno: 2
+            idTurno: 2,
+            idProceso
         }
         await pool.query("SET time_zone = '-05:00'");
         await pool.query('INSERT INTO ordenFabricacion set ?', [ordenfabricacion]);
@@ -284,6 +287,7 @@ router.get('/detallesofoperador/:id',  isLoggedIn, permissions,async (req, res) 
     const userId = req.user.iduser;
     const ordenid = req.params.id;
     const datosof = await pool.query('select * from datosof where idOrdenFabricacion=?', [ordenid]);
+    const tipoMaterial = await pool.query('select * from tipoMaterial');
     const tipoPara = await pool.query('select * from tipoPara');
     const datosPara = await pool.query('select * from datosPara where idOrdenFabricacion=?', [ordenid]);
     const horasPara = await pool.query('select sec_to_time(sum(time_to_sec(horasPara))) as horasPara, idOrdenFabricacion from horasPara where idOrdenFabricacion=?', [ordenid])
@@ -305,7 +309,8 @@ router.get('/detallesofoperador/:id',  isLoggedIn, permissions,async (req, res) 
         userOrden: userOrden[0],
         ayudantesOrden,
         HorasOperadoresOf,
-        tiempoOperador: tiempoOperador[0].Hora
+        tiempoOperador: tiempoOperador[0].Hora,
+        tipoMaterial
 
     })
 
