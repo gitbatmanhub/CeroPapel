@@ -1,7 +1,6 @@
-'use strict'
+document.addEventListener('DOMContentLoaded', () => {
 
-
-function agregarHijo() {
+    function agregarHijo() {
     const nombre = document.getElementById('nombre').value;
     if (nombre.length != 0) {
        // cantidad++;
@@ -31,82 +30,6 @@ function agregarHijo() {
     }
 
 }
-
-
-/*
-
-function ShowSelected() {
-
-    var cod = document.getElementById("tecnicos").value;
-
-    var combo = document.getElementById("tecnicos");
-    var name = combo.options[combo.selectedIndex].text;
-    //console.log(name);
-    if (name.length !=0){
-        cantidad++;
-        const divpadre = document.createElement('div');
-        divpadre.id = 'divPadre';
-        divpadre.classList.add("divPadre")
-        const nuevohijo = document.createElement('input');
-        nuevohijo.innerHTML="";
-        nuevohijo.placeholder = name;
-        nuevohijo.name = 'nombre';
-        nuevohijo.classList.add('nombre');
-        const clase = document.createElement("button");
-        clase.innerText = "X"
-        clase.type = 'button'
-        clase.classList.add("btn", "btn-danger", "delete")
-
-        document.getElementById('divTecnicos').appendChild(divpadre).appendChild(document.createElement("div").appendChild(nuevohijo)).after(clase);
-
-        $(document).on('click', '.delete', function () {
-            $(this).parent().remove();
-            $(this).remove();
-
-        });
-    }
-
-
-
-
-
-
-}
-
- */
-
-
-
-
-
-
-
-
-
-
-/*
-
-function init() {
-
-    let select = document.createElement("select");
-    select.name="selectname";
-    select.value="name";
-
-    let option1 = document.createElement("option");
-    option1.setAttribute("value", {{idUser}});
-    let option1Texto = document.createTextNode("opcion 1");
-    option1.appendChild(option1Texto);
-
-
-    select.appendChild(option1);
-
-const div =  document.getElementById('divTecnicos');
-    div.appendChild(select);
-
-}
-
-*/
-
 
 function duplicar1() {
     const itm = document.getElementById("divPadre");
@@ -438,45 +361,15 @@ function duplicar1() {
 
 })();
 
-/*
-function validate(){
-    const select = document.getElementById('nombreTecnico');
-    if (select.value=="null")
-    {
-        alert("Ey");
-
-    }else{
-        alert('No ey')
-    }
-}
-
- */
-/*
-$('#form').submit(function(event) {
-    const select = document.getElementById('nombreTecnico');
-    if (select.value=='null'){
-    }else {
-        alert("Good")
-    }
-    event.preventDefault();
-
-    window.history.back();
-});
-
-
-
-
-const horaInicio= document.getElementById('horaInicio').value;
-console.log(horaInicio);
-
- */
 
 
 //Petición fetch para saber si existe el codigo en la BBDD
 
+
+
 document.getElementById('codigo').addEventListener('input', function (){
     let codigo= this.value;
-    console.log(codigo);
+    //console.log(codigo);
     fetch('/verificar-codigo',{
         method: 'POST',
         headers: {
@@ -489,15 +382,15 @@ document.getElementById('codigo').addEventListener('input', function (){
             //console.log(data)
             if (data.existe) {
                 // El código existe en la base de daitos
-                document.getElementById('codgo').classList.remove('is-valid');
+                document.getElementById('codigo').classList.remove('is-valid');
                 document.getElementById('codigo').classList.add('is-invalid');
                 document.getElementById('invalid-feedback').textContent = 'El código ya existe en la base de datos';
-                document.getElementById('sendCodigoPorducto').classList.add('disabled')
+                document.getElementById('sendCodigoProducto').classList.add('disabled')
             } else {
                 // El código no existe
                 document.getElementById('codigo').classList.remove('is-invalid');
                 document.getElementById('codigo').classList.add('is-valid');
-                document.getElementById('sendCodigoPorducto').classList.remove('disabled')
+                document.getElementById('sendCodigoProducto').classList.remove('disabled')
                 //document.getElementById('valid-feedback').textContent = 'El código es correcto';
             }
         })
@@ -507,13 +400,17 @@ document.getElementById('codigo').addEventListener('input', function (){
 })
 
 
+
+
+
+
 const botones = document.querySelectorAll('.codigoProducto');
 //console.log(botones);
 botones.forEach(function (boton) {
     boton.addEventListener('click', function () {
-        console.log("Helou")
+        //console.log("Helou")
         let idProducto = this.getAttribute('id');
-        console.log(idProducto);
+        //console.log(idProducto);
         fetch('/datos-producto', {
             method: 'POST',
             headers: {
@@ -548,9 +445,9 @@ botones.forEach(function (boton) {
     })
 })
 
+});
 
-const selectTipoEntrada= document.getElementById('myselect');
-selectTipoEntrada.addEventListener('change', function (){
-    let selected=selectTipoEntrada.value;
-    console.log(selected);
-})
+
+
+
+

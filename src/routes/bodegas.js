@@ -59,6 +59,7 @@ router.post('/verificar-codigo',isLoggedIn, async (req, res)=>{
         }else {
             const vf=results[0].vf;
             const existe= vf>0;
+            //console.log(existe);
             res.json({existe:existe})
         }
     })
