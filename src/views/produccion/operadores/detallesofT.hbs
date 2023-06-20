@@ -198,7 +198,7 @@
                             <div class="row ">
                                 <div class="col">
                                     <label for="idTipoPara" class="form-label">Tipo Entrada</label>
-                                    <select name="idTipoEntrada" class="form-select" id="myselect" required>
+                                    <select name="idTipoEntrada" class="form-select" id="selectTE" required>
                                         <option selected disabled value="">Selecciona el tipo de Entrada</option>
                                         {{#each tipoMaterial}}
                                             <option value="{{idTipoMaterial}}"
@@ -209,6 +209,17 @@
                                         Selecciona el tipo de Entrada
                                     </div>
                                 </div>
+
+                            </div>
+                            <div class="row"  id="">
+                                <div class="col">
+                                    <label for="idTipoPara" class="form-label">Tipo Entrada</label>
+                                    <input id="inputBuscarTula" type="text" class="form-control" disabled>
+                                    <div class="invalid-feedback">
+                                        Selecciona el tipo de Entrada
+                                    </div>
+                                </div>
+
                             </div>
                             <div class="row ">
                                 <div class="col">
@@ -594,5 +605,20 @@
 
 
 <script>
+const selectTipoEntrada= document.getElementById('selectTE');
+    selectTipoEntrada.addEventListener('change', function (){
+        if (selectTipoEntrada.value==1){
+            document.getElementById('peso').value=0;
+            document.getElementById('idReferencial').value=0;
+            document.getElementById('color').value="N/A";
+            document.getElementById('inputBuscarTula').setAttribute('disabled', "");
+        }else if(selectTipoEntrada.value==2){
+            document.getElementById('inputBuscarTula').removeAttribute('disabled');
+
+        }else{
+            document.getElementById('peso').value=3;
+
+        }
+    })
 
 </script>

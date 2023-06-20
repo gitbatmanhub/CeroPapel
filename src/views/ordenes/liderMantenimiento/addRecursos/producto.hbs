@@ -195,8 +195,8 @@
     </div>
 </div>
 
-
 <script>
+    //Petición fetch para saber si existe el codigo en la BBDD
     document.getElementById('codigo').addEventListener('input', function (){
         let codigo= this.value;
         //console.log(codigo);
@@ -232,8 +232,7 @@
 
 
 
-
-
+    //Petición fetch para devolver los datos del producto
     const botones = document.querySelectorAll('.codigoProducto');
     //console.log(botones);
     botones.forEach(function (boton) {
@@ -274,9 +273,6 @@
                     })
         })
     })
-
-
-
 
 
 
