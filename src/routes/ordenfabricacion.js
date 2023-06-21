@@ -296,9 +296,10 @@ router.get('/detallesofoperador/:id',  isLoggedIn, permissions,async (req, res) 
     const userOrden = await pool.query('select * from operador where idOrdenFabricacion=? and idUsuario=? order by create_at desc limit 1;', [ordenid, userId]);
     const ayudantesOrden = await pool.query('select idUsuario, idtipoOperador, idTipoMarca, u.fullname from operador inner join usuario u on operador.idUsuario=u.iduser where idtipoOperador=2 and idOrdenFabricacion=? and idTipoMarca=1 group by idUsuario;', [ordenid]);
     const HorasOperadoresOf= await pool.query("select * from horasOperadoresCalcular where idOrden=? and idUsuario=? ;", [ordenid,userId]);
-    const tiempoOperador= await pool.query("select sec_to_time(sum(time_to_sec(TiempoTrabajado))) as Hora from horasOperadoresCalcular where idUsuario=? and idOrden=?;", [userId, ordenid])
+    const tiempoOperador= await pool.query("select sec_to_time(sum(time_to_sec(TiempoTrabajado))) as Hora from horasOperadoresCalcular where idUsuario=? and idOrden=?;", [userId, ordenid]);
+    const colors= await pool.query("select * from color");
     //console.log(tiempoOperador[0].Hora);
-    console.log(datosof);
+   //console.log(colors);
     res.render('produccion/operadores/detallesofT', {
         datosof: datosof[0],
         tipoPara,
@@ -310,7 +311,8 @@ router.get('/detallesofoperador/:id',  isLoggedIn, permissions,async (req, res) 
         ayudantesOrden,
         HorasOperadoresOf,
         tiempoOperador: tiempoOperador[0].Hora,
-        tipoMaterial
+        tipoMaterial,
+        colors
 
     })
 
@@ -387,6 +389,7 @@ router.post('/buscarData', isLoggedIn, digitador, async(req, res)=>{
     const reporteParass = [];
 
     for (let i = 0; i < idParas.length; i++) {
+    for (let i = 0; i < idParas.length; i++) {
         const idOrden = idParas[i].idOrdenFabricacion;
         const horasParas = await pool.query('SELECT sec_to_time(sum(time_to_sec(horasPara))) as horasPara, idOrdenFabricacion FROM horasPara WHERE idOrdenFabricacion=?;', [idOrden]);
         reporteParass.push(horasParas[0]);
@@ -396,39 +399,11 @@ router.post('/buscarData', isLoggedIn, digitador, async(req, res)=>{
     //console.log(esteban.length);
     res.render('produccion/reportesfechas', {reportePrincipal, reporteAyudantes,reporteParas, reporteParass})
     //console.log(reporteParass)
-} )
-
-/* router.post('/buscarData', isLoggedIn, digitador, async (req, res) => {
-    try {
-        const { fecha1, fecha2 } = req.body;
-        await pool.query("SET time_zone = '-05:00'");
-
-        const [
-            reportePrincipal,
-            reporteAyudantes,
-            reporteParas,
-            idParas
-        ] = await Promise.all([
-            pool.query('SELECT * FROM dataOperadores WHERE FechaCompleta BETWEEN ? AND ? GROUP BY IdOrden;', [fecha1, fecha2]),
-            pool.query('SELECT Fecha, idOrden, idUsuario, fullname, nameTipoOperador, HoraEntrada, HoraSalida, TiempoTrabajado, nameTurno, nameMaquinaria, nameMaterial, HoraCompleta FROM horasOperadoresCalcular WHERE HoraCompleta BETWEEN ? AND ? AND idTipoOperador = 2;', [fecha1, fecha2]),
-            pool.query('SELECT * FROM datosPara WHERE FechaCompleta BETWEEN ? AND ?;', [fecha1, fecha2]),
-            pool.query('SELECT idOrdenFabricacion FROM datosPara WHERE FechaCompleta BETWEEN ? AND ? GROUP BY idOrdenFabricacion;', [fecha1, fecha2])
-        ]);
-
-        const reporteParass = await Promise.all(idParas.map(async (idPara) => {
-            const { idOrdenFabricacion } = idPara;
-            const [horasParas] = await pool.query('SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(horasPara))) AS horasPara, idOrdenFabricacion FROM horasPara WHERE idOrdenFabricacion = ?;', [idOrdenFabricacion]);
-            return horasParas;
-        }));
-
-        res.render('produccion/reportesfechas', { reportePrincipal, reporteAyudantes, reporteParas, reporteParass });
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Error en el servidor');
-    }
-});
-
- */
-
+}});
+router.post('/vinotinto', isLoggedIn, async (req, res)=>{
+    console.log(req.body);
+    res.redirect('/detallesofoperador/212')
+})
 
 module.exports = router;
+

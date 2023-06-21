@@ -1,3 +1,6 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+
 <div class="tittleDetails">
     <h1>Detalles de la Orden de Fabricación #{{datosof.idOrdenFabricacion}}</h1>
 
@@ -59,7 +62,8 @@
     <div class="container" style="text-align: center; padding-top:10px;">
         {{#when datosof.idstatus 'eq' 1 }}
             {{#when userOrden.idtipoOperador 'eq' 1 }}
-                <button class="btn btn-success" id="eeee" data-bs-target="#entrada" data-bs-toggle="modal">Agregar Entrada
+                <button class="btn btn-success" id="eeee" data-bs-target="#entrada" data-bs-toggle="modal">Agregar
+                    Entrada
                 </button>
                 <button class="btn btn-secondary" data-bs-target="#salida" data-bs-toggle="modal">Agregar Salida/Tula
                 </button>
@@ -211,7 +215,7 @@
                                 </div>
 
                             </div>
-                            <div class="row"  id="">
+                            <div class="row" id="">
                                 <div class="col">
                                     <label for="idTipoPara" class="form-label">Tipo Entrada</label>
                                     <input id="inputBuscarTula" type="text" class="form-control" disabled>
@@ -227,14 +231,16 @@
                                     <input id="peso" class="form-control" type="text" value="" readonly>
                                 </div>
                                 <div class="col">
-                                        <label for="idReferencial" name="idReferencial" class="form-label">Id Referencial</label>
-                                        <input class="form-control" name="idReferencial" type="text" value="" id="idReferencial" readonly>
+                                    <label for="idReferencial" name="idReferencial" class="form-label">Id
+                                        Referencial</label>
+                                    <input class="form-control" name="idReferencial" type="text" value=""
+                                           id="idReferencial" readonly>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col">
-                                        <label for="color" name="color" class="form-label">Color</label>
-                                        <input id="color" name="color" class="form-control" type="text" value="" readonly>
+                                    <label for="color" name="color" class="form-label">Color</label>
+                                    <input id="color" name="color" class="form-control" type="text" value="" readonly>
                                 </div>
                             </div>
                         </div>
@@ -252,93 +258,81 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Agregar Paras</h1>
+                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Agregar Salidas (Tulas)</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="card-body">
-                    <form action="/agregarPara" class="needs-validation" novalidate method="post" id="agregarPara"
+                    <form action="/vinotinto" class="needs-validation" novalidate method="post" id="agregarPara"
                           name="agregarof">
                         <div class="container">
-                            <label for="idTipoPara" class="form-label">Motivo de Para</label>
-                            <select name="idTipoPara" class="form-select" id="idTipoPara" required>
-                                <option selected disabled value="">Selecciona el motivo de Para</option>
-                                {{#each tipoPara}}
-                                    <option value="{{idTipoPara}}" name="{{idTipoPara}}">{{nameTipoPara}}</option>
-                                {{/each}}
-                            </select>
-                            <div class="invalid-feedback">
-                                Selecciona la fecha para la orden de fabricación
-                            </div>
                             <div class="row g-2 mb-3">
-                                {{#when datosof.idTurno 'eq' 1 }}
-                                    <div class="col-md">
-                                        <label for="horaInicio" class="form-label">Inicio de Paraaaaa</label>
-                                        <input type="time" min="07:00:00" max="19:00:00" value="" name="horaInicio"
-                                               class="form-control" required>
-                                        <div class="invalid-feedback">
-                                            La fecha inicial debe ser entre las 07h00 a las 19h00 y/o no debe estar
-                                            vacía.
-                                        </div>
+                                <div class="col-md">
+                                    <label for="horaInicio" class="form-label">Peso</label>
+                                    <input type="number" value="" name="pesoSalida"
+                                           class="form-control" required>
+                                    <div class="invalid-feedback">
+                                        Ingrese por favor el peso de la tula.
                                     </div>
-                                    <div class="col-md">
+                                </div>
 
-                                        <label for="horaFinal" class="form-label">Fin de Para</label>
-                                        <input type="time" value="" min="07:00:00" max="19:00:00" name="horaFinal"
-                                               class="form-control" required>
-                                        <div class="invalid-feedback">
-                                            La fecha final debe ser entre las 07h00 a las 19h00 y/o no debe estar
-                                            vacía.
-                                        </div>
-                                    </div>
-                                {{else}}
-                                    <div class="col-md">
-                                        <label for="horaInicio" class="form-label">Inicio de Para</label>
-                                        <input type="time" value="" min="19:00:00" max="07:00:00" name="horaInicio"
-                                               class="form-control" required>
-                                        <div class="invalid-feedback">
-                                            La fecha inicial debe ser entre las 19h00 a las 07h00 y/o no debe estar
-                                            vacía.
-                                        </div>
-                                    </div>
-                                    <div class="col-md">
-
-                                        <label for="horaFinal" class="form-label">Fin de Para</label>
-                                        <input type="time" value="" min="19:00:00" max="07:00:00" name="horaFinal"
-                                               class="form-control" required>
-                                        <div class="invalid-feedback">
-                                            La fecha final debe ser entre las 19h00 a las 07h00 y/o no debe estar
-                                            vacía.
-                                        </div>
-                                    </div>
-                                {{/when}}
-
-                            </div>
-
-                            <div class="col-md">
-                                <label for="comentario">Comentario</label>
-                                <textarea class="form-control" name="comentario" id="comentario" cols="30"
-                                          rows="5"></textarea>
-                                <div class="invalid-feedback">
-                                    Si no existen comentarios
+                                <div class="col-md">
+                                    <label for="horaInicio" class="form-label">Tipo entrada</label>
+                                    <input type="text" value="" name="tipoEntradaSalida"
+                                           class="form-control" readonly>
                                 </div>
                             </div>
-                            <div class="inputs-hidden">
-                                <textarea style="display: none" name="idOrdenFabricacion" id="" cols=""
-                                          rows="">{{datosof.idOrdenFabricacion}}</textarea>
+                            <div class="row g-2 mb-3">
+                                <div class="col-md">
+                                    <label for="horaInicio" class="form-label">Id Referencial (Opcional)</label>
+                                    <input type="text" value="0" name="idReferencialSalida"
+                                           class="form-control"  >
+
+                                </div>
+                                <div class="col-md">
+                                    <label for="horaFinal" class="form-label">Proceso</label>
+                                    <input type="text" value="" name="procesoSalida"
+                                           class="form-control" readonly>
+
                             </div>
-                            <div class="form-group boton-send">
-                                <input type="submit" class="btn btn-success btn-block" id="">
+                            <div class="row g-2 mb-3">
+                                <div class="col-md">
+                                    <label for="horaInicio" class="form-label">Material</label>
+                                    <input type="text" value="" name="materialSalida"
+                                           class="form-control" readonly>
+                                </div>
+
                             </div>
+                            <div class="col-md">
+                                <label for="color-input">Color (es)</label>
+                                <select name="color-input" id="color-input" class="form-control">
+                                    <option selected=""  disabled="" value="">Escoge los colores</option>
+                                    {{#each colors}}
+                                        <option value="{{idColor}}" name="{{nameColor}}">{{nameColor}}</option>
+                                    {{/each}}
+                                </select>
+                                <div id="color-list-container"></div>
+
+                            </div>
+
                         </div>
 
 
-                    </form>
+                        <div class="inputs-hidden">
+                            <input type="hidden" value="{{datosof.idOrdenFabricacion}}" name="idOrdenFabricacion">
+                        </div>
+                        <div class="form-group boton-send">
+                            <input type="submit" class="btn btn-success btn-block" id="">
+                        </div>
                 </div>
-            </div>
 
+
+                </form>
+            </div>
         </div>
+
     </div>
+</div>
 
 
 </div>
@@ -605,20 +599,68 @@
 
 
 <script>
-const selectTipoEntrada= document.getElementById('selectTE');
-    selectTipoEntrada.addEventListener('change', function (){
-        if (selectTipoEntrada.value==1){
-            document.getElementById('peso').value=0;
-            document.getElementById('idReferencial').value=0;
-            document.getElementById('color').value="N/A";
+    document.addEventListener('DOMContentLoaded', () => {
+        const selectTipoEntrada = document.getElementById('selectTE');
+    selectTipoEntrada.addEventListener('change', function () {
+        if (selectTipoEntrada.value == 1) {
+            document.getElementById('peso').value = 0;
+            document.getElementById('idReferencial').value = 0;
+            document.getElementById('color').value = "N/A";
             document.getElementById('inputBuscarTula').setAttribute('disabled', "");
-        }else if(selectTipoEntrada.value==2){
+        } else if (selectTipoEntrada.value == 2) {
             document.getElementById('inputBuscarTula').removeAttribute('disabled');
 
-        }else{
-            document.getElementById('peso').value=3;
+        } else {
+            document.getElementById('inputBuscarTula').removeAttribute('disabled');
+            document.getElementById('peso').value = 3;
 
         }
     })
 
+
+        const colorInput = document.getElementById('color-input');
+        const colorListContainer = document.getElementById('color-list-container');
+
+
+        colorInput.addEventListener('change', function() {
+            //console.log(colorInput);
+            const selectedColor = colorInput.value;
+
+            if (selectedColor) {
+                const selectedOption = colorInput.options[colorInput.selectedIndex];
+                const selectedName = selectedOption.getAttribute('name');
+                console.log(selectedName)
+                const listItem = document.createElement('div');
+                listItem.className = 'color-item';
+                const colorText = document.createElement('span');
+                colorText.name= 'color';
+                colorText.className = 'color-text form-control';
+                colorText.innerText = selectedName;
+                //colorText.setAttribute('data-text', selectedName);
+
+                const closeButton = document.createElement('span');
+                closeButton.className = 'close-button bi bi-x-lg';
+                listItem.appendChild(colorText);
+                listItem.appendChild(closeButton);
+                colorListContainer.appendChild(listItem);
+                colorInput.value = '';
+            }
+        });
+
+        // Event delegation para el botón de eliminación
+        colorListContainer.addEventListener('click', function(event) {
+            if (event.target.classList.contains('close-button')) {
+                event.stopPropagation(); // Detener la propagación del evento
+                const listItem = event.target.parentNode;
+                listItem.parentNode.removeChild(listItem);
+            }
+        });
+
+
+
+
+
+
+
+    });
 </script>
