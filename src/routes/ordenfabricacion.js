@@ -3,6 +3,7 @@ const router = express.Router();
 
 const pool = require('../database');
 const {isLoggedIn, permissions, operador, digitador} = require('../lib/auth');
+const {el} = require("timeago.js/lib/lang");
 //const constants = require("constants");
 //const {el} = require("timeago.js/lib/lang");
 //const {NEWDATE} = require("mysql/lib/protocol/constants/types");
@@ -404,6 +405,29 @@ router.post('/vinotinto', isLoggedIn, async (req, res)=>{
     console.log(req.body);
     res.redirect('/detallesofoperador/212')
 })
+
+
+
+router.post("/tipo-entrada", isLoggedIn, async (req, res)=>{
+    let idTipoEntrada= req.body.idTipoEntrada;
+    //Tomo el id de tipo de entrada porque es el mismo de la tula (1) y por alguna extraña razon
+    //No quiere tomar el id de la Tula o quizas porque aún no hago ejercisios con las tulas
+    try{
+        const llamarTula = await pool.query('select * from datosTulaEntrada where idTula=?', [idTipoEntrada]);
+        if (llamarTula.length>0){
+            res.json({llamarTula: llamarTula[0]});
+        }else{
+            res.json({llamarTula:null})
+        }
+    }catch (error){
+        console.log("Error al consultar la bbdd")
+        res.status(500).json({error: "Error al consultar la base de datos"})
+    }
+
+});
+
+
+
 
 module.exports = router;
 

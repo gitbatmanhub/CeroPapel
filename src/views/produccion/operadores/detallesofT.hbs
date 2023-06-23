@@ -1,6 +1,3 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-
-
 <div class="tittleDetails">
     <h1>Detalles de la Orden de Fabricación #{{datosof.idOrdenFabricacion}}</h1>
 
@@ -75,6 +72,7 @@
                 {{#when userOrden.idTipoMarca 'eq' 1 }}
                     <form action="/salirof/{{datosof.idOrdenFabricacion}}" method="post">
                         <input type="hidden" value="{{userOrden.idtipoOperador}}" name="idtipoOperador">
+
                         <input type="hidden" value="2" name="idTipoMarca">
                         <button type="submit" class="btn btn-danger">Salir</button>
                     </form>
@@ -217,10 +215,10 @@
                             </div>
                             <div class="row" id="">
                                 <div class="col">
-                                    <label for="idTipoPara" class="form-label">Tipo Entrada</label>
+                                    <label for="idTipoPara" class="form-label">Buscar Id</label>
                                     <input id="inputBuscarTula" type="text" class="form-control" disabled>
                                     <div class="invalid-feedback">
-                                        Selecciona el tipo de Entrada
+                                        Ingresa el Nr de la Tula
                                     </div>
                                 </div>
 
@@ -228,19 +226,27 @@
                             <div class="row ">
                                 <div class="col">
                                     <label for="peso" name="peso" class="form-label">Peso</label>
-                                    <input id="peso" class="form-control" type="text" value="" readonly>
+                                    <input id="pesoEntrada" class="form-control" type="text" value="" readonly>
                                 </div>
                                 <div class="col">
                                     <label for="idReferencial" name="idReferencial" class="form-label">Id
                                         Referencial</label>
                                     <input class="form-control" name="idReferencial" type="text" value=""
-                                           id="idReferencial" readonly>
+                                           id="idReferencialEntrada" readonly>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col">
                                     <label for="color" name="color" class="form-label">Color</label>
-                                    <input id="color" name="color" class="form-control" type="text" value="" readonly>
+                                    <input id="colorEntrada" name="color" class="form-control" type="text" value="" readonly>
+                                </div>
+                                <div class="col">
+                                    <label for="tipoTicket" name="tipoTicket" class="form-label">Tipo Ticket</label>
+                                    <input id="tipoTicketEntrada" name="tipoTicket" class="form-control" type="text" value=""
+                                           readonly>
+                                </div>
+                                <div class="inputs-Hidden">
+                                    <input type="hidden" value="" id="idTula">
                                 </div>
                             </div>
                         </div>
@@ -277,8 +283,8 @@
                                 </div>
 
                                 <div class="col-md">
-                                    <label for="horaInicio" class="form-label">Tipo entrada</label>
-                                    <input type="text" value="" name="tipoEntradaSalida"
+                                    <label for="horaInicio" class="form-label">Proceso</label>
+                                    <input type="text" value="{{datosof.nameTipoTicket}}" name="tipoEntradaSalida"
                                            class="form-control" readonly>
                                 </div>
                             </div>
@@ -286,53 +292,53 @@
                                 <div class="col-md">
                                     <label for="horaInicio" class="form-label">Id Referencial (Opcional)</label>
                                     <input type="text" value="0" name="idReferencialSalida"
-                                           class="form-control"  >
+                                           class="form-control">
 
                                 </div>
                                 <div class="col-md">
-                                    <label for="horaFinal" class="form-label">Proceso</label>
+                                    <label for="horaFinal" class="form-label">Ticket</label>
                                     <input type="text" value="" name="procesoSalida"
                                            class="form-control" readonly>
 
-                            </div>
-                            <div class="row g-2 mb-3">
+                                </div>
+                                <div class="row g-2 mb-3">
+                                    <div class="col-md">
+                                        <label for="horaInicio" class="form-label">Material</label>
+                                        <input type="text" value="" name="materialSalida"
+                                               class="form-control" readonly>
+                                    </div>
+
+                                </div>
                                 <div class="col-md">
-                                    <label for="horaInicio" class="form-label">Material</label>
-                                    <input type="text" value="" name="materialSalida"
-                                           class="form-control" readonly>
+                                    <label for="color-input">Color (es)</label>
+                                    <select name="color-input" id="color-input" class="form-control">
+                                        <option selected disabled value="">Escoge los colores</option>
+                                        {{#each colors}}
+                                            <option value="{{idColor}}" name="{{nameColor}}">{{nameColor}}</option>
+                                        {{/each}}
+                                    </select>
+                                    <div id="color-list-container"></div>
+
                                 </div>
 
                             </div>
-                            <div class="col-md">
-                                <label for="color-input">Color (es)</label>
-                                <select name="color-input" id="color-input" class="form-control">
-                                    <option selected=""  disabled="" value="">Escoge los colores</option>
-                                    {{#each colors}}
-                                        <option value="{{idColor}}" name="{{nameColor}}">{{nameColor}}</option>
-                                    {{/each}}
-                                </select>
-                                <div id="color-list-container"></div>
 
+
+                            <div class="inputs-hidden">
+                                <input type="hidden" value="{{datosof.idOrdenFabricacion}}" name="idOrdenFabricacion">
                             </div>
-
+                            <div class="form-group boton-send">
+                                <input type="submit" class="btn btn-success btn-block" id="">
+                            </div>
                         </div>
 
 
-                        <div class="inputs-hidden">
-                            <input type="hidden" value="{{datosof.idOrdenFabricacion}}" name="idOrdenFabricacion">
-                        </div>
-                        <div class="form-group boton-send">
-                            <input type="submit" class="btn btn-success btn-block" id="">
-                        </div>
+                    </form>
                 </div>
-
-
-                </form>
             </div>
-        </div>
 
+        </div>
     </div>
-</div>
 
 
 </div>
@@ -601,65 +607,121 @@
 <script>
     document.addEventListener('DOMContentLoaded', () => {
         const selectTipoEntrada = document.getElementById('selectTE');
-    selectTipoEntrada.addEventListener('change', function () {
-        if (selectTipoEntrada.value == 1) {
-            document.getElementById('peso').value = 0;
-            document.getElementById('idReferencial').value = 0;
-            document.getElementById('color').value = "N/A";
-            document.getElementById('inputBuscarTula').setAttribute('disabled', "");
-        } else if (selectTipoEntrada.value == 2) {
-            document.getElementById('inputBuscarTula').removeAttribute('disabled');
-
-        } else {
-            document.getElementById('inputBuscarTula').removeAttribute('disabled');
-            document.getElementById('peso').value = 3;
-
-        }
-    })
+        selectTipoEntrada.addEventListener('change', function () {
+            var idTula = document.getElementById('idTula');
+            var idTipoEntrada;
 
 
-        const colorInput = document.getElementById('color-input');
-        const colorListContainer = document.getElementById('color-list-container');
+            if (this.value == 1) {
+                idTipoEntrada = this.value;
+
+                fetch('/tipo-entrada', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({idTipoEntrada: idTipoEntrada})
+                })
+
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data) {
+                                let dataT= data.llamarTula;
+                                const {idTula, nameColor, nameProceso, Material, TipoMaterial, nameTipoTicket, idReferencial, peso }=dataT;
+                                const dataTula={
+                                    peso: dataT.peso,
+                                    nameColor: dataT.nameColor,
+                                    idReferencial: dataT.idReferencial,
+                                    nameTipoTicket: dataT.nameTipoTicket
+                                }
+
+                                document.getElementById('pesoEntrada').value=peso;
+                                document.getElementById('idReferencialEntrada').value=idReferencial;
+                                document.getElementById('colorEntrada').value=nameColor;
+                                document.getElementById('tipoTicketEntrada').value=nameTipoTicket;
 
 
-        colorInput.addEventListener('change', function() {
-            //console.log(colorInput);
-            const selectedColor = colorInput.value;
 
-            if (selectedColor) {
-                const selectedOption = colorInput.options[colorInput.selectedIndex];
-                const selectedName = selectedOption.getAttribute('name');
-                console.log(selectedName)
-                const listItem = document.createElement('div');
-                listItem.className = 'color-item';
-                const colorText = document.createElement('span');
-                colorText.name= 'color';
-                colorText.className = 'color-text form-control';
-                colorText.innerText = selectedName;
-                //colorText.setAttribute('data-text', selectedName);
+                            } else {
+                                console.log("Hola 2")
+                            }
+                        })
+                //console.log(idTipoEntrada);
+                /*
+                document.getElementById('peso').value = 0;
+                document.getElementById('idReferencial').value = 0;
+                document.getElementById('color').value = "N/A";
+                document.getElementById('tipoTicket').value = "N/A";
+                document.getElementById('inputBuscarTula').setAttribute('disabled', "");
+                 */
+            } else if (this.value == 2) {
+                idTipoEntrada = this.value;
 
-                const closeButton = document.createElement('span');
-                closeButton.className = 'close-button bi bi-x-lg';
-                listItem.appendChild(colorText);
-                listItem.appendChild(closeButton);
-                colorListContainer.appendChild(listItem);
-                colorInput.value = '';
+                //console.log(idTipoEntrada)
+                /*
+                document.getElementById('inputBuscarTula').removeAttribute('disabled');
+
+
+                 */
+            } else {
+                idTipoEntrada = this.value;
+
+                //console.log(idTipoEntrada)
+                /*
+                document.getElementById('inputBuscarTula').removeAttribute('disabled');
+                document.getElementById('peso').value = 3;
+
+                 */
+
             }
-        });
+            //console.log(idTipoEntrada);
 
-        // Event delegation para el botón de eliminación
-        colorListContainer.addEventListener('click', function(event) {
-            if (event.target.classList.contains('close-button')) {
-                event.stopPropagation(); // Detener la propagación del evento
-                const listItem = event.target.parentNode;
-                listItem.parentNode.removeChild(listItem);
-            }
-        });
+        })
 
 
+        //const query= pool.query(query, [idTipoEntrada]);
 
 
+        /*
+                const colorInput = document.getElementById('color-input');
+                const colorListContainer = document.getElementById('color-list-container');
 
+
+                colorInput.addEventListener('change', function() {
+                    //console.log(colorInput);
+                    const selectedColor = colorInput.value;
+
+                    if (selectedColor) {
+                        const selectedOption = colorInput.options[colorInput.selectedIndex];
+                        const selectedName = selectedOption.getAttribute('name');
+                        console.log(selectedName)
+                        const listItem = document.createElement('div');
+                        listItem.className = 'color-item';
+                        const colorText = document.createElement('span');
+                        colorText.name= 'color';
+                        colorText.className = 'color-text form-control';
+                        colorText.innerText = selectedName;
+                        //colorText.setAttribute('data-text', selectedName);
+
+                        const closeButton = document.createElement('span');
+                        closeButton.className = 'close-button bi bi-x-lg';
+                        listItem.appendChild(colorText);
+                        listItem.appendChild(closeButton);
+                        colorListContainer.appendChild(listItem);
+                        colorInput.value = '';
+                    }
+                });
+
+                // Event delegation para el botón de eliminación
+                colorListContainer.addEventListener('click', function(event) {
+                    if (event.target.classList.contains('close-button')) {
+                        event.stopPropagation(); // Detener la propagación del evento
+                        const listItem = event.target.parentNode;
+                        listItem.parentNode.removeChild(listItem);
+                    }
+                });
+
+         */
 
 
     });
