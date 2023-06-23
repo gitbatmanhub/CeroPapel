@@ -143,6 +143,44 @@
 <div class="container text-center">
     <div class="row align-items-start">
         <div class="col">
+            <div class="container">
+                <h3>Entradas</h3>
+                <table class="table">
+                    <thead>
+                    <tr>
+
+                        <th scope="col">idTula</th>
+                        <th scope="col">IdReferencial</th>
+                        <th scope="col">Color</th>
+                        <th scope="col">Tipo Entrada</th>
+                        <th scope="col">Peso</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#each datosTulaEntrada}}
+                        <tr>
+
+                            <td>{{idTula}}</td>
+                            <td>{{idReferencial}}</td>
+                            <td>{{nameColor}}</td>
+                            <td>{{nameMaterial}}</td>
+                            <td>{{peso}}</td>
+                        </tr>
+                    {{/each}}
+                    <tr>
+                        <td></td>
+
+
+                        <td></td>
+                        <td>Total Peso</td>
+                        <td>0</td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col">
 
             <h3>Horas Para</h3>
             <table class="table">
@@ -177,8 +215,6 @@
                 </tbody>
             </table>
         </div>
-
-
     </div>
 
 </div>
@@ -194,7 +230,7 @@
             </div>
             <div class="modal-body">
                 <div class="card-body">
-                    <form action="/agregarPara" class="needs-validation" novalidate method="post" id=""
+                    <form action="/agregarEntradaTula" class="needs-validation" novalidate method="post" id=""
                           name="agregarof">
                         <div class="container ">
                             <div class="row ">
@@ -225,11 +261,11 @@
                             </div>
                             <div class="row ">
                                 <div class="col">
-                                    <label for="peso" name="peso" class="form-label">Peso</label>
+                                    <label for="peso"  class="form-label">Peso</label>
                                     <input id="pesoEntrada" class="form-control" type="text" value="" readonly>
                                 </div>
                                 <div class="col">
-                                    <label for="idReferencial" name="idReferencial" class="form-label">Id
+                                    <label for="idReferencial" class="form-label">Id
                                         Referencial</label>
                                     <input class="form-control" name="idReferencial" type="text" value=""
                                            id="idReferencialEntrada" readonly>
@@ -237,17 +273,26 @@
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <label for="color" name="color" class="form-label">Color</label>
+                                    <label for="color"  class="form-label">Color</label>
                                     <input id="colorEntrada" name="color" class="form-control" type="text" value="" readonly>
                                 </div>
                                 <div class="col">
-                                    <label for="tipoTicket" name="tipoTicket" class="form-label">Tipo Ticket</label>
+                                    <label for="tipoTicket"  class="form-label">Tipo Ticket</label>
                                     <input id="tipoTicketEntrada" name="tipoTicket" class="form-control" type="text" value=""
                                            readonly>
                                 </div>
                                 <div class="inputs-Hidden">
-                                    <input type="hidden" value="" id="idTula">
+                                    <input type="hidden" name="idOrdenFabricacion" value="{{datosof.idOrdenFabricacion}}">
+                                    <input type="hidden" name="idTulaEntrada" value="" id="idTulaEntrada">
                                 </div>
+                            </div>
+                        </div>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col" style="text-align: center; margin-top: 10px ">
+                                    <button type="submit" class="btn btn-success">Enviar</button>
+                                </div>
+
                             </div>
                         </div>
                     </form>
@@ -297,14 +342,14 @@
                                 </div>
                                 <div class="col-md">
                                     <label for="horaFinal" class="form-label">Ticket</label>
-                                    <input type="text" value="" name="procesoSalida"
+                                    <input type="text" value="{{datosof.nameTipoTicket}}" name="procesoSalida"
                                            class="form-control" readonly>
 
                                 </div>
                                 <div class="row g-2 mb-3">
                                     <div class="col-md">
                                         <label for="horaInicio" class="form-label">Material</label>
-                                        <input type="text" value="" name="materialSalida"
+                                        <input type="text" value="{{datosof.nameMaterial}}" name="materialSalida"
                                                class="form-control" readonly>
                                     </div>
 
@@ -613,8 +658,8 @@
 
 
             if (this.value == 1) {
+                document.getElementById('inputBuscarTula').setAttribute('disabled', "");
                 idTipoEntrada = this.value;
-
                 fetch('/tipo-entrada', {
                     method: 'POST',
                     headers: {
@@ -632,18 +677,18 @@
                                     peso: dataT.peso,
                                     nameColor: dataT.nameColor,
                                     idReferencial: dataT.idReferencial,
-                                    nameTipoTicket: dataT.nameTipoTicket
+                                    nameTipoTicket: dataT.nameTipoTicket,
+                                    idTula: dataT.idTula
                                 }
 
                                 document.getElementById('pesoEntrada').value=peso;
                                 document.getElementById('idReferencialEntrada').value=idReferencial;
                                 document.getElementById('colorEntrada').value=nameColor;
                                 document.getElementById('tipoTicketEntrada').value=nameTipoTicket;
+                                document.getElementById('idTulaEntrada').value=idTula;
 
 
 
-                            } else {
-                                console.log("Hola 2")
                             }
                         })
                 //console.log(idTipoEntrada);
@@ -655,7 +700,14 @@
                 document.getElementById('inputBuscarTula').setAttribute('disabled', "");
                  */
             } else if (this.value == 2) {
-                idTipoEntrada = this.value;
+                document.getElementById('inputBuscarTula').removeAttribute('disabled', "");
+
+                    document.getElementById('pesoEntrada').value="";
+                    document.getElementById('idReferencialEntrada').value="";
+                    document.getElementById('colorEntrada').value="";
+                    document.getElementById('tipoTicketEntrada').value="";
+                    document.getElementById('idTulaEntrada').value="";
+
 
                 //console.log(idTipoEntrada)
                 /*
@@ -664,7 +716,13 @@
 
                  */
             } else {
-                idTipoEntrada = this.value;
+                document.getElementById('inputBuscarTula').removeAttribute('disabled', "");
+
+                document.getElementById('pesoEntrada').value="";
+                document.getElementById('idReferencialEntrada').value="";
+                document.getElementById('colorEntrada').value="";
+                document.getElementById('tipoTicketEntrada').value="";
+                document.getElementById('idTulaEntrada').value="";
 
                 //console.log(idTipoEntrada)
                 /*

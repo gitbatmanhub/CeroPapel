@@ -3,7 +3,7 @@ const router = express.Router();
 
 const pool = require('../database');
 const {isLoggedIn, permissions, operador, digitador} = require('../lib/auth');
-const {el} = require("timeago.js/lib/lang");
+const {el, tr} = require("timeago.js/lib/lang");
 //const constants = require("constants");
 //const {el} = require("timeago.js/lib/lang");
 //const {NEWDATE} = require("mysql/lib/protocol/constants/types");
@@ -298,7 +298,10 @@ router.get('/detallesofoperador/:id',  isLoggedIn, permissions,async (req, res) 
     const ayudantesOrden = await pool.query('select idUsuario, idtipoOperador, idTipoMarca, u.fullname from operador inner join usuario u on operador.idUsuario=u.iduser where idtipoOperador=2 and idOrdenFabricacion=? and idTipoMarca=1 group by idUsuario;', [ordenid]);
     const HorasOperadoresOf= await pool.query("select * from horasOperadoresCalcular where idOrden=? and idUsuario=? ;", [ordenid,userId]);
     const tiempoOperador= await pool.query("select sec_to_time(sum(time_to_sec(TiempoTrabajado))) as Hora from horasOperadoresCalcular where idUsuario=? and idOrden=?;", [userId, ordenid]);
+    //Desde aqui los cambios de las tulas en esta ruta
     const colors= await pool.query("select * from color");
+    const datosTulaEntrada= await pool.query('select * from dataTulaEntrada where idOrdenFabricacion=?;', [ordenid]);
+    //console.log(datosTulaEntrada);
     //console.log(tiempoOperador[0].Hora);
    //console.log(colors);
     res.render('produccion/operadores/detallesofT', {
@@ -313,7 +316,8 @@ router.get('/detallesofoperador/:id',  isLoggedIn, permissions,async (req, res) 
         HorasOperadoresOf,
         tiempoOperador: tiempoOperador[0].Hora,
         tipoMaterial,
-        colors
+        colors,
+        datosTulaEntrada
 
     })
 
@@ -407,12 +411,40 @@ router.post('/vinotinto', isLoggedIn, async (req, res)=>{
 })
 
 
+router.post('/agregarEntradaTula', isLoggedIn, async (req, res)=>{
+    const data= req.body;
+    const {idOrdenFabricacion, idTulaEntrada}=req.body;
+    //console.log(idTulaEntrada, idOrdenFabricacion);
+    const dataTulaEntrada={
+        idTula: idTulaEntrada,
+        idOrdenFabricacion
+    }
+    //console.log(dataTulaEntrada);
+    try{
+        const entradasCantidades= await pool.query('select * from dataTulaEntrada where idTula=? and idOrdenFabricacion=?', [idTulaEntrada, idOrdenFabricacion]);
+        if (entradasCantidades.length>=1){
+            req.flash('success', 'La tula ya se encuntra utilizandose');
+        }else {
+            await pool.query('insert into entradaTula set ?', [dataTulaEntrada])
+            req.flash('success', 'Tula de entrada agregada correctamente');
+
+        }
+        //console.log(entradasCantidades.length);
+    }catch (error) {
+        console.log("Ha ocurrido un error, intentalo de nuevo");
+        res.status(500).json({error:"Error al insertar el dato en la base de datos"});
+
+    }
+    res.redirect('/detallesofoperador/'+ idOrdenFabricacion);
+} )
+
 
 router.post("/tipo-entrada", isLoggedIn, async (req, res)=>{
     let idTipoEntrada= req.body.idTipoEntrada;
     //Tomo el id de tipo de entrada porque es el mismo de la tula (1) y por alguna extraña razon
     //No quiere tomar el id de la Tula o quizas porque aún no hago ejercisios con las tulas
     try{
+
         const llamarTula = await pool.query('select * from datosTulaEntrada where idTula=?', [idTipoEntrada]);
         if (llamarTula.length>0){
             res.json({llamarTula: llamarTula[0]});
