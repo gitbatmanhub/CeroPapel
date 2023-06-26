@@ -301,9 +301,12 @@ router.get('/detallesofoperador/:id',  isLoggedIn, permissions,async (req, res) 
     //Desde aqui los cambios de las tulas en esta ruta
     const colors= await pool.query("select * from color");
     const datosTulaEntrada= await pool.query('select * from dataTulaEntrada where idOrdenFabricacion=?;', [ordenid]);
+    const datosSalida= await pool.query('select * from datosSalida where idOrdenFabricacion=?', [ordenid]);
+    const DataSalida= await pool.query('select * from DataSalida where idOrdenFabricacion=? order by create_at', [ordenid]);
     //console.log(datosTulaEntrada);
     //console.log(tiempoOperador[0].Hora);
    //console.log(colors);
+    //console.log(DataSalida);
     res.render('produccion/operadores/detallesofT', {
         datosof: datosof[0],
         tipoPara,
@@ -317,7 +320,9 @@ router.get('/detallesofoperador/:id',  isLoggedIn, permissions,async (req, res) 
         tiempoOperador: tiempoOperador[0].Hora,
         tipoMaterial,
         colors,
-        datosTulaEntrada
+        datosTulaEntrada,
+        datosSalida: datosSalida[0],
+        DataSalida
 
     })
 

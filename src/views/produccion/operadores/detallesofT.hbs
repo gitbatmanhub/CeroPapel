@@ -180,6 +180,7 @@
                 </table>
             </div>
         </div>
+
         <div class="col">
 
             <h3>Horas Para</h3>
@@ -214,6 +215,44 @@
 
                 </tbody>
             </table>
+        </div>
+        <div class="col">
+            <div class="container">
+                <h3>Salidas</h3>
+                <table class="table">
+                    <thead>
+                    <tr>
+
+                        <th scope="col">idTula</th>
+                        <th scope="col">Peso</th>
+                        <th scope="col">idReferencial</th>
+                        <th scope="col">Proceso</th>
+                        <th scope="col">Material</th>
+                        <th scope="col">Color</th>
+                        <th scope="col">Entrada</th>
+                        <th scope="col">Ticket</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#each DataSalida}}
+                        <tr>
+
+                            <td>{{idTula}}</td>
+                            <td>{{peso}}</td>
+                            <td>{{idReferencial}}</td>
+                            <td>{{nameProceso}}</td>
+                            <td>{{Material}}</td>
+                            <td>{{nameColor}}</td>
+                            <td>{{nameMaterial}}</td>
+                            <td>{{nameTipoTicket}}</td>
+
+                        </tr>
+                    {{/each}}
+
+
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -252,7 +291,7 @@
                             <div class="row" id="">
                                 <div class="col">
                                     <label for="idTipoPara" class="form-label">Buscar Id</label>
-                                    <input id="inputBuscarTula" type="text" class="form-control" disabled>
+                                    <input id="inputBuscarTula" type="text" class="form-control" disabled >
                                     <div class="invalid-feedback">
                                         Ingresa el Nr de la Tula
                                     </div>
@@ -262,24 +301,24 @@
                             <div class="row ">
                                 <div class="col">
                                     <label for="peso"  class="form-label">Peso</label>
-                                    <input id="pesoEntrada" class="form-control" type="text" value="" readonly>
+                                    <input id="pesoEntrada" class="form-control" type="text" value="" readonly required>
                                 </div>
                                 <div class="col">
                                     <label for="idReferencial" class="form-label">Id
                                         Referencial</label>
                                     <input class="form-control" name="idReferencial" type="text" value=""
-                                           id="idReferencialEntrada" readonly>
+                                           id="idReferencialEntrada" readonly required>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col">
                                     <label for="color"  class="form-label">Color</label>
-                                    <input id="colorEntrada" name="color" class="form-control" type="text" value="" readonly>
+                                    <input id="colorEntrada" name="color" class="form-control" type="text" value="" readonly required>
                                 </div>
                                 <div class="col">
                                     <label for="tipoTicket"  class="form-label">Tipo Ticket</label>
                                     <input id="tipoTicketEntrada" name="tipoTicket" class="form-control" type="text" value=""
-                                           readonly>
+                                           readonly required>
                                 </div>
                                 <div class="inputs-Hidden">
                                     <input type="hidden" name="idOrdenFabricacion" value="{{datosof.idOrdenFabricacion}}">
@@ -290,7 +329,7 @@
                         <div class="container">
                             <div class="row">
                                 <div class="col" style="text-align: center; margin-top: 10px ">
-                                    <button type="submit" class="btn btn-success">Enviar</button>
+                                    <button id="addEntrada" type="submit" class="btn btn-success">Enviar</button>
                                 </div>
 
                             </div>
@@ -314,13 +353,13 @@
             </div>
             <div class="modal-body">
                 <div class="card-body">
-                    <form action="/vinotinto" class="needs-validation" novalidate method="post" id="agregarPara"
-                          name="agregarof">
+                    <form action="/agregar-tula" class="needs-validation" novalidate method="post" id=""
+                          name="agregartula">
                         <div class="container">
                             <div class="row g-2 mb-3">
                                 <div class="col-md">
-                                    <label for="horaInicio" class="form-label">Peso</label>
-                                    <input type="number" value="" name="pesoSalida"
+                                    <label for="pesoSalida" class="form-label">Peso</label>
+                                    <input type="number" value="" name="peso"
                                            class="form-control" required>
                                     <div class="invalid-feedback">
                                         Ingrese por favor el peso de la tula.
@@ -329,40 +368,44 @@
 
                                 <div class="col-md">
                                     <label for="horaInicio" class="form-label">Proceso</label>
-                                    <input type="text" value="{{datosof.nameTipoTicket}}" name="tipoEntradaSalida"
-                                           class="form-control" readonly>
+                                    <input type="text" value="{{datosof.nameTipoTicket}}"
+                                           class="form-control" readonly required>
                                 </div>
                             </div>
                             <div class="row g-2 mb-3">
                                 <div class="col-md">
-                                    <label for="horaInicio" class="form-label">Id Referencial (Opcional)</label>
-                                    <input type="text" value="0" name="idReferencialSalida"
-                                           class="form-control">
-
+                                    <label for="horaInicio" class="form-label">Id Referencial</label>
+                                    <input type="text" value="" name="idReferencial"
+                                           class="form-control" required>
+                                    <div class="invalid-feedback">
+                                        Ingrese por favor el id Fisico de la tula.
+                                    </div>
                                 </div>
                                 <div class="col-md">
                                     <label for="horaFinal" class="form-label">Ticket</label>
-                                    <input type="text" value="{{datosof.nameTipoTicket}}" name="procesoSalida"
-                                           class="form-control" readonly>
+                                    <input type="text" value="{{datosof.nameTipoTicket}}"
+                                           class="form-control" readonly required>
 
                                 </div>
                                 <div class="row g-2 mb-3">
                                     <div class="col-md">
                                         <label for="horaInicio" class="form-label">Material</label>
-                                        <input type="text" value="{{datosof.nameMaterial}}" name="materialSalida"
-                                               class="form-control" readonly>
+                                        <input type="text" value="{{datosof.nameMaterial}}"
+                                               required class="form-control" readonly>
                                     </div>
 
                                 </div>
                                 <div class="col-md">
                                     <label for="color-input">Color (es)</label>
-                                    <select name="color-input" id="color-input" class="form-control">
-                                        <option selected disabled value="">Escoge los colores</option>
+                                    <select name="idColor" id="idColor" class="form-control" required>
+                                        <option selected disabled value >Escoge los colores</option>
                                         {{#each colors}}
-                                            <option value="{{idColor}}" name="{{nameColor}}">{{nameColor}}</option>
+                                            <option value="{{idColor}}" name="{{nameColor}}" <!--style="background: {{codigoStilo}}-->;"; ">{{nameColor}}</option>
                                         {{/each}}
                                     </select>
-                                    <div id="color-list-container"></div>
+                                    <div class="invalid-feedback">
+                                        Ingrese por favor el color del material.
+                                    </div>
 
                                 </div>
 
@@ -370,7 +413,11 @@
 
 
                             <div class="inputs-hidden">
-                                <input type="hidden" value="{{datosof.idOrdenFabricacion}}" name="idOrdenFabricacion">
+                                <input type="hidden" value="{{datosSalida.idOrdenFabricacion}}" name="idOrdenFabricacion">
+                                <input type="hidden" value="{{datosSalida.idProceso}}" name="idProceso">
+                                <input type="hidden" value="{{datosSalida.idMaterial}}" name="idMaterial">
+                                <input type="hidden" value="{{datosSalida.idTipoMaterial}}" name="idTipoMaterial">
+                                <input type="hidden" value="{{datosSalida.idTipoTicket}}" name="idTipoTicket">
                             </div>
                             <div class="form-group boton-send">
                                 <input type="submit" class="btn btn-success btn-block" id="">
@@ -780,6 +827,9 @@
                 });
 
          */
+
+
+
 
 
     });
