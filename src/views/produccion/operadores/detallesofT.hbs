@@ -287,11 +287,28 @@
                                     </div>
                                 </div>
 
+
+                            </div>
+                            <div class="row checks" id="checksTipoEntrada" style="display: none">
+                                <div class="col">
+                                    <input class="form-check-input radioCheck" type="radio" name="flexRadioDefault"
+                                           id="checkProvicional" checked>
+                                    <label class="form-check-label" for="checkProvicional">
+                                        Id Provicional
+                                    </label>
+                                </div>
+                                <div class="col">
+                                    <input class="form-check-input radioCheck" type="radio" name="flexRadioDefault"
+                                           id="checkTula">
+                                    <label class="form-check-label " for="checkTula">
+                                        Id Tula
+                                    </label>
+                                </div>
                             </div>
                             <div class="row" id="">
                                 <div class="col">
                                     <label for="idTipoPara" class="form-label">Buscar Id</label>
-                                    <input id="inputBuscarTula" type="text" class="form-control" disabled >
+                                    <input id="inputBuscarTula" type="number" class="form-control" disabled>
                                     <div class="invalid-feedback">
                                         Ingresa el Nr de la Tula
                                     </div>
@@ -300,7 +317,7 @@
                             </div>
                             <div class="row ">
                                 <div class="col">
-                                    <label for="peso"  class="form-label">Peso</label>
+                                    <label for="peso" class="form-label">Peso</label>
                                     <input id="pesoEntrada" class="form-control" type="text" value="" readonly required>
                                 </div>
                                 <div class="col">
@@ -312,16 +329,20 @@
                             </div>
                             <div class="row">
                                 <div class="col">
-                                    <label for="color"  class="form-label">Color</label>
-                                    <input id="colorEntrada" name="color" class="form-control" type="text" value="" readonly required>
+                                    <label for="color" class="form-label">Color</label>
+                                    <input id="colorEntrada" name="color" class="form-control" type="text" value=""
+                                           readonly
+                                           required>
                                 </div>
                                 <div class="col">
-                                    <label for="tipoTicket"  class="form-label">Tipo Ticket</label>
-                                    <input id="tipoTicketEntrada" name="tipoTicket" class="form-control" type="text" value=""
+                                    <label for="tipoTicket" class="form-label">Tipo Ticket</label>
+                                    <input id="tipoTicketEntrada" name="tipoTicket" class="form-control" type="text"
+                                           value=""
                                            readonly required>
                                 </div>
                                 <div class="inputs-Hidden">
-                                    <input type="hidden" name="idOrdenFabricacion" value="{{datosof.idOrdenFabricacion}}">
+                                    <input type="hidden" name="idOrdenFabricacion"
+                                           value="{{datosof.idOrdenFabricacion}}">
                                     <input type="hidden" name="idTulaEntrada" value="" id="idTulaEntrada">
                                 </div>
                             </div>
@@ -398,9 +419,10 @@
                                 <div class="col-md">
                                     <label for="color-input">Color (es)</label>
                                     <select name="idColor" id="idColor" class="form-control" required>
-                                        <option selected disabled value >Escoge los colores</option>
+                                        <option selected disabled value>Escoge los colores</option>
                                         {{#each colors}}
-                                            <option value="{{idColor}}" name="{{nameColor}}" <!--style="background: {{codigoStilo}}-->;"; ">{{nameColor}}</option>
+                                            <option value="{{idColor}}" name="{{nameColor}}"
+                                            <!--style="background: {{codigoStilo}}-->;"; ">{{nameColor}}</option>
                                         {{/each}}
                                     </select>
                                     <div class="invalid-feedback">
@@ -413,7 +435,8 @@
 
 
                             <div class="inputs-hidden">
-                                <input type="hidden" value="{{datosSalida.idOrdenFabricacion}}" name="idOrdenFabricacion">
+                                <input type="hidden" value="{{datosSalida.idOrdenFabricacion}}"
+                                       name="idOrdenFabricacion">
                                 <input type="hidden" value="{{datosSalida.idProceso}}" name="idProceso">
                                 <input type="hidden" value="{{datosSalida.idMaterial}}" name="idMaterial">
                                 <input type="hidden" value="{{datosSalida.idTipoMaterial}}" name="idTipoMaterial">
@@ -700,13 +723,24 @@
     document.addEventListener('DOMContentLoaded', () => {
         const selectTipoEntrada = document.getElementById('selectTE');
         selectTipoEntrada.addEventListener('change', function () {
-            var idTula = document.getElementById('idTula');
-            var idTipoEntrada;
+            let idTula = document.getElementById('idTula');
+            let idTipoEntrada;
+            const checks = document.getElementById('checksTipoEntrada');
+            const inputBuscarTula = document.getElementById('inputBuscarTula');
+            const checkTula = document.getElementById('checkTula');
+            const checkProvicional = document.getElementById('checkProvicional');
 
 
             if (this.value == 1) {
-                document.getElementById('inputBuscarTula').setAttribute('disabled', "");
+                inputBuscarTula.setAttribute('disabled', "");
+                inputBuscarTula.removeAttribute('required', "");
+                checkTula.removeAttribute('required', "");
+                checkProvicional.removeAttribute('required', "");
+
+                checks.style.display = "none";
                 idTipoEntrada = this.value;
+                console.log(idTipoEntrada);
+
                 fetch('/tipo-entrada', {
                     method: 'POST',
                     headers: {
@@ -718,9 +752,18 @@
                         .then(response => response.json())
                         .then(data => {
                             if (data) {
-                                let dataT= data.llamarTula;
-                                const {idTula, nameColor, nameProceso, Material, TipoMaterial, nameTipoTicket, idReferencial, peso }=dataT;
-                                const dataTula={
+                                let dataT = data.llamarTula;
+                                const {
+                                    idTula,
+                                    nameColor,
+                                    nameProceso,
+                                    Material,
+                                    TipoMaterial,
+                                    nameTipoTicket,
+                                    idReferencial,
+                                    peso
+                                } = dataT;
+                                const dataTula = {
                                     peso: dataT.peso,
                                     nameColor: dataT.nameColor,
                                     idReferencial: dataT.idReferencial,
@@ -728,109 +771,183 @@
                                     idTula: dataT.idTula
                                 }
 
-                                document.getElementById('pesoEntrada').value=peso;
-                                document.getElementById('idReferencialEntrada').value=idReferencial;
-                                document.getElementById('colorEntrada').value=nameColor;
-                                document.getElementById('tipoTicketEntrada').value=nameTipoTicket;
-                                document.getElementById('idTulaEntrada').value=idTula;
-
+                                document.getElementById('pesoEntrada').value = peso;
+                                document.getElementById('idReferencialEntrada').value = idReferencial;
+                                document.getElementById('colorEntrada').value = nameColor;
+                                document.getElementById('tipoTicketEntrada').value = nameTipoTicket;
+                                document.getElementById('idTulaEntrada').value = idTula;
 
 
                             }
                         })
-                //console.log(idTipoEntrada);
-                /*
-                document.getElementById('peso').value = 0;
-                document.getElementById('idReferencial').value = 0;
-                document.getElementById('color').value = "N/A";
-                document.getElementById('tipoTicket').value = "N/A";
-                document.getElementById('inputBuscarTula').setAttribute('disabled', "");
-                 */
+
             } else if (this.value == 2) {
-                document.getElementById('inputBuscarTula').removeAttribute('disabled', "");
+                inputBuscarTula.removeAttribute('disabled', "");
+                inputBuscarTula.setAttribute('required', "");
+                checks.style.removeProperty('display', "");
+                checkTula.setAttribute('required', "");
+                checkProvicional.setAttribute('required', "");
+                idTipoEntrada = this.value;
+                inputBuscarTula.addEventListener('input', function(){
+                    let idEntrada = this.value;
+                    fetch('/entrada-provicional', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({idEntrada: idEntrada})
+                    })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data) {
 
-                    document.getElementById('pesoEntrada').value="";
-                    document.getElementById('idReferencialEntrada').value="";
-                    document.getElementById('colorEntrada').value="";
-                    document.getElementById('tipoTicketEntrada').value="";
-                    document.getElementById('idTulaEntrada').value="";
+                                    let dataT = data.entradaP;
+                                    const {
+                                        idTula,
+                                        nameColor,
+                                        nameProceso,
+                                        Material,
+                                        TipoMaterial,
+                                        nameTipoTicket,
+                                        idReferencial,
+                                        peso
+                                    } = dataT;
+                                    const dataTula = {
+                                        peso: dataT.peso,
+                                        nameColor: dataT.nameColor,
+                                        idReferencial: dataT.idReferencial,
+                                        nameTipoTicket: dataT.nameTipoTicket,
+                                        idTula: dataT.idTula
+                                    }
+                                    //console.log(dataTula);
 
 
-                //console.log(idTipoEntrada)
-                /*
-                document.getElementById('inputBuscarTula').removeAttribute('disabled');
+
+                                    document.getElementById('pesoEntrada').value = peso;
+                                    document.getElementById('idReferencialEntrada').value = idReferencial;
+                                    document.getElementById('colorEntrada').value = nameColor;
+                                    document.getElementById('tipoTicketEntrada').value = nameTipoTicket;
+                                    document.getElementById('idTulaEntrada').value = idTula;
 
 
-                 */
+                                }
+                            })
+
+
+
+
+
+
+
+                })
+                //console.log(idTula);
+                fetch('/tipo-entrada', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({idTipoEntrada: idTipoEntrada})
+                })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data) {
+                                /*
+                                let dataT = data.llamarTula;
+                                const {
+                                    idTula,
+                                    nameColor,
+                                    nameProceso,
+                                    Material,
+                                    TipoMaterial,
+                                    nameTipoTicket,
+                                    idReferencial,
+                                    peso
+                                } = dataT;
+                                const dataTula = {
+                                    peso: dataT.peso,
+                                    nameColor: dataT.nameColor,
+                                    idReferencial: dataT.idReferencial,
+                                    nameTipoTicket: dataT.nameTipoTicket,
+                                    idTula: dataT.idTula
+                                }
+
+                                 */
+
+                                document.getElementById('pesoEntrada').value = peso;
+                                document.getElementById('idReferencialEntrada').value = idReferencial;
+                                document.getElementById('colorEntrada').value = nameColor;
+                                document.getElementById('tipoTicketEntrada').value = nameTipoTicket;
+                                document.getElementById('idTulaEntrada').value = idTula;
+
+
+                            }
+                        })
+
+
+                document.getElementById('pesoEntrada').value = "";
+                document.getElementById('idReferencial Entrada').value = "";
+                document.getElementById('colorEntrada').value = "";
+                document.getElementById('tipoTicketEntrada').value = "";
+                document.getElementById('idTulaEntrada').value = "";
+
             } else {
-                document.getElementById('inputBuscarTula').removeAttribute('disabled', "");
 
-                document.getElementById('pesoEntrada').value="";
-                document.getElementById('idReferencialEntrada').value="";
-                document.getElementById('colorEntrada').value="";
-                document.getElementById('tipoTicketEntrada').value="";
-                document.getElementById('idTulaEntrada').value="";
+                idTipoEntrada = this.value;
+                console.log(idTipoEntrada);
+                inputBuscarTula.removeAttribute('disabled', "");
+                inputBuscarTula.setAttribute('required', "");
+                checks.style.removeProperty('display', "");
+                checkProvicional.setAttribute('required', "");
+                fetch('/tipo-entrada', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({idTipoEntrada: idTipoEntrada})
+                })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data) {
+                                /*
+                                let dataT = data.llamarTula;
+                                const {
+                                    idTula,
+                                    nameColor,
+                                    nameProceso,
+                                    Material,
+                                    TipoMaterial,
+                                    nameTipoTicket,
+                                    idReferencial,
+                                    peso
+                                } = dataT;
+                                const dataTula = {
+                                    peso: dataT.peso,
+                                    nameColor: dataT.nameColor,
+                                    idReferencial: dataT.idReferencial,
+                                    nameTipoTicket: dataT.nameTipoTicket,
+                                    idTula: dataT.idTula
+                                }
 
-                //console.log(idTipoEntrada)
-                /*
-                document.getElementById('inputBuscarTula').removeAttribute('disabled');
-                document.getElementById('peso').value = 3;
+                                 */
 
-                 */
+                                document.getElementById('pesoEntrada').value = peso;
+                                document.getElementById('idReferencialEntrada').value = idReferencial;
+                                document.getElementById('colorEntrada').value = nameColor;
+                                document.getElementById('tipoTicketEntrada').value = nameTipoTicket;
+                                document.getElementById('idTulaEntrada').value = idTula;
 
+
+                            }
+                        })
+
+
+                document.getElementById('pesoEntrada').value = "";
+                document.getElementById('idReferencialEntrada').value = "";
+                document.getElementById('colorEntrada').value = "";
+                document.getElementById('tipoTicketEntrada').value = "";
+                document.getElementById('idTulaEntrada').value = "";
             }
-            //console.log(idTipoEntrada);
-
         })
-
-
-        //const query= pool.query(query, [idTipoEntrada]);
-
-
-        /*
-                const colorInput = document.getElementById('color-input');
-                const colorListContainer = document.getElementById('color-list-container');
-
-
-                colorInput.addEventListener('change', function() {
-                    //console.log(colorInput);
-                    const selectedColor = colorInput.value;
-
-                    if (selectedColor) {
-                        const selectedOption = colorInput.options[colorInput.selectedIndex];
-                        const selectedName = selectedOption.getAttribute('name');
-                        console.log(selectedName)
-                        const listItem = document.createElement('div');
-                        listItem.className = 'color-item';
-                        const colorText = document.createElement('span');
-                        colorText.name= 'color';
-                        colorText.className = 'color-text form-control';
-                        colorText.innerText = selectedName;
-                        //colorText.setAttribute('data-text', selectedName);
-
-                        const closeButton = document.createElement('span');
-                        closeButton.className = 'close-button bi bi-x-lg';
-                        listItem.appendChild(colorText);
-                        listItem.appendChild(closeButton);
-                        colorListContainer.appendChild(listItem);
-                        colorInput.value = '';
-                    }
-                });
-
-                // Event delegation para el botón de eliminación
-                colorListContainer.addEventListener('click', function(event) {
-                    if (event.target.classList.contains('close-button')) {
-                        event.stopPropagation(); // Detener la propagación del evento
-                        const listItem = event.target.parentNode;
-                        listItem.parentNode.removeChild(listItem);
-                    }
-                });
-
-         */
-
-
-
-
 
     });
 </script>

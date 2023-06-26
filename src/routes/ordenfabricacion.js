@@ -444,22 +444,40 @@ router.post('/agregarEntradaTula', isLoggedIn, async (req, res)=>{
 } )
 
 
-router.post("/tipo-entrada", isLoggedIn, async (req, res)=>{
-    let idTipoEntrada= req.body.idTipoEntrada;
+router.post("/tipo-entrada", isLoggedIn, async (req, res) => {
+    let idTipoEntrada = req.body.idTipoEntrada;
     //Tomo el id de tipo de entrada porque es el mismo de la tula (1) y por alguna extraña razon
     //No quiere tomar el id de la Tula o quizas porque aún no hago ejercisios con las tulas
-    try{
-
+    try {
         const llamarTula = await pool.query('select * from datosTulaEntrada where idTula=?', [idTipoEntrada]);
-        if (llamarTula.length>0){
+        if (llamarTula.length > 0) {
             res.json({llamarTula: llamarTula[0]});
-        }else{
-            res.json({llamarTula:null})
+        } else {
+            res.json({llamarTula: null})
         }
-    }catch (error){
+    } catch (error) {
         console.log("Error al consultar la bbdd")
         res.status(500).json({error: "Error al consultar la base de datos"})
     }
+
+});
+router.post("/entrada-provicional", isLoggedIn, async (req, res) => {
+    //let idTipoEntrada = req.body.idTipoEntrada;
+    let idEntrada = req.body.idEntrada;
+    //res.json("Ok")
+    try {
+        const entradaP = await pool.query('select * from datosTulaEntrada where idReferencial=?', [idEntrada]);
+        //console.log(entradaP);
+        if (entradaP.length > 0) {
+            res.json({entradaP: entradaP[0]});
+        } else {
+            res.json({entradaP: null})
+        }
+    } catch (error) {
+        console.log("Error al consultar la bbdd")
+        res.status(500).json({error: "Error al consultar la base de datos"})
+    }
+
 
 });
 
