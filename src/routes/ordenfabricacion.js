@@ -299,6 +299,7 @@ router.get('/detallesofoperador/:id',  isLoggedIn, permissions,async (req, res) 
     const HorasOperadoresOf= await pool.query("select * from horasOperadoresCalcular where idOrden=? and idUsuario=? ;", [ordenid,userId]);
     const tiempoOperador= await pool.query("select sec_to_time(sum(time_to_sec(TiempoTrabajado))) as Hora from horasOperadoresCalcular where idUsuario=? and idOrden=?;", [userId, ordenid]);
     //Desde aqui los cambios de las tulas en esta ruta
+    const tipoTicket= await pool.query('select * from tipoTicket');
     const colors= await pool.query("select * from color");
     const datosTulaEntrada= await pool.query('select * from dataTulaEntrada where idOrdenFabricacion=?;', [ordenid]);
     const datosSalida= await pool.query('select * from datosSalida where idOrdenFabricacion=?', [ordenid]);
@@ -322,7 +323,8 @@ router.get('/detallesofoperador/:id',  isLoggedIn, permissions,async (req, res) 
         colors,
         datosTulaEntrada,
         datosSalida: datosSalida[0],
-        DataSalida
+        DataSalida,
+        tipoTicket
 
     })
 
@@ -461,7 +463,8 @@ router.post("/tipo-entrada", isLoggedIn, async (req, res) => {
     }
 
 });
-router.post("/entrada-provicional", isLoggedIn, async (req, res) => {
+router.post("/entrada-referencial", isLoggedIn, async (req, res) => {
+    console.log(req.body);
     //let idTipoEntrada = req.body.idTipoEntrada;
     let idEntrada = req.body.idEntrada;
     //res.json("Ok")
