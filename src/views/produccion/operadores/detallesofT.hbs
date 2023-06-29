@@ -290,49 +290,50 @@
 
                             </div>
                             <div class="" id="div-ocultar" style="display: none">
-                            <div class="row checks" id="checksTipoEntrada" style="display: none">
-                                <div class="col">
-                                    <input class="form-check-input radioCheck" type="radio" name="flexRadioDefault"
-                                           id="checkReferencial" checked>
-                                    <label class="form-check-label" for="checkReferencial">
-                                        Id Referencial
-                                    </label>
-                                </div>
-                                <div class="col">
-                                    <input class="form-check-input radioCheck" type="radio" name="flexRadioDefault"
-                                           id="checkTula">
-                                    <label class="form-check-label " for="checkTula">
-                                        Id Tula
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="row" id="">
-                                <div class="col">
-                                    <label for="tipoTicket">Tipo de Ticket</label>
-                                    <select class="form-control" name="tipoTicket" id="tipoTicket">
-                                        <option disabled selected value="">Escoge el tipo del ticket</option>
-                                        {{#each tipoTicket}}
-                                            <option value="{{idTipoTicket}}">{{nameTipoTicket}}</option>
-                                        {{/each}}
-                                    </select>
-                                </div>
-                                <div class="col">
-                                    <label for="idTipoPara" class="form-label">Buscar Id</label>
-                                    <input id="inputBuscarTula" type="number" class="form-control" disabled>
-                                    <div class="invalid-feedback">
-                                        Ingresa el Nr de la Tula
+                                <div class="row checks" id="checksTipoEntrada" style="display: none">
+                                    <div class="col">
+                                        <input class="form-check-input radioCheck" type="radio" name="flexRadioDefault"
+                                               id="checkReferencial" checked>
+                                        <label class="form-check-label" for="checkReferencial">
+                                            Id Referencial
+                                        </label>
                                     </div>
-                                    <div id="noHayTula" style="text-align: center; display: none">
+                                    <div class="col">
+                                        <input class="form-check-input radioCheck" type="radio" name="flexRadioDefault"
+                                               id="checkTula">
+                                        <label class="form-check-label " for="checkTula">
+                                            Id Tula
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="row" id="">
+                                    <div class="col">
+                                        <label for="tipoTicket" class="form-label">Tipo de Ticket</label>
+                                        <select class="form-control" name="tipoTicket" id="tipoTicketBuscar">
+                                            <option disabled selected value="">Escoge el tipo del ticket</option>
+                                            {{#each tipoTicket}}
+                                                <option value="{{idTipoTicket}}">{{nameTipoTicket}}</option>
+                                            {{/each}}
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <label for="idTipoPara" class="form-label">Buscar Id</label>
+                                        <input id="inputBuscarTula" type="number" class="form-control" disabled>
+                                        <div class="invalid-feedback">
+                                            Ingresa el Nr de la Tula
+                                        </div>
+
+                                    </div>
+                                    <div id="noHayTula" style="text-align: center; display: none; padding-top: 5px">
                                         <span style="color: #ff0000">No hay datos de la tula, intenta con otro id</span>
                                     </div>
-                                </div>
 
-                            </div>
-                            <div class="row">
-                                <div class="col" style="text-align: center; padding: 15px">
-                                    <a class="btn btn-info" id="buscarTula">Buscar Tula</a>
                                 </div>
-                            </div>
+                                <div class="row">
+                                    <div class="col" style="text-align: center; padding: 15px">
+                                        <a class="btn btn-info" id="buscarTula">Buscar Tula</a>
+                                    </div>
+                                </div>
                             </div>
                             <div class="row ">
                                 <div class="col">
@@ -342,7 +343,7 @@
                                 <div class="col">
                                     <label for="idReferencial" class="form-label">Id
                                         Referencial</label>
-                                    <input class="form-control" name="idReferencial" type="text" value=""
+                                    <input class="form-control" name="idReferencialEntrada" type="number" value=""
                                            id="idReferencialEntrada" readonly required>
                                 </div>
                             </div>
@@ -369,7 +370,8 @@
                         <div class="container">
                             <div class="row">
                                 <div class="col" style="text-align: center; margin-top: 10px ">
-                                    <button id="addEntrada" type="submit" class="btn btn-success" disabled>Enviar</button>
+                                    <button id="addEntrada" type="submit" class="btn btn-success" disabled>Enviar
+                                    </button>
                                 </div>
 
                             </div>
@@ -411,68 +413,77 @@
                                     <input type="text" value="{{datosof.nameTipoTicket}}"
                                            class="form-control" readonly required>
                                 </div>
+
                             </div>
                             <div class="row g-2 mb-3">
                                 <div class="col-md">
-                                    <label for="horaInicio" class="form-label">Id Referencial</label>
-                                    <input type="text" value="" name="idReferencial"
-                                           class="form-control" required>
+                                    <label for="idReferencial" class="form-label">Id Referencial</label>
+                                    <input type="text" value="" name="idReferencial" id="idReferencial"
+                                           class="form-control" required autocomplete="off">
                                     <div class="invalid-feedback">
                                         Ingrese por favor el id Fisico de la tula.
                                     </div>
                                 </div>
                                 <div class="col-md">
                                     <label for="horaFinal" class="form-label">Ticket</label>
-                                    <input type="text" value="{{datosof.nameTipoTicket}}"
-                                           class="form-control" readonly required>
+                                    <input type="text" id="{{datosof.idTipoTicket}}" value="{{datosof.nameTipoTicket}}"
+                                           class="form-control idTipoTicketSalida" readonly required>
 
                                 </div>
-                                <div class="row g-2 mb-3">
-                                    <div class="col-md">
-                                        <label for="horaInicio" class="form-label">Material</label>
-                                        <input type="text" value="{{datosof.nameMaterial}}"
-                                               required class="form-control" readonly>
-                                    </div>
+                                <div id="idRefExiste" style="text-align: center; padding-top: 5px; display: none">
+                                    <span style="color: #ff0000">Esta tula ya existe, por favor ingresa otro idReferencial</span>
 
                                 </div>
+                                <div id="idRefNoExiste" style="text-align: center; padding-top: 5px; display: none">
+                                    <span style="color: #19b684">idReferencial disponible</span>
+
+                                </div>
+
+                            </div>
+                            <div class="row g-2 mb-3">
                                 <div class="col-md">
-                                    <label for="color-input">Color (es)</label>
-                                    <select name="idColor" id="idColor" class="form-control" required>
-                                        <option selected disabled value>Escoge los colores</option>
-                                        {{#each colors}}
-                                            <option value="{{idColor}}" name="{{nameColor}}"
-                                            <!--style="background: {{codigoStilo}}-->;"; ">{{nameColor}}</option>
-                                        {{/each}}
-                                    </select>
-                                    <div class="invalid-feedback">
-                                        Ingrese por favor el color del material.
-                                    </div>
-
+                                    <label for="horaInicio" class="form-label">Material</label>
+                                    <input type="text" value="{{datosof.nameMaterial}}"
+                                           required class="form-control" readonly>
                                 </div>
 
                             </div>
-
-
-                            <div class="inputs-hidden">
-                                <input type="hidden" value="{{datosSalida.idOrdenFabricacion}}"
-                                       name="idOrdenFabricacion">
-                                <input type="hidden" value="{{datosSalida.idProceso}}" name="idProceso">
-                                <input type="hidden" value="{{datosSalida.idMaterial}}" name="idMaterial">
-                                <input type="hidden" value="{{datosSalida.idTipoMaterial}}" name="idTipoMaterial">
-                                <input type="hidden" value="{{datosSalida.idTipoTicket}}" name="idTipoTicket">
+                            <div class="col-md">
+                                <label for="color-input">Color</label>
+                                <select name="idColor" id="idColor" class="form-control" required>
+                                    <option selected disabled value>Escoge los colores</option>
+                                    {{#each colors}}
+                                        <option value="{{idColor}}" name="{{nameColor}}">{{nameColor}}</option>
+                                    {{/each}}
+                                </select>
+                                <div class="invalid-feedback">
+                                    Ingrese por favor el color del material.
+                                </div>
                             </div>
-                            <div class="form-group boton-send">
-                                <input type="submit" class="btn btn-success btn-block" id="">
+                            <div class="col-md" style="padding-top: 10px">
+                                <input type="submit" class="btn btn-success btn-block" id="enviarSalida">
                             </div>
                         </div>
 
+                        <div class="inputs-hidden">
+                            <input type="hidden" value="{{datosSalida.idOrdenFabricacion}}"
+                                   name="idOrdenFabricacion">
+                            <input type="hidden" value="{{datosSalida.idProceso}}" name="idProceso">
+                            <input type="hidden" value="{{datosSalida.idMaterial}}" name="idMaterial">
+                            <input type="hidden" value="{{datosSalida.idTipoMaterial}}" name="idTipoMaterial">
+                            <input type="hidden" value="{{datosSalida.idTipoTicket}}" name="idTipoTicket" id="idTipoTicket">
+                        </div>
 
-                    </form>
                 </div>
-            </div>
 
+
+
+                </form>
+            </div>
         </div>
+
     </div>
+</div>
 
 
 </div>
@@ -742,27 +753,33 @@
     document.addEventListener('DOMContentLoaded', () => {
         const selectTipoEntrada = document.getElementById('selectTE');
         selectTipoEntrada.addEventListener('change', function () {
+            //Datos para entrada
             let idTula = document.getElementById('idTula');
             let idTipoEntrada;
             const checks = document.getElementById('checksTipoEntrada');
             const inputBuscarTula = document.getElementById('inputBuscarTula');
             const checkTula = document.getElementById('checkTula');
             const checkReferencial = document.getElementById('checkReferencial');
-            const divOcultar= document.getElementById('div-ocultar');
-            const buscarTula= document.getElementById('buscarTula');
-            const addEntrada= document.getElementById('addEntrada');
-            const noHayTula= document.getElementById('noHayTula');
+            const divOcultar = document.getElementById('div-ocultar');
+            const buscarTula = document.getElementById('buscarTula');
+            const addEntrada = document.getElementById('addEntrada');
+            const noHayTula = document.getElementById('noHayTula');
+            const tipoTicket = document.getElementById('tipoTicketBuscar');
+            const pesoEntrada = document.getElementById('pesoEntrada')
+            const idReferencialEntrada = document.getElementById('idReferencialEntrada')
+            const colorEntrada = document.getElementById('colorEntrada')
+            const tipoTicketEntrada = document.getElementById('tipoTicketEntrada')
+            const idTulaEntrada = document.getElementById('idTulaEntrada')
 
             if (this.value == 1) {
                 inputBuscarTula.setAttribute('disabled', "");
                 inputBuscarTula.removeAttribute('required', "");
                 checkTula.removeAttribute('required', "");
                 checkReferencial.removeAttribute('required', "");
-                divOcultar.style.display='none';
+                divOcultar.style.display = 'none';
                 addEntrada.removeAttribute('disabled', '')
                 //checks.style.display = "none";
                 idTipoEntrada = this.value;
-
                 fetch('/tipo-entrada', {
                     method: 'POST',
                     headers: {
@@ -770,7 +787,6 @@
                     },
                     body: JSON.stringify({idTipoEntrada: idTipoEntrada})
                 })
-
                         .then(response => response.json())
                         .then(data => {
                             if (data) {
@@ -792,18 +808,23 @@
                                     nameTipoTicket: dataT.nameTipoTicket,
                                     idTula: dataT.idTula
                                 }
-
-                                document.getElementById('pesoEntrada').value = peso;
-                                document.getElementById('idReferencialEntrada').value = idReferencial;
-                                document.getElementById('colorEntrada').value = nameColor;
-                                document.getElementById('tipoTicketEntrada').value = nameTipoTicket;
-                                document.getElementById('idTulaEntrada').value = idTula;
-
-
+                                pesoEntrada.value = peso;
+                                idReferencialEntrada.value = idReferencial;
+                                colorEntrada.value = nameColor;
+                                tipoTicketEntrada.value = nameTipoTicket;
+                                idTulaEntrada.value = idTula;
                             }
                         })
-
-            } else if (this.value == 2) {
+            } else if (this.value == 2 || this.value==3) {
+                //Eliminar datos de los inputs
+                addEntrada.setAttribute('disabled', '')
+                noHayTula.style.removeProperty('display', '')
+                pesoEntrada.value = "";
+                idReferencialEntrada.value = "";
+                colorEntrada.value = "";
+                tipoTicketEntrada.value = "";
+                idTulaEntrada.value = "";
+                //Mostrar botones adicionales
                 inputBuscarTula.removeAttribute('disabled', "");
                 inputBuscarTula.setAttribute('required', "");
                 checks.style.removeProperty('display', "");
@@ -811,21 +832,24 @@
                 checkReferencial.setAttribute('required', "");
                 divOcultar.style.removeProperty('display', "");
                 idTipoEntrada = this.value;
-                buscarTula.addEventListener('click', function(){
+                buscarTula.addEventListener('click', function () {
                     let idEntrada = inputBuscarTula.value;
+                    let tipoTicketBuscar = tipoTicket.value;
+                    //console.log(idEntrada);
+                    //console.log(tipoTicketBuscar);
                     fetch('/entrada-referencial', {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json'
                         },
-                        body: JSON.stringify({idEntrada: idEntrada})
+                        body: JSON.stringify({idEntrada: idEntrada, tipoTicketBuscar: tipoTicketBuscar})
                     })
                             .then(response => response.json())
                             .then(data => {
                                 if (data) {
                                     let dataT = data.entradaP;
-                                    if (dataT!=null){
-                                        noHayTula.style.display="none";
+                                    if (dataT != null) {
+                                        noHayTula.style.display = "none";
                                         addEntrada.removeAttribute('disabled', '');
                                         const {
                                             idTula,
@@ -844,134 +868,64 @@
                                             nameTipoTicket: dataT.nameTipoTicket,
                                             idTula: dataT.idTula
                                         }
-                                        document.getElementById('pesoEntrada').value = peso;
-                                        document.getElementById('idReferencialEntrada').value = idReferencial;
-                                        document.getElementById('colorEntrada').value = nameColor;
-                                        document.getElementById('tipoTicketEntrada').value = nameTipoTicket;
-                                        document.getElementById('idTulaEntrada').value = idTula;
-                                    }else {
-                                        console.log("No hya plata")
-                                        addEntrada.setAttribute('disabled', '');
-                                        noHayTula.style.removeProperty("display", "")
+                                        pesoEntrada.value = peso;
+                                        idReferencialEntrada.value = idReferencial;
+                                        colorEntrada.value = nameColor;
+                                        tipoTicketEntrada.value = nameTipoTicket;
+                                        idTulaEntrada.value = idTula;
+                                    } else {
+                                        //console.log("No hya plata")
+                                        addEntrada.setAttribute('disabled', '')
+                                        noHayTula.style.removeProperty('display', '')
+                                        pesoEntrada.value = "";
+                                        idReferencialEntrada.value = "";
+                                        colorEntrada.value = "";
+                                        tipoTicketEntrada.value = "";
+                                        idTulaEntrada.value = "";
                                     }
                                 }
                             })
-
-
-
-
-
-
-
                 })
-
-                //console.log(idTula);
-                /*
-                fetch('/entrada-referencia', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({idTipoEntrada: idTipoEntrada})
-                })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data) {
-                                /*
-                                let dataT = data.llamarTula;
-                                const {
-                                    idTula,
-                                    nameColor,
-                                    nameProceso,
-                                    Material,
-                                    TipoMaterial,
-                                    nameTipoTicket,
-                                    idReferencial,
-                                    peso
-                                } = dataT;
-                                const dataTula = {
-                                    peso: dataT.peso,
-                                    nameColor: dataT.nameColor,
-                                    idReferencial: dataT.idReferencial,
-                                    nameTipoTicket: dataT.nameTipoTicket,
-                                    idTula: dataT.idTula
-                                }
-
-
-                                document.getElementById('pesoEntrada').value = peso;
-                                document.getElementById('idReferencialEntrada').value = idReferencial;
-                                document.getElementById('colorEntrada').value = nameColor;
-                                document.getElementById('tipoTicketEntrada').value = nameTipoTicket;
-                                document.getElementById('idTulaEntrada').value = idTula;
-
-
-                            }
-                        })
-
-        */
-
-            } else {
-
-                idTipoEntrada = this.value;
-                console.log(idTipoEntrada);
-                inputBuscarTula.removeAttribute('disabled', "");
-                inputBuscarTula.setAttribute('required', "");
-                checks.style.removeProperty('display', "");
-                checkReferencial.setAttribute('required', "");
-                divOcultar.style.removeProperty('display', "");
-
-                fetch('/tipo-entrada', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({idTipoEntrada: idTipoEntrada})
-                })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data) {
-                                /*
-                                let dataT = data.llamarTula;
-                                const {
-                                    idTula,
-                                    nameColor,
-                                    nameProceso,
-                                    Material,
-                                    TipoMaterial,
-                                    nameTipoTicket,
-                                    idReferencial,
-                                    peso
-                                } = dataT;
-                                const dataTula = {
-                                    peso: dataT.peso,
-                                    nameColor: dataT.nameColor,
-                                    idReferencial: dataT.idReferencial,
-                                    nameTipoTicket: dataT.nameTipoTicket,
-                                    idTula: dataT.idTula
-                                }
-
-                                 */
-
-                                document.getElementById('pesoEntrada').value = peso;
-                                document.getElementById('idReferencialEntrada').value = idReferencial;
-                                document.getElementById('colorEntrada').value = nameColor;
-                                document.getElementById('tipoTicketEntrada').value = nameTipoTicket;
-                                document.getElementById('idTulaEntrada').value = idTula;
-
-
-                            }else {
-
-                            }
-                        })
-
-
-                document.getElementById('pesoEntrada').value = "";
-                document.getElementById('idReferencialEntrada').value = "";
-                document.getElementById('colorEntrada').value = "";
-                document.getElementById('tipoTicketEntrada').value = "";
-                document.getElementById('idTulaEntrada').value = "";
             }
         })
+        const idTipoTicketSalida = document.getElementById('idTipoTicket');
+        const idReferencialSalida = document.getElementById('idReferencial');
+        idReferencialSalida.addEventListener('input', function () {
+            let idReferencialS = this.value;
+            let idTipoTicketS = idTipoTicketSalida.value;
+            console.log(idReferencialS, idTipoTicketS);
+            //console.log(idReferencial);
+            let divRef= document.getElementById('idRefExiste');
+            let divRefN= document.getElementById('idRefNoExiste');
+            let enviarSalida= document.getElementById('enviarSalida');
+            fetch('/salida-referencial', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({idReferencialS: idReferencialS, idTipoTicketS: idTipoTicketS})
+            })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data) {
+                            let dataT = data.salidaP;
+                            if (dataT != null) {
+                                divRef.style.removeProperty('display', "");
+                                divRefN.style.setProperty('display', "none");
+                                enviarSalida.setAttribute('disabled', '')
+
+                            } else {
+                                divRef.style.setProperty('display', "none");
+                                divRefN.style.removeProperty('display', "none");
+                                enviarSalida.removeAttribute('disabled', '')
+
+                            }
+                        }
+                    })
+
+
+        });
+        //console.log(idReferencialSalida);
 
     });
 </script>

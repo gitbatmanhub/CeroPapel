@@ -464,12 +464,12 @@ router.post("/tipo-entrada", isLoggedIn, async (req, res) => {
 
 });
 router.post("/entrada-referencial", isLoggedIn, async (req, res) => {
-    console.log(req.body);
     //let idTipoEntrada = req.body.idTipoEntrada;
     let idEntrada = req.body.idEntrada;
+    let tipoTickeBuscar = req.body.tipoTicketBuscar;
     //res.json("Ok")
     try {
-        const entradaP = await pool.query('select * from datosTulaEntrada where idReferencial=?', [idEntrada]);
+        const entradaP = await pool.query('select * from datosTulaEntrada where idReferencial=? and idTipoTicket=?', [idEntrada, tipoTickeBuscar]);
         //console.log(entradaP);
         if (entradaP.length > 0) {
             res.json({entradaP: entradaP[0]});
@@ -483,6 +483,30 @@ router.post("/entrada-referencial", isLoggedIn, async (req, res) => {
 
 
 });
+
+router.post("/salida-referencial", isLoggedIn, async (req, res) => {
+    //let idTipoEntrada = req.body.idTipoEntrada;
+
+    let idReferencialS = req.body.idReferencialS;
+    let idTipoTicketS = req.body.idTipoTicketS;
+    //res.json("Ok")
+    try {
+        const salidaP = await pool.query('select * from tula where idReferencial=? and idTipoTicket=?', [idReferencialS, idTipoTicketS]);
+        //console.log(entradaP);
+        if (salidaP.length > 0) {
+            res.json({salidaP: salidaP[0]});
+        } else {
+            res.json({salidaP: null})
+        }
+    } catch (error) {
+        console.log("Error al consultar la bbdd")
+        res.status(500).json({error: "Error al consultar la base de datos"})
+    }
+
+
+});
+
+
 
 
 
