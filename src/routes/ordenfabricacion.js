@@ -3,6 +3,7 @@ const router = express.Router();
 
 const pool = require('../database');
 const {isLoggedIn, permissions, operador, digitador} = require('../lib/auth');
+const {el, tr} = require("timeago.js/lib/lang");
 //const constants = require("constants");
 //const {el} = require("timeago.js/lib/lang");
 //const {NEWDATE} = require("mysql/lib/protocol/constants/types");
@@ -19,13 +20,14 @@ const {isLoggedIn, permissions, operador, digitador} = require('../lib/auth');
 router.get('/agregarof', isLoggedIn, operador, async (req, res) => {
     const maquinarias = await pool.query('select * from maquinaria');
     const material = await pool.query('select * from material');
-    res.render('produccion/addordenfabricacion', {maquinarias, material})
+    const proceso = await pool.query('select * from proceso');
+    res.render('produccion/addordenfabricacion', {maquinarias, material, proceso})
 });
 
 
 router.post('/agregarof', isLoggedIn, operador, async (req, res) => {
 
-    const {idMaquinaria, idMaterial} = req.body;
+    const {idMaquinaria, idMaterial, idProceso} = req.body;
     let fecha = new Date();
     let hora = fecha.getHours();
     if (hora >= 7 && hora < 19) {
@@ -33,7 +35,8 @@ router.post('/agregarof', isLoggedIn, operador, async (req, res) => {
             idMaquinaria,
             idMaterial,
             idUser: req.user.iduser,
-            idTurno: 1
+            idTurno: 1,
+            idProceso
         }
         await pool.query("SET time_zone = '-05:00'");
         await pool.query('INSERT INTO ordenFabricacion set ? ', [ordenfabricacion]);
@@ -42,7 +45,8 @@ router.post('/agregarof', isLoggedIn, operador, async (req, res) => {
             idMaquinaria,
             idMaterial,
             idUser: req.user.iduser,
-            idTurno: 2
+            idTurno: 2,
+            idProceso
         }
         await pool.query("SET time_zone = '-05:00'");
         await pool.query('INSERT INTO ordenFabricacion set ?', [ordenfabricacion]);
@@ -284,6 +288,7 @@ router.get('/detallesofoperador/:id',  isLoggedIn, permissions,async (req, res) 
     const userId = req.user.iduser;
     const ordenid = req.params.id;
     const datosof = await pool.query('select * from datosof where idOrdenFabricacion=?', [ordenid]);
+    const tipoMaterial = await pool.query('select * from tipoMaterial');
     const tipoPara = await pool.query('select * from tipoPara');
     const datosPara = await pool.query('select * from datosPara where idOrdenFabricacion=?', [ordenid]);
     const horasPara = await pool.query('select sec_to_time(sum(time_to_sec(horasPara))) as horasPara, idOrdenFabricacion from horasPara where idOrdenFabricacion=?', [ordenid])
@@ -292,9 +297,14 @@ router.get('/detallesofoperador/:id',  isLoggedIn, permissions,async (req, res) 
     const userOrden = await pool.query('select * from operador where idOrdenFabricacion=? and idUsuario=? order by create_at desc limit 1;', [ordenid, userId]);
     const ayudantesOrden = await pool.query('select idUsuario, idtipoOperador, idTipoMarca, u.fullname from operador inner join usuario u on operador.idUsuario=u.iduser where idtipoOperador=2 and idOrdenFabricacion=? and idTipoMarca=1 group by idUsuario;', [ordenid]);
     const HorasOperadoresOf= await pool.query("select * from horasOperadoresCalcular where idOrden=? and idUsuario=? ;", [ordenid,userId]);
-    const tiempoOperador= await pool.query("select sec_to_time(sum(time_to_sec(TiempoTrabajado))) as Hora from horasOperadoresCalcular where idUsuario=? and idOrden=?;", [userId, ordenid])
-    //console.log(tiempoOperador[0].Hora);
-    console.log(datosof);
+    const tiempoOperador= await pool.query("select sec_to_time(sum(time_to_sec(TiempoTrabajado))) as Hora from horasOperadoresCalcular where idUsuario=? and idOrden=?;", [userId, ordenid]);
+    //Desde aqui los cambios de las tulas en esta ruta
+    const tipoTicket= await pool.query('select * from tipoTicket');
+    const colors= await pool.query("select * from color");
+    const datosTulaEntrada= await pool.query('select * from dataTulaEntrada where idOrdenFabricacion=?;', [ordenid]);
+    const datosSalida= await pool.query('select * from datosSalida where idOrdenFabricacion=?', [ordenid]);
+    const DataSalida= await pool.query('select * from DataSalida where idOrdenFabricacion=? order by create_at', [ordenid]);
+    const materialesOrden= await pool.query('select idMaterial, material from dataTulaEntrada where idOrdenFabricacion=? group by material;', [ordenid]);
     res.render('produccion/operadores/detallesofT', {
         datosof: datosof[0],
         tipoPara,
@@ -305,8 +315,14 @@ router.get('/detallesofoperador/:id',  isLoggedIn, permissions,async (req, res) 
         userOrden: userOrden[0],
         ayudantesOrden,
         HorasOperadoresOf,
-        tiempoOperador: tiempoOperador[0].Hora
-
+        tiempoOperador: tiempoOperador[0].Hora,
+        tipoMaterial,
+        colors,
+        datosTulaEntrada,
+        datosSalida: datosSalida[0],
+        DataSalida,
+        tipoTicket,
+        materialesOrden
     })
 
 });
@@ -382,6 +398,7 @@ router.post('/buscarData', isLoggedIn, digitador, async(req, res)=>{
     const reporteParass = [];
 
     for (let i = 0; i < idParas.length; i++) {
+    for (let i = 0; i < idParas.length; i++) {
         const idOrden = idParas[i].idOrdenFabricacion;
         const horasParas = await pool.query('SELECT sec_to_time(sum(time_to_sec(horasPara))) as horasPara, idOrdenFabricacion FROM horasPara WHERE idOrdenFabricacion=?;', [idOrden]);
         reporteParass.push(horasParas[0]);
@@ -391,39 +408,105 @@ router.post('/buscarData', isLoggedIn, digitador, async(req, res)=>{
     //console.log(esteban.length);
     res.render('produccion/reportesfechas', {reportePrincipal, reporteAyudantes,reporteParas, reporteParass})
     //console.log(reporteParass)
+}});
+router.post('/vinotinto', isLoggedIn, async (req, res)=>{
+    console.log(req.body);
+    res.redirect('/detallesofoperador/212')
+})
+
+
+router.post('/agregarEntradaTula', isLoggedIn, async (req, res)=>{
+    const data= req.body;
+    const {idOrdenFabricacion, idTulaEntrada}=req.body;
+    //console.log(idTulaEntrada, idOrdenFabricacion);
+    const dataTulaEntrada={
+        idTula: idTulaEntrada,
+        idOrdenFabricacion
+    }
+    //console.log(dataTulaEntrada);
+    try{
+        const entradasCantidades= await pool.query('select * from dataTulaEntrada where idTula=? and idOrdenFabricacion=?', [idTulaEntrada, idOrdenFabricacion]);
+        if (entradasCantidades.length>=1){
+            req.flash('success', 'La tula ya se encuntra utilizandose');
+        }else {
+            await pool.query('insert into entradaTula set ?', [dataTulaEntrada])
+            req.flash('success', 'Tula de entrada agregada correctamente');
+
+        }
+        //console.log(entradasCantidades.length);
+    }catch (error) {
+        console.log("Ha ocurrido un error, intentalo de nuevo");
+        res.status(500).json({error:"Error al insertar el dato en la base de datos"});
+
+    }
+    res.redirect('/detallesofoperador/'+ idOrdenFabricacion);
 } )
 
-/* router.post('/buscarData', isLoggedIn, digitador, async (req, res) => {
+
+router.post("/tipo-entrada", isLoggedIn, async (req, res) => {
+    let idTipoEntrada = req.body.idTipoEntrada;
+    //Tomo el id de tipo de entrada porque es el mismo de la tula (1) y por alguna extraña razon
+    //No quiere tomar el id de la Tula o quizas porque aún no hago ejercisios con las tulas
     try {
-        const { fecha1, fecha2 } = req.body;
-        await pool.query("SET time_zone = '-05:00'");
-
-        const [
-            reportePrincipal,
-            reporteAyudantes,
-            reporteParas,
-            idParas
-        ] = await Promise.all([
-            pool.query('SELECT * FROM dataOperadores WHERE FechaCompleta BETWEEN ? AND ? GROUP BY IdOrden;', [fecha1, fecha2]),
-            pool.query('SELECT Fecha, idOrden, idUsuario, fullname, nameTipoOperador, HoraEntrada, HoraSalida, TiempoTrabajado, nameTurno, nameMaquinaria, nameMaterial, HoraCompleta FROM horasOperadoresCalcular WHERE HoraCompleta BETWEEN ? AND ? AND idTipoOperador = 2;', [fecha1, fecha2]),
-            pool.query('SELECT * FROM datosPara WHERE FechaCompleta BETWEEN ? AND ?;', [fecha1, fecha2]),
-            pool.query('SELECT idOrdenFabricacion FROM datosPara WHERE FechaCompleta BETWEEN ? AND ? GROUP BY idOrdenFabricacion;', [fecha1, fecha2])
-        ]);
-
-        const reporteParass = await Promise.all(idParas.map(async (idPara) => {
-            const { idOrdenFabricacion } = idPara;
-            const [horasParas] = await pool.query('SELECT SEC_TO_TIME(SUM(TIME_TO_SEC(horasPara))) AS horasPara, idOrdenFabricacion FROM horasPara WHERE idOrdenFabricacion = ?;', [idOrdenFabricacion]);
-            return horasParas;
-        }));
-
-        res.render('produccion/reportesfechas', { reportePrincipal, reporteAyudantes, reporteParas, reporteParass });
+        const llamarTula = await pool.query('select * from datosTulaEntrada where idTula=?', [idTipoEntrada]);
+        if (llamarTula.length > 0) {
+            res.json({llamarTula: llamarTula[0]});
+        } else {
+            res.json({llamarTula: null})
+        }
     } catch (error) {
-        console.error(error);
-        res.status(500).send('Error en el servidor');
+        console.log("Error al consultar la bbdd")
+        res.status(500).json({error: "Error al consultar la base de datos"})
     }
+
+});
+router.post("/entrada-referencial", isLoggedIn, async (req, res) => {
+    //let idTipoEntrada = req.body.idTipoEntrada;
+    let idEntrada = req.body.idEntrada;
+    let tipoTickeBuscar = req.body.tipoTicketBuscar;
+    //res.json("Ok")
+    try {
+        const entradaP = await pool.query('select * from datosTulaEntrada where idReferencial=? and idTipoTicket=?', [idEntrada, tipoTickeBuscar]);
+        //console.log(entradaP);
+        if (entradaP.length > 0) {
+            res.json({entradaP: entradaP[0]});
+        } else {
+            res.json({entradaP: null})
+        }
+    } catch (error) {
+        console.log("Error al consultar la bbdd")
+        res.status(500).json({error: "Error al consultar la base de datos"})
+    }
+
+
 });
 
- */
+router.post("/salida-referencial", isLoggedIn, async (req, res) => {
+    //let idTipoEntrada = req.body.idTipoEntrada;
+
+    let idReferencialS = req.body.idReferencialS;
+    let idTipoTicketS = req.body.idTipoTicketS;
+    //res.json("Ok")
+    try {
+        const salidaP = await pool.query('select * from tula where idReferencial=? and idTipoTicket=?', [idReferencialS, idTipoTicketS]);
+        //console.log(entradaP);
+        if (salidaP.length > 0) {
+            res.json({salidaP: salidaP[0]});
+        } else {
+            res.json({salidaP: null})
+        }
+    } catch (error) {
+        console.log("Error al consultar la bbdd")
+        res.status(500).json({error: "Error al consultar la base de datos"})
+    }
+
+
+});
+
+
+
+
 
 
 module.exports = router;
+

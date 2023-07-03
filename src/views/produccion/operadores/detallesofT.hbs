@@ -8,8 +8,16 @@
     <div class="row g-2 mb-3">
 
         <div class="col-md">
+            <label for="Maquinaria" class="form-label">Proceso</label>
+            <input id="{{datosof.idProceso}}" name="proceso" type="text" value="{{datosof.nameProceso}}"
+                   class="form-control" readonly>
+
+        </div>
+
+        <div class="col-md">
             <label for="Maquinaria" class="form-label">Maquinaria</label>
-            <input id="{{datosof.idMaquinaria}}" name="Maquinaria" type="text" value="{{datosof.nameMaquinaria}}" class="form-control" readonly>
+            <input id="{{datosof.idMaquinaria}}" name="Maquinaria" type="text" value="{{datosof.nameMaquinaria}}"
+                   class="form-control" readonly>
 
         </div>
         <div class="col-md">
@@ -51,13 +59,20 @@
     <div class="container" style="text-align: center; padding-top:10px;">
         {{#when datosof.idstatus 'eq' 1 }}
             {{#when userOrden.idtipoOperador 'eq' 1 }}
-                <button class="btn btn-primary" data-bs-target="#paras" data-bs-toggle="modal">Agregar Paras</button>
-                <button class="btn btn-danger" data-bs-target="#kgMaterial" data-bs-toggle="modal">Cerrar Orden
+                <button class="btn btn-success" id="eeee" data-bs-target="#entrada" data-bs-toggle="modal">Agregar
+                    Entrada
                 </button>
+                <button class="btn btn-secondary" data-bs-target="#salida" data-bs-toggle="modal">Agregar Salida/Tula
+                </button>
+                <button class="btn btn-primary" data-bs-target="#devolucion" data-bs-toggle="modal">Agregar Devolución
+                </button>
+                <button class="btn btn-primary" data-bs-target="#paras" data-bs-toggle="modal">Agregar Paras</button>
+                <button class="btn btn-danger" data-bs-target="#kgMaterial" data-bs-toggle="modal">Cerrar Orden</button>
             {{else}}
                 {{#when userOrden.idTipoMarca 'eq' 1 }}
                     <form action="/salirof/{{datosof.idOrdenFabricacion}}" method="post">
                         <input type="hidden" value="{{userOrden.idtipoOperador}}" name="idtipoOperador">
+
                         <input type="hidden" value="2" name="idTipoMarca">
                         <button type="submit" class="btn btn-danger">Salir</button>
                     </form>
@@ -90,44 +105,84 @@
 
 </div>
 {{#when userOrden.idtipoOperador 'eq' 2 }}
+    <div class="container text-center">
+        <div class="row align-items-start">
+            <div class="col">
+                <h3>Horas Trabajadas</h3>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Inicio(Entrada)</th>
+                        <th scope="col">Fin(Salida)</th>
+                        <th scope="col">Tiempo Trabajado</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#each HorasOperadoresOf}}
+                        <tr>
+                            <td>{{HoraEntrada}}</td>
+                            <td>{{HoraSalida}}</td>
+                            <td>{{TiempoTrabajado}}</td>
+                        </tr>
+                    {{/each}}
+                    <tr>
+                        <td></td>
+                        <td>Total Horas</td>
+                        <td>{{tiempoOperador}}</td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+
+        </div>
+
+    </div>
+{{/when}}<br>
 <div class="container text-center">
     <div class="row align-items-start">
         <div class="col">
-            <h3>Horas Trabajadas</h3>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th scope="col">Inicio(Entrada)</th>
-                    <th scope="col">Fin(Salida)</th>
-                    <th scope="col">Tiempo Trabajado</th>
-                </tr>
-                </thead>
-                <tbody>
-                {{#each HorasOperadoresOf}}
+            <div class="container">
+                <h3>Entradas</h3>
+                <table class="table">
+                    <thead>
                     <tr>
-                        <td>{{HoraEntrada}}</td>
-                        <td>{{HoraSalida}}</td>
-                        <td>{{TiempoTrabajado}}</td>
-                    </tr>
-                {{/each}}
-                <tr>
-                    <td></td>
-                    <td>Total Horas</td>
-                    <td>{{tiempoOperador}}</td>
-                </tr>
 
-                </tbody>
-            </table>
+                        <th scope="col">idTula</th>
+                        <th scope="col">Id Referencial</th>
+                        <th scope="col">Color</th>
+                        <th scope="col">Material</th>
+                        <th scope="col">Tipo Material</th>
+                        <th scope="col">Peso</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#each datosTulaEntrada}}
+                        <tr>
+
+                            <td>{{idTula}}</td>
+                            <td>{{idReferencial}}</td>
+                            <td>{{nameColor}}</td>
+                            <td>{{material}}</td>
+                            <td>{{nameTipoMaterial}}</td>
+                            <td>{{peso}}</td>
+                        </tr>
+                    {{/each}}
+                    <tr>
+                        <td></td>
+
+
+                        <td></td>
+                        <td>Total Peso</td>
+                        <td>0</td>
+                    </tr>
+
+                    </tbody>
+                </table>
+            </div>
         </div>
 
-
-    </div>
-
-</div>
-{{/when}}
-<br>
-<div class="container text-center">
-    <div class="row align-items-start">
         <div class="col">
 
             <h3>Horas Para</h3>
@@ -163,14 +218,359 @@
                 </tbody>
             </table>
         </div>
+        <div class="col">
+            <div class="container">
+                <h3>Salidas</h3>
+                <table class="table">
+                    <thead>
+                    <tr>
+
+                        <th scope="col">idTula</th>
+                        <th scope="col">Peso</th>
+                        <th scope="col">idReferencial</th>
+                        <th scope="col">Proceso</th>
+                        <th scope="col">Material</th>
+                        <th scope="col">Color</th>
+                        <th scope="col">Tipo Material</th>
+                        <th scope="col">Ticket</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#each DataSalida}}
+                        <tr>
+
+                            <td>{{idTula}}</td>
+                            <td>{{peso}}</td>
+                            <td>{{idReferencial}}</td>
+                            <td>{{nameProceso}}</td>
+                            <td>{{Material}}</td>
+                            <td>{{nameColor}}</td>
+                            <td>{{nameMaterial}}</td>
+                            <td>{{nameTipoTicket}}</td>
+
+                        </tr>
+                    {{/each}}
 
 
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 
 </div>
 
 
+<div class="modal fade" id="entrada" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+     tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Agregar Entrada</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body">
+                    <form action="/agregarEntradaTula" class="needs-validation" novalidate method="post" id=""
+                          name="agregarof">
+                        <div class="container ">
+                            <div class="row ">
+                                <div class="col">
+                                    <label for="idTipoPara" class="form-label">Tipo Entrada</label>
+                                    <select name="idTipoEntrada" class="form-select" id="selectTE" required>
+                                        <option selected disabled value="">Selecciona el tipo de Entrada</option>
+                                        {{#each tipoMaterial}}
+                                            <option value="{{idTipoMaterial}}"
+                                                    name="{{idTipoMaterial}}">{{nameMaterial}}</option>
+                                        {{/each}}
+                                    </select>
+                                    <div class="invalid-feedback">
+                                        Selecciona el tipo de Entrada
+                                    </div>
+                                </div>
 
+
+                            </div>
+                            <div class="" id="div-ocultar" style="display: none">
+                                <div class="row checks" id="checksTipoEntrada" style="display: none">
+                                    <div class="col">
+                                        <input class="form-check-input radioCheck" type="radio" name="flexRadioDefault"
+                                               id="checkReferencial" checked>
+                                        <label class="form-check-label" for="checkReferencial">
+                                            Id Referencial
+                                        </label>
+                                    </div>
+                                    <div class="col">
+                                        <input class="form-check-input radioCheck" type="radio" name="flexRadioDefault"
+                                               id="checkTula">
+                                        <label class="form-check-label " for="checkTula">
+                                            Id Tula
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="row" id="">
+                                    <div class="col">
+                                        <label for="tipoTicket" class="form-label">Tipo de Ticket</label>
+                                        <select class="form-control" name="tipoTicket" id="tipoTicketBuscar">
+                                            <option disabled selected value="">Escoge el tipo del ticket</option>
+                                            {{#each tipoTicket}}
+                                                <option value="{{idTipoTicket}}">{{nameTipoTicket}}</option>
+                                            {{/each}}
+                                        </select>
+                                    </div>
+                                    <div class="col">
+                                        <label for="idTipoPara" class="form-label">Buscar Id</label>
+                                        <input id="inputBuscarTula" type="number" class="form-control" disabled>
+                                        <div class="invalid-feedback">
+                                            Ingresa el Nr de la Tula
+                                        </div>
+
+                                    </div>
+                                    <div id="noHayTula" style="text-align: center; display: none; padding-top: 5px">
+                                        <span style="color: #ff0000">No hay datos de la tula, intenta con otro id</span>
+                                    </div>
+
+                                </div>
+                                <div class="row">
+                                    <div class="col" style="text-align: center; padding: 15px">
+                                        <a class="btn btn-info" id="buscarTula">Buscar Tula</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row ">
+                                <div class="col">
+                                    <label for="peso" class="form-label">Peso</label>
+                                    <input id="pesoEntrada" class="form-control" type="text" value="" readonly required>
+                                </div>
+                                <div class="col">
+                                    <label for="idReferencial" class="form-label">Id
+                                        Referencial</label>
+                                    <input class="form-control" name="idReferencialEntrada" type="number" value=""
+                                           id="idReferencialEntrada" readonly required>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <label for="color" class="form-label">Color</label>
+                                    <input id="colorEntrada" name="color" class="form-control" type="text" value=""
+                                           readonly
+                                           required>
+                                </div>
+                                <div class="col">
+                                    <label for="tipoTicket" class="form-label">Tipo Ticket</label>
+                                    <input id="tipoTicketEntrada" name="tipoTicket" class="form-control" type="text"
+                                           value=""
+                                           readonly required>
+                                </div>
+                                <div class="inputs-Hidden">
+                                    <input type="hidden" name="idOrdenFabricacion"
+                                           value="{{datosof.idOrdenFabricacion}}">
+                                    <input type="hidden" name="idTulaEntrada" value="" id="idTulaEntrada">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col" style="text-align: center; margin-top: 10px ">
+                                    <button id="addEntrada" type="submit" class="btn btn-success" disabled>Enviar
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
+<div class="modal fade" id="salida" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+     tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Agregar Salidas (Tulas)</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body">
+                    <form action="/agregar-tula" class="needs-validation" novalidate method="post" id=""
+                          name="agregartula">
+                        <div class="container">
+                            <div class="row g-2 mb-3">
+                                <div class="col-md">
+                                    <label for="pesoSalida" class="form-label">Peso</label>
+                                    <input type="number" value="" name="peso"
+                                           class="form-control" required>
+                                    <div class="invalid-feedback">
+                                        Ingrese por favor el peso de la tula.
+                                    </div>
+                                </div>
+
+                                <div class="col-md">
+                                    <label for="horaInicio" class="form-label">Proceso</label>
+                                    <input type="text" value="{{datosof.nameTipoTicket}}"
+                                           class="form-control" readonly required>
+                                </div>
+
+                            </div>
+                            <div class="row g-2 mb-3">
+                                <div class="col-md">
+                                    <label for="idReferencial" class="form-label">Id Referencial</label>
+                                    <input type="text" value="" name="idReferencial" id="idReferencial"
+                                           class="form-control" required autocomplete="off">
+                                    <div class="invalid-feedback">
+                                        Ingrese por favor el id Fisico de la tula.
+                                    </div>
+                                </div>
+                                <div class="col-md">
+                                    <label for="horaFinal" class="form-label">Ticket</label>
+                                    <input type="text" id="{{datosof.idTipoTicket}}" value="{{datosof.nameTipoTicket}}"
+                                           class="form-control idTipoTicketSalida" readonly required>
+
+                                </div>
+                                <div id="idRefExiste" style="text-align: center; padding-top: 5px; display: none">
+                                    <span style="color: #ff0000">Esta tula ya existe, por favor ingresa otro idReferencial</span>
+
+                                </div>
+                                <div id="idRefNoExiste" style="text-align: center; padding-top: 5px; display: none">
+                                    <span style="color: #19b684">idReferencial disponible</span>
+
+                                </div>
+
+                            </div>
+                            <div class="row g-2 mb-3">
+                                <div class="col-md">
+                                    <label for="horaInicio" class="form-label">Material</label>
+                                    <input type="text" value="{{datosof.nameMaterial}}"
+                                           required class="form-control" readonly>
+                                </div>
+
+                            </div>
+                            <div class="col-md">
+                                <label for="color-input">Color</label>
+                                <select name="idColor" id="idColor" class="form-control" required>
+                                    <option selected disabled value>Escoge los colores</option>
+                                    {{#each colors}}
+                                        <option value="{{idColor}}" name="{{nameColor}}">{{nameColor}}</option>
+                                    {{/each}}
+                                </select>
+                                <div class="invalid-feedback">
+                                    Ingrese por favor el color del material.
+                                </div>
+                            </div>
+                            <div class="col-md" style="padding-top: 10px">
+                                <input type="submit" class="btn btn-success btn-block" id="enviarSalida">
+                            </div>
+                        </div>
+
+                        <div class="inputs-hidden">
+                            <input type="hidden" value="{{datosSalida.idOrdenFabricacion}}"
+                                   name="idOrdenFabricacion">
+                            <input type="hidden" value="{{datosSalida.idProceso}}" name="idProceso">
+                            <input type="hidden" value="{{datosSalida.idMaterial}}" name="idMaterial">
+                            <input type="hidden" value="2" name="idTipoMaterial">
+                            <input type="hidden" value="{{datosSalida.idTipoTicket}}" name="idTipoTicket"
+                                   id="idTipoTicket">
+                        </div>
+
+                </div>
+
+
+                </form>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+</div>
+<div class="modal fade" id="devolucion" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
+     tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Agregar Devolución</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="card-body">
+                    <form action="/agregar-tula" class="needs-validation" novalidate method="post" id="agregarPara"
+                          name="agregarof">
+                        <div class="container">
+                            <div class="row g-2 mb-3">
+                                <div class="col-md">
+                                    <label for="idMaterial" class="form-label">Materiales</label>
+                                    <select name="idMaterial" class="form-select" id="idMaterial" required>
+                                        <option selected disabled value="">Selecciona el material a devolver</option>
+                                        {{#each materialesOrden}}
+                                            <option value="{{idMaterial}}" name="idMaterial">{{material}}</option>
+                                        {{/each}}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row g-2 mb-3">
+                                <div class="col-md">
+                                    <label for="idReferencialDev" class="form-label">Id Referencial</label>
+                                    <input type="text" value="" name="idReferencial" id="idReferencialDev"
+                                           class="form-control" required autocomplete="off">
+                                    <div class="invalid-feedback">
+                                        Ingrese por favor el id Fisico de la tula.
+                                    </div>
+                                </div>
+
+                                <div class="col-md">
+                                    <label for="pesoSalida" class="form-label">Peso</label>
+                                    <input type="number" value="" name="peso" id="pesoDev"
+                                           class="form-control" required>
+                                    <div class="invalid-feedback">
+                                        Ingrese por favor el peso de la tula.
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row g-2 mb-3">
+                                <label for="color-input">Color</label>
+                                <select name="idColor" id="idColorDev" class="form-control" required>
+                                    <option selected disabled value>Escoge el color</option>
+                                    {{#each colors}}
+                                        <option value="{{idColor}}" name="{{nameColor}}">{{nameColor}}</option>
+                                    {{/each}}
+                                </select>
+                                <div class="invalid-feedback">
+                                    Ingrese por favor el color del material.
+                                </div>
+                            </div>
+
+                            <div class="inputs-hidden">
+                                <input type="hidden" value="{{datosSalida.idOrdenFabricacion}}"
+                                       name="idOrdenFabricacion">
+                                <input type="hidden" value="{{datosSalida.idProceso}}" name="idProceso">
+                                <!--<input type="hidden" value="{{datosSalida.idMaterial}}" name="idMaterial">-->
+                                <input type="hidden" value="2" name="idTipoMaterial">
+                                <input type="hidden" value="7" name="idTipoTicket"
+                                       id="idTipoTicket">
+                            </div>
+
+                            <div class="form-group boton-send">
+                                <input type="submit" class="btn btn-success btn-block" id="enviarDevolucion">
+                            </div>
+                        </div>
+
+
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+
+</div>
 <div class="modal fade" id="paras" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
      tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
@@ -242,7 +642,7 @@
                             <div class="col-md">
                                 <label for="comentario">Comentario</label>
                                 <textarea class="form-control" name="comentario" id="comentario" cols="30"
-                                          rows="5" ></textarea>
+                                          rows="5"></textarea>
                                 <div class="invalid-feedback">
                                     Si no existen comentarios
                                 </div>
@@ -293,29 +693,29 @@
                                 <div class="col-md">
                                     <label for="pesoKg">Peso Material</label>
                                     <input class="form-control" autofocus="autofocus" type="number" id="pesoKg"
-                                           name="pesoKg" required >
+                                           name="pesoKg" required>
                                     <div class="invalid-feedback">
                                         Ingresa el peso correspondiente al material
                                     </div>
                                 </div>
                             </div>
                             <div class="row g-2 mb-3" style="align-items: flex-end">
-                                    <div class="col-md">
-                                        <label for="horaInicio">Inicio Trabajo</label>
-                                        <input class="form-control" min="07:00:00" max="19:00:00" type="time"
-                                               id="horaInicio" name="horaInicio" required>
-                                        <div class="invalid-feedback">
-                                            Ingresa la hora incial(La misma debe empezar min a las 07h00)
-                                        </div>
+                                <div class="col-md">
+                                    <label for="horaInicio">Inicio Trabajo</label>
+                                    <input class="form-control" min="07:00:00" max="19:00:00" type="time"
+                                           id="horaInicio" name="horaInicio" required>
+                                    <div class="invalid-feedback">
+                                        Ingresa la hora incial(La misma debe empezar min a las 07h00)
                                     </div>
-                                    <div class="col-md">
-                                        <label for="horaFinal">Fin Trabajo</label>
-                                        <input class="form-control" min="07:00:00" max="19:00:00" type="time"
-                                               id="pesoKg" name="horaFinal" required>
-                                        <div class="invalid-feedback">
-                                            Ingresa la hora final(La misma debe culminar max a las 19h00)
-                                        </div>
+                                </div>
+                                <div class="col-md">
+                                    <label for="horaFinal">Fin Trabajo</label>
+                                    <input class="form-control" min="07:00:00" max="19:00:00" type="time"
+                                           id="pesoKg" name="horaFinal" required>
+                                    <div class="invalid-feedback">
+                                        Ingresa la hora final(La misma debe culminar max a las 19h00)
                                     </div>
+                                </div>
 
                             </div>
                             <input type="hidden" value="1" name="idtipoOperador">
@@ -338,7 +738,200 @@
 </div>
 
 
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const selectTipoEntrada = document.getElementById('selectTE');
+        selectTipoEntrada.addEventListener('change', function () {
+            //Datos para entrada
+            let idTula = document.getElementById('idTula');
+            let idTipoEntrada;
+            const checks = document.getElementById('checksTipoEntrada');
+            const inputBuscarTula = document.getElementById('inputBuscarTula');
+            const checkTula = document.getElementById('checkTula');
+            const checkReferencial = document.getElementById('checkReferencial');
+            const divOcultar = document.getElementById('div-ocultar');
+            const buscarTula = document.getElementById('buscarTula');
+            const addEntrada = document.getElementById('addEntrada');
+            const noHayTula = document.getElementById('noHayTula');
+            const tipoTicket = document.getElementById('tipoTicketBuscar');
+            const pesoEntrada = document.getElementById('pesoEntrada')
+            const idReferencialEntrada = document.getElementById('idReferencialEntrada')
+            const colorEntrada = document.getElementById('colorEntrada')
+            const tipoTicketEntrada = document.getElementById('tipoTicketEntrada')
+            const idTulaEntrada = document.getElementById('idTulaEntrada')
+
+            if (this.value == 1) {
+                inputBuscarTula.setAttribute('disabled', "");
+                inputBuscarTula.removeAttribute('required', "");
+                checkTula.removeAttribute('required', "");
+                checkReferencial.removeAttribute('required', "");
+                divOcultar.style.display = 'none';
+                addEntrada.removeAttribute('disabled', '')
+                //checks.style.display = "none";
+                idTipoEntrada = this.value;
+                fetch('/tipo-entrada', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({idTipoEntrada: idTipoEntrada})
+                })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data) {
+                                let dataT = data.llamarTula;
+                                const {
+                                    idTula,
+                                    nameColor,
+                                    nameProceso,
+                                    Material,
+                                    TipoMaterial,
+                                    nameTipoTicket,
+                                    idReferencial,
+                                    peso
+                                } = dataT;
+                                const dataTula = {
+                                    peso: dataT.peso,
+                                    nameColor: dataT.nameColor,
+                                    idReferencial: dataT.idReferencial,
+                                    nameTipoTicket: dataT.nameTipoTicket,
+                                    idTula: dataT.idTula
+                                }
+                                pesoEntrada.value = peso;
+                                idReferencialEntrada.value = idReferencial;
+                                colorEntrada.value = nameColor;
+                                tipoTicketEntrada.value = nameTipoTicket;
+                                idTulaEntrada.value = idTula;
+                            }
+                        })
+            } else if (this.value == 2 || this.value == 3) {
+                //Eliminar datos de los inputs
+                addEntrada.setAttribute('disabled', '')
+                noHayTula.style.removeProperty('display', '')
+                pesoEntrada.value = "";
+                idReferencialEntrada.value = "";
+                colorEntrada.value = "";
+                tipoTicketEntrada.value = "";
+                idTulaEntrada.value = "";
+                //Mostrar botones adicionales
+                inputBuscarTula.removeAttribute('disabled', "");
+                inputBuscarTula.setAttribute('required', "");
+                checks.style.removeProperty('display', "");
+                checkTula.setAttribute('required', "");
+                checkReferencial.setAttribute('required', "");
+                divOcultar.style.removeProperty('display', "");
+                idTipoEntrada = this.value;
+                buscarTula.addEventListener('click', function () {
+                    let idEntrada = inputBuscarTula.value;
+                    let tipoTicketBuscar = tipoTicket.value;
+                    //console.log(idEntrada);
+                    //console.log(tipoTicketBuscar);
+                    fetch('/entrada-referencial', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({idEntrada: idEntrada, tipoTicketBuscar: tipoTicketBuscar})
+                    })
+                            .then(response => response.json())
+                            .then(data => {
+                                if (data) {
+                                    let dataT = data.entradaP;
+                                    if (dataT != null) {
+                                        noHayTula.style.display = "none";
+                                        addEntrada.removeAttribute('disabled', '');
+                                        const {
+                                            idTula,
+                                            nameColor,
+                                            nameProceso,
+                                            Material,
+                                            TipoMaterial,
+                                            nameTipoTicket,
+                                            idReferencial,
+                                            peso
+                                        } = dataT;
+                                        const dataTula = {
+                                            peso: dataT.peso,
+                                            nameColor: dataT.nameColor,
+                                            idReferencial: dataT.idReferencial,
+                                            nameTipoTicket: dataT.nameTipoTicket,
+                                            idTula: dataT.idTula
+                                        }
+                                        pesoEntrada.value = peso;
+                                        idReferencialEntrada.value = idReferencial;
+                                        colorEntrada.value = nameColor;
+                                        tipoTicketEntrada.value = nameTipoTicket;
+                                        idTulaEntrada.value = idTula;
+                                    } else {
+                                        //console.log("No hya plata")
+                                        addEntrada.setAttribute('disabled', '')
+                                        noHayTula.style.removeProperty('display', '')
+                                        pesoEntrada.value = "";
+                                        idReferencialEntrada.value = "";
+                                        colorEntrada.value = "";
+                                        tipoTicketEntrada.value = "";
+                                        idTulaEntrada.value = "";
+                                    }
+                                }
+                            })
+                })
+            }
+        })
+        const idTipoTicketSalida = document.getElementById('idTipoTicket');
+        const idReferencialSalida = document.getElementById('idReferencial');
+        idReferencialSalida.addEventListener('input', function () {
+            let idReferencialS = this.value;
+            let idTipoTicketS = idTipoTicketSalida.value;
+            console.log(idReferencialS, idTipoTicketS);
+            let divRef = document.getElementById('idRefExiste');
+            let divRefN = document.getElementById('idRefNoExiste');
+            let enviarSalida = document.getElementById('enviarSalida');
+            fetch('/salida-referencial', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({idReferencialS: idReferencialS, idTipoTicketS: idTipoTicketS})
+            })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data) {
+                            let dataT = data.salidaP;
+                            if (dataT != null) {
+                                divRef.style.removeProperty('display', "");
+                                divRefN.style.setProperty('display', "none");
+                                enviarSalida.setAttribute('disabled', '')
+
+                            } else {
+                                divRef.style.setProperty('display', "none");
+                                divRefN.style.removeProperty('display', "none");
+                                enviarSalida.removeAttribute('disabled', '')
+
+                            }
+                        }
+                    })
+        });
+
+        const selectMaterial = document.getElementById('idMaterial');
+        selectMaterial.addEventListener('change', function () {
+            const idReferencialDev = document.getElementById('idReferencialDev');
+            const pesoDev = document.getElementById('pesoDev');
+            const colorDev = document.getElementById('idColorDev');
+            const enviarDevolucion = document.getElementById('enviarDevolucion');
+            if (selectMaterial.value == 51) {
+                idReferencialDev.setAttribute('disabled', '');
+                pesoDev.setAttribute('disabled', '');
+                colorDev.setAttribute('disabled', '');
+                enviarDevolucion.setAttribute('disabled', '');
+            } else {
+                idReferencialDev.removeAttribute('disabled', '');
+                pesoDev.removeAttribute('disabled', '');
+                colorDev.removeAttribute('disabled', '');
+                enviarDevolucion.removeAttribute('disabled', '');
+            }
+        })
 
 
 
-
+    });
+</script>

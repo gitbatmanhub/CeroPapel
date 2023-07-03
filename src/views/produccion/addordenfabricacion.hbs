@@ -7,6 +7,17 @@
         <div class="container">
             <div class="row g-2 mb-3">
 
+                <div class="col-md">
+                    <label for="idProceso" class="form-label">Proceso</label>
+                    <select name="idProceso" class="form-select" id="idProceso" required>
+                        <option selected disabled value="">Escoge un Proceso</option>
+                        {{#each proceso}}
+                            <option value="{{idProceso}}" name="{{nameProceso}}">{{nameProceso}}</option>
+                        {{/each}}
+                    </select>
+                    <div class="invalid-feedback">
+                        Selecciona un proceso
+                    </div>
 
                 <div class="col-md">
                     <label for="idMaquinaria" class="form-label">Maquinaria</label>
@@ -20,6 +31,7 @@
                         Selecciona una Maquinaria
                     </div>
                 </div>
+
                 <div class="col-md">
                     <label for="idMaterial" class="form-label">Material</label>
                     <select name="idMaterial" class="form-select" id="idMaterial" required>
