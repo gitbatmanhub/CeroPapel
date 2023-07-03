@@ -304,10 +304,7 @@ router.get('/detallesofoperador/:id',  isLoggedIn, permissions,async (req, res) 
     const datosTulaEntrada= await pool.query('select * from dataTulaEntrada where idOrdenFabricacion=?;', [ordenid]);
     const datosSalida= await pool.query('select * from datosSalida where idOrdenFabricacion=?', [ordenid]);
     const DataSalida= await pool.query('select * from DataSalida where idOrdenFabricacion=? order by create_at', [ordenid]);
-    //console.log(datosTulaEntrada);
-    //console.log(tiempoOperador[0].Hora);
-   //console.log(colors);
-    //console.log(DataSalida);
+    const materialesOrden= await pool.query('select idMaterial, material from dataTulaEntrada where idOrdenFabricacion=? group by material;', [ordenid]);
     res.render('produccion/operadores/detallesofT', {
         datosof: datosof[0],
         tipoPara,
@@ -324,8 +321,8 @@ router.get('/detallesofoperador/:id',  isLoggedIn, permissions,async (req, res) 
         datosTulaEntrada,
         datosSalida: datosSalida[0],
         DataSalida,
-        tipoTicket
-
+        tipoTicket,
+        materialesOrden
     })
 
 });

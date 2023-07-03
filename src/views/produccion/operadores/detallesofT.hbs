@@ -152,7 +152,8 @@
                         <th scope="col">idTula</th>
                         <th scope="col">Id Referencial</th>
                         <th scope="col">Color</th>
-                        <th scope="col">Tipo Entrada</th>
+                        <th scope="col">Material</th>
+                        <th scope="col">Tipo Material</th>
                         <th scope="col">Peso</th>
                     </tr>
                     </thead>
@@ -163,7 +164,8 @@
                             <td>{{idTula}}</td>
                             <td>{{idReferencial}}</td>
                             <td>{{nameColor}}</td>
-                            <td>{{nameMaterial}}</td>
+                            <td>{{material}}</td>
+                            <td>{{nameTipoMaterial}}</td>
                             <td>{{peso}}</td>
                         </tr>
                     {{/each}}
@@ -229,7 +231,7 @@
                         <th scope="col">Proceso</th>
                         <th scope="col">Material</th>
                         <th scope="col">Color</th>
-                        <th scope="col">Entrada</th>
+                        <th scope="col">Tipo Material</th>
                         <th scope="col">Ticket</th>
                     </tr>
                     </thead>
@@ -470,12 +472,12 @@
                                    name="idOrdenFabricacion">
                             <input type="hidden" value="{{datosSalida.idProceso}}" name="idProceso">
                             <input type="hidden" value="{{datosSalida.idMaterial}}" name="idMaterial">
-                            <input type="hidden" value="{{datosSalida.idTipoMaterial}}" name="idTipoMaterial">
-                            <input type="hidden" value="{{datosSalida.idTipoTicket}}" name="idTipoTicket" id="idTipoTicket">
+                            <input type="hidden" value="2" name="idTipoMaterial">
+                            <input type="hidden" value="{{datosSalida.idTipoTicket}}" name="idTipoTicket"
+                                   id="idTipoTicket">
                         </div>
 
                 </div>
-
 
 
                 </form>
@@ -492,83 +494,70 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Agregar Paras</h1>
+                <h1 class="modal-title fs-5" id="exampleModalToggleLabel">Agregar Devolución</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="card-body">
-                    <form action="/agregarPara" class="needs-validation" novalidate method="post" id="agregarPara"
+                    <form action="/agregar-tula" class="needs-validation" novalidate method="post" id="agregarPara"
                           name="agregarof">
                         <div class="container">
-                            <label for="idTipoPara" class="form-label">Motivo de Para</label>
-                            <select name="idTipoPara" class="form-select" id="idTipoPara" required>
-                                <option selected disabled value="">Selecciona el motivo de Para</option>
-                                {{#each tipoPara}}
-                                    <option value="{{idTipoPara}}" name="{{idTipoPara}}">{{nameTipoPara}}</option>
-                                {{/each}}
-                            </select>
-                            <div class="invalid-feedback">
-                                Selecciona la fecha para la orden de fabricación
-                            </div>
                             <div class="row g-2 mb-3">
-                                {{#when datosof.idTurno 'eq' 1 }}
-                                    <div class="col-md">
-                                        <label for="horaInicio" class="form-label">Inicio de Paraaaaa</label>
-                                        <input type="time" min="07:00:00" max="19:00:00" value="" name="horaInicio"
-                                               class="form-control" required>
-                                        <div class="invalid-feedback">
-                                            La fecha inicial debe ser entre las 07h00 a las 19h00 y/o no debe estar
-                                            vacía.
-                                        </div>
-                                    </div>
-                                    <div class="col-md">
-
-                                        <label for="horaFinal" class="form-label">Fin de Para</label>
-                                        <input type="time" value="" min="07:00:00" max="19:00:00" name="horaFinal"
-                                               class="form-control" required>
-                                        <div class="invalid-feedback">
-                                            La fecha final debe ser entre las 07h00 a las 19h00 y/o no debe estar
-                                            vacía.
-                                        </div>
-                                    </div>
-                                {{else}}
-                                    <div class="col-md">
-                                        <label for="horaInicio" class="form-label">Inicio de Para</label>
-                                        <input type="time" value="" min="19:00:00" max="07:00:00" name="horaInicio"
-                                               class="form-control" required>
-                                        <div class="invalid-feedback">
-                                            La fecha inicial debe ser entre las 19h00 a las 07h00 y/o no debe estar
-                                            vacía.
-                                        </div>
-                                    </div>
-                                    <div class="col-md">
-
-                                        <label for="horaFinal" class="form-label">Fin de Para</label>
-                                        <input type="time" value="" min="19:00:00" max="07:00:00" name="horaFinal"
-                                               class="form-control" required>
-                                        <div class="invalid-feedback">
-                                            La fecha final debe ser entre las 19h00 a las 07h00 y/o no debe estar
-                                            vacía.
-                                        </div>
-                                    </div>
-                                {{/when}}
-
-                            </div>
-
-                            <div class="col-md">
-                                <label for="comentario">Comentario</label>
-                                <textarea class="form-control" name="comentario" id="comentario" cols="30"
-                                          rows="5"></textarea>
-                                <div class="invalid-feedback">
-                                    Si no existen comentarios
+                                <div class="col-md">
+                                    <label for="idMaterial" class="form-label">Materiales</label>
+                                    <select name="idMaterial" class="form-select" id="idMaterial" required>
+                                        <option selected disabled value="">Selecciona el material a devolver</option>
+                                        {{#each materialesOrden}}
+                                            <option value="{{idMaterial}}" name="idMaterial">{{material}}</option>
+                                        {{/each}}
+                                    </select>
                                 </div>
                             </div>
-                            <div class="inputs-hidden">
-                                <textarea style="display: none" name="idOrdenFabricacion" id="" cols=""
-                                          rows="">{{datosof.idOrdenFabricacion}}</textarea>
+                            <div class="row g-2 mb-3">
+                                <div class="col-md">
+                                    <label for="idReferencialDev" class="form-label">Id Referencial</label>
+                                    <input type="text" value="" name="idReferencial" id="idReferencialDev"
+                                           class="form-control" required autocomplete="off">
+                                    <div class="invalid-feedback">
+                                        Ingrese por favor el id Fisico de la tula.
+                                    </div>
+                                </div>
+
+                                <div class="col-md">
+                                    <label for="pesoSalida" class="form-label">Peso</label>
+                                    <input type="number" value="" name="peso" id="pesoDev"
+                                           class="form-control" required>
+                                    <div class="invalid-feedback">
+                                        Ingrese por favor el peso de la tula.
+                                    </div>
+                                </div>
                             </div>
+
+                            <div class="row g-2 mb-3">
+                                <label for="color-input">Color</label>
+                                <select name="idColor" id="idColorDev" class="form-control" required>
+                                    <option selected disabled value>Escoge el color</option>
+                                    {{#each colors}}
+                                        <option value="{{idColor}}" name="{{nameColor}}">{{nameColor}}</option>
+                                    {{/each}}
+                                </select>
+                                <div class="invalid-feedback">
+                                    Ingrese por favor el color del material.
+                                </div>
+                            </div>
+
+                            <div class="inputs-hidden">
+                                <input type="hidden" value="{{datosSalida.idOrdenFabricacion}}"
+                                       name="idOrdenFabricacion">
+                                <input type="hidden" value="{{datosSalida.idProceso}}" name="idProceso">
+                                <!--<input type="hidden" value="{{datosSalida.idMaterial}}" name="idMaterial">-->
+                                <input type="hidden" value="2" name="idTipoMaterial">
+                                <input type="hidden" value="7" name="idTipoTicket"
+                                       id="idTipoTicket">
+                            </div>
+
                             <div class="form-group boton-send">
-                                <input type="submit" class="btn btn-success btn-block" id="">
+                                <input type="submit" class="btn btn-success btn-block" id="enviarDevolucion">
                             </div>
                         </div>
 
@@ -815,7 +804,7 @@
                                 idTulaEntrada.value = idTula;
                             }
                         })
-            } else if (this.value == 2 || this.value==3) {
+            } else if (this.value == 2 || this.value == 3) {
                 //Eliminar datos de los inputs
                 addEntrada.setAttribute('disabled', '')
                 noHayTula.style.removeProperty('display', '')
@@ -894,10 +883,9 @@
             let idReferencialS = this.value;
             let idTipoTicketS = idTipoTicketSalida.value;
             console.log(idReferencialS, idTipoTicketS);
-            //console.log(idReferencial);
-            let divRef= document.getElementById('idRefExiste');
-            let divRefN= document.getElementById('idRefNoExiste');
-            let enviarSalida= document.getElementById('enviarSalida');
+            let divRef = document.getElementById('idRefExiste');
+            let divRefN = document.getElementById('idRefNoExiste');
+            let enviarSalida = document.getElementById('enviarSalida');
             fetch('/salida-referencial', {
                 method: 'POST',
                 headers: {
@@ -922,10 +910,28 @@
                             }
                         }
                     })
-
-
         });
-        //console.log(idReferencialSalida);
+
+        const selectMaterial = document.getElementById('idMaterial');
+        selectMaterial.addEventListener('change', function () {
+            const idReferencialDev = document.getElementById('idReferencialDev');
+            const pesoDev = document.getElementById('pesoDev');
+            const colorDev = document.getElementById('idColorDev');
+            const enviarDevolucion = document.getElementById('enviarDevolucion');
+            if (selectMaterial.value == 51) {
+                idReferencialDev.setAttribute('disabled', '');
+                pesoDev.setAttribute('disabled', '');
+                colorDev.setAttribute('disabled', '');
+                enviarDevolucion.setAttribute('disabled', '');
+            } else {
+                idReferencialDev.removeAttribute('disabled', '');
+                pesoDev.removeAttribute('disabled', '');
+                colorDev.removeAttribute('disabled', '');
+                enviarDevolucion.removeAttribute('disabled', '');
+            }
+        })
+
+
 
     });
 </script>
