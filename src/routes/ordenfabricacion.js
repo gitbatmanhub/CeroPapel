@@ -3,6 +3,7 @@ const router = express.Router();
 
 const pool = require('../database');
 const {isLoggedIn, permissions, operador, digitador} = require('../lib/auth');
+const {ca} = require("timeago.js/lib/lang");
 //const constants = require("constants");
 //const {el} = require("timeago.js/lib/lang");
 //const {NEWDATE} = require("mysql/lib/protocol/constants/types");
@@ -294,7 +295,7 @@ router.get('/detallesofoperador/:id',  isLoggedIn, permissions,async (req, res) 
     const HorasOperadoresOf= await pool.query("select * from horasOperadoresCalcular where idOrden=? and idUsuario=? ;", [ordenid,userId]);
     const tiempoOperador= await pool.query("select sec_to_time(sum(time_to_sec(TiempoTrabajado))) as Hora from horasOperadoresCalcular where idUsuario=? and idOrden=?;", [userId, ordenid])
     //console.log(tiempoOperador[0].Hora);
-    console.log(datosof);
+    //console.log(datosof);
     res.render('produccion/operadores/detallesofT', {
         datosof: datosof[0],
         tipoPara,
@@ -424,6 +425,25 @@ router.post('/buscarData', isLoggedIn, digitador, async(req, res)=>{
 });
 
  */
+
+router.post('/buscar-detalle', isLoggedIn, async (req, res)=>{
+    //console.log(req.body);
+    const { idTipoPara  }=req.body;
+    try{
+        const result= await pool.query('select * from detallesPara where idTipoPara=?;', [idTipoPara]);
+        if (result){
+            res.json({result});
+        }else{
+            res.json({result: "No hay data"})
+        }
+    } catch (error){
+        console.log("Error al consultar la bbdd")
+        res.status(500).json({error: "Error al consultar la bbdd"})
+    }
+
+    //console.log(result[0]);
+    //res.redirect('/detallesofoperador/213')
+})
 
 
 module.exports = router;
