@@ -184,16 +184,28 @@
                     <form action="/agregarPara" class="needs-validation" novalidate method="post" id="agregarPara"
                           name="agregarof">
                         <div class="container">
+                            <div class="row g-2 mb-3">
                             <label for="idTipoPara" class="form-label">Motivo de Para</label>
                             <select name="idTipoPara" class="form-select" id="idTipoPara" required>
                                 <option selected disabled value="">Selecciona el motivo de Para</option>
                                 {{#each tipoPara}}
-                                    <option value="{{idTipoPara}}" name="{{idTipoPara}}">{{nameTipoPara}}</option>
+                                    <option  value="{{idTipoPara}}" name="{{idTipoPara}}">{{nameTipoPara}}</option>
                                 {{/each}}
                             </select>
                             <div class="invalid-feedback">
                                 Selecciona la fecha para la orden de fabricación
                             </div>
+                            </div>
+                            <div class="row g-2 mb-3">
+
+                                <label for="comment" class="form-label">Elige el comentario</label>
+                                <select name="comentario" class="form-select" id="comment" required>
+                                    <option selected disabled value="">Selecciona el comentario de Para</option>
+
+                                </select>
+                                <div class="invalid-feedback">
+                                    Selecciona la fecha para la orden de fabricación
+                                </div>
                             <div class="row g-2 mb-3">
                                 {{#when datosof.idTurno 'eq' 1 }}
                                     <div class="col-md">
@@ -238,7 +250,7 @@
                                 {{/when}}
 
                             </div>
-
+<!--
                             <div class="col-md">
                                 <label for="comentario">Comentario</label>
                                 <textarea class="form-control" name="comentario" id="comentario" cols="30"
@@ -246,7 +258,7 @@
                                 <div class="invalid-feedback">
                                     Si no existen comentarios
                                 </div>
-                            </div>
+                            </div>-->
                             <div class="inputs-hidden">
                                 <textarea style="display: none" name="idOrdenFabricacion" id="" cols=""
                                           rows="">{{datosof.idOrdenFabricacion}}</textarea>
@@ -338,7 +350,48 @@
 </div>
 
 
+<script>
+    const tipoPara = document.getElementById('idTipoPara');
+    const comentario = document.getElementById('comment');
+    const comentarioTextArea = document.getElementById('comentario');
+    tipoPara.addEventListener('change', function (){
+        fetch('/buscar-detalle', {
+            method: 'POST',
+            headers:{
+                'Content-Type': 'application/json'
+            }, body: JSON.stringify({idTipoPara: this.value})
+        })  .then(response=> response.json())
+                .then(data=>{
+                    let resultados= data.result;
+                    comentario.innerHTML="";
+                    //console.log(resultados[])
+                    //console.log(resultados.length)
+                    for (let i=0; i < resultados.length; i++){
+                        //console.log(resultados[i].detalle);
+                        let opcion= document.createElement('option');
+                            opcion.value=resultados[i].detalle;
+                            opcion.text=resultados[i].detalle;
+                            comentario.appendChild(opcion);
+                        }
+                    //console.log(comentario);
+
+                })
+        const esteban= comentario.value;
+        console.log(esteban)
+    });
+
+
+/*comentario.addEventListener('change', function (){
+    console.log(this.value)
+
+ */
 
 
 
 
+
+
+
+
+
+</script>
