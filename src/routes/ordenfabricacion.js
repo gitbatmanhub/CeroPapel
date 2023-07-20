@@ -446,4 +446,23 @@ router.post('/buscar-detalle', isLoggedIn, async (req, res)=>{
 })
 
 
+
+router.post('/buscarTipoPara', isLoggedIn, async (req, res)=>{
+    const {IdMaquinaria}=req.body;
+    //console.log(IdMaquinaria);
+    try{
+        const tipos = await pool.query('select * from paraDetallesMaquina where idMaquinaria=? group by idTipoPara;', [IdMaquinaria]);
+        if (tipos){
+            res.json({tipos})
+        }else{
+            res.json({tipos: "Lo siento no hay datos"})
+        }
+        //console.log(tipos);
+    }catch (error){
+        console.log('Error al consultar la bbdd')
+        res.status(500).json({error:"Error al consultar la bbdd"})
+    }
+})
+
+
 module.exports = router;

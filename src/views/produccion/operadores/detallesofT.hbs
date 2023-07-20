@@ -9,7 +9,7 @@
 
         <div class="col-md">
             <label for="Maquinaria" class="form-label">Maquinaria</label>
-            <input id="{{datosof.idMaquinaria}}" name="Maquinaria" type="text" value="{{datosof.nameMaquinaria}}" class="form-control" readonly>
+            <input id="{{datosof.idMaquinaria}}" name="Maquinaria" type="text" value="{{datosof.nameMaquinaria}}" class="form-control esteIdMaquinaria" readonly>
 
         </div>
         <div class="col-md">
@@ -51,7 +51,7 @@
     <div class="container" style="text-align: center; padding-top:10px;">
         {{#when datosof.idstatus 'eq' 1 }}
             {{#when userOrden.idtipoOperador 'eq' 1 }}
-                <button class="btn btn-primary" data-bs-target="#paras" data-bs-toggle="modal">Agregar Paras</button>
+                <button class="btn btn-primary idParas" data-bs-target="#paras"  data-bs-toggle="modal">Agregar Paras</button>
                 <button class="btn btn-danger" data-bs-target="#kgMaterial" data-bs-toggle="modal">Cerrar Orden
                 </button>
             {{else}}
@@ -171,8 +171,7 @@
 
 
 
-<div class="modal fade" id="paras" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
-     tabindex="-1">
+<div class="modal fade" id="paras" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -188,9 +187,7 @@
                             <label for="idTipoPara" class="form-label">Motivo de Para</label>
                             <select name="idTipoPara" class="form-select" id="idTipoPara" required>
                                 <option selected disabled value="">Selecciona el motivo de Para</option>
-                                {{#each tipoPara}}
-                                    <option  value="{{idTipoPara}}" name="{{idTipoPara}}">{{nameTipoPara}}</option>
-                                {{/each}}
+
                             </select>
                             <div class="invalid-feedback">
                                 Selecciona la fecha para la orden de fabricación
@@ -278,8 +275,7 @@
 
 
 </div>
-<div class="modal fade" id="kgMaterial" aria-hidden="true" aria-labelledby="exampleModalToggleLabel"
-     tabindex="-1">
+<div class="modal fade" id="kgMaterial" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
@@ -322,8 +318,7 @@
                                     </div>
                                     <div class="col-md">
                                         <label for="horaFinal">Fin Trabajo</label>
-                                        <input class="form-control" min="07:00:00" max="19:00:00" type="time"
-                                               id="pesoKg" name="horaFinal" required>
+                                        <input id="horaFinal" class="form-control" min="07:00:00" max="19:00:00" type="time" name="horaFinal" required>
                                         <div class="invalid-feedback">
                                             Ingresa la hora final(La misma debe culminar max a las 19h00)
                                         </div>
@@ -351,9 +346,30 @@
 
 
 <script>
+    const IdMaquinaria = document.getElementsByClassName('esteIdMaquinaria')[0].id;
+    console.log(IdMaquinaria);
     const tipoPara = document.getElementById('idTipoPara');
     const comentario = document.getElementById('comment');
     const comentarioTextArea = document.getElementById('comentario');
+    const botonIdParas=document.querySelector('.idParas');
+    botonIdParas.addEventListener('click', function (){
+        fetch('/buscarTipoPara', {
+            method: 'POST',
+            headers:{
+                'Content-Type': 'application/json'
+            }, body:JSON.stringify({IdMaquinaria: IdMaquinaria})
+        })  .then(response=> response.json())
+                .then(data=>{
+                    console.log(data.tipos)
+                    data.tipos.forEach(tipos=>{
+                        const optionElement= document.createElement('option')
+                        optionElement.value=tipos.idTipoPara;
+                        optionElement.textContent=tipos.nameTipoPara;
+                        tipoPara.appendChild(optionElement);
+                    })
+                })
+    })
+
     tipoPara.addEventListener('change', function (){
         fetch('/buscar-detalle', {
             method: 'POST',
@@ -364,8 +380,6 @@
                 .then(data=>{
                     let resultados= data.result;
                     comentario.innerHTML="";
-                    //console.log(resultados[])
-                    //console.log(resultados.length)
                     for (let i=0; i < resultados.length; i++){
                         //console.log(resultados[i].detalle);
                         let opcion= document.createElement('option');
@@ -373,23 +387,9 @@
                             opcion.text=resultados[i].detalle;
                             comentario.appendChild(opcion);
                         }
-                    //console.log(comentario);
-
                 })
         const esteban= comentario.value;
-        console.log(esteban)
     });
-
-
-/*comentario.addEventListener('change', function (){
-    console.log(this.value)
-
- */
-
-
-
-
-
 
 
 
