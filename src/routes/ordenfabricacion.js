@@ -28,7 +28,8 @@ router.post('/agregarof', isLoggedIn, operador, async (req, res) => {
             idMaquinaria,
             idMaterial,
             idUser: req.user.iduser,
-            idTurno: 1
+            idTurno: 1,
+            idProceso:11
         }
         await pool.query("SET time_zone = '-05:00'");
         await pool.query('INSERT INTO ordenFabricacion set ? ', [ordenfabricacion]);
@@ -37,7 +38,8 @@ router.post('/agregarof', isLoggedIn, operador, async (req, res) => {
             idMaquinaria,
             idMaterial,
             idUser: req.user.iduser,
-            idTurno: 2
+            idTurno: 2,
+            idProceso:11
         }
         await pool.query("SET time_zone = '-05:00'");
         await pool.query('INSERT INTO ordenFabricacion set ?', [ordenfabricacion]);
