@@ -1,0 +1,132 @@
+
+
+<div class="container">
+    <a class="btn btn-primary" data-bs-toggle="collapse" href="#addParaTipo" role="button" aria-expanded="false" aria-controls="collapseExample">
+        <i class="bi bi-1-circle"></i> Agregar Tipo de Para
+    </a>
+    <a class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#addDetallesPara" aria-expanded="false" aria-controls="collapseExample">
+        <i class="bi bi-2-circle"></i> Agregar Detalle de Para
+    </a>
+    <a class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#tipoDetalle" aria-expanded="false" aria-controls="collapseExample">
+        <i class="bi bi-3-circle"></i> Ligar Tipo de Para a Detalle
+    </a>
+    <a class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#paraMaquinaria" aria-expanded="false" aria-controls="collapseExample">
+        <i class="bi bi-4-circle"></i> Ligar Tipo de Para a Maquinaria
+    </a>
+</div>
+
+
+<div class="container collapse" id="addParaTipo">
+    <br>
+<form action="/parastipo" class="needs-validation" novalidate method="post">
+    <h2>Agregar Tipo de Para</h2>
+    <div class="form-floating mb-3">
+        <input type="text" name="nameTipoPara" class="form-control" id="floatingInput" placeholder="Tipo Para" required>
+        <label for="floatingInput">Tipo Para</label>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Agregar</button>
+</form>
+</div>
+<div class="container collapse" id="addDetallesPara">
+    <br>
+    <form action="/parasdetalle"  class="needs-validation" novalidate method="post">
+        <h2>Agregar Detalle de Para</h2>
+        <div class="form-floating mb-3">
+            <input type="text" name="detalle" class="form-control" id="floatingInput" placeholder="Detalle Para" required>
+            <label for="floatingInput">Detalle Para</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Agregar</button>
+    </form>
+</div>
+<div class="container collapse" id="tipoDetalle">
+    <br>
+    <form action="/tipoDetalle"  class="needs-validation" novalidate method="post" >
+        <div class="row g-2">
+            <h2>Ligar Tipos de Para a Detalles</h2>
+            <div class="col-md">
+                <select name="idTipoPara" id="idTipoPara" class="form-select" required>
+                    <option selected disabled value="">Escoge un tipo</option>
+                    {{#each tipoPara}}
+                        <option value="{{idTipoPara}}">{{nameTipoPara}}</option>
+                    {{/each}}
+                </select>
+                <div class="invalid-feedback">
+                    Selecciona un tipo
+                </div>
+            </div>
+
+            <div class="col-md">
+                <select name="idDetalle" class="form-select" id="especialidad" required>
+                    <option selected disabled value="">Escoge un detalle</option>
+                    {{#each detallePara}}
+                        <option value="{{idDetallePara}}">{{detalle}}</option>
+                    {{/each}}
+                </select>
+                <div class="invalid-feedback">
+                    Selecciona un detalle
+                </div>
+            </div>
+        </div>
+        <br>
+        <button class="btn btn-primary" type="submit">Enviar</button>
+    </form>
+</div>
+<div class="container collapse" id="paraMaquinaria">
+    <br>
+    <form action="/paraMaquinaria"  class="needs-validation" novalidate method="post" >
+        <div class="row g-2">
+            <h2>Ligar Tipos de Para a Maquinarias</h2>
+            <div class="col-md">
+                <select name="idTipoPara" id="idTipoPara" class="form-select" required>
+                    <option selected disabled value="">Escoge un tipo</option>
+                    {{#each tipoPara}}
+                        <option value="{{idTipoPara}}">{{nameTipoPara}}</option>
+                    {{/each}}
+                </select>
+                <div class="invalid-feedback">
+                    Selecciona un tipo
+                </div>
+            </div>
+
+            <div class="col-md">
+                <select name="idMaquinaria" class="form-select" id="especialidad" required>
+                    <option selected disabled value="">Escoge un detalle</option>
+                    {{#each maquinaria}}
+                        <option value="{{idMaquinaria}}">{{nameMaquinaria}}</option>
+                    {{/each}}
+                </select>
+                <div class="invalid-feedback">
+                    Selecciona una maquinaria
+                </div>
+            </div>
+        </div>
+        <br>
+        <button class="btn btn-primary" type="submit">Enviar</button>
+    </form>
+</div>
+
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var collapseElements = document.querySelectorAll('.collapse');
+
+        collapseElements.forEach(function (collapse) {
+            collapse.addEventListener('show.bs.collapse', function () {
+                // Cerrar otros collapses cuando uno se abre
+                collapseElements.forEach(function (otherCollapse) {
+                    if (otherCollapse !== collapse) {
+                        otherCollapse.classList.remove('show');
+                    }
+                });
+            });
+        });
+    });
+</script>
+
+<style>
+    .container > a{
+        margin: 10px;
+    }
+</style>

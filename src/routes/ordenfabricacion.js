@@ -363,5 +363,63 @@ router.post('/buscarTipoPara', isLoggedIn, async (req, res)=>{
     }
 })
 
+router.get('/parastiposdetalle', isLoggedIn, digitador, async (req, res)=>{
+    const tipoPara= await pool.query('select * from tipoPara');
+    const detallePara= await pool.query('select * from detallePara');
+    const maquinaria= await pool.query('select * from maquinaria');
+    res.render('produccion/addparastipos', {tipoPara, detallePara, maquinaria})
+})
+
+router.post('/parastipo', isLoggedIn, digitador, async (req, res)=>{
+    const {nameTipoPara} = req.body;
+    const nameTipoParaFormat= nameTipoPara.toUpperCase()
+    //console.log(nameTipoPara)
+    try{
+        await pool.query('insert into tipoPara set nameTipoPara = ?', [nameTipoParaFormat])
+    }catch (error){
+        console.log(error)
+
+    }
+    req.flash('success', "Tipo de para agregada correctamente");
+    res.redirect('/parastiposdetalle')
+})
+
+router.post('/parasdetalle', isLoggedIn, digitador, async (req, res)=>{
+    const {detalle} = req.body;
+    const detalleFormat= detalle.toUpperCase();
+    //console.log(detalle)
+    try{
+        await pool.query('insert into detallePara set detalle = ?', [detalleFormat])
+    }catch (error){
+        req.flash('error', "Error", +error);
+        console.log(error)
+    }
+    req.flash('success', "Detalle agregado correctamente");
+    res.redirect('/parastiposdetalle')
+})
+router.post('/tipoDetalle', isLoggedIn, digitador,  async (req, res)=>{
+    const {idTipoPara, idDetalle} = req.body;
+    //console.log(idTipoPara, idDetalle);
+    try{
+        await pool.query('insert into tipoParaDetalle set idTipoPara=?, idDetallePara=?', [idTipoPara, idDetalle])
+    }catch (error){
+        console.log(error)
+    }
+    req.flash('success', "Tipo y detalle ligado correctamente");
+    res.redirect('/parastiposdetalle')
+})
+
+
+router.post('/paraMaquinaria', isLoggedIn, async (req, res)=>{
+    const {idTipoPara, idMaquinaria}= req.body;
+    //console.log(idTipoPara, idMaquinaria);
+    try{
+        await pool.query('insert into tipoParaMaquinaria set idMaquinaria=?, idTipoPara=?', [idMaquinaria, idTipoPara])
+    }catch(error){
+        console.log(error)
+    }
+    req.flash('success', "Maquinaria y tipo ligado correctamente");
+    res.redirect('/parastiposdetalle')
+})
 
 module.exports = router;
