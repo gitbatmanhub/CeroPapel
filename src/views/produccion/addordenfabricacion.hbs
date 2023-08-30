@@ -24,9 +24,7 @@
                     <label for="idMaterial" class="form-label">Material</label>
                     <select name="idMaterial" class="form-select" id="idMaterial" required>
                         <option selected disabled value="">Escoge un Material</option>
-                        {{#each material}}
-                            <option value="{{idMaterial}}" name="{{nameMaterial}}">{{nameMaterial}}</option>
-                        {{/each}}
+
                     </select>
                     <div class="invalid-feedback">
                         Selecciona un Material
@@ -34,22 +32,42 @@
                 </div>
             </div>
 
-<div class="inputsHidden">
-    <input name="idstatus" type="hidden" value="1">
+            <div class="inputsHidden">
+                <input name="idstatus" type="hidden" value="1">
 
-</div>
+            </div>
 
 
-                <div class="form-group boton-send">
-                    <input type="submit" class="btn btn-success btn-block" id="">
-                </div>
+            <div class="form-group boton-send">
+                <input type="submit" class="btn btn-success btn-block" id="">
             </div>
         </div>
-
     </form>
 
 </div>
 
 
-
-
+<script>
+    const selectMaquinaria= document.getElementById('idMaquinaria');
+    const selectMaterial= document.getElementById('idMaterial');
+    selectMaquinaria.addEventListener('change', function (){
+        let idMaquinaria= selectMaquinaria.value;
+        //console.log(idMaquinaria);
+        selectMaterial.innerHTML = '';
+        fetch('/buscarMateriales', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            }, body: JSON.stringify({idMaquinaria: idMaquinaria})
+        }).then(response => response.json())
+                .then(data => {
+                    //console.log(data)
+                    data.materiales.forEach(materiales => {
+                        const optionElement = document.createElement('option')
+                        optionElement.value = materiales.idMaterial;
+                        optionElement.textContent = materiales.nameMaterial;
+                        selectMaterial.appendChild(optionElement);
+                    })
+                })
+    })
+</script>

@@ -12,9 +12,8 @@ const {ca} = require("timeago.js/lib/lang");
 
 
 router.get('/agregarof', isLoggedIn, operador, async (req, res) => {
-    const maquinarias = await pool.query('select * from maquinaria');
-    const material = await pool.query('select * from material');
-    res.render('produccion/addordenfabricacion', {maquinarias, material})
+    const maquinarias = await pool.query('select idMaquinaria, nameMaquinaria from MaquinariasMaterial group by nameMaquinaria');
+    res.render('produccion/addordenfabricacion', {maquinarias})
 });
 
 

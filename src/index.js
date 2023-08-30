@@ -65,6 +65,7 @@ app.use('/', require('./routes/ordenes'));
 app.use('/', require('./routes/ordenfabricacion'));
 app.use('/', require('./routes/bodegas'));
 app.use('/', require('./routes/procesos'));
+app.use('/', require('./routes/peticiones'));
 
 
 
